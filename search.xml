@@ -518,7 +518,7 @@ npm -v
     <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
 <span id="more"></span>
 
-<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>默认都有格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
+<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
 <h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
 
