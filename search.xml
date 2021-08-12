@@ -1,0 +1,1340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/08/11/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Jar文件打包</title>
+    <url>/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/</url>
+    <content><![CDATA[<p>Java归档文件，更多细节请参考：<a href="https://docs.oracle.com/javase/10/docs/specs/jar/jar.html">Oracle JAR Help</a></p>
+<span id="more"></span>
+
+<h2 id="JAR文件简介"><a href="#JAR文件简介" class="headerlink" title="JAR文件简介"></a>JAR文件简介</h2><p>如果你手上已经有一个自制的工具包,并且你希望你工具包能够以单独的文件的形式来被用户使用，而不是包含很多代码的一个目录结构，那么Java归档文件（JAR）就能够帮助你</p>
+<h2 id="创建JAR文件"><a href="#创建JAR文件" class="headerlink" title="创建JAR文件"></a>创建JAR文件</h2><p>如今的IDE已经非常智能，可以不用管Java的命令行具体细节就能实现打包JAR文件，但是这里还是要解释下JAR相关的命令行，既方便跨平台也可以在必要时处理打包JAR产生的错误。</p>
+<p>在<code>jdk\bin</code>目录下，有一个JAR工具（jar.exe）可以用它来创建JAR包，其语法为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">jar cvf jarFilename file1 file2 ...</span><br><span class="line">jar [options] file1 file2...-</span><br></pre></td></tr></table></figure>
+
+<p>对于[options]命令，可以有下选项：</p>
+<p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407210830146.png" alt="image-20210407210830146"></p>
+<h2 id="创建可执行的JAR文件"><a href="#创建可执行的JAR文件" class="headerlink" title="创建可执行的JAR文件"></a>创建可执行的JAR文件</h2><p>使用JAR命令中的e选项指定程序的入口点类（即带main方法的类）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">jar cvfe Tools.jar com.tools.mytools.MainClass ...</span><br></pre></td></tr></table></figure>
+
+<p>还有一种方法，可以在清单文件（下个小节会有说明）中指定程序的主类：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Main-Class: com.tools.mytools.MainClass</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：清单文件的最后一行必须以换行符结尾，所以上面的代码结尾的换行不是打错！否则清单文件无法被正确地读取！</strong></p>
+<p>使用上面的方法创建可执行的JAR文件，要运行该JAR包，需要执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">java -jar Tools.jar</span><br></pre></td></tr></table></figure>
+
+<h2 id="清单文件"><a href="#清单文件" class="headerlink" title="清单文件"></a>清单文件</h2><p>除了类文件、图像和其他资源外，每个JAR文件还包含一个清单文件，用于描述归档文件的特殊特性。</p>
+<p>清单文件名字一般为：MANIFEST.MF，在一个特殊的META-INF子目录中。</p>
+<p>一般最小的清单文件非常简单：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Manifest-Version: 1.0</span><br></pre></td></tr></table></figure>
+
+<p>更多细节可以参考：<a href="https://docs.oracle.com/javase/10/docs/specs/jar/jar.html">Oracle JAR Help</a></p>
+<p>要创建包含清单文件的JAR需要运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">jar cfm Tools.jar mainfest.mf classfile1 ...</span><br></pre></td></tr></table></figure>
+
+<h2 id="在IDEA中创建JAR包"><a href="#在IDEA中创建JAR包" class="headerlink" title="在IDEA中创建JAR包"></a>在IDEA中创建JAR包</h2><p>IDEA中创建使用JAR操作非常简单，参考：</p>
+<h3 id="File–-gt-项目结构中："><a href="#File–-gt-项目结构中：" class="headerlink" title="File–&gt;项目结构中："></a>File–&gt;项目结构中：</h3><p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211249011.png" alt="image-20210407211249011"></p>
+<p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211432890.png" alt="image-20210407211432890"></p>
+<p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211528409.png" alt="image-20210407211528409"></p>
+<p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211611167.png" alt="image-20210407211611167"></p>
+<h3 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h3><p>如果发现<code>idea</code>按照上面的步骤做下来，还是没办法打包，请确认下工程目录里有没有<code>MANIFEST.MF</code></p>
+]]></content>
+      <categories>
+        <category>java学习笔记</category>
+      </categories>
+      <tags>
+        <tag>java_jar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java注解</title>
+    <url>/2021/08/12/Java/Java%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[<p>Java注解，<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
+<p>注解在代码标注、编译提示中都具有非常好的效果，本章将对Java的注解进行简略的介绍。</p>
+<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
+<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
+<ul>
+<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
+<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
+<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
+<li>……</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="关于注解"><a href="#关于注解" class="headerlink" title="关于注解"></a>关于注解</h2><p>Java注解（Annotation），又称之为元数据，通常用于标记代码信息、添加代码标记。Java内置定义了自己的一套内置注解，共7个。</p>
+<p>按照分类可以分成：</p>
+<h3 id="标识所有内容（代码或注解）："><a href="#标识所有内容（代码或注解）：" class="headerlink" title="标识所有内容（代码或注解）："></a>标识所有内容（代码或注解）：</h3><p>@Documented：标记这些注解是否可以生成在用户文档中（javadoc）</p>
+<p>@SuppressWarnings：忽略注解中声明的警告。</p>
+<h3 id="与代码相关："><a href="#与代码相关：" class="headerlink" title="与代码相关："></a>与代码相关：</h3><p>@Override：用于标记、检查方法是否是重写方法。</p>
+<p>@Deprecated：标记方法为过时方法，使用这一类方法，IDE会在其上面加上删除线。</p>
+<h3 id="用于创建、标识其他注解："><a href="#用于创建、标识其他注解：" class="headerlink" title="用于创建、标识其他注解："></a>用于创建、标识其他注解：</h3><p>@Retention：标识这个注解如何保存，有三种方式。</p>
+<p>@Target：标记这个注解是哪种Java类型（属性、方法、类…）</p>
+<p>@Inherited：标记注解继承于哪个注解类</p>
+<blockquote>
+<p>Java 7、8以后额外添加了三个：@SafeVarargs、@FunctionalInterface、@Repeatable</p>
+<p>@Repeatable：标识某注解可以在同一个声明上使用多次。</p>
+<p>@FunctionalInterface：标识一个匿名函数或者函数式接口</p>
+<p>@SafeVarargs：忽略任何使用参数为泛型变量的方法或构造函数调用产生的警告。通常用在泛型数组。</p>
+</blockquote>
+<h2 id="注解组成部分"><a href="#注解组成部分" class="headerlink" title="注解组成部分"></a>注解组成部分</h2><p>一个注解的定义可以由两部分组成：<strong>1-n个</strong><code>ElementType</code>（作用对象）和<strong>1种</strong><code>RetentionPolicy</code>（存储方式）。</p>
+<p><img src="/2021/08/12/Java/Java%E6%B3%A8%E8%A7%A3/6.jpg" alt="6"></p>
+<p><code>ElementType</code>主要有：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">ElementType</span></span>&#123;</span><br><span class="line">	TYPE,					<span class="comment">// 类、接口、枚举</span></span><br><span class="line">	FIELD,					<span class="comment">// 字段、枚举常量</span></span><br><span class="line">	METHOD,					<span class="comment">// 方法</span></span><br><span class="line">	PARAMETER,				<span class="comment">// 方法参数</span></span><br><span class="line">	CONSTRUCTOR,			<span class="comment">// 构造方法</span></span><br><span class="line">	LOCAL_VARIABLE,			<span class="comment">// 局部变量</span></span><br><span class="line">	ANNOTATION_TYPE,		<span class="comment">// 注解类型</span></span><br><span class="line">	PACKAGE,				<span class="comment">// 包</span></span><br><span class="line">	TYPE_PARAMETER,			<span class="comment">// catch参数</span></span><br><span class="line">	TYPE_USE</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>RetentionPolicy</code>主要有：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">RetentionPolicy</span> </span>&#123;</span><br><span class="line">    SOURCE,            <span class="comment">// Annotation信息仅存在于编译器处理期间，编译器编译成class文件的时候，注解被遗弃。</span></span><br><span class="line"></span><br><span class="line">    CLASS,             <span class="comment">// 编译器将Annotation存储于类对应的.class文件中，但在jvm加载类的时候被遗弃，默认行为。 </span></span><br><span class="line"></span><br><span class="line">    RUNTIME            <span class="comment">// 编译器将Annotation存储于class文件中，并且在jvm加载类的时候，仍然存在。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><p>想要自定义注解，首先要了解注解的接口<code>Annotation</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Annotation</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">String <span class="title">toString</span><span class="params">()</span></span>;</span><br><span class="line">    Class&lt;? extends Annotation&gt; annotationType();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个接口的具体实现由编译器完成，编译器实现该接口提供<code>@interface</code>注解用于创建新注解。这与通常的<code>implement</code>接口不太一样。</p>
+<p>创建过程中，需要指定注解的<strong>两个组成部分</strong>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.FIELD, ELementType.METHOD)</span>	<span class="comment">// 指定该注解的作用范围</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span>				<span class="comment">// 指定注解保存形式</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Overload&#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> &quot;func1&quot;</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>@interface</code>定义这是一个注解，是必须的。</p>
+<p><code>@Target</code>用于指定该注解作用与哪些对象上。</p>
+<p><code>@Retention</code>用于指定注解储存方式，有默认值CLASS，可选的。</p>
+<h2 id="内置注解类"><a href="#内置注解类" class="headerlink" title="内置注解类"></a>内置注解类</h2><h3 id="Override"><a href="#Override" class="headerlink" title="@Override"></a>@Override</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.METHOD)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Override &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>@Override</code>注解的触发，最常用的就是标注方法为重写方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一般建议是在有重写的地方就标上<code>@Override</code>，会有好处的！</p>
+<h3 id="Deprecated"><a href="#Deprecated" class="headerlink" title="@Deprecated"></a>@Deprecated</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(value=&#123;CONSTRUCTOR, FIELD, LOCAL_VARIABLE, METHOD, PACKAGE, MODULE, PARAMETER, TYPE&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Deprecated &#123;</span><br><span class="line">    <span class="function">String <span class="title">since</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;				<span class="comment">// 从哪个版本开始废弃</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">forRemoval</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>@Deprecated</code>标记的方法，在被使用时会被加上删除线</strong>，可以加参数，第一个参数用来标明该对象在何时开始被弃用。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="meta">@Deprecated(&quot;1.5&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Documented"><a href="#Documented" class="headerlink" title="@Documented"></a>@Documented</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Documented &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>标记这个注解可以被javadoc处理。</p>
+<h3 id="Inherited"><a href="#Inherited" class="headerlink" title="@Inherited"></a>@Inherited</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Inherited &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>标注该注解对于子类也是可见的(存在继承关系)，子类可以通过反射来获取父类的注解类。</p>
+<h3 id="Retention"><a href="#Retention" class="headerlink" title="@Retention"></a>@Retention</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Repeatable &#123;</span><br><span class="line">    Class&lt;? extends Annotation&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Target"><a href="#Target" class="headerlink" title="@Target"></a>@Target</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Target &#123;</span><br><span class="line">    ElementType[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SuppressWarnings"><a href="#SuppressWarnings" class="headerlink" title="@SuppressWarnings"></a>@SuppressWarnings</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE, MODULE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SuppressWarnings &#123;</span><br><span class="line">    String[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个注解用于忽略某些警告，有对应的可选项：参数Value可以填入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deprecation  -- 使用了不赞成使用的类或方法时的警告</span><br><span class="line">unchecked    -- 执行了未检查的转换时的警告，例如当使用集合时没有用泛型 (Generics) 来指定集合保存的类型。</span><br><span class="line">fallthrough  -- 当 Switch 程序块直接通往下一种情况而没有 Break 时的警告。</span><br><span class="line">path         -- 在类路径、源文件路径等中有不存在的路径时的警告。</span><br><span class="line">serial       -- 当在可序列化的类上缺少 serialVersionUID 定义时的警告。</span><br><span class="line">finally      -- 任何 finally 子句不能正常完成时的警告。</span><br><span class="line">all          -- 关于以上所有情况的警告。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Repeatable"><a href="#Repeatable" class="headerlink" title="@Repeatable"></a>@Repeatable</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.ANNOTATION_TYPE)</span><br><span class="line">public @interface Repeatable &#123;</span><br><span class="line">    Class&lt;? extends Annotation&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SafeVarargs"><a href="#SafeVarargs" class="headerlink" title="@SafeVarargs"></a>@SafeVarargs</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(&#123;ElementType.CONSTRUCTOR, ElementType.METHOD&#125;)</span><br><span class="line">public @interface SafeVarargs &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在声明具有<strong>模糊类型（比如：泛型）的可变参数的构造函数或方法时</strong>，Java编译器会报unchecked警告。鉴于这些情况，如果程序员断定声明的构造函数和方法的主体不会对其varargs参数执行潜在的不安全的操作，可使用@SafeVarargs进行标记，这样的话，Java编译器就不会报unchecked警告</p>
+<p><strong>@SafeVarargs注解，对于非static或非final声明的方法，不适用，会编译不通过，对于非static或非final声明的方法，请使用@SuppressWarnings(“unchecked”)</strong></p>
+<h3 id="FunctionalInterface"><a href="#FunctionalInterface" class="headerlink" title="@FunctionalInterface"></a>@FunctionalInterface</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">public @interface FunctionalInterface &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用于标注只含有一个抽象方法的函数接口</p>
+<h2 id="注解的作用"><a href="#注解的作用" class="headerlink" title="注解的作用"></a>注解的作用</h2><p>注解可以用于编译检查，帮助阅读代码（Override）、生成帮助文档等。其中最为频繁的使用方式，就是下面要介绍的这个，很多大型框架中的注解的原理就跟下面类似。</p>
+<h3 id="使用反射机制获取注解内容"><a href="#使用反射机制获取注解内容" class="headerlink" title="使用反射机制获取注解内容"></a>使用反射机制获取注解内容</h3>]]></content>
+      <categories>
+        <category>java学习笔记</category>
+      </categories>
+      <tags>
+        <tag>java_core</tag>
+        <tag>java_features</tag>
+        <tag>java_lib</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客绑定个人域名</title>
+    <url>/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/</url>
+    <content><![CDATA[<h2 id="预备"><a href="#预备" class="headerlink" title="预备"></a>预备</h2><ul>
+<li>默认博客已经建好！</li>
+<li>默认当事人已经购买了域名，且已经实名认证。（阿里云的、百度的…都可以）</li>
+</ul>
+<p>当然没有购买域名的同学，请往这里走：<a href="https://promotion.aliyun.com/ntms/act/domainbrand.html?spm=5176.8006371.772226.domainbackorder.b46f7e63AuIXBy">阿里云域名注册</a></p>
+<p>在注册域名时，还需要通过一个真实邮箱认证模板，因此需要一个可用的邮箱！</p>
+<p>阿里云的实名认证还是很快的，说是两三个工作日内审核，但是我半个小时不到就通过了。</p>
+<span id="more"></span>
+
+<h2 id="正片开始"><a href="#正片开始" class="headerlink" title="正片开始"></a>正片开始</h2><h3 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h3><p>先进入<a href="https://dc.console.aliyun.com/next/index?spm=5176.8006371.J_8058803260.1314.54897e63e7caJc#/domain/list/all-domain">阿里云域名后台</a>，点击<img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E7%82%B9%E5%87%BB%E8%A7%A3%E6%9E%90.png" alt="点击解析"></p>
+<p>按下快捷键<code>win+R</code>打开运行，运行<code>cmd</code>，ping您建好的博客地址（若部署在github上的博客则地址就是<code>yourname.github.io</code>,实际上也是一个域名），笔者的hexo博客部署在github上，因此需要这样做：</p>
+<p>![ping github](hexo博客绑定个人域名/ping github.png)</p>
+<p>在域名解析设置添加两条记录：</p>
+<ul>
+<li>CNAME记录：设置您的github访问页</li>
+<li>A记录：刚刚ping的IP</li>
+</ul>
+<p>可以参考下笔者的设置</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E8%AE%BE%E7%BD%AE.png" alt="设置"></p>
+<p>关于这些记录可以参考</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5CA%E3%80%81cname.png" alt="A、cname"></p>
+<p>域名前缀可以参考：</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5C%E4%B8%BB%E6%9C%BA%E8%AE%B0%E5%BD%95.png" alt="主机记录"></p>
+<p>就看你想要<code>www</code>、<code>@</code>还是其他了！</p>
+<h3 id="本地配置"><a href="#本地配置" class="headerlink" title="本地配置"></a>本地配置</h3><p>在<code>hexo根目录/source</code>文件夹中添加一个<code>CNAME</code>文件，注意文件无后缀，内容设置为您自己的域名：</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/CNAME.png" alt="CNAME"></p>
+<p>保存之后。hexo三连即可！</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<h2 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h2><p>可以使用域名访问自己的博客啦！</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>recovery</tag>
+        <tag>domain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo恢复搭建</title>
+    <url>/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<p>写下这篇博客，主要用于记录自己搭建博客过程，以后重装系统后有一个参考的恢复方向（已经干掉重新来了好几次，每次都要找资料，猝），而且，不得不说，windows系统，C盘没100G真的用不了多久，不知道是不是只有我是这样！！😭😭😭😭</p>
+<span id="more"></span>
+
+<h2 id="2-提前准备"><a href="#2-提前准备" class="headerlink" title="2.提前准备"></a>2.提前准备</h2><p>安装 <code>Hexo</code> 相当简单，只需要先安装下列应用程序即可：</p>
+<ul>
+<li><a href="http://nodejs.cn/download/">Node.js</a></li>
+<li><a href="https://gitforwindows.org/">Git for Windows</a></li>
+<li><a href="https://npm.taobao.org/mirrors/git-for-windows/">Git淘宝源</a></li>
+</ul>
+<p>可以点击上面的链接进去官网下载，git下载慢的可以去淘宝源。这里我分享我目前用的版本：</p>
+<ul>
+<li><a href="http://xz.w10a.com/Small/Nodejs.zip">node.js 12.14</a></li>
+<li><a href="https://cdn.npm.taobao.org/dist/git-for-windows/v2.29.2.windows.3/Git-2.29.2.3-64-bit.exe">Git-2.29.2.3</a></li>
+</ul>
+<p>安装过程不再详细说明，简单的全选下一步就行，安装的位置自己喜欢放哪里就放哪里呗（doge）</p>
+<h2 id="3-安装npm（cnpm）"><a href="#3-安装npm（cnpm）" class="headerlink" title="3.安装npm（cnpm）"></a>3.安装npm（cnpm）</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(Win+R)运行 ---&gt; cmd </span><br></pre></td></tr></table></figure>
+
+<p>查看版本：</p>
+<pre><code>node -v
+npm -v
+</code></pre>
+<p>因为国内的比较慢，所以安装淘宝源cnpm：</p>
+<pre><code>npm install -g cnpm --registry=http://registry.npm.taobao.org
+</code></pre>
+<p>若发现淘宝源下载过程中出现卡死，则最好换回原服务器：</p>
+<pre><code>npm config delete registry
+</code></pre>
+<h2 id="4-安装hexo"><a href="#4-安装hexo" class="headerlink" title="4.安装hexo"></a>4.安装hexo</h2><p>同样在cmd中安装：</p>
+<pre><code>cnpm install -g hexo-cli
+</code></pre>
+<h2 id="5-初始化hexo"><a href="#5-初始化hexo" class="headerlink" title="5.初始化hexo"></a>5.初始化hexo</h2><ol>
+<li><p>选择一个目录，用于本地部署</p>
+</li>
+<li><p>在目录里边用<code>Git bash</code>或者<code>Powershell</code>，初始化<code>hexo</code></p>
+ <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>注意：如果你的<code>git</code>版本比较高，如笔者使用的<code>Git-2.31.1-64-bit</code>默认会开启服务器的SSL证书第三方机构签署认证，而<code>github</code>没有，所以可能会报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git</span><br><span class="line">fatal: unable to access </span><br><span class="line">&#x27;https://github.com/hexojs/hexo-starter.git/&#x27;: OpenSSL SSL_read: Connection was reset, errno 10054</span><br></pre></td></tr></table></figure>
+
+<p>解决方法是把SSL认证关掉：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.sslVerify &quot;false&quot;</span><br></pre></td></tr></table></figure>
+
+<p>或者如果打开了多个bash，把不用的关掉</p>
+<p>初始化完成之后使用<code>hexo g</code>、再<code>hexo s</code>，如果弹出默认主题初始页，则说明本地初始化成功了！</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402190136280.png" alt="image-20210402190136280"></p>
+<h2 id="6-部署到远端"><a href="#6-部署到远端" class="headerlink" title="6.部署到远端"></a>6.部署到远端</h2><h3 id="6-1创建SSH密钥"><a href="#6-1创建SSH密钥" class="headerlink" title="6.1创建SSH密钥"></a>6.1创建SSH密钥</h3><p>打开<code>gitbash</code>，配置本机用户名和邮箱，生成SSH密钥</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402191410819.png" alt="image-20210402191410819"></p>
+<p><strong>生成密钥过程所有的提问全部回车就行</strong></p>
+<p>生成的密钥文件放在：<code>C:\Users\（你计算机的当前用户名）\.ssh</code>中</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201820428.png" alt="image-20210402201820428"></p>
+<p><strong>其中pub结尾的为公钥，用记事本打开复制里面的所有内容</strong></p>
+<h3 id="6-2将密钥放在远端"><a href="#6-2将密钥放在远端" class="headerlink" title="6.2将密钥放在远端"></a>6.2将密钥放在远端</h3><p>注册Github或者Gitee账号，将复制的公钥添加进SSH中</p>
+<p>Setting –&gt; SSh</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402214646615.png" alt="image-20210402214646615"></p>
+<h3 id="6-3创建仓库"><a href="#6-3创建仓库" class="headerlink" title="6.3创建仓库"></a>6.3创建仓库</h3><p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192650539.png" alt="image-20210402192650539"></p>
+<p>同时勾上这个</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192738568.png" alt="image-20210402192738568"></p>
+<h3 id="6-4-配置-comfig-yml"><a href="#6-4-配置-comfig-yml" class="headerlink" title="6.4 配置_comfig.yml"></a>6.4 配置<code>_comfig.yml</code></h3><p>仓库创建好之后，复制仓库地址建议使用SSH（github、gitee都一样的操作）</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402193005129.png" alt="image-20210402193005129"></p>
+<p>打开<code>hexo</code>主目录下的<code>_comfig.yml</code>，在最后，修改：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/one-command-deployment</span><br><span class="line">deploy:</span><br><span class="line">  type: &#x27;git&#x27;</span><br><span class="line">  repo: 你刚刚复制的仓库地址</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<p>如果你打开文件只看到<code>type</code>，没有<code>repo</code>和<code>branch</code>，自己加上就行了，<strong>注意属性名和属性值之间的空格</strong>，如<code>type</code>和<code>&#39;git&#39;</code>中间是有空格的，<strong>另外type属性的两个单引号，不要去掉！！</strong></p>
+<h2 id="7-安装hexo-deployer推进远端"><a href="#7-安装hexo-deployer推进远端" class="headerlink" title="7.安装hexo deployer推进远端"></a>7.安装<code>hexo deployer</code>推进远端</h2><p>回到<code>git bash</code>或者<code>powershell</code>，安装<code>hexo deployer</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install --save hexo-deployer-git</span><br></pre></td></tr></table></figure>
+
+<p>然后推到远端：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>这一步Github可能会弹出对话框确认OpenSSH</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402215905251.png" alt="image-20210402215905251"></p>
+<p>甚至是提示登陆的窗口：</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20210811150819631.png" alt="image-20210811150819631"></p>
+<p>注意：</p>
+<p>如果遇到这种情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fatal: unable to access &#x27;https://github.com/ArgentoAskia2/ArgentoAskia2.github.io.git/&#x27;: Could not resolve host: github.com</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">error: RPC failed; curl 56 OpenSSL SSL_read: Connection was reset, errno 10054</span><br><span class="line">send-pack: unexpected disconnect while reading sideband packet</span><br></pre></td></tr></table></figure>
+
+<p>造成上面的情况有很多原因，如果是<code>github</code>，最常见就是<code>github</code>抽风了，访问不了，尝试多几次<code>hexo</code>三连就好。</p>
+<p>如果还不行的话，请运行下面的命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy </span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+<p>在进行<code>hexo d</code></p>
+<h2 id="8-最后的一步"><a href="#8-最后的一步" class="headerlink" title="8.最后的一步"></a>8.最后的一步</h2><p>对于Github的朋友，你们的小窝估计已经搭好了，访问地址一般都是<strong>用户名.github.io</strong></p>
+<p>而对于Gitee的朋友，你们还需要部署GiteePage</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201359207.png" alt="image-20210402201359207"></p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201430087.png" alt="image-20210402201430087"></p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201510671.png" alt="image-20210402201510671"></p>
+<p>开启服务之后，这个就是你的博客地址啦，可以通过这个来访问！</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>recovery</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo模板修改和使用</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
+<span id="more"></span>
+
+<p><code>hexo</code>的模板一般放在：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
+<p>有三个文件</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
+<p>对应new命令的三种创建类型！</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
+<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
+<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>features</tag>
+        <tag>reference</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于hexoGenerate</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/</url>
+    <content><![CDATA[<p>本次讲解<code>hexo</code>博客常用的命令：<code>hexo g</code></p>
+<span id="more"></span>
+
+<h2 id="如何生成静态文件"><a href="#如何生成静态文件" class="headerlink" title="如何生成静态文件"></a>如何生成静态文件</h2><p>hexo生成静态文件的方法非常简单,只需要使用<code>hexo g</code>命令（当然也可以使用全名<code>hexo generate</code>），你在我的一些关于hexo的文章中可能会看到一个叫素质三连的词，这个词代表你要执行三条命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean			// 清空上一次的生成</span><br><span class="line">hexo generate		// 重新生成</span><br><span class="line">hexo server			// 本地启动浏览效果</span><br></pre></td></tr></table></figure>
+
+<p>当然上面的命令在面对文件被改变的时候，可能需要你重新生成，如果不想每次都三连的话，可以使用：<code>hexo generate --watch</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean			</span><br><span class="line">hexo generate --watch		</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<p>这样，hexo可以监视文件更改并立即重新生成文件。hexo将比较文件的sha1校验和，仅在检测到文件更改时才写入。</p>
+<p>如果想生成之后立刻部署到远端，可以：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成细节"><a href="#生成细节" class="headerlink" title="生成细节"></a>生成细节</h2><h3 id="public文件夹及URL定位"><a href="#public文件夹及URL定位" class="headerlink" title="public文件夹及URL定位"></a>public文件夹及URL定位</h3><p>你可能会注意到，在你的<strong>博客根目录</strong>中有一个public文件夹，<strong>用于装载生成之后的文件</strong>，也就是说当运行<code>hexo g</code>之后，hexo会将资源经过处理（具体怎样处理待会会讲）放在这个文件夹里面，当你运行<code>hexo server</code>的时候，本地启动的URL也是根据这个文件来设定的。</p>
+<p>比如，当你素质三连之后，你打开<code>http://localhost:4000/</code>，那么这个地址定位到的相应html文件就是你public文件夹下的index.html（URL中的index.html可以不写，默认就是定位这个文件）。没错，你可能猜到了，如果你想访问某个页面，只需要定位它的html资源在public文件夹的哪个地方就可以，比如我想访问关于页面（这个页面的位置是public/about/index.html）,那么我就可以修改URl为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://localhost:4000/about/</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404005943351-16287272629311.png" alt="image-20210404005943351"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404010237512.png" alt="image-20210404010237512"></p>
+<p>对于远端来讲也是差不多的，<code>hexo deploy</code>指令只是将public文件夹里的所有·内容上传到远端，那么这个时候只要把<code>http://localhost:4000/</code>替换成<code>远端服务器的地址</code>就行！</p>
+<h3 id="生成哪些内容"><a href="#生成哪些内容" class="headerlink" title="生成哪些内容"></a>生成哪些内容</h3><p><code>hexo g</code>之后，<code>hexo</code>会把这些内容放在public文件夹中，包括单不仅限于：你的文章、你自定义的特效（鼠标点击特效等）、你的文章设置（文章加密）、头像和背景图等媒体、归档、分类、标签等。涉及到的目录包括<code>source</code>、<code>themes</code>目录下的<code>source</code>、<code>script</code>、<code>layout</code>等，其中重要的是<code>source</code>文件夹，因为该文件夹的内容都会被放在public中</p>
+<p>另外，hexo对<code>source</code>中的<code>_post</code>文件夹内的所有文章的生成，不直接用部署文件名二而是采用<code>年/月/日/文章标题/index.html</code>的方式来部署（当然可以在<code>_config.yml</code>中修改这个生成方式），如果你的文章位于<code>_post\XXX\</code>目录下面，那么生成的就是<code>年/月/日/XXX/文章标题/index.html</code>，多级目录以此类推！如下图：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404014541573.png" alt="image-20210404014541573"></p>
+<p>那么<code>hexo g</code>之后public对应的访问路径就是：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404014800864.png" alt="image-20210404014800864"></p>
+<h3 id="添油加醋"><a href="#添油加醋" class="headerlink" title="添油加醋"></a>添油加醋</h3><p>现在知道了<code>source</code>文件夹的东西都会被放在public中，也知道在本地启动之后可以通过手写URL的方式来访问，但是还有一个问题：我们在<code>source</code>文件夹中写的是<code>markdown</code>，而public中确实html文件，这说明了<code>hexo g</code>并不是简单的把文章复制，而是对文章进行过加工，仔细对比public中的hello-world和source中的hello-world可知：hexo会对所有的文章进行主题格式化，也就是说会把主题需要的CSS样式、JS等都添加进去文章中：</p>
+<p>这里是文章的地方：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020004962.png" alt="image-20210404020004962"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020040346.png" alt="image-20210404020040346"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020139825.png" alt="image-20210404020139825"></p>
+<p>然而其他代码呢？其他代码与主题有关，通常是主题的JS、CSS具体可以参考自己主题里面的<code>source</code>文件夹</p>
+<h2 id="自定义页面"><a href="#自定义页面" class="headerlink" title="自定义页面"></a>自定义页面</h2><h3 id="markdown-内嵌HTML、JS、CSS"><a href="#markdown-内嵌HTML、JS、CSS" class="headerlink" title="markdown 内嵌HTML、JS、CSS"></a>markdown 内嵌HTML、JS、CSS</h3><h3 id="使用自定义HTML页面"><a href="#使用自定义HTML页面" class="headerlink" title="使用自定义HTML页面"></a>使用自定义HTML页面</h3><p>既然我们知道了他的生成方式和定位方式，那我们就可以将html、放一些资源进去了吗？理论上可行，因为知道hexo对于资源是会添油加醋的，所以需要配合好主题自带的样式和JS，当然可以通过不指定hexo渲染方法来实现，具体方法:</p>
+<h4 id="1-在source文件夹中新建一个文件夹-名字随意-用于装载不经过主题格式化的HTML。"><a href="#1-在source文件夹中新建一个文件夹-名字随意-用于装载不经过主题格式化的HTML。" class="headerlink" title="1.在source文件夹中新建一个文件夹(名字随意),用于装载不经过主题格式化的HTML。"></a>1.在source文件夹中新建一个文件夹(名字随意),用于装载不经过主题格式化的HTML。</h4><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210406114751633.png" alt="image-20210406114751633"></p>
+<h4 id="2-配置根目录的-comfig-yml，指定跳过渲染位置"><a href="#2-配置根目录的-comfig-yml，指定跳过渲染位置" class="headerlink" title="2.配置根目录的_comfig.yml，指定跳过渲染位置"></a>2.配置根目录的_comfig.yml，指定跳过渲染位置</h4><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210406114914766.png" alt="image-20210406114914766"></p>
+<p>注意配置格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">skip_render:</span><br><span class="line">	- &quot;目录名/*&quot;			// 目录下的所有文件都跳过渲染</span><br><span class="line">	- &quot;目录名/**&quot;			// 目录下的所有文件、所有文件夹都跳过渲染</span><br><span class="line">	- &quot;目录1/目录2/*&quot;	   // 目录2下面的所有文件都跳过渲染</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-添加主题模板"><a href="#3-添加主题模板" class="headerlink" title="3.添加主题模板"></a>3.添加主题模板</h4><p>在上面已经将结果，当我们使用<code>hexo g</code>的时候，hexo会根据主题的不同给我们的文章添加一些JS、CSS来渲染文章，第二部我们禁止了这种渲染，所以就需要手动把这些JS、CSS加上，这些文件一般在<code>themes/(主题名称)/source</code>里面，把这些文件复制到你新建的文件夹那里（笔者的是<code>norender</code>）</p>
+<h3 id="使用自定义的404错误页"><a href="#使用自定义的404错误页" class="headerlink" title="使用自定义的404错误页"></a>使用自定义的404错误页</h3><p>不需要<code>hexo-generator-index</code>插件渲染文章，不指定主题模板</p>
+<h3 id="实例：使用自定义时钟"><a href="#实例：使用自定义时钟" class="headerlink" title="实例：使用自定义时钟"></a>实例：使用自定义时钟</h3><h3 id="生成无渲染模板"><a href="#生成无渲染模板" class="headerlink" title="生成无渲染模板"></a>生成无渲染模板</h3>]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>reference</tag>
+        <tag>explain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>添加搜索功能</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h2 id="基于next-hexo-generator-searchdb的搜索功能"><a href="#基于next-hexo-generator-searchdb的搜索功能" class="headerlink" title="基于next + hexo-generator-searchdb的搜索功能"></a>基于next + hexo-generator-searchdb的搜索功能</h2><span id="more"></span>
+
+<h2 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h2><p>在博客根目录下，启动git bash，键入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+<p>如果添加了淘宝源，键入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改博客和主题的-config-yml"><a href="#修改博客和主题的-config-yml" class="headerlink" title="修改博客和主题的__config.yml"></a>修改博客和主题的__config.yml</h2><h3 id="博客的-config-yml"><a href="#博客的-config-yml" class="headerlink" title="博客的__config.yml"></a>博客的__config.yml</h3><p>在配置文件末尾添加：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101118677.png" alt="image-20210812101118677"></p>
+<p>其中这些参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">path：表示搜索后生成的文件路径，可以生成xml和json两种格式；将path设置为“content.json”就可以替代第二个插件。</span><br><span class="line">field：表示搜索的范围，有“post、page和all”三种值。</span><br><span class="line">    post：所有的文章；</span><br><span class="line">    page：所有顶部导航选项的页面；</span><br><span class="line">    all：所有的文章和顶部导航选项的页面。</span><br><span class="line">content：是否包含搜索到的文章的全部内容。如果false，生成的结果只包括标题和创建时间这些信息，没有文章主体。默认情况下是true.</span><br><span class="line">format：搜索到的内容、选项的格式。</span><br><span class="line">    html(默认)：将html原文本缩略。</span><br><span class="line">    striptags：将html原文本缩略，并删除所有标记。</span><br><span class="line">    raw：记下每一篇文章或每一页的文字。</span><br></pre></td></tr></table></figure>
+
+<h3 id="主题的-config-yml"><a href="#主题的-config-yml" class="headerlink" title="主题的__config.yml"></a>主题的__config.yml</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101256981.png" alt="image-20210812101256981"></p>
+<p>当然<code>enable</code>后面的东西可以自行修改。</p>
+<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812104330740.png" alt="image-20210812104330740"></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo_优化</tag>
+        <tag>hexo_添加</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>添加评论功能</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h2 id="基于next-来必力添加评论功能"><a href="#基于next-来必力添加评论功能" class="headerlink" title="基于next+来必力添加评论功能"></a>基于next+来必力添加评论功能</h2><span id="more"></span>
+
+<h2 id="注册账号"><a href="#注册账号" class="headerlink" title="注册账号"></a>注册账号</h2><p><a href="https://livere.com/">来必力官网</a></p>
+<p>貌似需要科学上网，但是我在宿舍自己电脑能直接上，换成机房的电脑就不行😥😥</p>
+<h2 id="复制UID"><a href="#复制UID" class="headerlink" title="复制UID"></a>复制UID</h2><p>进入管理界面，点击代码管理，复制<code>data-uid</code>后面的<code>uid</code></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085250263.png" alt="image-20210812085250263"></p>
+<h2 id="配置-Config-yml"><a href="#配置-Config-yml" class="headerlink" title="配置_Config.yml"></a>配置_Config.yml</h2><p>配置位置位于：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085408153.png" alt="image-20210812085408153"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085535585.png" alt="image-20210812085535585"></p>
+<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812090325909.png" alt="image-20210812090325909"></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo_优化</tag>
+        <tag>hexo_添加</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo中文乱码</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
+
+<p>出现中文乱码可能是因为配置文件中不是使用<code>utf-8</code>进行保存，因此</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
+<p>即可解决问题</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo标签和分类页面无法正常显示</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/</url>
+    <content><![CDATA[<h2 id="解决hexo标签和分类页面无法正常显示"><a href="#解决hexo标签和分类页面无法正常显示" class="headerlink" title="解决hexo标签和分类页面无法正常显示"></a>解决hexo标签和分类页面无法正常显示</h2><span id="more"></span>
+
+<p>需要找到</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/image-20210812083030492.png" alt="image-20210812083030492"></p>
+<p>打开<code>index.md</code></p>
+<p>分别添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type: &quot;categories&quot;</span><br><span class="line">layout: &quot;categories&quot;</span><br><span class="line"></span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">layout: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
+
+<p>即可解决</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo部署到github上图片无法显示问题</title>
+    <url>/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="解决hexo部署到github上图片无法显示问题"><a href="#解决hexo部署到github上图片无法显示问题" class="headerlink" title="解决hexo部署到github上图片无法显示问题"></a>解决hexo部署到github上图片无法显示问题</h1><span id="more"></span>
+
+<h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>设置站点配置文件<code>_config.yml</code>中 <code>post_asset_folder:true</code></p>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811190704876.png" alt="image-20210811190704876"></p>
+<p><code>Hexo</code> 提供了一种更方便管理 <code>Asset</code> 的设定：<code>post_asset_folder</code>当您设置为<code>true</code>参数后，在建立文件时，<code>Hexo</code><strong>会自动建立一个与文章同名的文件夹，您可以把与该文章相关的所有资源都放到那个文件夹。</strong></p>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>在hexo的目录下执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<p>完成安装后用<code>hexo</code>新建文章的时候会发现<code>_posts</code>目录下面会多出一个和文章名字一样的文件夹。图片就可以放在文件夹下面。</p>
+<p>然后进行正常的<code>hexo</code>三连就可以了</p>
+<h2 id="可能出现的问题"><a href="#可能出现的问题" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h2><p>大家按照上面的步骤完成之后，在部署或者测试的时候图片可能仍然无法正常显示，这涉及到<code>hexo-asset-image</code>插件的问题。</p>
+<p>如果在<code>hexo g</code>之后图片的加载是这样的：</p>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811192905480.png" alt="image-20210811192905480"></p>
+<p>带<code>/.com//d</code>的，那你的图片百分百是没法显示的。解决这个问题也很简单：</p>
+<ol>
+<li><p>找到<code>node_modules\hexo-asset-image</code></p>
+</li>
+<li><p>打开<code>index.js</code></p>
+</li>
+<li><p>修改24行为：</p>
+</li>
+</ol>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193248235.png" alt="image-20210811193248235"></p>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193519193.png" alt="image-20210811193519193"></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java反射机制</title>
+    <url>/2021/08/12/Java/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<p>反射（Reflection），<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
+<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
+<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
+<ul>
+<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
+<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
+<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
+<li>……</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="关于反射"><a href="#关于反射" class="headerlink" title="关于反射"></a>关于反射</h2><p>能够分析类能力的程序称之为反射(Reflection)</p>
+<p>反射机制可以用来：</p>
+<ol>
+<li>在运行时分析类的能力</li>
+<li>在运行时检查对象，例如：编写一个适合所有类的<code>toString()</code></li>
+<li>实现泛型数组操作代码</li>
+<li>利用Method对象（类似C++中的函数指针）</li>
+<li>用户界面生成器</li>
+</ol>
+<h2 id="Class类"><a href="#Class类" class="headerlink" title="Class类"></a>Class类</h2><p>在程序运行时，JRE始终为所有对象维护一个运行时类型标识<del>（个人猜测实际上是一个结构体）</del>。<strong>这个类型标识会跟踪记录每一个对象所属的类</strong>。虚拟机利用这些信息来保证调用正确的方法</p>
+<p><code>Class</code>类保存了<strong>这<label style="color:yellow"></label>类型标识</strong>（<code>Class</code>类是<strong>泛型类</strong>）内部的信息，因此可以使用这个特殊的类来访问这些信息。</p>
+<h3 id="那么何如获取这些信息呢？"><a href="#那么何如获取这些信息呢？" class="headerlink" title="那么何如获取这些信息呢？"></a>那么何如获取这些信息呢？</h3><p>Object类中有一个<code>getClass()</code>，可以返回一个<code>Class</code>类型实例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">cl</span> </span>= e.getclass();</span><br></pre></td></tr></table></figure>
+
+<p><code>class</code>类中有个方法<code>getName()</code>，可以获取对象所属的类名（字符串形式），当然如果这个类在一个包中，则返回的类名也会包含包名。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> ram = <span class="keyword">new</span> Random();</span><br><span class="line">Class cl = ram.getClass();</span><br><span class="line">String name = cl.getName()  </span><br><span class="line"><span class="comment">// name is &quot;java.util.Random&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>当然java还有一种方便的方法来获取每一个类的<code>Class</code>类对象。<strong>如果<code>T</code>是任意的Java类型，则<code>T.class</code>代表该类的<code>Class</code>类对象</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Class cl = Random.class;</span><br><span class="line">Class c2 = int[].class;</span><br><span class="line">Class c3 = int.class;		</span><br></pre></td></tr></table></figure>
+
+<p><strong>Class对象实际上表示的是一种类型（type），这种类型可以是类，亦可以不是类，因此<code>int.class、int[].class</code>是合法的。</strong></p>
+<p>如果我想实现动态加载加载类，或者我现在知道这个类的类名（或者接口名）,则还可以使用<code>Class</code>类本身的静态方法来实现类加载</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String classname = &quot;java.util.Random&quot;;</span><br><span class="line">try&#123;</span><br><span class="line">	Class cl = Class.forName(classname);</span><br><span class="line">&#125;catch(Exception e)&#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>若<code>classname</code>不是一个接口或者类，则会抛出检查型异常。因此捕获异常。</p>
+<p>使用这种方法获得<code>Class</code>对象，<code>classname</code>对应的类会被加载，<strong>也就是说类里面的静态代码块（Static Code）会被执行</strong>。同时可以变换<code>classname</code>的值来实现动态加载类。</p>
+<h3 id="更加准确的类型比较"><a href="#更加准确的类型比较" class="headerlink" title="更加准确的类型比较"></a>更加准确的类型比较</h3><p>JVM为每一种类型管理一个唯一的<code>Class</code>类对象，也就是说父类和子类被区分为不同的<code>Class</code>类型，因此可以利用<code>==</code>来进行同类型对象比较</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">father.getClass() == son.getClass();	// 表达式为False，即便father是son的父类</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用Class类对象构造类实例"><a href="#使用Class类对象构造类实例" class="headerlink" title="使用Class类对象构造类实例"></a>使用Class类对象构造类实例</h3><p>前文说过，<code>Class</code>类实际上表示的是一种类型，既然如此我能不能用一个<code>Class</code>类来构造一个类实例呢？答案肯定是能的</p>
+<p>使用<code>getConstructor()</code>和<code>newInstance()</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Class cl = Class.forName(classname);</span><br><span class="line">Object obj = Cl.getConstructor().newInstance();</span><br></pre></td></tr></table></figure>
+
+<p>那如果我想要调用有参数的构造器来创建对象呢？</p>
+<p>先看看<code>getConstructor()</code>和<code>newInstance()</code>方法的声明：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Constructor getConstructor(Class ...paramterTypes)		// 生成一个构造器对象,并描述这个构造器有什么参数类型</span><br><span class="line">Object newInstance(Object ...params)					// 生成对象实例，params参数为构造器传进的参数</span><br></pre></td></tr></table></figure>
+
+<p>因此，可以</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Class cl = Class.forName(classname);</span><br><span class="line">Object obj = Cl.getConstructor(int.class).newInstance(25);		// 调用classname类中带int类型的构造器，并传入参数整型25</span><br></pre></td></tr></table></figure>
+
+<h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><p><code>Class</code>类通常也用在读入资源上，例如显示一张图片等</p>
+<h3 id="加载资源的方法"><a href="#加载资源的方法" class="headerlink" title="加载资源的方法"></a>加载资源的方法</h3><p><strong>如果资源文件和类文件放在同一个包中</strong>，则可以</p>
+<ul>
+<li>获取资源类的<code>Class</code>对象</li>
+<li>有些方法需要获取资源位置的URL则需要调用<code>getResource()</code></li>
+<li>如果不想获取URL而是直接将文件的所有字节存放在输入流中的则需要调用<code>getResourceAsStream()</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Class cl = ResourceTest.class;</span><br><span class="line">URL aboutURL = c1.getResource(&quot;about.png&quot;);</span><br><span class="line">Image icon = new Image(aboutURL);</span><br><span class="line"></span><br><span class="line">InputStream stream = cl.getResourceAsStream(&quot;../Date/about.txt&quot;);		// 支持相对和绝对路径，如果没找到资源则返回null</span><br><span class="line">var about = new String(stream.readAllBytes(), &quot;UTF-8&quot;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="反射应用"><a href="#反射应用" class="headerlink" title="反射应用"></a>反射应用</h2><h3 id="利用反射分析类"><a href="#利用反射分析类" class="headerlink" title="利用反射分析类"></a>利用反射分析类</h3><p>反射机制中常用来做类分析的重要类：<code>Field</code>、<code>Method</code>、<code>Constructor</code>。这些类都在<code>java.lang.reflect</code>包中</p>
+<p>接下来对这几个类用来分析的方法进行简单介绍：</p>
+<h4 id="Class类-1"><a href="#Class类-1" class="headerlink" title="Class类"></a>Class类</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String	  getName()						// 返回该类型的类名字</span><br><span class="line">String    getPackageName()				// 返回该类所在的包名</span><br><span class="line">Field[]   getFields()					// 返回对象的所有公共字段，包括超类的公共字段</span><br><span class="line">Field[]   getDeclaredFields()			// 返回对象的全部字段，如果类中没有字段，或者对象是基本类型或者数组，则返回0长度数组</span><br><span class="line">Class	  getSuperClass()				// 获取该类的父类Class对象</span><br><span class="line">Method[]  getMethods()					// 返回对象所属类或者接口的所有公共方法，包括超类的公共方法</span><br><span class="line">Method[]  getDeclaredMethods()			// 返回对象所属类或者接口的全部方法，不包括超类</span><br><span class="line">Constructor[] getConstructors()			// 返回这个类的所有公共构造器</span><br><span class="line">Constructor[] getDeclaredConstructors()	// 返回全部构造器</span><br></pre></td></tr></table></figure>
+
+<h4 id="Field类"><a href="#Field类" class="headerlink" title="Field类"></a>Field类</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String	getName()		// 返回类中的字段名（属性名）的字符串</span><br><span class="line">Class	getType()		// 返回字段的类型（int、long、Date...）</span><br><span class="line">int		getModifiers()	// 获取字段的修饰符（public、static、final...）,返回1/0的二进制标志位，可以配合reflect包中的toString（）来显示具体的修饰符</span><br><span class="line">Class	getDeclaringClass()	//获取字段所属的类对应的Class对象</span><br></pre></td></tr></table></figure>
+
+<h4 id="Method类"><a href="#Method类" class="headerlink" title="Method类"></a>Method类</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String	getName()		// 返回类中的方法名的字符串</span><br><span class="line">Class	getReturnType()		// 返回方法的返回值类型对应的Class对象（int、long、Date...）</span><br><span class="line">int		getModifiers()	// 获取方法的修饰符（public、static、final...）,返回1/0的二进制标志位，可以配合reflect包中的toString（）来显示具体的修饰符</span><br><span class="line">Class	getDeclaringClass()	//获取方法所属的类对应的Class对象</span><br><span class="line">Class[] getParameterTypes()	// 返回Class对象的数组，其中各个对象表示参数的类型</span><br><span class="line">Class[] getExceptionTypes() // 返回Class对象数组,其中各个对象表示该方法所抛出的异常的类型</span><br></pre></td></tr></table></figure>
+
+<h4 id="Constructor类"><a href="#Constructor类" class="headerlink" title="Constructor类"></a>Constructor类</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String	getName()		// 返回类中的构造方法的字符串</span><br><span class="line">int		getModifiers()	// 获取构造方法的修饰符（public、static、final...）,返回1/0的二进制标志位，可以配合reflect包中的toString（）来显示具体的修饰符</span><br><span class="line">Class	getDeclaringClass()	//获取构造方法所属的类对应的Class对象</span><br><span class="line">Class[] getParameterTypes()	// 返回Class对象的数组，其中各个对象表示参数的类型</span><br><span class="line">Class[] getExceptionTypes() // 返回Class对象数组,其中各个对象表示该方法所抛出的异常的类型</span><br></pre></td></tr></table></figure>
+
+<h4 id="Modifier类"><a href="#Modifier类" class="headerlink" title="Modifier类"></a>Modifier类</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">static String toString(int modifiers)</span><br><span class="line">static boolean isAbstract(int modifiers)</span><br><span class="line">static boolean isFinal(int modifiers)</span><br><span class="line">static boolean isInterface(int modifiers)</span><br><span class="line">static boolean isNative(int modifiers)</span><br><span class="line">static boolean isPrivate(int modifiers)</span><br><span class="line">static boolean isProtected(int modifiers)</span><br><span class="line">static boolean isPublic(int modifiers)</span><br><span class="line">static boolean isStatic(int modifiers)</span><br><span class="line">static boolean isStrict(int modifiers)</span><br><span class="line">static boolean isSynchronized(int modifiers)</span><br><span class="line">static boolean isVolatile(int modifiers)</span><br></pre></td></tr></table></figure>
+
+<p>下面将演示一个通过反射来分析一个类的demo：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import java.lang.reflect.Constructor;</span><br><span class="line">import java.lang.reflect.Field;</span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line">import java.lang.reflect.Modifier;</span><br><span class="line">import java.security.PrivateKey;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        new Test(&quot;java.lang.Double&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public Test(String classname)&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Class c = Class.forName(classname);</span><br><span class="line">            printClass(c);</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public void printClass(Class c)&#123;</span><br><span class="line">        Class sc = c.getSuperclass();						// 获取父类</span><br><span class="line">        String modifier = Modifier.toString(c.getModifiers());// 获取类修饰符</span><br><span class="line">        if(modifier.length()&gt;0)</span><br><span class="line">            System.out.print(modifier + &quot; &quot;);     			</span><br><span class="line">        System.out.print(&quot;class &quot; + c.getName());			// class + 类名</span><br><span class="line">        if(sc!=null &amp;&amp; sc != Object.class)</span><br><span class="line">            System.out.print(&quot; extends &quot; + sc.getName());	// 继承的父类</span><br><span class="line">        System.out.println();</span><br><span class="line">        System.out.println(&quot;&#123;&quot;);</span><br><span class="line">        printConstructor(c);								// 获取构造器函数</span><br><span class="line">        System.out.println();</span><br><span class="line">        printField(c);										// 获取字段名</span><br><span class="line">        System.out.println();</span><br><span class="line">        printMethod(c);										// 获取方法名</span><br><span class="line">        System.out.println(&quot;&#125;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    private void printField(Class c)&#123;</span><br><span class="line">        Field[] fields = c.getDeclaredFields();				// 获取字段名</span><br><span class="line">        for (Field f:fields</span><br><span class="line">             ) &#123;</span><br><span class="line">            Class type = f.getType();						// 字段类型</span><br><span class="line">            String name = f.getName();						// 字段名</span><br><span class="line">            System.out.print(&quot;    &quot;);</span><br><span class="line">            String midifier = Modifier.toString(f.getModifiers());</span><br><span class="line">            if(midifier.length()&gt;0)</span><br><span class="line">                System.out.print(midifier + &quot; &quot;);			// 字段修饰符</span><br><span class="line">            System.out.println(type.getName() + &quot; &quot; + name + &quot;;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    private void printConstructor(Class c)&#123;</span><br><span class="line">        Constructor[] constructors = c.getConstructors();	// 获取构造方法名称</span><br><span class="line">        for (Constructor constructor:constructors</span><br><span class="line">        ) &#123;</span><br><span class="line">            String midifier = Modifier.toString(constructor.getModifiers());</span><br><span class="line">            String methodName = constructor.getName();		// 获取构造方法名</span><br><span class="line">            Class[] Params = constructor.getParameterTypes();// 获取参数类型</span><br><span class="line">            Class[] exceptions = constructor.getExceptionTypes();	// 获取异常类型</span><br><span class="line">            System.out.print(&quot;    &quot;);</span><br><span class="line">            if(midifier.length()&gt;0)</span><br><span class="line">                System.out.print(midifier + &quot; &quot;);			// 获取修饰符</span><br><span class="line">            System.out.print(methodName + &quot;(&quot;);			 </span><br><span class="line">            for(int i=0; i&lt;Params.length; i++)&#123;</span><br><span class="line">                if(i == Params.length - 1)</span><br><span class="line">                    System.out.print( Params[i].getName());</span><br><span class="line">                else</span><br><span class="line">                    System.out.print( Params[i].getName() + &quot;, &quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.print(&quot;)&quot;);</span><br><span class="line">            if(exceptions.length&gt;0)</span><br><span class="line">                System.out.print(&quot;throws &quot;);				// 获取异常类型</span><br><span class="line">            for(int i=0; i&lt;exceptions.length; i++)&#123;</span><br><span class="line">                if(i == exceptions.length - 1)</span><br><span class="line">                    System.out.print( exceptions[i].getName());</span><br><span class="line">                else</span><br><span class="line">                    System.out.print( exceptions[i].getName() + &quot;, &quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(&quot;;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void printMethod(Class c)&#123;</span><br><span class="line">        Method[] methods = c.getDeclaredMethods();</span><br><span class="line">        for (Method m:methods</span><br><span class="line">             ) &#123;</span><br><span class="line">            String midifier = Modifier.toString(m.getModifiers());</span><br><span class="line">            String ret = m.getReturnType().getName();</span><br><span class="line">            String methodName = m.getName();</span><br><span class="line">            Class[] Params = m.getParameterTypes();</span><br><span class="line">            Class[] exceptions = m.getExceptionTypes();</span><br><span class="line">            System.out.print(&quot;    &quot;);</span><br><span class="line">            if(midifier.length()&gt;0)</span><br><span class="line">                System.out.print(midifier + &quot; &quot;);</span><br><span class="line">            System.out.print(ret + &quot; &quot; + methodName + &quot;(&quot;);</span><br><span class="line">            for(int i=0; i&lt;Params.length; i++)&#123;</span><br><span class="line">               if(i == Params.length - 1)</span><br><span class="line">                   System.out.print( Params[i].getName());</span><br><span class="line">               else</span><br><span class="line">                   System.out.print( Params[i].getName() + &quot;, &quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.print(&quot;)&quot;);</span><br><span class="line">            if(exceptions.length&gt;0)</span><br><span class="line">                System.out.print(&quot;throws &quot;);</span><br><span class="line">            for(int i=0; i&lt;exceptions.length; i++)&#123;</span><br><span class="line">                if(i == exceptions.length - 1)</span><br><span class="line">                    System.out.print( exceptions[i].getName());</span><br><span class="line">                else</span><br><span class="line">                    System.out.print( exceptions[i].getName() + &quot;, &quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(&quot;;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public final class java.lang.Double extends java.lang.Number</span><br><span class="line">&#123;</span><br><span class="line">    public java.lang.Double(double);</span><br><span class="line">    public java.lang.Double(java.lang.String)throws java.lang.NumberFormatException;</span><br><span class="line"></span><br><span class="line">    public static final double POSITIVE_INFINITY;</span><br><span class="line">    public static final double NEGATIVE_INFINITY;</span><br><span class="line">    public static final double NaN;</span><br><span class="line">    public static final double MAX_VALUE;</span><br><span class="line">    public static final double MIN_NORMAL;</span><br><span class="line">    public static final double MIN_VALUE;</span><br><span class="line">    public static final int MAX_EXPONENT;</span><br><span class="line">    public static final int MIN_EXPONENT;</span><br><span class="line">    public static final int SIZE;</span><br><span class="line">    public static final int BYTES;</span><br><span class="line">    public static final java.lang.Class TYPE;</span><br><span class="line">    private final double value;</span><br><span class="line">    private static final long serialVersionUID;</span><br><span class="line"></span><br><span class="line">    public boolean equals(java.lang.Object);</span><br><span class="line">    public static java.lang.String toString(double);</span><br><span class="line">    public java.lang.String toString();</span><br><span class="line">    public int hashCode();</span><br><span class="line">    public static int hashCode(double);</span><br><span class="line">    public static double min(double, double);</span><br><span class="line">    public static double max(double, double);</span><br><span class="line">    public static native long doubleToRawLongBits(double);</span><br><span class="line">    public static long doubleToLongBits(double);</span><br><span class="line">    public static native double longBitsToDouble(long);</span><br><span class="line">    public volatile int compareTo(java.lang.Object);</span><br><span class="line">    public int compareTo(java.lang.Double);</span><br><span class="line">    public byte byteValue();</span><br><span class="line">    public short shortValue();</span><br><span class="line">    public int intValue();</span><br><span class="line">    public long longValue();</span><br><span class="line">    public float floatValue();</span><br><span class="line">    public double doubleValue();</span><br><span class="line">    public static java.lang.Double valueOf(double);</span><br><span class="line">    public static java.lang.Double valueOf(java.lang.String)throws java.lang.NumberFormatException;</span><br><span class="line">    public static java.lang.String toHexString(double);</span><br><span class="line">    public static int compare(double, double);</span><br><span class="line">    public java.lang.Double resolveConstantDesc(java.lang.invoke.MethodHandles$Lookup);</span><br><span class="line">    public volatile java.lang.Object resolveConstantDesc(java.lang.invoke.MethodHandles$Lookup)throws java.lang.ReflectiveOperationException;</span><br><span class="line">    public java.util.Optional describeConstable();</span><br><span class="line">    public static boolean isNaN(double);</span><br><span class="line">    public boolean isNaN();</span><br><span class="line">    public static boolean isInfinite(double);</span><br><span class="line">    public boolean isInfinite();</span><br><span class="line">    public static boolean isFinite(double);</span><br><span class="line">    public static double sum(double, double);</span><br><span class="line">    public static double parseDouble(java.lang.String)throws java.lang.NumberFormatException;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="利用反射在运行时分析对象"><a href="#利用反射在运行时分析对象" class="headerlink" title="利用反射在运行时分析对象"></a>利用反射在运行时分析对象</h3><p>前文讲过如何利用反射分析一个类的组成，那么对于类运行时的实例而言，能不能获取到对象实例的具体值呢？能</p>
+<p>要做到这一点，需要用到<code>Field</code>类中的<code>get()</code>和<code>set()</code>（同样<code>Method</code>类、<code>Constructor</code>类也有这个方法），例如看下面的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var harry = new Employee(&quot;Harry Hacker&quot;, 50000, 10, 1, 1989);</span><br><span class="line">Class cl = harry.getClass();</span><br><span class="line">Field f = cl.getDeclaredField(&quot;name&quot;);</span><br><span class="line">// the &#x27;name&#x27; field of the Employee class</span><br><span class="line">object v = f.get(harry);		// 获取harry对象中字段为name的值</span><br><span class="line">// output:“Harry Hacker”</span><br></pre></td></tr></table></figure>
+
+<p>同样更改值，可以使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">f.set(harry, &quot;Askia&quot;);		// 设置harry对象中字段为name的值</span><br></pre></td></tr></table></figure>
+
+<p>当然上面的<code>get()</code>、<code>set()</code>代码存在问题，因为<code>name</code>字段修饰符是<code>private</code>，因此对该字段的值进行访问会抛出<code>illegalAccessException</code>。</p>
+<p><strong>Java安全机制允许查看一个对象有哪些字段，但是除非拥有访问权限，否则不能对这些字段进行读写。</strong></p>
+<p>那么就真的没有办法对这些字段进行强制修改了吗？也不是，我们可以调用<code>setAccessible()</code>来覆盖java的访问控制</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">f.setAccessible(true);</span><br><span class="line">f.set(harry, &quot;Askia&quot;);</span><br><span class="line">// now harry.name is &quot;Askia&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="通用的toString"><a href="#通用的toString" class="headerlink" title="通用的toString()"></a>通用的<code>toString()</code></h4><p>通用的<code>toString()</code>方法通过使用<code>getDeclaredFileds()</code>获得所有的数据字段，然后使用<code>setAccessible</code>方法将所有字段设置为可访问。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public class ObjectAnalyzer&#123;</span><br><span class="line">	private ArrayList&lt;Object&gt; visited = new ArrayList&lt;&gt;();</span><br><span class="line">	 </span><br><span class="line">	public String toString(Object obj) throws ReflectiveOperationException&#123;</span><br><span class="line">		if(obj == null)&#123;</span><br><span class="line">			return &quot;null&quot;;</span><br><span class="line">		&#125;</span><br><span class="line">		if(visited.contains(obj))&#123;</span><br><span class="line">			return &quot;...&quot;;</span><br><span class="line">		&#125;</span><br><span class="line">		visited.add(obj);</span><br><span class="line">		Class cl = obj.getClass();</span><br><span class="line">		if(cl == String.class)&#123;</span><br><span class="line">			return (String)obj;</span><br><span class="line">		&#125;</span><br><span class="line">		if(cl.isArray())&#123;</span><br><span class="line">			String r = cl.getComponentType() + &quot;[]&#123;&quot;;</span><br><span class="line">			for(int i = 0; i&lt; Array.getLength(obj); i++)&#123;</span><br><span class="line">				if(i &gt; 0) r+=&quot;,&quot;;</span><br><span class="line">				Object val = Array.get(obj, i);</span><br><span class="line">				if(cl.getComponentType().isPrimitive())&#123;</span><br><span class="line">						r += val;</span><br><span class="line">				&#125;else&#123;</span><br><span class="line">						r += toString(val);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			return r + &quot;&#125;&quot;;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		String r = cl.getName();</span><br><span class="line">		</span><br><span class="line">		do&#123;</span><br><span class="line">			r+=&quot;[&quot;;</span><br><span class="line">			Field[] fields = cl.getDeclaredFields();</span><br><span class="line">			AccessibleObject.setAccessible(fields, true);</span><br><span class="line">			</span><br><span class="line">			for(Field f:fields)&#123;</span><br><span class="line">				if(!Modifier.isStatic(f.getModifiers()))&#123;</span><br><span class="line">					if(!r.endsWith(&quot;[&quot;))	r+=&quot;,&quot;;</span><br><span class="line">					r+=f.getName() +&quot;=&quot;;</span><br><span class="line">					Class t = f.getType();</span><br><span class="line">					Object val = f.get(obj);</span><br><span class="line">					if(t.isPrimitive())	r+=val;</span><br><span class="line">					else r+= toString(val);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			r+=&quot;]&quot;;</span><br><span class="line">			cl = cl.getSuperclass();</span><br><span class="line">		&#125;while(cl!=null);</span><br><span class="line">		return r;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用反射调用任意的方法和构造器"><a href="#使用反射调用任意的方法和构造器" class="headerlink" title="使用反射调用任意的方法和构造器"></a>使用反射调用任意的方法和构造器</h3><p><code>Method</code>类中有一个<code>invoke()</code>方法,用于调用对象中的方法:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">Object <span class="title">invoke</span><span class="params">(Object obj, Object ...args)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>第一个参数是隐式参数,传入一个包含此方法的对象，对于静态方法可以置null，第二个参数是要传入的数据，对于基本类型，请使用包装类。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Employee harry;</span><br><span class="line">me.invoke(harry, harry);		// 调用harry对象中的createdObject(Employee e)方法，见下文代码</span><br></pre></td></tr></table></figure>
+
+<p>要获取与所需要的方法对应的Method对象,有两种方法:</p>
+<ul>
+<li>调用GetDeclareMethods()，在返回的Methods[]中寻找</li>
+<li>调用GetMethod()</li>
+</ul>
+<p>第二种方法需要指定<strong>要调用的方法的方法名和参数类型</strong>（可能会重载，一次单一方法名不能判断是哪个方法）</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">Method <span class="title">getMethod</span><span class="params">(String name, Class ...parameterTypes)</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Method me = Beans.class.getMethod(<span class="string">&quot;createdObject&quot;</span>, Employee.class);</span><br></pre></td></tr></table></figure>
+
+<p>同样，对于构造方法的获取，也需要指定<strong>参数类型</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class cl = Random.class;</span><br><span class="line">Constructor cons = cl.getConstructor(<span class="keyword">long</span>.class);	<span class="comment">// 获取参数类型为long的构造器</span></span><br><span class="line">Object obj = cons.newInstance(<span class="number">42L</span>);</span><br><span class="line"><span class="comment">// 传递参数并调用构造方法</span></span><br></pre></td></tr></table></figure>
+
+<p>下面的小demo演示了如何调用任意的方法和构造器</p>
+<p><strong>注意：使用该方法调用对象方法，效率非常慢，因此除非必要，否则不建议使用，特别是回调的Method对象！</strong></p>
+<h3 id="使用反射编写泛型数组代码"><a href="#使用反射编写泛型数组代码" class="headerlink" title="使用反射编写泛型数组代码"></a>使用反射编写泛型数组代码</h3><p>java.lang.reflect包中有一个<code>Array</code>类，可用于动态创建数组（通常用于增容或者缩减数组），他的伴随类Arrays中的copyOf就是该类的最好示例。要动态创建一个新数组，你可以：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object newArray = Array.newInstance(componentType, newlength);</span><br></pre></td></tr></table></figure>
+
+<p>在动态创建数组，一般遵循以下步骤：</p>
+<ol>
+<li>获取参数a的类对象</li>
+<li>确定a是一个数组</li>
+<li>获取a的数组类型</li>
+</ol>
+<p>可参考下面的代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">goodCopyOf</span><span class="params">(Object a, <span class="keyword">int</span> length)</span></span>&#123;</span><br><span class="line">	Class cl = a.getClass();						<span class="comment">// 获取a的类对象</span></span><br><span class="line">	<span class="keyword">if</span>(!cl.isArray())								<span class="comment">// 确定a是一个数组</span></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	Class componentType = cl.getComponentType();	<span class="comment">// 获取a的数组类型</span></span><br><span class="line">	<span class="keyword">int</span> length = Array.getLength(a);</span><br><span class="line">	Object newArray = Array.newInstance(componentType, length);			<span class="comment">//创建数组</span></span><br><span class="line">	System.arrayCopy(a, <span class="number">0</span>, newArray, <span class="number">0</span>, Mah.min(length, newLength));	<span class="comment">// 复制数组</span></span><br><span class="line">	<span class="keyword">return</span> newArray;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="相关API"><a href="#相关API" class="headerlink" title="相关API"></a>相关API</h2><h3 id="Class类-2"><a href="#Class类-2" class="headerlink" title="Class类"></a>Class类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String	  getName()						// 返回该类型的类名字</span><br><span class="line">String    getPackageName()				// 返回该类所在的包名</span><br><span class="line">Field[]   getFields()					// 返回对象的所有公共字段，包括超类的公共字段</span><br><span class="line">Field[]   getDeclaredFields()			// 返回对象的全部字段，如果类中没有字段，或者对象是基本类型或者数组，则返回0长度数组</span><br><span class="line">Class	  getSuperClass()				// 获取该类的父类Class对象</span><br><span class="line">Method[]  getMethods()					// 返回对象所属类或者接口的所有公共方法，包括超类的公共方法</span><br><span class="line">Method[]  getDeclaredMethods()			// 返回对象所属类或者接口的全部方法，不包括超类</span><br><span class="line">Constructor[] getConstructors()			// 返回这个类的所有公共构造器</span><br><span class="line">Constructor[] getDeclaredConstructors()	// 返回全部构造器</span><br></pre></td></tr></table></figure>
+
+<h3 id="Field类-1"><a href="#Field类-1" class="headerlink" title="Field类"></a>Field类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String	getName()		// 返回类中的字段名（属性名）的字符串</span><br><span class="line">Class	getType()		// 返回字段的类型（int、long、Date...）</span><br><span class="line">int		getModifiers()	// 获取字段的修饰符（public、static、final...）,返回1/0的二进制标志位，可以配合reflect包中的toString（）来显示具体的修饰符</span><br><span class="line">Class	getDeclaringClass()	//获取字段所属的类对应的Class对象</span><br></pre></td></tr></table></figure>
+
+<h3 id="Method类-1"><a href="#Method类-1" class="headerlink" title="Method类"></a>Method类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String	getName()		// 返回类中的方法名的字符串</span><br><span class="line">Class	getReturnType()		// 返回方法的返回值类型对应的Class对象（int、long、Date...）</span><br><span class="line">int		getModifiers()	// 获取方法的修饰符（public、static、final...）,返回1/0的二进制标志位，可以配合reflect包中的toString（）来显示具体的修饰符</span><br><span class="line">Class	getDeclaringClass()	//获取方法所属的类对应的Class对象</span><br><span class="line">Class[] getParameterTypes()	// 返回Class对象的数组，其中各个对象表示参数的类型</span><br><span class="line">Class[] getExceptionTypes() // 返回Class对象数组,其中各个对象表示该方法所抛出的异常的类型</span><br><span class="line">Object invoke(Object obj, Object ...args)		// 执行该方法！</span><br></pre></td></tr></table></figure>
+
+<h3 id="Constructor类-1"><a href="#Constructor类-1" class="headerlink" title="Constructor类"></a>Constructor类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">String	getName()		// 返回类中的构造方法的字符串</span><br><span class="line">int		getModifiers()	// 获取构造方法的修饰符（public、static、final...）,返回1/0的二进制标志位，可以配合reflect包中的toString（）来显示具体的修饰符</span><br><span class="line">Class	getDeclaringClass()	//获取构造方法所属的类对应的Class对象</span><br><span class="line">Class[] getParameterTypes()	// 返回Class对象的数组，其中各个对象表示参数的类型</span><br><span class="line">Class[] getExceptionTypes() // 返回Class对象数组,其中各个对象表示该方法所抛出的异常的类型</span><br></pre></td></tr></table></figure>
+
+<h3 id="Modifier类-1"><a href="#Modifier类-1" class="headerlink" title="Modifier类"></a>Modifier类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">static String toString(int modifiers)</span><br><span class="line">static boolean isAbstract(int modifiers)</span><br><span class="line">static boolean isFinal(int modifiers)</span><br><span class="line">static boolean isInterface(int modifiers)</span><br><span class="line">static boolean isNative(int modifiers)</span><br><span class="line">static boolean isPrivate(int modifiers)</span><br><span class="line">static boolean isProtected(int modifiers)</span><br><span class="line">static boolean isPublic(int modifiers)</span><br><span class="line">static boolean isStatic(int modifiers)</span><br><span class="line">static boolean isStrict(int modifiers)</span><br><span class="line">static boolean isSynchronized(int modifiers)</span><br><span class="line">static boolean isVolatile(int modifiers)</span><br></pre></td></tr></table></figure>
+
+<h3 id="AccessibleObject类"><a href="#AccessibleObject类" class="headerlink" title="AccessibleObject类"></a>AccessibleObject类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">void setAccessible(boolean flag)		//设置或者取消这个可访问对象的可访问标志，如果拒接访问抛出一个IllegalAccessException</span><br><span class="line">boolean trySetAccessible()				// 尝试为在这个可访问的对象设置可访问标志，如果拒绝返回false</span><br><span class="line">boolean isAccessible()				// 是否可访问</span><br><span class="line">static void setAccessible(Object[] array, boolean flag)									// 设置一个对象数组的可访问标志。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Array类"><a href="#Array类" class="headerlink" title="Array类"></a>Array类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">static Object get(Object array, int index)</span><br><span class="line">static XXX getXXX(Object array, int index)</span><br><span class="line">// 获取数组中下标为index的值，其中XXX指的是8种基本类型</span><br><span class="line"></span><br><span class="line">static void set(Object array, int index, Object newValue)</span><br><span class="line">static void setXXXO(Object array, int index, XXX newValue)</span><br><span class="line">// 设置数组中下标为index的新值，其中XXX指的是8种基本类型</span><br><span class="line"></span><br><span class="line">static int getLength(Object array)	// 返回给定数组长度</span><br><span class="line"></span><br><span class="line">static Object newInstance(Class comonentType, int length)</span><br><span class="line">static Object newInstance(Class componentType, int[] lengths)</span><br><span class="line">// 创建特定类型、长度的数组</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>java学习笔记</category>
+      </categories>
+      <tags>
+        <tag>java_core</tag>
+        <tag>java_features</tag>
+        <tag>java_lib</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java IO</title>
+    <url>/2021/08/12/Java/JavaIO%E6%B5%81/</url>
+    <content><![CDATA[<p><em><del>Java将IO流设计得非常好用，在深入Java之后，除了Java容器（JCF）的源代码之外，最好也去看下IO流的设计。</del></em></p>
+<p>Java IO流，<code>java</code>语言的核心知识之一，在开发中需要用到外部资源时经常会和它打交道。</p>
+<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
+<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
+<ul>
+<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
+<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
+<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
+<li>……</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="文件目录操作及简单文件读写"><a href="#文件目录操作及简单文件读写" class="headerlink" title="文件目录操作及简单文件读写"></a>文件目录操作及简单文件读写</h2><h3 id="接口Path"><a href="#接口Path" class="headerlink" title="接口Path"></a>接口Path</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Path</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">Path</span>&gt;, <span class="title">Iterable</span>&lt;<span class="title">Path</span>&gt;, <span class="title">Watchable</span></span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>java.nio.file.Path</li>
+</ul>
+<p>表示的是一个目录名，其后还可以跟着一个文件名。路径中的第一个是根部件，例如：<code>/</code>或者<code>D:\</code>，该接口还有一个伴随类<code>Paths</code>。</p>
+<p>此接口仅用于开发自定义文件系统实现的那些实现。可以实现该接口给出自己的文件<code>Path</code>代码</p>
+<h3 id="伴随类Paths"><a href="#伴随类Paths" class="headerlink" title="伴随类Paths"></a>伴随类Paths</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Paths</span> <span class="keyword">extends</span> <span class="title">Object</span></span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>java.nio.file.Paths</li>
+</ul>
+<p><code>Path</code>接口的伴随类，可以通过该类直接创建<code>Path</code>对象</p>
+<h3 id="Files类"><a href="#Files类" class="headerlink" title="Files类"></a>Files类</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Files</span> <span class="keyword">extends</span> <span class="title">Object</span></span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>java.nio.file.Files </li>
+</ul>
+<p>该类只包含对文件，目录或者其他类型文件进行操作的静态方法，可以说是类<code>File</code>的升级版，对<code>File</code>提供了更加有效和扩展的功能补充，非常方便。</p>
+<h3 id="File类"><a href="#File类" class="headerlink" title="File类"></a>File类</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">File</span></span></span><br><span class="line"><span class="class"><span class="keyword">extends</span> <span class="title">Object</span></span></span><br><span class="line"><span class="class"><span class="keyword">implements</span> <span class="title">Serializable</span>, <span class="title">Comparable</span>&lt;<span class="title">File</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>java.io.File </li>
+</ul>
+<p>旧版本的文件目录类。和<code>Path</code>一样的功能</p>
+<h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><h4 id="Path接口"><a href="#Path接口" class="headerlink" title="Path接口"></a>Path接口</h4><table>
+<thead>
+<tr>
+<th>返回值</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int</code></td>
+<td><code>compareTo(Path other)</code>  <br>比较两个抽象的路径词典。</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>endsWith(Path other)</code> <br> 测试此路径是否以给定的路径结束。</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>endsWith(String other)</code> <br> 测试此路径是否以 <code>Path</code>结束，通过转换给定的路径字符串，完全按照 <a href="../../../java/nio/file/Path.html#endsWith-java.nio.file.Path-"><code>endsWith(Path)</code></a>方法指定的方式构建。</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>equals(Object other)</code>  <br>测试此路径与给定对象的相等性。</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td><code>getFileName()</code>  <br>将此路径表示的文件或目录的名称返回为 <code>Path</code>对象。</td>
+</tr>
+<tr>
+<td><code>FileSystem</code></td>
+<td><code>getFileSystem()</code>  <br>返回创建此对象的文件系统。</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td><code>getName(int index)</code>  <br>返回此路径的名称元素作为 <code>Path</code>对象。</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>getNameCount()</code>  <br>返回路径中的名称元素的数量。</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td><code>getParent()</code>  <br>返回 <em>父路径</em> ，或 <code>null</code>如果此路径没有父。</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td><code>getRoot()</code>  <br>返回此路径的根组分作为 <code>Path</code>对象，或 <code>null</code>如果该路径不具有根组件。</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>hashCode()</code> <br> 计算此路径的哈希码。</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>isAbsolute()</code>  <br>告诉这条路是否是绝对的。</td>
+</tr>
+<tr>
+<td><code>Iterator&lt;Path&gt;</code></td>
+<td><code>iterator()</code>  <br>返回此路径的名称元素的迭代器。</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td><code>normalize()</code>  <br>返回一个路径，该路径是冗余名称元素的消除。</td>
+</tr>
+<tr>
+<td><code>WatchKey</code></td>
+<td><code>register(WatchService watcher, WatchEvent.Kind&lt;?&gt;... events)</code>  <br>使用手表服务注册此路径所在的文件。</td>
+</tr>
+<tr>
+<td><code>WatchKey</code></td>
+<td><code>register(WatchService watcher, WatchEvent.Kind&lt;?&gt;[] events,  WatchEvent.Modifier... modifiers)</code>  <br>使用手表服务注册此路径所在的文件。</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td><code>relativize(Path other)</code>  <br>构造此路径和给定路径之间的相对路径。</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td><code>resolve(Path other)</code>  <br>根据这条路径解决给定的路径。</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td><code>resolve(String other)</code><br>  一个给定的路径字符串转换为 <code>Path</code>并解析它针对此  <code>Path</code>在完全按规定的方式 <a href="../../../java/nio/file/Path.html#resolve-java.nio.file.Path-"><code>resolve</code></a>方法。</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td><code>resolveSibling(Path other)</code>  <br>根据此路径的 <a href="../../../java/nio/file/Path.html#getParent--"><code>parent</code></a>路径解决给定的路径。</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td><code>resolveSibling(String other)</code>  <br>将给定的路径字符串转换为 <code>Path</code> ，并按照 <a href="../../../java/nio/file/Path.html#resolveSibling-java.nio.file.Path-"><code>resolveSibling</code></a>方法指定的方式将其解析为该路径的  <a href="../../../java/nio/file/Path.html#getParent--"><code>parent</code></a>路径。</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>startsWith(Path other)</code>  <br>测试此路径是否以给定的路径开始。</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>startsWith(String other)</code>  <br>测试此路径是否以 <code>Path</code> ，通过转换给定的路径字符串，按照 <a href="../../../java/nio/file/Path.html#startsWith-java.nio.file.Path-"><code>startsWith(Path)</code></a>方法指定的方式构建。</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td><code>subpath(int beginIndex,  int endIndex)</code>  <br>返回一个相对的 <code>Path</code> ，它是该路径的名称元素的子序列。</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td><code>toAbsolutePath()</code>  <br>返回表示此路径的绝对路径的 <code>Path</code>对象。</td>
+</tr>
+<tr>
+<td><code>File</code></td>
+<td><code>toFile()</code>  <br>返回表示此路径的<a href="../../../java/io/File.html"><code>File</code></a>对象。</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td><code>toRealPath(LinkOption... options)</code>  <br>返回现有文件的 <em>真实</em>路径。</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td><code>toString()</code>  <br>返回此路径的字符串表示形式。</td>
+</tr>
+<tr>
+<td><code>URI</code></td>
+<td><code>toUri()</code>  <br>返回一个URI来表示此路径。</td>
+</tr>
+</tbody></table>
+<h4 id="Paths"><a href="#Paths" class="headerlink" title="Paths"></a>Paths</h4><table>
+<thead>
+<tr>
+<th>返回值</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static Path</code></td>
+<td><code>get(String first, String... more)</code>  <br>将路径字符串或连接到路径字符串的字符串序列转换为 <code>Path</code> 。</td>
+</tr>
+<tr>
+<td><code>static Path</code></td>
+<td><code>get(URI uri)</code>  <br>将给定的URI转换为<a href="../../../java/nio/file/Path.html"><code>Path</code></a>对象。</td>
+</tr>
+</tbody></table>
+<h4 id="Files"><a href="#Files" class="headerlink" title="Files"></a>Files</h4><h5 id="文件、目录创建"><a href="#文件、目录创建" class="headerlink" title="文件、目录创建"></a>文件、目录创建</h5><table>
+<thead>
+<tr>
+<th align="left">返回值</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>static Path</code></td>
+<td><code>createDirectories(Path dir, FileAttribute&lt;?&gt;... attrs)</code> <br> 首先创建所有不存在的父目录来创建目录。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>createDirectory(Path dir, FileAttribute&lt;?&gt;... attrs)</code> <br> 创建一个新的目录。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>createFile(Path path, FileAttribute&lt;?&gt;... attrs)</code>  <br>创建一个新的和空的文件，如果该文件已存在失败。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>createLink(Path link, Path existing)</code>  <br>为现有文件创建新的链接（目录条目） <em>（可选操作）</em> 。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>createSymbolicLink(Path link, Path target, FileAttribute&lt;?&gt;... attrs)</code>  <br>创建到目标的符号链接 <em>（可选操作）</em> 。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>createTempDirectory(Path dir, String prefix, FileAttribute&lt;?&gt;... attrs)</code>  <br>在指定的目录中创建一个新目录，使用给定的前缀生成其名称。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>createTempDirectory(String prefix, FileAttribute&lt;?&gt;... attrs)</code>  <br>在默认临时文件目录中创建一个新目录，使用给定的前缀生成其名称。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>createTempFile(Path dir, String prefix, String suffix, FileAttribute&lt;?&gt;... attrs)</code>  <br>在指定的目录中创建一个新的空文件，使用给定的前缀和后缀字符串生成其名称。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>createTempFile(String prefix, String suffix, FileAttribute&lt;?&gt;... attrs)</code>  <br>在默认临时文件目录中创建一个空文件，使用给定的前缀和后缀生成其名称。</td>
+</tr>
+</tbody></table>
+<h5 id="文件、目录复制、移动、删除"><a href="#文件、目录复制、移动、删除" class="headerlink" title="文件、目录复制、移动、删除"></a>文件、目录复制、移动、删除</h5><table>
+<thead>
+<tr>
+<th align="left">返回值</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>static long</code></td>
+<td><code>copy(InputStream in, Path target, CopyOption... options)</code>  <br>将输入流中的所有字节复制到文件。</td>
+</tr>
+<tr>
+<td align="left"><code>static long</code></td>
+<td><code>copy(Path source, OutputStream out)</code>  <br>将文件中的所有字节复制到输出流。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>copy(Path source, Path target, CopyOption... options)</code> <br> 将文件复制到目标文件。</td>
+</tr>
+<tr>
+<td align="left"><code>static void</code></td>
+<td><code>delete(Path path)</code>  <br>删除文件。</td>
+</tr>
+<tr>
+<td align="left"><code>static boolean</code></td>
+<td><code>deleteIfExists(Path path)</code>  <br>删除文件（如果存在）。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>move(Path source, Path target, CopyOption... options)</code>  <br>将文件移动或重命名为目标文件。</td>
+</tr>
+</tbody></table>
+<h5 id="文件属性"><a href="#文件属性" class="headerlink" title="文件属性"></a>文件属性</h5><table>
+<thead>
+<tr>
+<th align="left">返回值</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>static boolean</code></td>
+<td><code>exists(Path path, LinkOption... options)</code>  <br>测试文件是否存在。</td>
+</tr>
+<tr>
+<td align="left"><code>static boolean</code></td>
+<td><code>notExists(Path path, LinkOption... options)</code>  <br>测试此路径所在的文件是否不存在。</td>
+</tr>
+<tr>
+<td align="left"><code>static Object</code></td>
+<td><code>getAttribute(Path path, String attribute, LinkOption... options)</code>  <br>读取文件属性的值。</td>
+</tr>
+<tr>
+<td align="left"><code>static &lt;V extends FileAttributeView&gt;V</code></td>
+<td><code>getFileAttributeView(Path path, 类&lt;V&gt; type, LinkOption... options)</code> <br> 返回给定类型的文件属性视图。</td>
+</tr>
+<tr>
+<td align="left"><code>static FileStore</code></td>
+<td><code>getFileStore(Path path)</code>  <br>返回表示文件所在文件存储<a href="../../../java/nio/file/FileStore.html">区的</a>  <code>FileStore</code>。</td>
+</tr>
+<tr>
+<td align="left"><code>static FileTime</code></td>
+<td><code>getLastModifiedTime(Path path, LinkOption... options)</code>  <br>返回文件的上次修改时间。</td>
+</tr>
+<tr>
+<td align="left"><code>static UserPrincipal</code></td>
+<td><code>getOwner(Path path, LinkOption... options)</code> <br> 返回文件的所有者。</td>
+</tr>
+<tr>
+<td align="left"><code>static Set&lt;PosixFilePermission&gt;</code></td>
+<td><code>getPosixFilePermissions(Path path, LinkOption... options)</code>  <br>返回文件的POSIX文件权限。</td>
+</tr>
+<tr>
+<td align="left"><code>static boolean</code></td>
+<td><code>isDirectory(Path path, LinkOption... options)</code> <br> 测试文件是否是目录。</td>
+</tr>
+<tr>
+<td align="left"><code>static boolean</code></td>
+<td><code>isExecutable(Path path)</code>  <br>测试文件是否可执行。</td>
+</tr>
+<tr>
+<td align="left"><code>static boolean</code></td>
+<td><code>isHidden(Path path)</code>  <br>告知文件是否被 <em>隐藏</em> 。</td>
+</tr>
+<tr>
+<td align="left"><code>static boolean</code></td>
+<td><code>isReadable(Path path)</code>  <br>测试文件是否可读。</td>
+</tr>
+<tr>
+<td align="left"><code>static boolean</code></td>
+<td><code>isRegularFile(Path path, LinkOption... options)</code>  <br>测试文件是否是具有不透明内容的常规文件。</td>
+</tr>
+<tr>
+<td align="left"><code>static boolean</code></td>
+<td><code>isSameFile(Path path, Path path2)</code> <br> 测试两个路径是否找到相同的文件。</td>
+</tr>
+<tr>
+<td align="left"><code>static boolean</code></td>
+<td><code>isSymbolicLink(Path path)</code>  <br>测试文件是否是符号链接。</td>
+</tr>
+<tr>
+<td align="left"><code>static boolean</code></td>
+<td><code>isWritable(Path path)</code>  <br>测试文件是否可写。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>setAttribute(Path path, String attribute, Object value, LinkOption... options)</code>  设置文件属性的值。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>setLastModifiedTime(Path path, FileTime time)</code>  <br>更新文件上次修改的时间属性。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>setOwner(Path path, UserPrincipal owner)</code>  <br>更新文件所有者。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>setPosixFilePermissions(Path path, Set&lt;PosixFilePermission&gt; perms)</code>  <br>设置文件的POSIX权限。</td>
+</tr>
+<tr>
+<td align="left"><code>static long</code></td>
+<td><code>size(Path path)</code>  <br>返回文件的大小（以字节为单位）。</td>
+</tr>
+<tr>
+<td align="left"><code>static &lt;A extends BasicFileAttributes&gt;A</code></td>
+<td><code>readAttributes(Path path, 类&lt;A&gt; type, LinkOption... options)</code>  <br>读取文件的属性作为批量操作。</td>
+</tr>
+<tr>
+<td align="left"><code>static Map&lt;String,Object&gt;</code></td>
+<td><code>readAttributes(Path path, String attributes, LinkOption... options)</code>  <br>读取一组文件属性作为批量操作。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>readSymbolicLink(Path link)</code>  <br>读取符号链接的目标 <em>（可选操作）</em> 。</td>
+</tr>
+</tbody></table>
+<h5 id="快速new"><a href="#快速new" class="headerlink" title="快速new"></a>快速new</h5><table>
+<thead>
+<tr>
+<th align="left">返回值</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>static BufferedReader</code></td>
+<td><code>newBufferedReader(Path path)</code>  <br>打开一个文件进行阅读，返回一个 <code>BufferedReader</code>以高效的方式从文件读取文本。</td>
+</tr>
+<tr>
+<td align="left"><code>static BufferedReader</code></td>
+<td><code>newBufferedReader(Path path, Charset cs)</code> <br> 打开一个文件进行阅读，返回一个 <code>BufferedReader</code> ，可以用来以有效的方式从文件读取文本。</td>
+</tr>
+<tr>
+<td align="left"><code>static BufferedWriter</code></td>
+<td><code>newBufferedWriter(Path path, Charset cs, OpenOption... options)</code>  <br>打开或创建一个写入文件，返回一个 <code>BufferedWriter</code>  ，可以用来以有效的方式将文本写入文件。</td>
+</tr>
+<tr>
+<td align="left"><code>static BufferedWriter</code></td>
+<td><code>newBufferedWriter(Path path, OpenOption... options)</code> <br> 打开或创建一个写入文件，返回一个 <code>BufferedWriter</code>以高效的方式写入文件。</td>
+</tr>
+<tr>
+<td align="left"><code>static SeekableByteChannel</code></td>
+<td><code>newByteChannel(Path path, OpenOption... options)</code> <br> 打开或创建文件，返回可访问的字节通道以访问该文件。</td>
+</tr>
+<tr>
+<td align="left"><code>static SeekableByteChannel</code></td>
+<td><code>newByteChannel(Path path, Set&lt;?  extends OpenOption&gt; options, FileAttribute&lt;?&gt;... attrs)</code><br>  打开或创建文件，返回可访问的字节通道以访问该文件。</td>
+</tr>
+<tr>
+<td align="left"><code>static DirectoryStream&lt;Path&gt;</code></td>
+<td><code>newDirectoryStream(Path dir)</code>  <br>打开一个目录，返回一个<a href="../../../java/nio/file/DirectoryStream.html"><code>DirectoryStream</code></a>以遍历<a href="../../../java/nio/file/DirectoryStream.html">目录</a>中的所有条目。</td>
+</tr>
+<tr>
+<td align="left"><code>static DirectoryStream&lt;Path&gt;</code></td>
+<td><code>newDirectoryStream(Path dir, DirectoryStream.Filter&lt;?  super Path&gt; filter)</code>  <br>打开一个目录，返回一个<a href="../../../java/nio/file/DirectoryStream.html"><code>DirectoryStream</code></a>来迭代<a href="../../../java/nio/file/DirectoryStream.html">目录</a>中的条目。</td>
+</tr>
+<tr>
+<td align="left"><code>static DirectoryStream&lt;Path&gt;</code></td>
+<td><code>newDirectoryStream(Path dir, String glob)</code>  <br>打开一个目录，返回一个<a href="../../../java/nio/file/DirectoryStream.html"><code>DirectoryStream</code></a>来迭代<a href="../../../java/nio/file/DirectoryStream.html">目录</a>中的条目。</td>
+</tr>
+<tr>
+<td align="left"><code>static InputStream</code></td>
+<td><code>newInputStream(Path path, OpenOption... options)</code> <br> 打开一个文件，返回输入流以从文件中读取。</td>
+</tr>
+<tr>
+<td align="left"><code>static OutputStream</code></td>
+<td><code>newOutputStream(Path path, OpenOption... options)</code> <br> 打开或创建文件，返回可用于向文件写入字节的输出流。</td>
+</tr>
+</tbody></table>
+<h5 id="读写"><a href="#读写" class="headerlink" title="读写"></a>读写</h5><table>
+<thead>
+<tr>
+<th align="left">返回值</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>static Stream&lt;String&gt;</code></td>
+<td><code>lines(Path path)</code>  <br>从 <code>Stream</code>读取文件中的所有行。</td>
+</tr>
+<tr>
+<td align="left"><code>static Stream&lt;String&gt;</code></td>
+<td><code>lines(Path path, Charset cs)</code>  <br>从文件中读取所有行作为 <code>Stream</code> 。</td>
+</tr>
+<tr>
+<td align="left"><code>static byte[]</code></td>
+<td><code>readAllBytes(Path path)</code>  <br>读取文件中的所有字节。</td>
+</tr>
+<tr>
+<td align="left"><code>static String</code></td>
+<td><code>readString(Path path, Charset cs)</code><br>读一段文本</td>
+</tr>
+<tr>
+<td align="left"><code>static String</code></td>
+<td><code>readString(Path path)</code><br>读一段文本</td>
+</tr>
+<tr>
+<td align="left"><code>static List&lt;String&gt;</code></td>
+<td><code>readAllLines(Path path)</code>  <br>从文件中读取所有行。</td>
+</tr>
+<tr>
+<td align="left"><code>static List&lt;String&gt;</code></td>
+<td><code>readAllLines(Path path, Charset cs)</code>  <br>从文件中读取所有行。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>write(Path path, byte[] bytes, OpenOption... options)</code> <br> 将字节写入文件。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>write(Path path, Iterable&lt;? extends CharSequence&gt; lines, Charset cs, OpenOption... options)</code>  <br>将文本行写入文件。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>write(Path path, Iterable&lt;? extends CharSequence&gt; lines, OpenOption... options)</code>  <br>将文本行写入文件。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>writeString(Path path, CharSequence csq, Charset cs, OpenOption... options)</code><br>写出字符串</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>writeString(Path path, CharSequence csq, OpenOption... options)</code><br>写出字符串</td>
+</tr>
+</tbody></table>
+<h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><table>
+<thead>
+<tr>
+<th align="left">返回值</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>static String</code></td>
+<td><code>probeContentType(Path path)</code>  <br>探测文件的内容类型。</td>
+</tr>
+<tr>
+<td align="left"><code>static Stream&lt;Path&gt;</code></td>
+<td><code>list(Path dir)</code>  <br>返回一个懒惰的填充 <code>Stream</code> ，其元素是 <code>Stream</code>中的条目。</td>
+</tr>
+<tr>
+<td align="left"><code>static Stream&lt;Path&gt;</code></td>
+<td><code>walk(Path start, FileVisitOption... options)</code>  <br>返回一个 <code>Stream</code> ，它通过  <code>Path</code>根据给定的起始文件的文件树懒惰地填充 <code>Path</code> 。</td>
+</tr>
+<tr>
+<td align="left"><code>static Stream&lt;Path&gt;</code></td>
+<td><code>walk(Path start, int maxDepth, FileVisitOption... options)</code>  <br>返回一个 <code>Stream</code> ，它是通过走根据给定的起始文件的文件树懒惰地填充  <code>Path</code> 。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>walkFileTree(Path start, FileVisitor&lt;? super Path&gt; visitor)</code>  <br>走一个文件树。</td>
+</tr>
+<tr>
+<td align="left"><code>static Path</code></td>
+<td><code>walkFileTree(Path start, Set&lt;FileVisitOption&gt; options,  int maxDepth, FileVisitor&lt;? super Path&gt; visitor)</code>  <br>走一个文件树。</td>
+</tr>
+<tr>
+<td align="left"><code>static Stream&lt;Path&gt;</code></td>
+<td><code>find(Path start, int maxDepth, BiPredicate&lt;Path,BasicFileAttributes&gt; matcher,  FileVisitOption... options)</code>  <br>返回一个 <code>Stream</code> ，它通过搜索基于给定起始文件的文件树中的文件来懒惰地填充  <code>Path</code> 。</td>
+</tr>
+</tbody></table>
+<h4 id="Path-amp-Paths"><a href="#Path-amp-Paths" class="headerlink" title="Path&amp;Paths"></a>Path&amp;Paths</h4><blockquote>
+<p>建议复制下面代码跑一遍初略阅读，即可明白各个方法的含义</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Path;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IOAPI</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// path1: C:\Users\Askia\Desktop\IOAPI.java</span></span><br><span class="line">		<span class="comment">// path2: C:\Users\Askia\Desktop\git-cheat-sheet.pdf</span></span><br><span class="line">		</span><br><span class="line">		Path path1 = Paths.get(<span class="string">&quot;C:&quot;</span>,<span class="string">&quot;\\Users&quot;</span>,<span class="string">&quot;\\Askia&quot;</span>,<span class="string">&quot;\\Desktop&quot;</span>, <span class="string">&quot;\\IOAPI.java&quot;</span>);</span><br><span class="line">		Path path2 = Paths.get(<span class="string">&quot;.\\&quot;</span>,<span class="string">&quot;git-cheat-sheet.pdf&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// equals(Object other)</span></span><br><span class="line">		System.out.println(<span class="string">&quot;两个路径是否相同：&quot;</span> + path1.equals(path2));</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">&quot;path1.toString：&quot;</span> + path1.toString());</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">&quot;获取文件名：&quot;</span> + path1.getFileName().toString());</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// getName()方法index参数是要返回的名称元素的索引。 目录层次结构中最靠近根的元素具有索引0 。 离根最远的元素有索引count -1 。</span></span><br><span class="line">		System.out.println(<span class="string">&quot;获取第一靠近根的名称元素：&quot;</span> + path1.getName(<span class="number">0</span>).toString());</span><br><span class="line">		System.out.println(<span class="string">&quot;获取第二靠近根的名称元素：&quot;</span> + path1.getName(<span class="number">1</span>).toString());</span><br><span class="line">		System.out.println(<span class="string">&quot;获取第三靠近根的名称元素：&quot;</span> + path1.getName(<span class="number">2</span>).toString());</span><br><span class="line">		System.out.println(<span class="string">&quot;获取第四靠近根的名称元素：&quot;</span> + path1.getName(<span class="number">3</span>).toString());</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// getNameCount()方法如果此路径仅表示根组件，返回0</span></span><br><span class="line">		System.out.println(<span class="string">&quot;获取名称元素总数量：&quot;</span> + path1.getNameCount());</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">&quot;获取父路径：&quot;</span> + path1.getParent().toString());</span><br><span class="line">	</span><br><span class="line">		System.out.println(<span class="string">&quot;获取根路径：&quot;</span> + path1.getRoot().toString());</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">&quot;path1是否为绝对路径：&quot;</span> + path1.isAbsolute());</span><br><span class="line">		System.out.println(<span class="string">&quot;path2是否为绝对路径：&quot;</span> + path2.isAbsolute());</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">&quot;消除C:\\Users\\..\\Askia\\.\\Desktop\\..\\IOAPI.java路径的冗余名称元素：&quot;</span>+Paths.get(<span class="string">&quot;C:\\Users\\..\\Askia\\.\\Desktop\\..\\IOAPI.java&quot;</span>).normalize());</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// relativize比较的必须是同一个根</span></span><br><span class="line">		<span class="comment">/*</span></span><br><span class="line"><span class="comment">			API说明：</span></span><br><span class="line"><span class="comment">			该方法尝试构建一个relative路径，当路径resolved针对该路径生成与给定路径相同的文件路径。 例如，在UNIX上，如果此路径为&quot;/a/b&quot; ，给定路径为&quot;/a/b/c/d&quot;则相应的路径为&quot;c/d&quot; 。 在此路径和给定路径中没有root组件的情况下，可以构建相对路径。 如果只有一个路径具有根组件,而另外一个没有根组件，则不能构造相对路径。 如果两个路径都有一个根组件，那么如果可以构造一个相对路径，那么它是依赖于实现的。 如果此路径和给定路径为equal，则返回空路径 </span></span><br><span class="line"><span class="comment">		*/</span></span><br><span class="line">		System.out.println(<span class="string">&quot;在path1路径中表示path2路径(相当于参数-path1)：&quot;</span> + path1.relativize(Paths.get(<span class="string">&quot;C:\\Users\\&quot;</span>)));</span><br><span class="line">        </span><br><span class="line">		<span class="comment">/*</span></span><br><span class="line"><span class="comment">			API说明：</span></span><br><span class="line"><span class="comment">			如果参数是绝对路径，则返回绝对路径,否则，返回连接后的路径</span></span><br><span class="line"><span class="comment">		*/</span></span><br><span class="line">		System.out.println(<span class="string">&quot;path1连接path2：&quot;</span> + path1.resolve(path2));</span><br><span class="line">        </span><br><span class="line">		<span class="comment">/*</span></span><br><span class="line"><span class="comment">			API说明：</span></span><br><span class="line"><span class="comment">			如果参数是绝对路径，则返回绝对路径,否则，返回连接后的路径</span></span><br><span class="line"><span class="comment">		*/</span></span><br><span class="line">		System.out.println(<span class="string">&quot;path1的父路径连接path2：&quot;</span> + path1.resolveSibling(<span class="string">&quot;newIOAPI.java&quot;</span>));</span><br><span class="line">        </span><br><span class="line">		System.out.println(<span class="string">&quot;取名称元素1-3（不包括3）为子路径：&quot;</span>+path1.subpath(<span class="number">1</span>,<span class="number">3</span>));</span><br><span class="line">        </span><br><span class="line">		System.out.println(<span class="string">&quot;返回path2的绝对路径：&quot;</span>+path2.toAbsolutePath());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">两个路径是否相同：false</span><br><span class="line">path1.toString：C:\Users\Askia\Desktop\IOAPI.java</span><br><span class="line">获取文件名：IOAPI.java</span><br><span class="line">获取第一靠近根的名称元素：Users</span><br><span class="line">获取第二靠近根的名称元素：Askia</span><br><span class="line">获取第三靠近根的名称元素：Desktop</span><br><span class="line">获取第四靠近根的名称元素：IOAPI.java</span><br><span class="line">获取名称元素总数量：4</span><br><span class="line">获取父路径：C:\Users\Askia\Desktop</span><br><span class="line">获取根路径：C:\</span><br><span class="line">path1是否为绝对路径：true</span><br><span class="line">path2是否为绝对路径：false</span><br><span class="line">消除C:\Users\..\Askia\.\Desktop\..\IOAPI.java路径的冗余名称元素：C:\Askia\IOAPI.java</span><br><span class="line">在path1路径中表示path2路径(相当于参数-path1)：..\..\..</span><br><span class="line">path1连接path2：C:\Users\Askia\Desktop\IOAPI.java\.\git-cheat-sheet.pdf</span><br><span class="line">path1的父路径连接path2：C:\Users\Askia\Desktop\newIOAPI.java</span><br><span class="line">取名称元素1-3（不包括3）为子路径：Askia\Desktop</span><br><span class="line">返回path2的绝对路径：C:\Users\Askia\Desktop\.\git-cheat-sheet.pdf</span><br></pre></td></tr></table></figure>
+
+<h4 id="Files-1"><a href="#Files-1" class="headerlink" title="Files"></a>Files</h4><h5 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建的目录,注意假设创建的目录为C:\windows\file\tempfile,则C:\windows\file目录必须是已经存在的，否则会抛出异常。</span></span><br><span class="line">Files.createDirectory(path);	</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以创建任意目录，即便父目录不存在也可以一并创建</span></span><br><span class="line">Files.createDirectories(path);</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建文件"><a href="#创建文件" class="headerlink" title="创建文件"></a>创建文件</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建文件直接调用createFile()方法如果文件已存在会抛出异常，因此最好的创建方式如下:</span></span><br><span class="line"><span class="keyword">if</span>(Files.notExists(path))&#123;</span><br><span class="line">	Files.createFile(path);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 注意不能用exists方法！noExist只能判断出文件不存在，exists只能判断出文件存在，这两个方法返回false的时候没法判断文件存在/不存在，还有一种不能确定的可能！！！</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="创建临时目录、临时文件"><a href="#创建临时目录、临时文件" class="headerlink" title="创建临时目录、临时文件"></a>创建临时目录、临时文件</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Path tmpFile1 = Files.createTempFile(<span class="string">&quot;C:\\temp\\&quot;</span>, <span class="string">&quot;wif23idah312s&quot;</span>, <span class="string">&quot;.txt&quot;</span>); <span class="comment">// C:\temp\wif23idah312s.txt</span></span><br><span class="line">Path tmpFile2 = Files.createTempFile(<span class="string">&quot;wif23idah312s&quot;</span>, <span class="string">&quot;.txt&quot;</span>);	<span class="comment">//	%temp%\wif23idah312s.txt</span></span><br><span class="line">Path tmpDir1 = Files.createTempDirectory(<span class="string">&quot;C:\\temp\\&quot;</span>, <span class="string">&quot;wif23idah312s&quot;</span>)	 <span class="comment">// C:\temp\wif23idah312s\</span></span><br><span class="line">Path tmpDir2 = Files.createTempDirectory(<span class="string">&quot;wif23idah312s&quot;</span>);		<span class="comment">// %temp%\wif23idah312s\</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="复制、移动和删除文件"><a href="#复制、移动和删除文件" class="headerlink" title="复制、移动和删除文件"></a>复制、移动和删除文件</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Files.copy(frompath, topath);	<span class="comment">// 复制文件，若文件已存在则抛出异常</span></span><br><span class="line">Files.move(frompath, topath);	<span class="comment">// 复制文件，若文件已存在则抛出异常</span></span><br></pre></td></tr></table></figure>
+
+<p>最后的参数为选项（枚举类<code>StandardCopyOption</code>）</p>
+<p>对于复制：</p>
+<ul>
+<li>StandardCopyOption.REPLACE_EXISTING：复制若已存在，则覆盖文件。</li>
+<li>StandardCopyOption.COPY_ATTRIBUTES：复制所有文件属性</li>
+</ul>
+<p>对于移动：</p>
+<ul>
+<li>StandardCopyOption.ATOMIC_MOVE：原子性移动，保证要么移动成功，要么源文件继续留在原地</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Files.copy(frompath, topath, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES);	</span><br><span class="line">Files.move(frompath, topath, StandardCopyOption.ATOMIC_MOVE);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Files.delete(path);	//直接删除文件，该文件已知存在！</span><br><span class="line">Files.deleteIfExists(path);	//如果文件存在删除文件！</span><br></pre></td></tr></table></figure>
+
+<h5 id="简单读写"><a href="#简单读写" class="headerlink" title="简单读写"></a>简单读写</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">byte</span>[] bytes = Files.readAllBytes(path);</span><br><span class="line"><span class="keyword">var</span> content = Files.readString(path, charset);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>部分方法可能要涉及到<code>OpenOption</code>选项（<code>StandardOpenOption</code>枚举类）下面给出可用的选项：</p>
+<ul>
+<li><p>StandardOpenOption.WRITE：覆盖在原有内容上写</p>
+</li>
+<li><p>StandardOpenOption.APPEND：追加写</p>
+</li>
+<li><p>StandardOpenOption.TRUNCATE_EXISTING：清空内容再写</p>
+</li>
+</ul>
+<h2 id="输入输出流、字节读写与字符串读写"><a href="#输入输出流、字节读写与字符串读写" class="headerlink" title="输入输出流、字节读写与字符串读写"></a>输入输出流、字节读写与字符串读写</h2><h3 id="输入输出字节流"><a href="#输入输出字节流" class="headerlink" title="输入输出字节流"></a>输入输出字节流</h3><p>在JavaAPI中，<strong>可以从其中读入一个字节序列的对象为输入流，可以从其中写出一个字节序列的对象为输出流。</strong></p>
+<p>**抽象类<code>InputStream</code>和<code>OutputStream</code>**构成了基本的I/O结构，Java拥有一个流家族来满足不同的需求。(建议看不清的同学,把图单独放大看！)</p>
+<img src="/2021/08/12/Java/JavaIO%E6%B5%81/javaio.bmp" alt="javaio" style="zoom: 200%;">
+
+<p>Java对于流采用了一种嵌套的方式进行处理，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FileInputStream fisStream = <span class="keyword">new</span> FileInputStream(<span class="string">&quot;C:\\1.txt&quot;</span>);</span><br><span class="line">StringBufferInputStream sbis = <span class="keyword">new</span> StringBufferInputStream(fisStream);	<span class="comment">// FileInputStream --&gt;StringBufferInputStream</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="InputStream-amp-OutputStream"><a href="#InputStream-amp-OutputStream" class="headerlink" title="InputStream&amp;OutputStream"></a>InputStream&amp;OutputStream</h4><p>InputStream是所有输入类的抽象父类，该类定义了：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span></span>;						<span class="comment">// 读入一个字节，并返回，碰到输入流结尾返回-1，所有子类必须重写该方法。</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span>[] b)</span></span>;						<span class="comment">// 读入一个字节数组，返回实际读入的字节数</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span>[] b, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span></span>;	<span class="comment">// 读入一个字节数组，从off开始，长度len，返回实际读入的字节数</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">byte</span>[] readAllBytes();					<span class="comment">// 读入当前流中的所有字节</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">transferTo</span><span class="params">(OutputStream out)</span></span>;		<span class="comment">// 将该输入流的字节抛给输出流，返回实际抛给的字节数</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">skip</span><span class="params">(<span class="keyword">long</span> n)</span></span>;						<span class="comment">// 跳过n个字节</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">available</span><span class="params">()</span>									<span class="comment">// 返回不阻塞的情况下可获取的字节数</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">close</span><span class="params">()</span>									<span class="comment">// 关闭这个输入流</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">markSupported</span><span class="params">()</span>					<span class="comment">// 如果这个流支持打标记，则返回true</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">mark</span><span class="params">(<span class="keyword">int</span> readlimit)</span></span>;				<span class="comment">// 对当前位置readlimit打标记，如果已经读入的字节超过readlimit，则忽略标记</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span>								<span class="comment">// 返回最后一次标记的地方继续读取数据</span></span></span><br></pre></td></tr></table></figure>
+
+<p>其他的API都已经很明确用途了，这里只讲一个<code>available()</code></p>
+<p>read()、Write()执行都会阻塞，直至字节确实被读入或者写出了。通俗点说，<strong>在操作流的时候，流是不能说访问就访问的，要等到流中确实有字节了，才可以真正访问</strong>，特别在<strong>网络连接繁忙的环境中</strong>，字节被放进流里面<strong>可能需要很长时间</strong>，因此程序可能会<strong>停下来等待</strong>。使用<code>available()</code>则可以进一步解决这个问题。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">int byteAvailable = in.available();			// 读入可访问的字节数</span><br><span class="line">if(byteAvailable &gt; 0)&#123;						// 如果有字节，读入，没有则先不读，把控制权交还给程序</span><br><span class="line">	byte[] d = new byte[byteAvailable];</span><br><span class="line">	in.read(d);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>OutputStream是所有输出类的抽象父类，该类定义了：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">int</span> n)</span>				<span class="comment">// 写出一个字节的数据。</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">byte</span>[] b)</span>	</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">byte</span>[] b, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> 	<span class="comment">// 写出全部字节或者部分字节到byte数组</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flush</span><span class="params">()</span>								<span class="comment">// 刷新输出流</span></span></span><br></pre></td></tr></table></figure>
+
+<h4 id="InputStream子类"><a href="#InputStream子类" class="headerlink" title="InputStream子类"></a>InputStream子类</h4><h5 id="FileInputStream"><a href="#FileInputStream" class="headerlink" title="FileInputStream"></a>FileInputStream</h5><p>创建一个能从文件读取字节的<code>InputStream</code>类</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FileInputStream(String name)</span><br><span class="line">FileInputStream(File file)</span><br></pre></td></tr></table></figure>
+
+<p>append：如果参数为true，对于任何数据都将被添加到文件尾，而且具有相同名字的已有文件不会被删除，false时删除全部具有相同名字的文件。</p>
+<h5 id="BufferedInputStream"><a href="#BufferedInputStream" class="headerlink" title="BufferedInputStream"></a>BufferedInputStream</h5><p>创建一个带缓冲区的流对象，流默认是不带缓冲区的，因此，对于read方法的调用，都会直接向系统申请分发字节。如果把一个数据块放在一个缓冲区中，每次读取从缓冲区中读取，这样可以减少直接访问系统而引起的中断次数，效率更高。要使用缓冲机制，需要使用类似于嵌套流的方式：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> din = <span class="keyword">new</span> DataInputStream(<span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(file)));</span><br></pre></td></tr></table></figure>
+
+<p>正如上文所说，Java采用一种组合流的方法，赋予一个流多种属性。如上面的是带缓冲区的二进制数据输入流。</p>
+<h5 id="PushbackInputStream"><a href="#PushbackInputStream" class="headerlink" title="PushbackInputStream"></a>PushbackInputStream</h5><p>创建一个可以回推字节的输入流。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> bin = <span class="keyword">new</span> PushbackInputStream(<span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>)));</span><br><span class="line"><span class="keyword">int</span> b = bin.read();</span><br><span class="line"><span class="keyword">if</span>(b != <span class="string">&#x27;&gt;&#x27;</span>)&#123;</span><br><span class="line">	bin.unread(b);			<span class="comment">// 回退字节到流</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="组合流"><a href="#组合流" class="headerlink" title="组合流"></a>组合流</h6><p>如果想要一个既可以推回又可以写出二进制数据的流，可参考：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">PushbackInputStream pbin;</span><br><span class="line"><span class="keyword">var</span> bin = <span class="keyword">new</span> DataInputStream(</span><br><span class="line">    pbin =  = <span class="keyword">new</span> PushbackInputStream(</span><br><span class="line">        <span class="keyword">new</span> BufferedInputStream(</span><br><span class="line">            <span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>)</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="OutputStream子类"><a href="#OutputStream子类" class="headerlink" title="OutputStream子类"></a>OutputStream子类</h4><h5 id="FileOutputStream"><a href="#FileOutputStream" class="headerlink" title="FileOutputStream"></a>FileOutputStream</h5><p>创建一个写出字节到文件的<code>outputStream</code>类</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FileOutputStream(String name)</span><br><span class="line">FileOutputStream(String name, boolean append)</span><br><span class="line">FileOutputStream(File file)</span><br><span class="line">FileOutputStream(File file, boolean append)</span><br></pre></td></tr></table></figure>
+
+<p>append：如果参数为true，对于任何数据都将被添加到文件尾，而且具有相同名字的已有文件不会被删除，false时删除全部具有相同名字的文件。</p>
+<h5 id="BufferedOutputStream"><a href="#BufferedOutputStream" class="headerlink" title="BufferedOutputStream"></a>BufferedOutputStream</h5><p>创建一个带缓冲区的输出流，带缓冲区的输出流在填入数据时，不必每次都访问设备，当缓冲区填满或者刷新之后<code>（flush()）</code>，数据就被写出。</p>
+<h3 id="字符串读写类"><a href="#字符串读写类" class="headerlink" title="字符串读写类"></a>字符串读写类</h3><p>Java对Unicode文本字符串读写采用的是<code>Reader</code>和<code>Writer</code>抽象类：</p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/javaReader&Writer.png" alt="javaReader&amp;Writer"></p>
+<h3 id="字符串读写"><a href="#字符串读写" class="headerlink" title="字符串读写"></a>字符串读写</h3><h4 id="文本读写"><a href="#文本读写" class="headerlink" title="文本读写"></a>文本读写</h4><p>如何进行文件的读写呢？对于流来说处理的东西都是人没法直接看懂的字节流，如何将人能看懂的文本进行简单的读写，本小节来讨论。</p>
+<p>首先如何读一个文件中的文本呢？java采用相同的组合过滤器的解决方案：对于任意的流数据，可以通过<code>InputStreamReader</code>类来转换为文本的<code>Reader</code>，在转换过程中，可以指定编码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">InputStreamReader strin = <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>), StandardCharsets.UTF_8);</span><br><span class="line">InputStreamReader strin = <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>然后，如何读写文本呢？如今最常用的是使用<code>Scanner</code>类，对于早期的Java提供的一个<code>BufferedReader</code>配合<code>InputStreamReader</code>来读入文本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">InputStream inp = ...;</span><br><span class="line">try(var in = new BufferedReader(new InputStreamReader(inp,StandardCharset.UTF_8)))&#123;</span><br><span class="line">	String line;</span><br><span class="line">	while((line = in.readLine())!=null)&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于Scanner类读入文本，这里单独介绍：</p>
+<h5 id="Scanner"><a href="#Scanner" class="headerlink" title="Scanner"></a>Scanner</h5><p>作为一个处理输入的类，提供了简单的对字符串、对数字的输入处理，对于该类的构造，常用的方式如下;</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Scanner sc = new Scanner(InputStream);</span><br><span class="line">Scanner sc = new Scanner(InputStream, charset);</span><br></pre></td></tr></table></figure>
+
+<h6 id="对于字符串输入"><a href="#对于字符串输入" class="headerlink" title="对于字符串输入"></a>对于字符串输入</h6><p>对于字符串输入，主要有hasNext()、hasNextLine()、next()、nextLine()方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line"> </span><br><span class="line">public class ScannerDemo &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Scanner scan = new Scanner(System.in);</span><br><span class="line">        // 从键盘接收数据</span><br><span class="line"> </span><br><span class="line">        // nextLine方式接收字符串</span><br><span class="line">        System.out.println(&quot;nextLine方式接收：&quot;);</span><br><span class="line">        // 判断是否还有输入</span><br><span class="line">        if (scan.hasNextLine()) &#123;</span><br><span class="line">            String str2 = scan.nextLine();</span><br><span class="line">            System.out.println(&quot;输入的数据为：&quot; + str2);</span><br><span class="line">        &#125;</span><br><span class="line">        scan.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于next()、nextLine()区别：</p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210328200509649.png" alt="image-20210328200509649"></p>
+<h6 id="对于数字输入"><a href="#对于数字输入" class="headerlink" title="对于数字输入"></a>对于数字输入</h6><p>对于数字的输入，主要有hasNextXXX()、nextXXX()</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line"> </span><br><span class="line">public class ScannerDemo &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Scanner scan = new Scanner(System.in);</span><br><span class="line">        // 从键盘接收数据</span><br><span class="line">        int i = 0;</span><br><span class="line">        float f = 0.0f;</span><br><span class="line">        System.out.print(&quot;输入整数：&quot;);</span><br><span class="line">        if (scan.hasNextInt()) &#123;</span><br><span class="line">            // 判断输入的是否是整数</span><br><span class="line">            i = scan.nextInt();</span><br><span class="line">            // 接收整数</span><br><span class="line">            System.out.println(&quot;整数数据：&quot; + i);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 输入错误的信息</span><br><span class="line">            System.out.println(&quot;输入的不是整数！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.print(&quot;输入小数：&quot;);</span><br><span class="line">        if (scan.hasNextFloat()) &#123;</span><br><span class="line">            // 判断输入的是否是小数</span><br><span class="line">            f = scan.nextFloat();</span><br><span class="line">            // 接收小数</span><br><span class="line">            System.out.println(&quot;小数数据：&quot; + f);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 输入错误的信息</span><br><span class="line">            System.out.println(&quot;输入的不是小数！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        scan.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后，对于写出文本，可以使用Writer类中的<code>PrintWriter</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PrintWriter pw = new PrintWriter(&quot;file.txt&quot;, StandardCharset.UTF_8);</span><br><span class="line">pw.print(&quot;abc&quot;);</span><br><span class="line">pw.println(&quot;abc&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>对于<code>PrintWriter</code>常用的方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PrintWriter(Writer out)</span><br><span class="line">PrintWriter(String filepath, String charset)</span><br><span class="line">PrintWriter(File file, String charset)</span><br><span class="line">// 常用的方法</span><br><span class="line"></span><br><span class="line">print(Object obj);该方法将调用obj的toString()</span><br><span class="line">println();</span><br><span class="line">print();</span><br><span class="line">printf(String fomat, object ...args);</span><br></pre></td></tr></table></figure>
+
+<h4 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h4><h3 id="二进制文件读写"><a href="#二进制文件读写" class="headerlink" title="二进制文件读写"></a>二进制文件读写</h3><h3 id="文件随机访问"><a href="#文件随机访问" class="headerlink" title="文件随机访问"></a>文件随机访问</h3><h2 id="ZIP文档"><a href="#ZIP文档" class="headerlink" title="ZIP文档"></a>ZIP文档</h2><h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p>所谓序列化，<strong>即为将对象写出输出流中，在特定的时期再将其读回</strong>，序列的一种用法是将对象保存在磁盘文件中，在必要的时候，通过读入文件的方法重新加载对象，这样在服务器等内存资源比较有限的场合可以达到减轻内存负担的效果。</p>
+<h3 id="保存对象和加载对象"><a href="#保存对象和加载对象" class="headerlink" title="保存对象和加载对象"></a>保存对象和加载对象</h3><p>要保存一个对象(序列化)，需要：</p>
+<ol>
+<li>首先打开一个<code>ObjectOutputStream</code>对象：</li>
+<li>调用<code>writeObject()</code>s</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> harry = <span class="keyword">new</span> Employee();</span><br><span class="line"><span class="keyword">var</span> out = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">&quot;file.txt&quot;</span>));</span><br><span class="line">out.writeObject(harry);</span><br></pre></td></tr></table></figure>
+
+<p>要加载一个对象，则需要：</p>
+<ol>
+<li>打开一个ObjectInputStream</li>
+<li>调用<code>readObject()</code></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> in = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>));</span><br><span class="line"><span class="keyword">var</span> harry = (Employee)in.readObject();</span><br></pre></td></tr></table></figure>
+
+<p>并且，能够序列化的类都要实现标记接口<code>Serializable</code>！！！</p>
+<h4 id="对引用字段的处理"><a href="#对引用字段的处理" class="headerlink" title="对引用字段的处理"></a>对引用字段的处理</h4><h3 id="序列化文件格式"><a href="#序列化文件格式" class="headerlink" title="序列化文件格式"></a>序列化文件格式</h3><h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><h3 id="ZIP文件系统"><a href="#ZIP文件系统" class="headerlink" title="ZIP文件系统"></a>ZIP文件系统</h3><h2 id="内存映射文件"><a href="#内存映射文件" class="headerlink" title="内存映射文件"></a>内存映射文件</h2><h2 id="文件加锁"><a href="#文件加锁" class="headerlink" title="文件加锁"></a>文件加锁</h2><h2 id="关于Close方法"><a href="#关于Close方法" class="headerlink" title="关于Close方法"></a>关于Close方法</h2><p><code>javaIO</code>流家族采用装饰模式来设计，因此在调用<code>close()</code>的时候，实际上是调用被装饰对象的<code>close()</code>，因此理论上关闭的顺序没有约定！因为<code>close()</code>方法允许多次调用（当然也有特例，后面讲！），因为规定关闭先前关闭的流没有任何效果。</p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601181038674.png" alt="image-20210601181038674"></p>
+<p>然后，我们再细看<code>close()</code>方法</p>
+<p>对于<code>BufferedInoutStream</code></p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601181216077.png" alt="image-20210601181216077"></p>
+<p>DataInputStream类：</p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601181248404.png" alt="image-20210601181248404"></p>
+<p>其中<code>in</code>为装饰对象，在这里为<code>inputstream</code>，可见实际上底层还是调用顶层的<code>close()</code>，因此我们还可以直接调用<code>inputstream.close()</code>，而无需调用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dataInputStream.close();</span><br><span class="line">bufferedInputStream.close();</span><br></pre></td></tr></table></figure>
+
+<p>但有例外，比如以下代码会抛出异常：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">OutputStreamWriter writer = new OutputStreamWriter(System.out);</span><br><span class="line">BufferedWriter writer1 = new BufferedWriter(writer);</span><br><span class="line">PrintWriter writer2 = new PrintWriter(writer1);</span><br><span class="line">writer2.close();</span><br><span class="line">writer1.close();</span><br><span class="line">writer.close();</span><br></pre></td></tr></table></figure>
+
+<p>原因在于<code>BufferedWriter writer1</code>，看一下他的<code>close()</code></p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601182024659.png" alt="image-20210601182024659"></p>
+<p>其中的flushBuffer()方法：</p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601182110249.png" alt="image-20210601182110249"></p>
+<p>这里需要写空缓冲，因此抛出异常的原因知道了，当我们调用<code>writer2.close()</code>没实际上流已经关闭，但是再次调用<code>writer1.close()</code>会运行上面的<code>out.write()</code>，由于流已经关闭，因此会抛出异常。</p>
+<p>这一类情况一般发生在BufferedWriter或Writer中，因此关闭流要优先关闭这一类流。</p>
+]]></content>
+      <tags>
+        <tag>java_core</tag>
+        <tag>java_features</tag>
+        <tag>java_lib</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>about</title>
+    <url>/about/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>archives</title>
+    <url>/archives/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>categories</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+</search>

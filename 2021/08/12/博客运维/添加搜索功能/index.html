@@ -20,19 +20,25 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
+  <meta name="description" content="基于next + hexo-generator-searchdb的搜索功能">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://example.com/2021/08/11/hello-world/index.html">
+<meta property="og:title" content="添加搜索功能">
+<meta property="og:url" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/index.html">
 <meta property="og:site_name" content="Askia的学习笔记">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
+<meta property="og:description" content="基于next + hexo-generator-searchdb的搜索功能">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-08-11T02:57:54.288Z">
-<meta property="article:modified_time" content="2021-08-11T09:13:43.564Z">
+<meta property="og:image" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101118677.png">
+<meta property="og:image" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101256981.png">
+<meta property="og:image" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812104330740.png">
+<meta property="article:published_time" content="2021-08-12T02:00:28.000Z">
+<meta property="article:modified_time" content="2021-08-12T02:43:31.961Z">
 <meta property="article:author" content="Askia">
+<meta property="article:tag" content="hexo_优化">
+<meta property="article:tag" content="hexo_添加">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101118677.png">
 
-<link rel="canonical" href="http://example.com/2021/08/11/hello-world/">
+<link rel="canonical" href="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/">
 
 
 <script id="page-configurations">
@@ -45,7 +51,7 @@
   };
 </script>
 
-  <title>Hello World | Askia的学习笔记</title>
+  <title>添加搜索功能 | Askia的学习笔记</title>
   
 
 
@@ -194,7 +200,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/11/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -207,7 +213,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hello World
+          添加搜索功能
         </h1>
 
         <div class="post-meta">
@@ -218,7 +224,16 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-08-11 10:57:54 / 修改时间：17:13:43" itemprop="dateCreated datePublished" datetime="2021-08-11T10:57:54+08:00">2021-08-11</time>
+              <time title="创建时间：2021-08-12 10:00:28 / 修改时间：10:43:31" itemprop="dateCreated datePublished" datetime="2021-08-12T10:00:28+08:00">2021-08-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">博客运维</span></a>
+                </span>
             </span>
 
           
@@ -232,21 +247,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<span id="more"></span>
+        <h2 id="基于next-hexo-generator-searchdb的搜索功能"><a href="#基于next-hexo-generator-searchdb的搜索功能" class="headerlink" title="基于next + hexo-generator-searchdb的搜索功能"></a>基于next + hexo-generator-searchdb的搜索功能</h2><span id="more"></span>
 
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h2><p>在博客根目录下，启动git bash，键入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>如果添加了淘宝源，键入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h2 id="修改博客和主题的-config-yml"><a href="#修改博客和主题的-config-yml" class="headerlink" title="修改博客和主题的__config.yml"></a>修改博客和主题的__config.yml</h2><h3 id="博客的-config-yml"><a href="#博客的-config-yml" class="headerlink" title="博客的__config.yml"></a>博客的__config.yml</h3><p>在配置文件末尾添加：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101118677.png" alt="image-20210812101118677"></p>
+<p>其中这些参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">path：表示搜索后生成的文件路径，可以生成xml和json两种格式；将path设置为“content.json”就可以替代第二个插件。</span><br><span class="line">field：表示搜索的范围，有“post、page和all”三种值。</span><br><span class="line">    post：所有的文章；</span><br><span class="line">    page：所有顶部导航选项的页面；</span><br><span class="line">    all：所有的文章和顶部导航选项的页面。</span><br><span class="line">content：是否包含搜索到的文章的全部内容。如果false，生成的结果只包括标题和创建时间这些信息，没有文章主体。默认情况下是true.</span><br><span class="line">format：搜索到的内容、选项的格式。</span><br><span class="line">    html(默认)：将html原文本缩略。</span><br><span class="line">    striptags：将html原文本缩略，并删除所有标记。</span><br><span class="line">    raw：记下每一篇文章或每一页的文字。</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h3 id="主题的-config-yml"><a href="#主题的-config-yml" class="headerlink" title="主题的__config.yml"></a>主题的__config.yml</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101256981.png" alt="image-20210812101256981"></p>
+<p>当然<code>enable</code>后面的东西可以自行修改。</p>
+<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812104330740.png" alt="image-20210812104330740"></p>
 
     </div>
 
@@ -255,6 +271,10 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/hexo-%E4%BC%98%E5%8C%96/" rel="tag"># hexo_优化</a>
+              <a href="/tags/hexo-%E6%B7%BB%E5%8A%A0/" rel="tag"># hexo_添加</a>
+          </div>
 
         
 
@@ -262,12 +282,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/" rel="prev" title="hexo博客绑定个人域名">
-      <i class="fa fa-chevron-left"></i> hexo博客绑定个人域名
+    <a href="/2021/08/12/Java/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" rel="prev" title="Java反射机制">
+      <i class="fa fa-chevron-left"></i> Java反射机制
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/" rel="next" title="解决hexo部署到github上图片无法显示问题">
-      解决hexo部署到github上图片无法显示问题 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/08/12/Java/JavaIO%E6%B5%81/" rel="next" title="Java IO">
+      Java IO <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -332,7 +352,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Enext-hexo-generator-searchdb%E7%9A%84%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD"><span class="nav-number">1.</span> <span class="nav-text">基于next + hexo-generator-searchdb的搜索功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%8F%92%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">添加插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%8D%9A%E5%AE%A2%E5%92%8C%E4%B8%BB%E9%A2%98%E7%9A%84-config-yml"><span class="nav-number">3.</span> <span class="nav-text">修改博客和主题的__config.yml</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%9A%E5%AE%A2%E7%9A%84-config-yml"><span class="nav-number">3.1.</span> <span class="nav-text">博客的__config.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E9%A2%98%E7%9A%84-config-yml"><span class="nav-number">3.2.</span> <span class="nav-text">主题的__config.yml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E5%8A%9F%E5%91%8A%E6%88%90"><span class="nav-number">4.</span> <span class="nav-text">大功告成</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="写下这篇博客，主要用于记录自己搭建博客过程，以后重装系统后有一个参考的恢复方向（已经干掉重新来了好几次，每次都要找资料，猝），而且，不得不说，windows系统，C盘没100G真的用不了多久，不知道是不是只有我是这样！！😭😭😭😭">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo恢复搭建">
+<meta property="og:url" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="Askia的学习笔记">
+<meta property="og:description" content="写下这篇博客，主要用于记录自己搭建博客过程，以后重装系统后有一个参考的恢复方向（已经干掉重新来了好几次，每次都要找资料，猝），而且，不得不说，windows系统，C盘没100G真的用不了多久，不知道是不是只有我是这样！！😭😭😭😭">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402190136280.png">
+<meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402191410819.png">
+<meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201820428.png">
+<meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402214646615.png">
+<meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192650539.png">
+<meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192738568.png">
+<meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402193005129.png">
+<meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402215905251.png">
+<meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20210811150819631.png">
+<meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201359207.png">
+<meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201430087.png">
+<meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201510671.png">
+<meta property="article:published_time" content="2020-02-19T05:48:19.000Z">
+<meta property="article:modified_time" content="2021-08-11T11:38:20.504Z">
+<meta property="article:author" content="Askia">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="recovery">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402190136280.png">
+
+<link rel="canonical" href="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>hexo恢复搭建 | Askia的学习笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Askia的学习笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">好好学习，天天向上</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Askia">
+      <meta itemprop="description" content="既然来了，就不要这么快走嘛~~~！嘛~~~~QAQ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Askia的学习笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hexo恢复搭建
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-19 13:48:19" itemprop="dateCreated datePublished" datetime="2020-02-19T13:48:19+08:00">2020-02-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-11 19:38:20" itemprop="dateModified" datetime="2021-08-11T19:38:20+08:00">2021-08-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">博客运维</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>写下这篇博客，主要用于记录自己搭建博客过程，以后重装系统后有一个参考的恢复方向（已经干掉重新来了好几次，每次都要找资料，猝），而且，不得不说，windows系统，C盘没100G真的用不了多久，不知道是不是只有我是这样！！😭😭😭😭</p>
+<span id="more"></span>
+
+<h2 id="2-提前准备"><a href="#2-提前准备" class="headerlink" title="2.提前准备"></a>2.提前准备</h2><p>安装 <code>Hexo</code> 相当简单，只需要先安装下列应用程序即可：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://nodejs.cn/download/">Node.js</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitforwindows.org/">Git for Windows</a></li>
+<li><a target="_blank" rel="noopener" href="https://npm.taobao.org/mirrors/git-for-windows/">Git淘宝源</a></li>
+</ul>
+<p>可以点击上面的链接进去官网下载，git下载慢的可以去淘宝源。这里我分享我目前用的版本：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://xz.w10a.com/Small/Nodejs.zip">node.js 12.14</a></li>
+<li><a target="_blank" rel="noopener" href="https://cdn.npm.taobao.org/dist/git-for-windows/v2.29.2.windows.3/Git-2.29.2.3-64-bit.exe">Git-2.29.2.3</a></li>
+</ul>
+<p>安装过程不再详细说明，简单的全选下一步就行，安装的位置自己喜欢放哪里就放哪里呗（doge）</p>
+<h2 id="3-安装npm（cnpm）"><a href="#3-安装npm（cnpm）" class="headerlink" title="3.安装npm（cnpm）"></a>3.安装npm（cnpm）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(Win+R)运行 ---&gt; cmd </span><br></pre></td></tr></table></figure>
+
+<p>查看版本：</p>
+<pre><code>node -v
+npm -v
+</code></pre>
+<p>因为国内的比较慢，所以安装淘宝源cnpm：</p>
+<pre><code>npm install -g cnpm --registry=http://registry.npm.taobao.org
+</code></pre>
+<p>若发现淘宝源下载过程中出现卡死，则最好换回原服务器：</p>
+<pre><code>npm config delete registry
+</code></pre>
+<h2 id="4-安装hexo"><a href="#4-安装hexo" class="headerlink" title="4.安装hexo"></a>4.安装hexo</h2><p>同样在cmd中安装：</p>
+<pre><code>cnpm install -g hexo-cli
+</code></pre>
+<h2 id="5-初始化hexo"><a href="#5-初始化hexo" class="headerlink" title="5.初始化hexo"></a>5.初始化hexo</h2><ol>
+<li><p>选择一个目录，用于本地部署</p>
+</li>
+<li><p>在目录里边用<code>Git bash</code>或者<code>Powershell</code>，初始化<code>hexo</code></p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>注意：如果你的<code>git</code>版本比较高，如笔者使用的<code>Git-2.31.1-64-bit</code>默认会开启服务器的SSL证书第三方机构签署认证，而<code>github</code>没有，所以可能会报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git</span><br><span class="line">fatal: unable to access </span><br><span class="line">&#x27;https://github.com/hexojs/hexo-starter.git/&#x27;: OpenSSL SSL_read: Connection was reset, errno 10054</span><br></pre></td></tr></table></figure>
+
+<p>解决方法是把SSL认证关掉：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.sslVerify &quot;false&quot;</span><br></pre></td></tr></table></figure>
+
+<p>或者如果打开了多个bash，把不用的关掉</p>
+<p>初始化完成之后使用<code>hexo g</code>、再<code>hexo s</code>，如果弹出默认主题初始页，则说明本地初始化成功了！</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402190136280.png" alt="image-20210402190136280"></p>
+<h2 id="6-部署到远端"><a href="#6-部署到远端" class="headerlink" title="6.部署到远端"></a>6.部署到远端</h2><h3 id="6-1创建SSH密钥"><a href="#6-1创建SSH密钥" class="headerlink" title="6.1创建SSH密钥"></a>6.1创建SSH密钥</h3><p>打开<code>gitbash</code>，配置本机用户名和邮箱，生成SSH密钥</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402191410819.png" alt="image-20210402191410819"></p>
+<p><strong>生成密钥过程所有的提问全部回车就行</strong></p>
+<p>生成的密钥文件放在：<code>C:\Users\（你计算机的当前用户名）\.ssh</code>中</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201820428.png" alt="image-20210402201820428"></p>
+<p><strong>其中pub结尾的为公钥，用记事本打开复制里面的所有内容</strong></p>
+<h3 id="6-2将密钥放在远端"><a href="#6-2将密钥放在远端" class="headerlink" title="6.2将密钥放在远端"></a>6.2将密钥放在远端</h3><p>注册Github或者Gitee账号，将复制的公钥添加进SSH中</p>
+<p>Setting –&gt; SSh</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402214646615.png" alt="image-20210402214646615"></p>
+<h3 id="6-3创建仓库"><a href="#6-3创建仓库" class="headerlink" title="6.3创建仓库"></a>6.3创建仓库</h3><p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192650539.png" alt="image-20210402192650539"></p>
+<p>同时勾上这个</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192738568.png" alt="image-20210402192738568"></p>
+<h3 id="6-4-配置-comfig-yml"><a href="#6-4-配置-comfig-yml" class="headerlink" title="6.4 配置_comfig.yml"></a>6.4 配置<code>_comfig.yml</code></h3><p>仓库创建好之后，复制仓库地址建议使用SSH（github、gitee都一样的操作）</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402193005129.png" alt="image-20210402193005129"></p>
+<p>打开<code>hexo</code>主目录下的<code>_comfig.yml</code>，在最后，修改：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/one-command-deployment</span><br><span class="line">deploy:</span><br><span class="line">  type: &#x27;git&#x27;</span><br><span class="line">  repo: 你刚刚复制的仓库地址</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<p>如果你打开文件只看到<code>type</code>，没有<code>repo</code>和<code>branch</code>，自己加上就行了，<strong>注意属性名和属性值之间的空格</strong>，如<code>type</code>和<code>&#39;git&#39;</code>中间是有空格的，<strong>另外type属性的两个单引号，不要去掉！！</strong></p>
+<h2 id="7-安装hexo-deployer推进远端"><a href="#7-安装hexo-deployer推进远端" class="headerlink" title="7.安装hexo deployer推进远端"></a>7.安装<code>hexo deployer</code>推进远端</h2><p>回到<code>git bash</code>或者<code>powershell</code>，安装<code>hexo deployer</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install --save hexo-deployer-git</span><br></pre></td></tr></table></figure>
+
+<p>然后推到远端：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>这一步Github可能会弹出对话框确认OpenSSH</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402215905251.png" alt="image-20210402215905251"></p>
+<p>甚至是提示登陆的窗口：</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20210811150819631.png" alt="image-20210811150819631"></p>
+<p>注意：</p>
+<p>如果遇到这种情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fatal: unable to access &#x27;https://github.com/ArgentoAskia2/ArgentoAskia2.github.io.git/&#x27;: Could not resolve host: github.com</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">error: RPC failed; curl 56 OpenSSL SSL_read: Connection was reset, errno 10054</span><br><span class="line">send-pack: unexpected disconnect while reading sideband packet</span><br></pre></td></tr></table></figure>
+
+<p>造成上面的情况有很多原因，如果是<code>github</code>，最常见就是<code>github</code>抽风了，访问不了，尝试多几次<code>hexo</code>三连就好。</p>
+<p>如果还不行的话，请运行下面的命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.proxy </span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+<p>在进行<code>hexo d</code></p>
+<h2 id="8-最后的一步"><a href="#8-最后的一步" class="headerlink" title="8.最后的一步"></a>8.最后的一步</h2><p>对于Github的朋友，你们的小窝估计已经搭好了，访问地址一般都是<strong>用户名.github.io</strong></p>
+<p>而对于Gitee的朋友，你们还需要部署GiteePage</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201359207.png" alt="image-20210402201359207"></p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201430087.png" alt="image-20210402201430087"></p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201510671.png" alt="image-20210402201510671"></p>
+<p>开启服务之后，这个就是你的博客地址啦，可以通过这个来访问！</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/hexo/" rel="tag"># hexo</a>
+              <a href="/tags/recovery/" rel="tag"># recovery</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/" rel="next" title="hexo博客绑定个人域名">
+      hexo博客绑定个人域名 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzYwNy8yNDEwNw=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%8F%90%E5%89%8D%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">2.提前准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%AE%89%E8%A3%85npm%EF%BC%88cnpm%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">3.安装npm（cnpm）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%AE%89%E8%A3%85hexo"><span class="nav-number">3.</span> <span class="nav-text">4.安装hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%88%9D%E5%A7%8B%E5%8C%96hexo"><span class="nav-number">4.</span> <span class="nav-text">5.初始化hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E9%83%A8%E7%BD%B2%E5%88%B0%E8%BF%9C%E7%AB%AF"><span class="nav-number">5.</span> <span class="nav-text">6.部署到远端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1%E5%88%9B%E5%BB%BASSH%E5%AF%86%E9%92%A5"><span class="nav-number">5.1.</span> <span class="nav-text">6.1创建SSH密钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2%E5%B0%86%E5%AF%86%E9%92%A5%E6%94%BE%E5%9C%A8%E8%BF%9C%E7%AB%AF"><span class="nav-number">5.2.</span> <span class="nav-text">6.2将密钥放在远端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3%E5%88%9B%E5%BB%BA%E4%BB%93%E5%BA%93"><span class="nav-number">5.3.</span> <span class="nav-text">6.3创建仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-%E9%85%8D%E7%BD%AE-comfig-yml"><span class="nav-number">5.4.</span> <span class="nav-text">6.4 配置_comfig.yml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E5%AE%89%E8%A3%85hexo-deployer%E6%8E%A8%E8%BF%9B%E8%BF%9C%E7%AB%AF"><span class="nav-number">6.</span> <span class="nav-text">7.安装hexo deployer推进远端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%9C%80%E5%90%8E%E7%9A%84%E4%B8%80%E6%AD%A5"><span class="nav-number">7.</span> <span class="nav-text">8.最后的一步</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Askia"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Askia</p>
+  <div class="site-description" itemprop="description">既然来了，就不要这么快走嘛~~~！嘛~~~~QAQ</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Askia</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>
