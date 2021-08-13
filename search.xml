@@ -82,6 +82,289 @@
       </tags>
   </entry>
   <entry>
+    <title>Java正则表达式</title>
+    <url>/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<p>正则表达式并非是Java固有，几乎每一门语言都有，正则表达式在匹配字符串，字符串搜索和模式匹配上一直发挥着重要的作用，因此学习正则表达式非常有必要</p>
+<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
+<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
+<ul>
+<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
+<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
+<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
+<li>……</li>
+<li><span id="more"></span></li>
+</ul>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>表达式一般以<code>/../</code>来标记为正则表达式</p>
+<h3 id="普通字符"><a href="#普通字符" class="headerlink" title="普通字符"></a>普通字符</h3><p><code>[abc]</code>:匹配a、b、c中的一个字符</p>
+<p><code>[^abc]</code>：匹配除了a、b、c之外的所有字符</p>
+<p><code>[A-Z]</code>：[A-Z] 表示一个区间，匹配所有大写字母，[a-z] 表示所有小写字母。</p>
+<p><code>.</code>：匹配除换行符（\n、\r）之外的任何单个字符，相等于<code>[^\n\r]</code></p>
+<p><code>[\s\S]</code>：匹配所有。</p>
+<p><code>[\w]</code>：匹配字母、数字、下划线。等价于 <code>[A-Za-z0-9_]</code></p>
+<p><code>\W</code>：匹配非字母、数字、下划线</p>
+<p><code>\d</code>：匹配一个数字字符。</p>
+<p><code>\D</code>：匹配一个非数字字符。</p>
+<h3 id="非打印字符"><a href="#非打印字符" class="headerlink" title="非打印字符"></a>非打印字符</h3><table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">\cx</td>
+<td align="left">匹配由x指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 ‘c’ 字符。</td>
+</tr>
+<tr>
+<td align="left">\f</td>
+<td align="left">匹配一个换页符。等价于 \x0c 和 \cL。</td>
+</tr>
+<tr>
+<td align="left">\n</td>
+<td align="left">匹配一个换行符。等价于 \x0a 和 \cJ。</td>
+</tr>
+<tr>
+<td align="left">\r</td>
+<td align="left">匹配一个回车符。等价于 \x0d 和 \cM。</td>
+</tr>
+<tr>
+<td align="left">\s</td>
+<td align="left">匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。注意 Unicode 正则表达式会匹配全角空格符。</td>
+</tr>
+<tr>
+<td align="left">\S</td>
+<td align="left">匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。</td>
+</tr>
+<tr>
+<td align="left">\t</td>
+<td align="left">匹配一个制表符。等价于 \x09 和 \cI。</td>
+</tr>
+<tr>
+<td align="left">\v</td>
+<td align="left">匹配一个垂直制表符。等价于 \x0b 和 \cK。</td>
+</tr>
+</tbody></table>
+<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><p>所谓特殊字符，就是一些有特殊含义的字符，如果需要该字符的原意思，则需要加上<code>\</code></p>
+<table>
+<thead>
+<tr>
+<th align="left">特别字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">$</td>
+<td align="left">匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 ‘\n’ 或 ‘\r’。要匹配 $ 字符本身，请使用 <code>\$</code>。</td>
+</tr>
+<tr>
+<td align="left">( )</td>
+<td align="left">标记一个子表达式的开始和结束位置。子表达式可以获取供以后使用。要匹配这些字符，请使用 <code>\(</code> 和 <code>\)</code>。</td>
+</tr>
+<tr>
+<td align="left">*</td>
+<td align="left">匹配前面的子表达式零次或多次。要匹配 * 字符，请使用 <code>\*</code>。</td>
+</tr>
+<tr>
+<td align="left">+</td>
+<td align="left">匹配前面的子表达式一次或多次。要匹配 + 字符，请使用 <code>\+</code>。</td>
+</tr>
+<tr>
+<td align="left">.</td>
+<td align="left">匹配除换行符 \n 之外的任何单字符。要匹配 . ，请使用 <code>\.</code> 。</td>
+</tr>
+<tr>
+<td align="left">[</td>
+<td align="left">标记一个中括号表达式的开始。要匹配 [，请使用 <code>\[</code>。</td>
+</tr>
+<tr>
+<td align="left">?</td>
+<td align="left">匹配前面的子表达式零次或一次，或指明一个非贪婪限定符。要匹配 ? 字符，请使用 <code>\?</code>。</td>
+</tr>
+<tr>
+<td align="left">\</td>
+<td align="left">将下一个字符标记为或特殊字符、或原义字符、或向后引用、或八进制转义符。例如， ‘n’ 匹配字符 ‘n’。’\n’ 匹配换行符。序列 ‘\‘ 匹配 “&quot;，而 ‘(‘ 则匹配 “(“。</td>
+</tr>
+<tr>
+<td align="left">^</td>
+<td align="left">匹配输入字符串的开始位置，除非在方括号表达式中使用，当该符号在方括号表达式中使用时，表示不接受该方括号表达式中的字符集合。要匹配 ^ 字符本身，请使用 <code>\^</code>。</td>
+</tr>
+<tr>
+<td align="left">{</td>
+<td align="left">标记限定符表达式的开始。要匹配 {，请使用 <code>\&#123;</code>。</td>
+</tr>
+<tr>
+<td align="left">|</td>
+<td align="left">指明两项之间的一个选择。要匹配 |，请使用 <code>|</code>。</td>
+</tr>
+</tbody></table>
+<p><strong>*<strong>和 <strong>+</strong> 限定符都是贪婪的，</strong>因为它们会尽可能多的匹配文字</strong>，只有在它们的后面加上一个 <strong>?</strong> 就可以实现非贪婪或最小匹配。</p>
+<p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210310222706753.png" alt="image-20210310222706753"></p>
+<p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210310222754435.png" alt="image-20210310222754435"></p>
+<h3 id="定位符"><a href="#定位符" class="headerlink" title="定位符"></a>定位符</h3><table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">^</td>
+<td align="left">匹配输入字符串开始的位置。如果设置了 RegExp 对象的 Multiline 属性，^ 还会与 \n 或 \r 之后的位置匹配。</td>
+</tr>
+<tr>
+<td align="left">$</td>
+<td align="left">匹配输入字符串结尾的位置。如果设置了 RegExp 对象的 Multiline 属性，$ 还会与 \n 或 \r 之前的位置匹配。</td>
+</tr>
+<tr>
+<td align="left">\b</td>
+<td align="left">匹配一个单词边界，即字与空格间的位置。加上该字符代表单词结束或者开始位置</td>
+</tr>
+<tr>
+<td align="left">\B</td>
+<td align="left">非单词边界匹配。</td>
+</tr>
+</tbody></table>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210310223659729.png" alt="image-20210310223659729"></p>
+<p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210310223717605.png" alt="image-20210310223717605"></p>
+<h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><p>用圆括号 <strong>()</strong> 将所有选择项括起来，相邻的选择项之间用 <strong>|</strong> 分隔。</p>
+<p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210310224311818.png" alt="image-20210310224311818"></p>
+<h2 id="先行断言和后行断言"><a href="#先行断言和后行断言" class="headerlink" title="先行断言和后行断言"></a>先行断言和后行断言</h2><ul>
+<li>**exp1(?=exp2)**：查找 exp2 前面的 exp1。</li>
+<li><strong>(?&lt;=exp2)exp1</strong>：查找 exp2 后面的 exp1。</li>
+<li>**exp1(?!exp2)**：查找后面不是 exp2 的 exp1。</li>
+<li><strong>(?&lt;!exp2)exp1</strong>：查找前面不是 exp2 的 exp1。</li>
+</ul>
+<p><img src="https://www.runoob.com/wp-content/uploads/2014/03/reg-111.jpg" alt="img"></p>
+<p><img src="https://www.runoob.com/wp-content/uploads/2014/03/reg-222.jpg" alt="img"></p>
+<p><img src="https://www.runoob.com/wp-content/uploads/2014/03/reg-333.jpg" alt="img"></p>
+<p><img src="https://www.runoob.com/wp-content/uploads/2014/03/reg-444.jpg" alt="img"></p>
+<h2 id="反向引用"><a href="#反向引用" class="headerlink" title="反向引用"></a>反向引用</h2><p>对一个正则表达式模式或部分模式两边添加<code>()</code>将导致相关匹配存储到一个临时缓冲区中，所捕获的每个子匹配都按照在正则表达式模式中从左到右出现的顺序存储。缓冲区编号从 1 开始，最多可存储 99 个捕获的子表达式。每个缓冲区都可以使用 <strong>\n</strong> 访问，其中 n 为一个标识特定缓冲区的一位或两位十进制数。例如表达式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(\d&#123;4&#125;)-(\d&#123;2&#125;-(\d\d))</span><br></pre></td></tr></table></figure>
+
+<p>那么临时缓冲区中捕获组就是：</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>捕获组</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>(\d{4})-(\d{2}-(\d\d))</td>
+</tr>
+<tr>
+<td>1</td>
+<td>(\d{4})</td>
+</tr>
+<tr>
+<td>2</td>
+<td>(\d{2}-(\d\d))</td>
+</tr>
+<tr>
+<td>3</td>
+<td>(\d\d)</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">([a-z][a-z])\1&#123;2&#125;</span><br><span class="line">([a-z][a-z])([a-z][a-z])\2</span><br><span class="line"></span><br><span class="line">target：aaaaaassawsaaaddddddssssssasssdwsssdasadawswewewe</span><br></pre></td></tr></table></figure>
+
+<p>对于上面的表达式的捕获组处理是：</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>捕获组</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>([a-z][a-z])\1{2}</td>
+</tr>
+<tr>
+<td>1</td>
+<td>([a-z][a-z])</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>捕获组</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>([a-z][a-z])([a-z][a-z])\2</td>
+</tr>
+<tr>
+<td>1</td>
+<td>([a-z][a-z])</td>
+</tr>
+<tr>
+<td>2</td>
+<td>([a-z][a-z])</td>
+</tr>
+</tbody></table>
+<p>对于表达式1：</p>
+<p>([a-z][a-z])：括号表达式要求匹配两个字符，例如：aa。</p>
+<p>\1{2}：反向引用捕获组编号为1的表达式当前的值2次，如果有匹配的则输出，没有匹配则设置捕获组1的下一次的值，如([a-z][a-z])匹配了aa之后，读到\1{2}时是匹配aa值两次，因此后面匹配aaaa，刚好后面有4个a，因此，匹配成功，输出：aaaaaa。（匹配ABABAB的结果，其中A，B为任意字符，并且可以相同），下面为整个表达式的结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">aaaaaa</span><br><span class="line">dddddd</span><br><span class="line">ssssss</span><br><span class="line">wewewe</span><br></pre></td></tr></table></figure>
+
+<p>对于表达式2：</p>
+<p>第一个([a-z][a-z])：括号表达式要求匹配两个字符，例如：aa。</p>
+<p>第二个([a-z][a-z])：括号表达式要求匹配两个字符，例如：aa。</p>
+<p>\2：反向引用捕获组编号为2的表达式当前值一次，为：aa</p>
+<p>因此该表达式将匹配aaaaaa（匹配XXABAB的结果，其中X、A、B为任意字符）下面为整个表达式的结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">aaaaaa</span><br><span class="line">aadddd</span><br><span class="line">ddssss</span><br><span class="line">wswewe</span><br></pre></td></tr></table></figure>
+
+<h2 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h2><p>在开篇有讲到，一般的正则表达式都是以<code>/.../</code>开头，实际上真正的格式应该是下面这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/pattern/flags</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>pattern：代表表达式</li>
+<li>flags：代表标志，常用的标志有3个（实际上有4个）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>含义</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>i</td>
+<td>ignore-不区分大小写</td>
+<td>匹配将不区分大小写</td>
+</tr>
+<tr>
+<td>g</td>
+<td>global-全局匹配</td>
+<td>默认表达式匹配到一个即停止，加上该修饰符将匹配所有匹配项</td>
+</tr>
+<tr>
+<td>m</td>
+<td>multi line - 多行匹配</td>
+<td>使边界字符 <strong>^</strong> 和 <strong>$</strong> 匹配每一行的开头和结尾，记住是多行，而不是整个字符串的开头和结尾。</td>
+</tr>
+<tr>
+<td>s</td>
+<td>特殊字符圆点 <strong>.</strong> 中包含换行符 \n</td>
+<td>默认情况下的圆点 <strong>.</strong> 是 匹配除换行符 <strong>\n</strong> 之外的任何字符，加上 <strong>s</strong> 修饰符之后, <strong>.</strong> 中包含换行符 \n。</td>
+</tr>
+</tbody></table>
+<p>其他的都比较简单，这里只说明m的用途</p>
+<p><img src="https://www.runoob.com/wp-content/uploads/2020/08/BC3E6D8A-21D2-44F8-A1AE-D90C4939D37A.jpg" alt="img"></p>
+<h2 id="运算符优先级"><a href="#运算符优先级" class="headerlink" title="运算符优先级"></a>运算符优先级</h2><p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210311182844145.png" alt="image-20210311182844145"></p>
+]]></content>
+      <categories>
+        <category>java学习笔记</category>
+      </categories>
+      <tags>
+        <tag>java_features</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java泛型</title>
     <url>/2021/08/12/Java/Java%E6%B3%9B%E5%9E%8B/</url>
     <content><![CDATA[<p>Java泛型，<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
@@ -292,52 +575,9 @@
         <category>java学习笔记</category>
       </categories>
       <tags>
-        <tag>java_core</tag>
         <tag>java_features</tag>
+        <tag>java_core</tag>
         <tag>java_lib</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo博客绑定个人域名</title>
-    <url>/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/</url>
-    <content><![CDATA[<h2 id="预备"><a href="#预备" class="headerlink" title="预备"></a>预备</h2><ul>
-<li>默认博客已经建好！</li>
-<li>默认当事人已经购买了域名，且已经实名认证。（阿里云的、百度的…都可以）</li>
-</ul>
-<p>当然没有购买域名的同学，请往这里走：<a href="https://promotion.aliyun.com/ntms/act/domainbrand.html?spm=5176.8006371.772226.domainbackorder.b46f7e63AuIXBy">阿里云域名注册</a></p>
-<p>在注册域名时，还需要通过一个真实邮箱认证模板，因此需要一个可用的邮箱！</p>
-<p>阿里云的实名认证还是很快的，说是两三个工作日内审核，但是我半个小时不到就通过了。</p>
-<span id="more"></span>
-
-<h2 id="正片开始"><a href="#正片开始" class="headerlink" title="正片开始"></a>正片开始</h2><h3 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h3><p>先进入<a href="https://dc.console.aliyun.com/next/index?spm=5176.8006371.J_8058803260.1314.54897e63e7caJc#/domain/list/all-domain">阿里云域名后台</a>，点击<img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E7%82%B9%E5%87%BB%E8%A7%A3%E6%9E%90.png" alt="点击解析"></p>
-<p>按下快捷键<code>win+R</code>打开运行，运行<code>cmd</code>，ping您建好的博客地址（若部署在github上的博客则地址就是<code>yourname.github.io</code>,实际上也是一个域名），笔者的hexo博客部署在github上，因此需要这样做：</p>
-<p>![ping github](hexo博客绑定个人域名/ping github.png)</p>
-<p>在域名解析设置添加两条记录：</p>
-<ul>
-<li>CNAME记录：设置您的github访问页</li>
-<li>A记录：刚刚ping的IP</li>
-</ul>
-<p>可以参考下笔者的设置</p>
-<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E8%AE%BE%E7%BD%AE.png" alt="设置"></p>
-<p>关于这些记录可以参考</p>
-<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5CA%E3%80%81cname.png" alt="A、cname"></p>
-<p>域名前缀可以参考：</p>
-<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5C%E4%B8%BB%E6%9C%BA%E8%AE%B0%E5%BD%95.png" alt="主机记录"></p>
-<p>就看你想要<code>www</code>、<code>@</code>还是其他了！</p>
-<h3 id="本地配置"><a href="#本地配置" class="headerlink" title="本地配置"></a>本地配置</h3><p>在<code>hexo根目录/source</code>文件夹中添加一个<code>CNAME</code>文件，注意文件无后缀，内容设置为您自己的域名：</p>
-<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/CNAME.png" alt="CNAME"></p>
-<p>保存之后。hexo三连即可！</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<h2 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h2><p>可以使用域名访问自己的博客啦！</p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>recovery</tag>
-        <tag>domain</tag>
       </tags>
   </entry>
   <entry>
@@ -447,28 +687,46 @@ npm -v
       </tags>
   </entry>
   <entry>
-    <title>hexo模板修改和使用</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
+    <title>hexo博客绑定个人域名</title>
+    <url>/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/</url>
+    <content><![CDATA[<h2 id="预备"><a href="#预备" class="headerlink" title="预备"></a>预备</h2><ul>
+<li>默认博客已经建好！</li>
+<li>默认当事人已经购买了域名，且已经实名认证。（阿里云的、百度的…都可以）</li>
+</ul>
+<p>当然没有购买域名的同学，请往这里走：<a href="https://promotion.aliyun.com/ntms/act/domainbrand.html?spm=5176.8006371.772226.domainbackorder.b46f7e63AuIXBy">阿里云域名注册</a></p>
+<p>在注册域名时，还需要通过一个真实邮箱认证模板，因此需要一个可用的邮箱！</p>
+<p>阿里云的实名认证还是很快的，说是两三个工作日内审核，但是我半个小时不到就通过了。</p>
 <span id="more"></span>
 
-<p><code>hexo</code>的模板一般放在：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
-<p>有三个文件</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
-<p>对应new命令的三种创建类型！</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
-<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
-<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="正片开始"><a href="#正片开始" class="headerlink" title="正片开始"></a>正片开始</h2><h3 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h3><p>先进入<a href="https://dc.console.aliyun.com/next/index?spm=5176.8006371.J_8058803260.1314.54897e63e7caJc#/domain/list/all-domain">阿里云域名后台</a>，点击<img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E7%82%B9%E5%87%BB%E8%A7%A3%E6%9E%90.png" alt="点击解析"></p>
+<p>按下快捷键<code>win+R</code>打开运行，运行<code>cmd</code>，ping您建好的博客地址（若部署在github上的博客则地址就是<code>yourname.github.io</code>,实际上也是一个域名），笔者的hexo博客部署在github上，因此需要这样做：</p>
+<p>![ping github](hexo博客绑定个人域名/ping github.png)</p>
+<p>在域名解析设置添加两条记录：</p>
+<ul>
+<li>CNAME记录：设置您的github访问页</li>
+<li>A记录：刚刚ping的IP</li>
+</ul>
+<p>可以参考下笔者的设置</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E8%AE%BE%E7%BD%AE.png" alt="设置"></p>
+<p>关于这些记录可以参考</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5CA%E3%80%81cname.png" alt="A、cname"></p>
+<p>域名前缀可以参考：</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5C%E4%B8%BB%E6%9C%BA%E8%AE%B0%E5%BD%95.png" alt="主机记录"></p>
+<p>就看你想要<code>www</code>、<code>@</code>还是其他了！</p>
+<h3 id="本地配置"><a href="#本地配置" class="headerlink" title="本地配置"></a>本地配置</h3><p>在<code>hexo根目录/source</code>文件夹中添加一个<code>CNAME</code>文件，注意文件无后缀，内容设置为您自己的域名：</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/CNAME.png" alt="CNAME"></p>
+<p>保存之后。hexo三连即可！</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 
+<h2 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h2><p>可以使用域名访问自己的博客啦！</p>
 ]]></content>
       <categories>
         <category>博客运维</category>
       </categories>
       <tags>
         <tag>hexo</tag>
-        <tag>features</tag>
-        <tag>reference</tag>
+        <tag>recovery</tag>
+        <tag>domain</tag>
       </tags>
   </entry>
   <entry>
@@ -519,8 +777,8 @@ npm -v
       </categories>
       <tags>
         <tag>hexo</tag>
-        <tag>reference</tag>
         <tag>explain</tag>
+        <tag>reference</tag>
       </tags>
   </entry>
   <entry>
@@ -574,43 +832,28 @@ npm -v
       </tags>
   </entry>
   <entry>
-    <title>解决hexo中文乱码</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
-    <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
+    <title>hexo模板修改和使用</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
+<span id="more"></span>
 
-<p>出现中文乱码可能是因为配置文件中不是使用<code>utf-8</code>进行保存，因此</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
-<p>即可解决问题</p>
+<p><code>hexo</code>的模板一般放在：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
+<p>有三个文件</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
+<p>对应new命令的三种创建类型！</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
+<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
+<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>博客运维</category>
       </categories>
       <tags>
         <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo标签和分类页面无法正常显示</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/</url>
-    <content><![CDATA[<h2 id="解决hexo标签和分类页面无法正常显示"><a href="#解决hexo标签和分类页面无法正常显示" class="headerlink" title="解决hexo标签和分类页面无法正常显示"></a>解决hexo标签和分类页面无法正常显示</h2><span id="more"></span>
-
-<p>需要找到</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/image-20210812083030492.png" alt="image-20210812083030492"></p>
-<p>打开<code>index.md</code></p>
-<p>分别添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type: &quot;categories&quot;</span><br><span class="line">layout: &quot;categories&quot;</span><br><span class="line"></span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">layout: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
-
-<p>即可解决</p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
+        <tag>reference</tag>
+        <tag>features</tag>
       </tags>
   </entry>
   <entry>
@@ -666,6 +909,46 @@ npm -v
 
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
 
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo中文乱码</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
+
+<p>出现中文乱码可能是因为配置文件中不是使用<code>utf-8</code>进行保存，因此</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
+<p>即可解决问题</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo标签和分类页面无法正常显示</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/</url>
+    <content><![CDATA[<h2 id="解决hexo标签和分类页面无法正常显示"><a href="#解决hexo标签和分类页面无法正常显示" class="headerlink" title="解决hexo标签和分类页面无法正常显示"></a>解决hexo标签和分类页面无法正常显示</h2><span id="more"></span>
+
+<p>需要找到</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/image-20210812083030492.png" alt="image-20210812083030492"></p>
+<p>打开<code>index.md</code></p>
+<p>分别添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type: &quot;categories&quot;</span><br><span class="line">layout: &quot;categories&quot;</span><br><span class="line"></span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">layout: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
+
+<p>即可解决</p>
 ]]></content>
       <categories>
         <category>博客运维</category>
@@ -823,8 +1106,8 @@ npm -v
         <category>java学习笔记</category>
       </categories>
       <tags>
-        <tag>java_core</tag>
         <tag>java_features</tag>
+        <tag>java_core</tag>
         <tag>java_lib</tag>
       </tags>
   </entry>
@@ -1474,16 +1757,13 @@ npm -v
 <p>这里需要写空缓冲，因此抛出异常的原因知道了，当我们调用<code>writer2.close()</code>没实际上流已经关闭，但是再次调用<code>writer1.close()</code>会运行上面的<code>out.write()</code>，由于流已经关闭，因此会抛出异常。</p>
 <p>这一类情况一般发生在BufferedWriter或Writer中，因此关闭流要优先关闭这一类流。</p>
 ]]></content>
+      <categories>
+        <category>java学习笔记</category>
+      </categories>
       <tags>
         <tag>java_core</tag>
-        <tag>java_features</tag>
         <tag>java_lib</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>about</title>
-    <url>/about/index.html</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>archives</title>
@@ -1493,6 +1773,11 @@ npm -v
   <entry>
     <title>categories</title>
     <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>about</title>
+    <url>/about/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
