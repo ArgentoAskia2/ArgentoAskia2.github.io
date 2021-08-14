@@ -1766,6 +1766,127 @@ npm -v
       </tags>
   </entry>
   <entry>
+    <title>Tomcat&amp;Servlet基础</title>
+    <url>/2021/08/14/JavaWeb/Tomcat&amp;Servlet%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
+<p>19年黑马<code>JavaWeb</code>课程的笔记</p>
+<span id="more"></span>
+
+<h2 id="Servlet-Tomcat？"><a href="#Servlet-Tomcat？" class="headerlink" title="Servlet? Tomcat？"></a>Servlet? Tomcat？</h2><p>在讲解<code>Servlet</code>之前，先补充一些<code>web</code>服务器的知识，所谓服务器，通俗上的理解就是安装了服务器软件的计算机。这些服务器软件通过接受用户请求、处理用户请求，回传响应来实现提供某一种服务。</p>
+<p>而<code>Tomcat</code>就可以理解为是一种服务器软件。</p>
+<p><code>Servlet</code>全名是：<code>server applet</code>，也就是运行在服务端的小程序，这些小程序配合服务器软件处理具体的业务。因此通常服务器接收到具体的请求的时候，服务器会将请求分配给相应的<code>servlet</code>进行处理，再将<code>servlet</code>的响应结果回传给用户。</p>
+<p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20210809184109992.png" alt="image-20210809184109992"></p>
+<h2 id="Tomcat服务器安装"><a href="#Tomcat服务器安装" class="headerlink" title="Tomcat服务器安装"></a>Tomcat服务器安装</h2><p>下载地址：<a href="http://tomcat.apache.org/">Apache Tomcat® - Welcome!</a></p>
+<p>解压压缩包，建议不带中文，可以看到Tomcat服务器的如下目录结构：</p>
+<p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20210809184145766.png" alt="image-20210809184145766"></p>
+<img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/tomcat目录结构.png" alt="tomcat目录结构" style="zoom:200%;">
+
+<p>在<code>bin</code>目录下双击<code>startup.bat</code>即可启动<code>tomcat</code></p>
+<p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20210809184319851.png" alt="image-20210809184319851"></p>
+<h2 id="Tomcat部署配置"><a href="#Tomcat部署配置" class="headerlink" title="Tomcat部署配置"></a>Tomcat部署配置</h2><p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20210809184429573.png" alt="image-20210809184429573"></p>
+<h2 id="Servlet配置"><a href="#Servlet配置" class="headerlink" title="Servlet配置"></a>Servlet配置</h2><h3 id="基于XML的配置"><a href="#基于XML的配置" class="headerlink" title="基于XML的配置"></a>基于XML的配置</h3><ol>
+<li><p>创建<code>JavaEE</code>项目</p>
+</li>
+<li><p>定义一个类，实现Servlet接口</p>
+</li>
+</ol>
+ <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public class ServletDemo1 implements Servlet</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>实现接口中的抽象方法</li>
+<li>配置Servlet， 在web.xml中配置：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--配置Servlet --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>demo1<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>cn.itcast.web.servlet.ServletDemo1<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>demo1<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/demo1<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="执行原理"><a href="#执行原理" class="headerlink" title="执行原理"></a>执行原理</h4><ol>
+<li>当服务器接受到客户端浏览器的请求后，会解析请求<code>URL</code>路径，获取访问的<code>Servlet</code>的资源路径</li>
+<li>查找<code>web.xml</code>文件，是否有对应的<code>&lt;url-pattern&gt;</code>标签体内容。</li>
+<li>如果有，则在找到对应的<code>&lt;servlet-class&gt;</code>全类名</li>
+<li><code>tomcat</code>会将字节码文件加载进内存，并且创建其对象</li>
+<li>调用其方法</li>
+</ol>
+<h3 id="基于注解的配置"><a href="#基于注解的配置" class="headerlink" title="基于注解的配置"></a>基于注解的配置</h3><ol>
+<li><p>创建<code>JavaEE</code>项目，选择<code>Servlet</code>的版本<strong>3.0</strong>以上，可以不创建<code>web.xml</code></p>
+</li>
+<li><p>定义一个类，实现<code>Servlet</code>接口</p>
+</li>
+<li><p>复写方法</p>
+</li>
+<li><p>在类上使用<code>@WebServlet</code>注解，进行配置</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@WebServlet(&quot;资源路径&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>   这个注解的源代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Target(&#123;ElementType.TYPE&#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">public @interface WebServlet &#123;</span><br><span class="line">	String name() default &quot;&quot;;//相当于&lt;Servlet-name&gt;</span><br><span class="line">	String[] value() default &#123;&#125;;//代表urlPatterns()属性配置</span><br><span class="line">	String[] urlPatterns() default &#123;&#125;;//相当于&lt;url-pattern&gt;</span><br><span class="line">	int loadOnStartup() default -1;//相当于&lt;load-on-startup&gt;</span><br><span class="line">	WebInitParam[] initParams() default &#123;&#125;;</span><br><span class="line">	boolean asyncSupported() default false;</span><br><span class="line">	String smallIcon() default &quot;&quot;;</span><br><span class="line">	String largeIcon() default &quot;&quot;;</span><br><span class="line">	String description() default &quot;&quot;;</span><br><span class="line">	String displayName() default &quot;&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Servlet-生命周期"><a href="#Servlet-生命周期" class="headerlink" title="Servlet 生命周期"></a>Servlet 生命周期</h2><p>一个<code>servlet</code>程序要想在<code>Web</code>服务器上运行，一般需要四个步骤：</p>
+<ol>
+<li>装入</li>
+<li>初始化</li>
+<li>提供服务</li>
+<li>销毁</li>
+</ol>
+<p>其中程序员能决定，从步骤2开始，到步骤4，装入一般交给<code>web</code>服务器，准确点来说是服务器软件，如<code>Tomcat</code>负责。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>初始化，也就是实例化<code>Servlet</code>的具体实现类的工作，这个动作会调用<code>Servlet</code>接口的<code>init()</code>，在整个<code>servlet</code>生命周期中只会执行一次。</p>
+<p>那这里就产生了两个问题</p>
+<h4 id="Servlet什么时候初始化？"><a href="#Servlet什么时候初始化？" class="headerlink" title="Servlet什么时候初始化？"></a>Servlet什么时候初始化？</h4><p>默认情况下，第一次被访问时，Servlet类就被初始化，可以配置执行Servlet的创建时机。</p>
+<p>在<code>&lt;servlet&gt;</code>标签下配置</p>
+<ol>
+<li>第一次被访问时，创建<code>&lt;load-on-startup&gt;</code>的值为负数</li>
+<li>在服务器启动时，创建<code>&lt;load-on-startup&gt;</code>的值为0或正整数</li>
+</ol>
+<h4 id="Servlet是单例的"><a href="#Servlet是单例的" class="headerlink" title="Servlet是单例的"></a>Servlet是单例的</h4><p>Servlet的初始化在整个生命周期过程中只执行一次，这就说明对于每一个<code>Servlet</code>的具体实现类被加载之后，必须要走完整个生命周期，才能再次创建相同实现类的实例，<strong>因此在内存中只存在唯一对象，<code>Servlet</code>是单例的</strong>，<strong>一旦涉及到单例，就可能存在线程安全问题</strong>。</p>
+<p><strong>因此尽量不要在<code>Servlet</code>中定义成员变量。</strong>即使定义了成员变量，也不要修改值</p>
+<h3 id="提供服务"><a href="#提供服务" class="headerlink" title="提供服务"></a>提供服务</h3><p>该过程会执行<code>service()</code>，执行多次，每次访问Servlet时，Service方法都会被调用一次。</p>
+<p>由于对<code>Servlet</code>接口的进一步封装，现在也很少直接在<code>service()</code>进行编码，一般使用的是<code>HttpServlet</code>的<code>doGet()</code>、<code>doPost()</code>等</p>
+<h3 id="销毁"><a href="#销毁" class="headerlink" title="销毁"></a>销毁</h3><p>执行destroy方法，只执行一次，<code>Servlet</code>被销毁时执行。服务器关闭时，Servlet被销毁</p>
+<ul>
+<li>只有服务器正常关闭时，才会执行destroy方法。</li>
+<li>destroy方法在<code>Servlet</code>被销毁之前执行，一般用于释放资源</li>
+</ul>
+<h2 id="Servlet-API"><a href="#Servlet-API" class="headerlink" title="Servlet API"></a>Servlet API</h2><p>![Servlet API类图](Tomcat&amp;Servlet基础/Servlet API类图.png)</p>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><h4 id="Servlet实现相关"><a href="#Servlet实现相关" class="headerlink" title="Servlet实现相关"></a>Servlet实现相关</h4><ul>
+<li>javax.servlet.Servlet</li>
+<li>javax.servlet.GenericServlet</li>
+<li>javax.servlet.http.HttpServlet</li>
+</ul>
+<h4 id="Servlet配置文件相关（Web-xml解析结果）"><a href="#Servlet配置文件相关（Web-xml解析结果）" class="headerlink" title="Servlet配置文件相关（Web.xml解析结果）"></a>Servlet配置文件相关（Web.xml解析结果）</h4><ul>
+<li>javax.servlet.ServletConfig</li>
+</ul>
+<h4 id="响应和请求"><a href="#响应和请求" class="headerlink" title="响应和请求"></a>响应和请求</h4><ul>
+<li>javax.servlet.ServletResponse</li>
+<li>javax.servlet.ServletRequest</li>
+<li>javax.servlet.http.HttpServletResponse</li>
+<li>javax.servlet.http.HttpServletRequest</li>
+</ul>
+<h4 id="会话跟踪"><a href="#会话跟踪" class="headerlink" title="会话跟踪"></a>会话跟踪</h4><ul>
+<li>javax.servlet.http.HttpSession</li>
+<li>javax.servlet.http.HttpSessionBindingListener</li>
+<li>javax.servlet.http.HttpSessionBindingEvent</li>
+</ul>
+<h4 id="Servlet上下文环境"><a href="#Servlet上下文环境" class="headerlink" title="Servlet上下文环境"></a>Servlet上下文环境</h4><ul>
+<li>javax.servlet.ServletContext</li>
+</ul>
+<h4 id="Servlet协作"><a href="#Servlet协作" class="headerlink" title="Servlet协作"></a>Servlet协作</h4><ul>
+<li>javax.servlet.RequestDispatcher</li>
+</ul>
+<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><ul>
+<li>javax.servlet.http.Cookie</li>
+</ul>
+<h4 id="Utils"><a href="#Utils" class="headerlink" title="Utils"></a>Utils</h4><ul>
+<li>javax.servlet.http.HttpUtils</li>
+</ul>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_servlet</tag>
+        <tag>javaweb_tomcat</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>about</title>
     <url>/about/index.html</url>
     <content><![CDATA[]]></content>
