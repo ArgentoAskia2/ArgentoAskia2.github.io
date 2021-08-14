@@ -1887,6 +1887,44 @@ npm -v
       </tags>
   </entry>
   <entry>
+    <title>Java重载VS重写</title>
+    <url>/2021/08/14/Java/Java%E9%87%8D%E8%BD%BDVS%E9%87%8D%E5%86%99/</url>
+    <content><![CDATA[<p>希望这篇文章能够帮助各位重载和重写傻傻分不清的朋友！</p>
+<span id="more"></span>
+
+<h2 id="重写（Override）"><a href="#重写（Override）" class="headerlink" title="重写（Override）"></a>重写（Override）</h2><p>重写一般是对父类的方法进行重写，要求</p>
+<ul>
+<li><strong>返回值和形参都不能改变！</strong></li>
+<li><strong>返回值类型可以不相同，但必须是父类返回值的派生类（java 7↑）</strong></li>
+<li><strong>重写的方法能够抛出任何非强制性异常，但当父类方法本身也声明抛出的异常的时候，子类异常只能是父类异常的子类</strong></li>
+<li><strong>不能缩窄访问权限（父类方法是public，子类重写方法就不能为protected）</strong></li>
+<li><strong>声明为<code>final</code>的方法不能被重写</strong></li>
+<li><strong>声明为<code>static</code>的方法不能被重写，但是能够被再次声明</strong></li>
+<li><strong>子类和父类在同一个包中，那么子类可以重写父类所有方法，除了声明为 private 和 final 的方法。</strong></li>
+<li><strong>子类和父类不在同一个包中，那么子类只能够重写父类的声明为 public 和 protected 的非 final 方法。</strong></li>
+<li><strong>构造方法不能被重写</strong></li>
+</ul>
+<h2 id="重载（Overload）"><a href="#重载（Overload）" class="headerlink" title="重载（Overload）"></a>重载（Overload）</h2><ul>
+<li><strong>被重载的方法必须改变参数列表(参数个数或类型或顺序不一样)；</strong></li>
+<li><strong>被重载的方法可以改变返回类型；</strong></li>
+<li><strong>被重载的方法可以改变访问修饰符；</strong></li>
+<li><strong>被重载的方法可以声明新的或更广的检查异常；</strong></li>
+<li><strong>方法能够在同一个类中或者在一个子类中被重载。</strong></li>
+<li><strong>无法以返回值类型作为重载函数的区分标准。</strong></li>
+</ul>
+<h2 id="简单地讲："><a href="#简单地讲：" class="headerlink" title="简单地讲："></a>简单地讲：</h2><p>重写：<strong>返回值和参数列表都不能改变！</strong></p>
+<p>重载：<strong>参数列表必须改变</strong>！</p>
+<p><strong>参数列表相同，返回值不同既不属于重载也不属于重写</strong>！！！</p>
+]]></content>
+      <categories>
+        <category>java学习笔记</category>
+      </categories>
+      <tags>
+        <tag>java_core</tag>
+        <tag>java_oop</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>about</title>
     <url>/about/index.html</url>
     <content><![CDATA[]]></content>

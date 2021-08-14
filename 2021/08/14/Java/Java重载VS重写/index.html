@@ -20,17 +20,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="既然来了，就不要这么快走嘛~~~！嘛~~~~QAQ">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Askia的学习笔记">
-<meta property="og:url" content="http://example.com/tags/javaweb-servlet/index.html">
+  <meta name="description" content="希望这篇文章能够帮助各位重载和重写傻傻分不清的朋友！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java重载VS重写">
+<meta property="og:url" content="http://example.com/2021/08/14/Java/Java%E9%87%8D%E8%BD%BDVS%E9%87%8D%E5%86%99/index.html">
 <meta property="og:site_name" content="Askia的学习笔记">
-<meta property="og:description" content="既然来了，就不要这么快走嘛~~~！嘛~~~~QAQ">
+<meta property="og:description" content="希望这篇文章能够帮助各位重载和重写傻傻分不清的朋友！">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-14T15:22:47.000Z">
+<meta property="article:modified_time" content="2021-08-14T15:27:06.704Z">
 <meta property="article:author" content="Askia">
+<meta property="article:tag" content="java_core">
+<meta property="article:tag" content="java_oop">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/tags/javaweb-servlet/">
+<link rel="canonical" href="http://example.com/2021/08/14/Java/Java%E9%87%8D%E8%BD%BDVS%E9%87%8D%E5%86%99/">
 
 
 <script id="page-configurations">
@@ -38,12 +42,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: javaweb_servlet | Askia的学习笔记</title>
+  <title>Java重载VS重写 | Askia的学习笔记</title>
   
 
 
@@ -185,57 +189,126 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">javaweb_servlet
-          <small>标签</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/14/Java/Java%E9%87%8D%E8%BD%BDVS%E9%87%8D%E5%86%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Askia">
+      <meta itemprop="description" content="既然来了，就不要这么快走嘛~~~！嘛~~~~QAQ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Askia的学习笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java重载VS重写
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-14 23:22:47 / 修改时间：23:27:06" itemprop="dateCreated datePublished" datetime="2021-08-14T23:22:47+08:00">2021-08-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">java学习笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
+        <p>希望这篇文章能够帮助各位重载和重写傻傻分不清的朋友！</p>
+<span id="more"></span>
+
+<h2 id="重写（Override）"><a href="#重写（Override）" class="headerlink" title="重写（Override）"></a>重写（Override）</h2><p>重写一般是对父类的方法进行重写，要求</p>
+<ul>
+<li><strong>返回值和形参都不能改变！</strong></li>
+<li><strong>返回值类型可以不相同，但必须是父类返回值的派生类（java 7↑）</strong></li>
+<li><strong>重写的方法能够抛出任何非强制性异常，但当父类方法本身也声明抛出的异常的时候，子类异常只能是父类异常的子类</strong></li>
+<li><strong>不能缩窄访问权限（父类方法是public，子类重写方法就不能为protected）</strong></li>
+<li><strong>声明为<code>final</code>的方法不能被重写</strong></li>
+<li><strong>声明为<code>static</code>的方法不能被重写，但是能够被再次声明</strong></li>
+<li><strong>子类和父类在同一个包中，那么子类可以重写父类所有方法，除了声明为 private 和 final 的方法。</strong></li>
+<li><strong>子类和父类不在同一个包中，那么子类只能够重写父类的声明为 public 和 protected 的非 final 方法。</strong></li>
+<li><strong>构造方法不能被重写</strong></li>
+</ul>
+<h2 id="重载（Overload）"><a href="#重载（Overload）" class="headerlink" title="重载（Overload）"></a>重载（Overload）</h2><ul>
+<li><strong>被重载的方法必须改变参数列表(参数个数或类型或顺序不一样)；</strong></li>
+<li><strong>被重载的方法可以改变返回类型；</strong></li>
+<li><strong>被重载的方法可以改变访问修饰符；</strong></li>
+<li><strong>被重载的方法可以声明新的或更广的检查异常；</strong></li>
+<li><strong>方法能够在同一个类中或者在一个子类中被重载。</strong></li>
+<li><strong>无法以返回值类型作为重载函数的区分标准。</strong></li>
+</ul>
+<h2 id="简单地讲："><a href="#简单地讲：" class="headerlink" title="简单地讲："></a>简单地讲：</h2><p>重写：<strong>返回值和参数列表都不能改变！</strong></p>
+<p>重载：<strong>参数列表必须改变</strong>！</p>
+<p><strong>参数列表相同，返回值不同既不属于重载也不属于重写</strong>！！！</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-08-14T22:57:03+08:00"
-              content="2021-08-14">
-          08-14
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java-core/" rel="tag"># java_core</a>
+              <a href="/tags/java-oop/" rel="tag"># java_oop</a>
+          </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/" itemprop="url">
-            <span itemprop="name">Tomcat&Servlet基础</span>
-          </a>
-      </div>
+        
 
-    </header>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/" rel="prev" title="Tomcat&Servlet基础">
+      <i class="fa fa-chevron-left"></i> Tomcat&Servlet基础
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
 
           </div>
           
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzYwNy8yNDEwNw=="></div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -282,6 +355,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%86%99%EF%BC%88Override%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">重写（Override）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E8%BD%BD%EF%BC%88Overload%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">重载（Overload）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%9C%B0%E8%AE%B2%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">简单地讲：</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -401,6 +475,21 @@
 
   
 
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
 
 </body>
 </html>
