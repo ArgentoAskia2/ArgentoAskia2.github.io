@@ -92,8 +92,10 @@
 <li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
 <li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
 <li>……</li>
-<li><span id="more"></span></li>
 </ul>
+<p>常用正则表达式：<a href="https://www.argentoaskia.tech/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">点击这里</a></p>
+<span id="more"></span>
+
 <h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>表达式一般以<code>/../</code>来标记为正则表达式</p>
 <h3 id="普通字符"><a href="#普通字符" class="headerlink" title="普通字符"></a>普通字符</h3><p><code>[abc]</code>:匹配a、b、c中的一个字符</p>
 <p><code>[^abc]</code>：匹配除了a、b、c之外的所有字符</p>
@@ -1927,7 +1929,7 @@ npm -v
   <entry>
     <title>常用正则表达式</title>
     <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">java正则表达式</a></p>
+    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
 <h2 id="常用表达式举例"><a href="#常用表达式举例" class="headerlink" title="常用表达式举例"></a>常用表达式举例</h2><span id="more"></span>
 
 <h3 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h3><h5 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
