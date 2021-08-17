@@ -2082,6 +2082,32 @@ npm -v
       </tags>
   </entry>
   <entry>
+    <title>”Java运行时获取运行位置“</title>
+    <url>/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>获取运行时路径的方法在jar包中和在工程中都不同，下面进行区分讲解</p>
+<span id="more"></span>
+
+<h2 id="获取路径"><a href="#获取路径" class="headerlink" title="获取路径"></a>获取路径</h2><p>以下介绍的方法同时适用于jar包和工程中</p>
+<p>获取运行时路径的方法很多，这里只介绍一种通用的方法</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[ClassName].class.getProtectionDomain().getCodeSource().getLocation();</span><br></pre></td></tr></table></figure>
+
+<p>这种方法在工程中获取的是工程项目的位置，在jar包中是获取jar包所在的位置（包括XXXX.jar）</p>
+<h2 id="加载资源"><a href="#加载资源" class="headerlink" title="加载资源"></a>加载资源</h2><h3 id="class-getResource-String-resourceFile"><a href="#class-getResource-String-resourceFile" class="headerlink" title="class.getResource(String resourceFile)"></a>class.getResource(String resourceFile)</h3><h3 id="class-getClassLoader-getResource-String-resourceFile"><a href="#class-getClassLoader-getResource-String-resourceFile" class="headerlink" title="class.getClassLoader().getResource(String resourceFile)"></a>class.getClassLoader().getResource(String resourceFile)</h3><p>上面的区别看这里：</p>
+<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-2023e3d7fdae0160e22a5dedde736368_720w.jpg" alt="img"></p>
+<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-33f6acaa7515bb06d292abf9051cb535_720w.jpg" alt="img"></p>
+<p><code>class.getResource(String resource)</code> 调用当前类路径下的资源</p>
+<p><code>class.getClassLoader().getResource(String resource)</code> 获取跟路径，调用根目录下资源</p>
+<p><strong>上面的两种方式在工程项目中有效，在jar包中无效</strong></p>
+<h3 id="class-getResourceAsStream-String-resourceFile"><a href="#class-getResourceAsStream-String-resourceFile" class="headerlink" title="class.getResourceAsStream(String resourceFile)"></a>class.getResourceAsStream(String resourceFile)</h3><p>要想在jar包中也能够读取资源文件，请使用这个方法！</p>
+]]></content>
+      <categories>
+        <category>Java学习笔记</category>
+      </categories>
+      <tags>
+        <tag>java_skill</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>about</title>
     <url>/about/index.html</url>
     <content><![CDATA[]]></content>
