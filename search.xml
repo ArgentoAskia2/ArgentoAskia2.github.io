@@ -82,6 +82,145 @@
       </tags>
   </entry>
   <entry>
+    <title>Java代理</title>
+    <url>/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<p>Java 代理，主要主要是指动态代理，是学习AOP的基础，该知识点非常重要，有必要好好了解！</p>
+<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
+<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
+<ul>
+<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
+<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
+<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
+<li>……</li>
+</ul>
+<span id="more"></span>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在实战mybatis，在研究实现原理的时候，重新又把焦点放在了代理模式上，因此记下此篇。</p>
+<p>java代理实际为动态代理，用起来可能比较抽象，但实际上并没有那么难。</p>
+<h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>要想完全弄清楚代理，我认为还是要先从静态代理出发，首先我们传统方法上的调用可以被归纳为一个对应关系，<strong>即调用方调用被调用方的方法，被调用方返回结果给调用方</strong>：</p>
+<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902162423038.png" alt="image-20210902162423038"></p>
+<p>这种调用很常见，但是如果遇到下面的情况：</p>
+<ul>
+<li>被调用方不想暴露自己的方法给调用方</li>
+<li>被调用方是一个已经打包好的包且调用方法前后需要做一些预处理事务</li>
+</ul>
+<p>那么就需要一个“第三者”来帮助调用方进行方法调用。可以称这个“第三者”为<strong>代理对象</strong></p>
+<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902163304246.png" alt="image-20210902163304246"></p>
+<p>这样调用方调用的时候，代理对象对调用请求进行预处理，然后调用被调用方的相应方法，再返回。</p>
+<p>这种设计方法应用场景非常多，比如在<strong>交流通信中的黑名单功能</strong>，可以参考下面代码的写法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Connection.java</span></span><br><span class="line"><span class="comment">// Connection为接口，代理类和被调用方类都要实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Connection</span> </span></span><br><span class="line"><span class="class">	// 建立连接通信通道，连接成功返回<span class="title">true</span>，连接失败返回<span class="title">false</span></span></span><br><span class="line"><span class="class">	<span class="title">boolean</span> <span class="title">connect</span>(<span class="title">Socket</span> <span class="title">socket</span>)</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ConnectionImpl.java</span></span><br><span class="line"><span class="comment">// 被调用方</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectionImpl</span> <span class="keyword">implements</span> <span class="title">Connection</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connect</span><span class="params">(Socket socket)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 具体建立连接的代码</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ConnectionImplProxy.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectionImplProxy</span> <span class="keyword">implements</span> <span class="title">Connection</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> ConnectionImpl impl;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 初始化impl的相关方法</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connect</span><span class="params">(Socket socket)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 判断对方IP是否在黑名单内</span></span><br><span class="line">		<span class="keyword">boolean</span> isBlackGuy = checkFromBlacklist(socket.getInetAddress());</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 如果对方是黑名单成员，则不建立通信连接，否则，建立连接</span></span><br><span class="line">		<span class="keyword">if</span>(isBlackGuy)&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> impl.connect(socket);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>他们的关系可以使用下图表达</p>
+<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902165843702.png"></p>
+<h3 id="静态代理的实现"><a href="#静态代理的实现" class="headerlink" title="静态代理的实现"></a>静态代理的实现</h3><ol>
+<li>首先需要一个<strong>公共的接口</strong>，<strong>代理类和被调用方都要实现这个接口</strong></li>
+<li>代理类要<strong>初始化一个被调用方类的对象作为字段</strong></li>
+<li><strong>调用方通过调用代理类的方法</strong>，<strong>代理类调用被调用方的方法</strong>，然后返回结果，这一个过程便是静态代理。</li>
+</ol>
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>动态代理与静态代理的主要不同，就是动态代理对象由Proxy类来生成而不是由程序员通过编码来生成。</p>
+<p>要生成一个代理对象，需要提供两个东西：</p>
+<ul>
+<li>调用处理器</li>
+<li>目标接口（一个或多个）</li>
+</ul>
+<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902182406151.png" alt="###"></p>
+<h3 id="使用动态代理"><a href="#使用动态代理" class="headerlink" title="使用动态代理"></a>使用动态代理</h3><p>首先要使用动态代理，需要定义一个调用处理器</p>
+<h4 id="调用处理器"><a href="#调用处理器" class="headerlink" title="调用处理器"></a>调用处理器</h4><p>所谓调用处理器是实现了<code>InvocationHandler</code>接口的类，该接口只有一个方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>;</span><br></pre></td></tr></table></figure>
+
+<p>其中proxy为代理对象，method为当前调用的方法，args 为方法所有参数</p>
+<p><strong>代理器中需要持有目标对象（被调用者）的句柄</strong>，一般来说，完成代理需要的任何目标对象，都要储存在调用处理器中，换句话说，目标对象。调用处理器的写法可以参考：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 这个就是目标对象</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 初始化目标对象</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 预处理</span></span><br><span class="line">	    System.out.print(target);</span><br><span class="line">	    System.out.print(<span class="string">&quot;.&quot;</span> + method.getName + <span class="string">&quot;(&quot;</span>);</span><br><span class="line">	    <span class="keyword">if</span>(args != <span class="keyword">null</span>)&#123;</span><br><span class="line">	    	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; args.length; i++)&#123;</span><br><span class="line">	    		System.out.print(args[i]);</span><br><span class="line">	    		<span class="keyword">if</span>(i &lt; args.lengthv - <span class="number">1</span>)</span><br><span class="line">	    			System.out.print(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">	    	&#125;</span><br><span class="line">	    	System.out.print(<span class="string">&quot;)&quot;</span>);</span><br><span class="line">	    &#125;</span><br><span class="line">	    </span><br><span class="line">        <span class="comment">// 调用真正的对象（被调用者）相应的方法</span></span><br><span class="line">	    <span class="keyword">return</span> method.invoke(target, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>接口中所有的方法都是需要被代理对象截拦的方法。<strong>对所有接口方法的调用都会转为调用代理对象的invoke()。</strong></p>
+<p>注意提供给Proxy类的接口可以有多个，newProxyInstance()中第二个参数也是提供一个数组，当提供多个接口时，<strong>接口的顺序就很关键</strong>，如果<strong>存在两个或多个接口具有相同的方法，则默认以靠前的接口的方法进行调用。</strong></p>
+<h3 id="Proxy类"><a href="#Proxy类" class="headerlink" title="Proxy类"></a>Proxy类</h3><p><strong>Proxy类负责生成代理对象</strong>，需要关注的方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler handler)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>该方法生成代理对象。</p>
+<p><strong>Proxy类中只有一个InvocationHandler实例字段对象，用于处理所有的方法调用的截拦。</strong></p>
+<p>生成代理可以参考：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> elements = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elements.length; i++)&#123;</span><br><span class="line">	Integer value = i + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//!!!!</span></span><br><span class="line">	Object proxy = Proxy.newProxyInstance(</span><br><span class="line">		ClassLoader.getSystemClassLoader(),</span><br><span class="line">		<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">		handler</span><br><span class="line">	);</span><br><span class="line">	<span class="comment">// 也可以这样写</span></span><br><span class="line">	Comparable proxy = (Comparable)Proxy.newProxyInstance(</span><br><span class="line">		ClassLoader.getSystemClassLoader(),</span><br><span class="line">		<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">		handler</span><br><span class="line">	);</span><br><span class="line">	elements[i] = proxy;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>特别注意，对于一个特定的类加载器和预设的一组接口来说，只能有一个代理类，换句话说如果对同一个类加载器和接口调用多次newProxyInstance()，只会得到同一个代理类的多个代理对象</strong></p>
+<p>如果想要获取代理对象的代理类，可以使用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> Class&lt;?&gt; getProxyClass(ClassLoader loader, Class&lt;?&gt; …interfaces)</span><br></pre></td></tr></table></figure>
+
+<p><strong>代理类总是<code>public</code>和<code>final</code>的，如果代理类实现的所有接口都是<code>public</code>的，这个代理类就不属于任何特定的包，否则，所有的非<code>public</code>接口都必须要在同一个包，而且生成的代理类也会在这个包中。</strong></p>
+<p>可以使用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="title">isProxyClass</span><span class="params">(Class&lt;?&gt; cl)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>判断一个类是否为代理类。</p>
+<h3 id="代理对象"><a href="#代理对象" class="headerlink" title="代理对象"></a>代理对象</h3><p><strong>所有的代理类都要扩展Proxy类，同时实现提供给Proxy类的所有接口</strong>，<strong>这些代理类在运行时通过反射被生成，如果没有定义代理类名字，Oracle虚拟机对所有扩展了Proxy类的代理类赋予 <code>$Proxy</code>开头的类名。</strong>因为Proxy类中有唯一的InvocationHandler实例字段，并且这个字段是protected的，<strong>这个实例字段在使用newProxyInstance()时会对其赋值</strong>。</p>
+<p><strong>所有代理类都要覆盖Object类中的toString()、equals()、hashCode()，和接口上的方法一样，对这些方法的调用都会引发对invoke()的调用</strong>，Object类的其他方法没有被覆盖。</p>
+<h2 id="完整代码解析动态代理过程"><a href="#完整代码解析动态代理过程" class="headerlink" title="完整代码解析动态代理过程"></a>完整代码解析动态代理过程</h2><p>将上面的代码进行综合</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyTest</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">var</span> proxys = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elements.length; i++)&#123;</span><br><span class="line">			Integer value = i + <span class="number">1</span>;</span><br><span class="line">            </span><br><span class="line">			<span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br><span class="line">		</span><br><span class="line">			<span class="comment">//!!!!</span></span><br><span class="line">			Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br><span class="line">       </span><br><span class="line">			proxys[i] = proxy;</span><br><span class="line">		&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> key = <span class="number">56</span>;</span><br><span class="line">        <span class="keyword">int</span> result = Arrays.binarySearch(proxys, key);</span><br><span class="line">        <span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            System.out.println(proxys[result]);</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 储存数据</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 预处理</span></span><br><span class="line">	    System.out.print(target);</span><br><span class="line">	    System.out.print(<span class="string">&quot;.&quot;</span> + method.getName + <span class="string">&quot;(&quot;</span>);</span><br><span class="line">	    <span class="keyword">if</span>(args != <span class="keyword">null</span>)&#123;</span><br><span class="line">	    	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; args.length; i++)&#123;</span><br><span class="line">	    		System.out.print(args[i]);</span><br><span class="line">	    		<span class="keyword">if</span>(i &lt; args.lengthv - <span class="number">1</span>)</span><br><span class="line">	    			System.out.print(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">	    	&#125;</span><br><span class="line">	    	System.out.print(<span class="string">&quot;)&quot;</span>);</span><br><span class="line">	    &#125;</span><br><span class="line">	    </span><br><span class="line">        <span class="comment">// 调用真正的对象（被调用者）相应的方法</span></span><br><span class="line">	    <span class="keyword">return</span> method.invoke(target, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码实现了在1-1000中使用二分查找找到56！</p>
+<p>看上面的代码，首先创建一个proxys代理对象数组：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> proxys = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br></pre></td></tr></table></figure>
+
+<p>然后生成一个调用处理器，并且传入被调用的对象（数据）</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer value = i + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br></pre></td></tr></table></figure>
+
+<p>由于Integer类实现了Comparable接口，因此创建一个实现了Comparable，同时使用TraceHandler作为调用处理器的代理对象proxy：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br></pre></td></tr></table></figure>
+
+<p>然后将代理对象存储在代理对象数组中。</p>
+<p>接下来真正的动态代理过程：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> key = <span class="number">56</span>;</span><br><span class="line"><span class="keyword">int</span> result = Arrays.binarySearch(proxys, key);</span><br><span class="line"><span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">	System.out.println(proxys[result]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> proxys数组中的每一个元素都是一个代理对象，之前已经有提到，一个代理类中有唯一的<code>InvocationHandler</code>实例字段，<strong>这个实例字段在调用newProxyInstance()时会对其赋值</strong>。因此对于每一个代理对象，都会有一个<code>handle</code>实例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var handler = new TraceHandler(value);</span><br></pre></td></tr></table></figure>
+
+<p><strong>binarySearch()里面会调用compareTo()<strong>，</strong>由于代理对象实现了Comparable接口</strong>，因此binarySearch()内部将会调用代理对象的compareTo()，上面也提到过，<strong>对所有接口方法的调用都会转为调用代理对象的invoke()，因此代理对象的compareTo()将会调用invoke()<strong>，</strong>同时把代理对象自身（this），将compareTo()封装为Method对象，把所有compareTo()方法的参数储存在Object[]，并将这三个信息传递给invoke()。</strong></p>
+<p>在invoke()里面，通过使用Method对象：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">method.invoke(target, args);</span><br><span class="line"><span class="comment">// 注意这个invoke是method对象的invoke，不是TraceHandler的invoke</span></span><br></pre></td></tr></table></figure>
+
+<p>来调用真正的compareTo()。</p>
+<p>还记得我们是如何声明TraceHandler的吗？</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Integer value = i + 1;</span><br><span class="line">var handler = new TraceHandler(value);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 储存数据</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>value就是target哦</strong>！！！对于代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">method.invoke(target, args);</span><br></pre></td></tr></table></figure>
+
+<p>由于compareTo()只有一个参数，因此args数组只有一个成员，上面的代码就相当于：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">target.compareTo(args[<span class="number">0</span>]);</span><br><span class="line"><span class="comment">// 实际上就是：</span></span><br><span class="line">value.compareTo(args[<span class="number">0</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>对于这段代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">	System.out.println(proxys[result]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实也是一样，先调用<code>proxys[result]</code>的<code>toString()</code>,<code>toString()</code>会调用代理处理器<code>handler</code>的<code>invoke() </code>在<code>invoke() </code>里面，会调用<code>method.invoke(target, args);</code>由于<code>toString()</code>没有参数，因此<code>method.invoke(target, args);</code>相当于<code>method.invoke(target, null)</code>，相当于<code>target.toString()</code>也就是<code>value.toString()</code></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902222620840.png" alt="image-20210902222620840"></p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p><strong>调用newProxyInstance()只传递了一个接口时，那么就要要求目标对象实际上也是实现了这个接口的类所产生的对象</strong>，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br></pre></td></tr></table></figure>
+
+<p>那么<strong>调用处理器内的目标对象句柄也要实现Comparable</strong>，在TraceHandle类中，他内部的目标对象是：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer value = i + <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Integer类本身就实现了Comparable。</strong>因此在进行<code>method.invoke(target, args)</code>才可以通过，否则会报<code>MethodNotFoundException</code></p>
+<p><strong>如果调用newProxyInstance()传递了多个接口，那么对于目标对象就需要实现其中至少一个接口，这个时候的关键点其实不在目标对象而在调用处理器invoke()的编写。</strong></p>
+<p>在这情况下<strong>，调用处理器中所有目标对象总共实现的所有接口应要包含传递给newProxyInstance()的多个接口</strong></p>
+<h2 id="动态代理用途"><a href="#动态代理用途" class="headerlink" title="动态代理用途"></a>动态代理用途</h2><ol>
+<li>对目标对象的方法每次被调用，进行动态拦截。</li>
+<li>代理处理器可以储存多个目标对象，在invoke内部，可以根据不同的method，使用不同的目标对象。</li>
+<li>对接口方法进行预处理（增强方法）</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java学习笔记</category>
+      </categories>
+      <tags>
+        <tag>java_core</tag>
+        <tag>java_lib</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java正则表达式</title>
     <url>/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<p>正则表达式并非是Java固有，几乎每一门语言都有，正则表达式在匹配字符串，字符串搜索和模式匹配上一直发挥着重要的作用，因此学习正则表达式非常有必要</p>
@@ -577,9 +716,9 @@
         <category>java学习笔记</category>
       </categories>
       <tags>
-        <tag>java_features</tag>
         <tag>java_core</tag>
         <tag>java_lib</tag>
+        <tag>java_features</tag>
       </tags>
   </entry>
   <entry>
@@ -768,384 +907,6 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo博客绑定个人域名</title>
-    <url>/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/</url>
-    <content><![CDATA[<h2 id="预备"><a href="#预备" class="headerlink" title="预备"></a>预备</h2><ul>
-<li>默认博客已经建好！</li>
-<li>默认当事人已经购买了域名，且已经实名认证。（阿里云的、百度的…都可以）</li>
-</ul>
-<p>当然没有购买域名的同学，请往这里走：<a href="https://promotion.aliyun.com/ntms/act/domainbrand.html?spm=5176.8006371.772226.domainbackorder.b46f7e63AuIXBy">阿里云域名注册</a></p>
-<p>在注册域名时，还需要通过一个真实邮箱认证模板，因此需要一个可用的邮箱！</p>
-<p>阿里云的实名认证还是很快的，说是两三个工作日内审核，但是我半个小时不到就通过了。</p>
-<span id="more"></span>
-
-<h2 id="正片开始"><a href="#正片开始" class="headerlink" title="正片开始"></a>正片开始</h2><h3 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h3><p>先进入<a href="https://dc.console.aliyun.com/next/index?spm=5176.8006371.J_8058803260.1314.54897e63e7caJc#/domain/list/all-domain">阿里云域名后台</a>，点击<img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E7%82%B9%E5%87%BB%E8%A7%A3%E6%9E%90.png" alt="点击解析"></p>
-<p>按下快捷键<code>win+R</code>打开运行，运行<code>cmd</code>，ping您建好的博客地址（若部署在github上的博客则地址就是<code>yourname.github.io</code>,实际上也是一个域名），笔者的hexo博客部署在github上，因此需要这样做：</p>
-<p>![ping github](hexo博客绑定个人域名/ping github.png)</p>
-<p>在域名解析设置添加两条记录：</p>
-<ul>
-<li>CNAME记录：设置您的github访问页</li>
-<li>A记录：刚刚ping的IP</li>
-</ul>
-<p>可以参考下笔者的设置</p>
-<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E8%AE%BE%E7%BD%AE.png" alt="设置"></p>
-<p>关于这些记录可以参考</p>
-<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5CA%E3%80%81cname.png" alt="A、cname"></p>
-<p>域名前缀可以参考：</p>
-<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5C%E4%B8%BB%E6%9C%BA%E8%AE%B0%E5%BD%95.png" alt="主机记录"></p>
-<p>就看你想要<code>www</code>、<code>@</code>还是其他了！</p>
-<h3 id="本地配置"><a href="#本地配置" class="headerlink" title="本地配置"></a>本地配置</h3><p>在<code>hexo根目录/source</code>文件夹中添加一个<code>CNAME</code>文件，注意文件无后缀，内容设置为您自己的域名：</p>
-<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/CNAME.png" alt="CNAME"></p>
-<p>保存之后。hexo三连即可！</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<h2 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h2><p>可以使用域名访问自己的博客啦！</p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>recovery</tag>
-        <tag>domain</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo恢复搭建</title>
-    <url>/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/</url>
-    <content><![CDATA[<p>写下这篇博客，主要用于记录自己搭建博客过程，以后重装系统后有一个参考的恢复方向（已经干掉重新来了好几次，每次都要找资料，猝），而且，不得不说，windows系统，C盘没100G真的用不了多久，不知道是不是只有我是这样！！😭😭😭😭</p>
-<span id="more"></span>
-
-<h2 id="2-提前准备"><a href="#2-提前准备" class="headerlink" title="2.提前准备"></a>2.提前准备</h2><p>安装 <code>Hexo</code> 相当简单，只需要先安装下列应用程序即可：</p>
-<ul>
-<li><a href="http://nodejs.cn/download/">Node.js</a></li>
-<li><a href="https://gitforwindows.org/">Git for Windows</a></li>
-<li><a href="https://npm.taobao.org/mirrors/git-for-windows/">Git淘宝源</a></li>
-</ul>
-<p>可以点击上面的链接进去官网下载，git下载慢的可以去淘宝源。这里我分享我目前用的版本：</p>
-<ul>
-<li><a href="http://xz.w10a.com/Small/Nodejs.zip">node.js 12.14</a></li>
-<li><a href="https://cdn.npm.taobao.org/dist/git-for-windows/v2.29.2.windows.3/Git-2.29.2.3-64-bit.exe">Git-2.29.2.3</a></li>
-</ul>
-<p>安装过程不再详细说明，简单的全选下一步就行，安装的位置自己喜欢放哪里就放哪里呗（doge）</p>
-<h2 id="3-安装npm（cnpm）"><a href="#3-安装npm（cnpm）" class="headerlink" title="3.安装npm（cnpm）"></a>3.安装npm（cnpm）</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(Win+R)运行 ---&gt; cmd </span><br></pre></td></tr></table></figure>
-
-<p>查看版本：</p>
-<pre><code>node -v
-npm -v
-</code></pre>
-<p>因为国内的比较慢，所以安装淘宝源cnpm：</p>
-<pre><code>npm install -g cnpm --registry=http://registry.npm.taobao.org
-</code></pre>
-<p>若发现淘宝源下载过程中出现卡死，则最好换回原服务器：</p>
-<pre><code>npm config delete registry
-</code></pre>
-<h2 id="4-安装hexo"><a href="#4-安装hexo" class="headerlink" title="4.安装hexo"></a>4.安装hexo</h2><p>同样在cmd中安装：</p>
-<pre><code>cnpm install -g hexo-cli
-</code></pre>
-<h2 id="5-初始化hexo"><a href="#5-初始化hexo" class="headerlink" title="5.初始化hexo"></a>5.初始化hexo</h2><ol>
-<li><p>选择一个目录，用于本地部署</p>
-</li>
-<li><p>在目录里边用<code>Git bash</code>或者<code>Powershell</code>，初始化<code>hexo</code></p>
- <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>注意：如果你的<code>git</code>版本比较高，如笔者使用的<code>Git-2.31.1-64-bit</code>默认会开启服务器的SSL证书第三方机构签署认证，而<code>github</code>没有，所以可能会报错：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git</span><br><span class="line">fatal: unable to access </span><br><span class="line">&#x27;https://github.com/hexojs/hexo-starter.git/&#x27;: OpenSSL SSL_read: Connection was reset, errno 10054</span><br></pre></td></tr></table></figure>
-
-<p>解决方法是把SSL认证关掉：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.sslVerify &quot;false&quot;</span><br></pre></td></tr></table></figure>
-
-<p>或者如果打开了多个bash，把不用的关掉</p>
-<p>初始化完成之后使用<code>hexo g</code>、再<code>hexo s</code>，如果弹出默认主题初始页，则说明本地初始化成功了！</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402190136280.png" alt="image-20210402190136280"></p>
-<h2 id="6-部署到远端"><a href="#6-部署到远端" class="headerlink" title="6.部署到远端"></a>6.部署到远端</h2><h3 id="6-1创建SSH密钥"><a href="#6-1创建SSH密钥" class="headerlink" title="6.1创建SSH密钥"></a>6.1创建SSH密钥</h3><p>打开<code>gitbash</code>，配置本机用户名和邮箱，生成SSH密钥</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402191410819.png" alt="image-20210402191410819"></p>
-<p><strong>生成密钥过程所有的提问全部回车就行</strong></p>
-<p>生成的密钥文件放在：<code>C:\Users\（你计算机的当前用户名）\.ssh</code>中</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201820428.png" alt="image-20210402201820428"></p>
-<p><strong>其中pub结尾的为公钥，用记事本打开复制里面的所有内容</strong></p>
-<h3 id="6-2将密钥放在远端"><a href="#6-2将密钥放在远端" class="headerlink" title="6.2将密钥放在远端"></a>6.2将密钥放在远端</h3><p>注册Github或者Gitee账号，将复制的公钥添加进SSH中</p>
-<p>Setting –&gt; SSh</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402214646615.png" alt="image-20210402214646615"></p>
-<h3 id="6-3创建仓库"><a href="#6-3创建仓库" class="headerlink" title="6.3创建仓库"></a>6.3创建仓库</h3><p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192650539.png" alt="image-20210402192650539"></p>
-<p>同时勾上这个</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192738568.png" alt="image-20210402192738568"></p>
-<h3 id="6-4-配置-comfig-yml"><a href="#6-4-配置-comfig-yml" class="headerlink" title="6.4 配置_comfig.yml"></a>6.4 配置<code>_comfig.yml</code></h3><p>仓库创建好之后，复制仓库地址建议使用SSH（github、gitee都一样的操作）</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402193005129.png" alt="image-20210402193005129"></p>
-<p>打开<code>hexo</code>主目录下的<code>_comfig.yml</code>，在最后，修改：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/one-command-deployment</span><br><span class="line">deploy:</span><br><span class="line">  type: &#x27;git&#x27;</span><br><span class="line">  repo: 你刚刚复制的仓库地址</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-
-<p>注意：</p>
-<p>如果你打开文件只看到<code>type</code>，没有<code>repo</code>和<code>branch</code>，自己加上就行了，<strong>注意属性名和属性值之间的空格</strong>，如<code>type</code>和<code>&#39;git&#39;</code>中间是有空格的，<strong>另外type属性的两个单引号，不要去掉！！</strong></p>
-<h2 id="7-安装hexo-deployer推进远端"><a href="#7-安装hexo-deployer推进远端" class="headerlink" title="7.安装hexo deployer推进远端"></a>7.安装<code>hexo deployer</code>推进远端</h2><p>回到<code>git bash</code>或者<code>powershell</code>，安装<code>hexo deployer</code></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install --save hexo-deployer-git</span><br></pre></td></tr></table></figure>
-
-<p>然后推到远端：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<p>这一步Github可能会弹出对话框确认OpenSSH</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402215905251.png" alt="image-20210402215905251"></p>
-<p>甚至是提示登陆的窗口：</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20210811150819631.png" alt="image-20210811150819631"></p>
-<p>注意：</p>
-<p>如果遇到这种情况：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fatal: unable to access &#x27;https://github.com/ArgentoAskia2/ArgentoAskia2.github.io.git/&#x27;: Could not resolve host: github.com</span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">error: RPC failed; curl 56 OpenSSL SSL_read: Connection was reset, errno 10054</span><br><span class="line">send-pack: unexpected disconnect while reading sideband packet</span><br></pre></td></tr></table></figure>
-
-<p>造成上面的情况有很多原因，如果是<code>github</code>，最常见就是<code>github</code>抽风了，访问不了，尝试多几次<code>hexo</code>三连就好。</p>
-<p>如果还不行的话，请运行下面的命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy </span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-<p>在进行<code>hexo d</code></p>
-<h2 id="8-最后的一步"><a href="#8-最后的一步" class="headerlink" title="8.最后的一步"></a>8.最后的一步</h2><p>对于Github的朋友，你们的小窝估计已经搭好了，访问地址一般都是<strong>用户名.github.io</strong></p>
-<p>而对于Gitee的朋友，你们还需要部署GiteePage</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201359207.png" alt="image-20210402201359207"></p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201430087.png" alt="image-20210402201430087"></p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201510671.png" alt="image-20210402201510671"></p>
-<p>开启服务之后，这个就是你的博客地址啦，可以通过这个来访问！</p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>recovery</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo模板修改和使用</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
-<span id="more"></span>
-
-<p><code>hexo</code>的模板一般放在：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
-<p>有三个文件</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
-<p>对应new命令的三种创建类型！</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
-<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
-<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>features</tag>
-        <tag>reference</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于hexoGenerate</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/</url>
-    <content><![CDATA[<p>本次讲解<code>hexo</code>博客常用的命令：<code>hexo g</code></p>
-<span id="more"></span>
-
-<h2 id="如何生成静态文件"><a href="#如何生成静态文件" class="headerlink" title="如何生成静态文件"></a>如何生成静态文件</h2><p>hexo生成静态文件的方法非常简单,只需要使用<code>hexo g</code>命令（当然也可以使用全名<code>hexo generate</code>），你在我的一些关于hexo的文章中可能会看到一个叫素质三连的词，这个词代表你要执行三条命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean			// 清空上一次的生成</span><br><span class="line">hexo generate		// 重新生成</span><br><span class="line">hexo server			// 本地启动浏览效果</span><br></pre></td></tr></table></figure>
-
-<p>当然上面的命令在面对文件被改变的时候，可能需要你重新生成，如果不想每次都三连的话，可以使用：<code>hexo generate --watch</code>。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean			</span><br><span class="line">hexo generate --watch		</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
-<p>这样，hexo可以监视文件更改并立即重新生成文件。hexo将比较文件的sha1校验和，仅在检测到文件更改时才写入。</p>
-<p>如果想生成之后立刻部署到远端，可以：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
-
-<h2 id="生成细节"><a href="#生成细节" class="headerlink" title="生成细节"></a>生成细节</h2><h3 id="public文件夹及URL定位"><a href="#public文件夹及URL定位" class="headerlink" title="public文件夹及URL定位"></a>public文件夹及URL定位</h3><p>你可能会注意到，在你的<strong>博客根目录</strong>中有一个public文件夹，<strong>用于装载生成之后的文件</strong>，也就是说当运行<code>hexo g</code>之后，hexo会将资源经过处理（具体怎样处理待会会讲）放在这个文件夹里面，当你运行<code>hexo server</code>的时候，本地启动的URL也是根据这个文件来设定的。</p>
-<p>比如，当你素质三连之后，你打开<code>http://localhost:4000/</code>，那么这个地址定位到的相应html文件就是你public文件夹下的index.html（URL中的index.html可以不写，默认就是定位这个文件）。没错，你可能猜到了，如果你想访问某个页面，只需要定位它的html资源在public文件夹的哪个地方就可以，比如我想访问关于页面（这个页面的位置是public/about/index.html）,那么我就可以修改URl为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://localhost:4000/about/</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404005943351-16287272629311.png" alt="image-20210404005943351"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404010237512.png" alt="image-20210404010237512"></p>
-<p>对于远端来讲也是差不多的，<code>hexo deploy</code>指令只是将public文件夹里的所有·内容上传到远端，那么这个时候只要把<code>http://localhost:4000/</code>替换成<code>远端服务器的地址</code>就行！</p>
-<h3 id="生成哪些内容"><a href="#生成哪些内容" class="headerlink" title="生成哪些内容"></a>生成哪些内容</h3><p><code>hexo g</code>之后，<code>hexo</code>会把这些内容放在public文件夹中，包括单不仅限于：你的文章、你自定义的特效（鼠标点击特效等）、你的文章设置（文章加密）、头像和背景图等媒体、归档、分类、标签等。涉及到的目录包括<code>source</code>、<code>themes</code>目录下的<code>source</code>、<code>script</code>、<code>layout</code>等，其中重要的是<code>source</code>文件夹，因为该文件夹的内容都会被放在public中</p>
-<p>另外，hexo对<code>source</code>中的<code>_post</code>文件夹内的所有文章的生成，不直接用部署文件名二而是采用<code>年/月/日/文章标题/index.html</code>的方式来部署（当然可以在<code>_config.yml</code>中修改这个生成方式），如果你的文章位于<code>_post\XXX\</code>目录下面，那么生成的就是<code>年/月/日/XXX/文章标题/index.html</code>，多级目录以此类推！如下图：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404014541573.png" alt="image-20210404014541573"></p>
-<p>那么<code>hexo g</code>之后public对应的访问路径就是：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404014800864.png" alt="image-20210404014800864"></p>
-<h3 id="添油加醋"><a href="#添油加醋" class="headerlink" title="添油加醋"></a>添油加醋</h3><p>现在知道了<code>source</code>文件夹的东西都会被放在public中，也知道在本地启动之后可以通过手写URL的方式来访问，但是还有一个问题：我们在<code>source</code>文件夹中写的是<code>markdown</code>，而public中确实html文件，这说明了<code>hexo g</code>并不是简单的把文章复制，而是对文章进行过加工，仔细对比public中的hello-world和source中的hello-world可知：hexo会对所有的文章进行主题格式化，也就是说会把主题需要的CSS样式、JS等都添加进去文章中：</p>
-<p>这里是文章的地方：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020004962.png" alt="image-20210404020004962"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020040346.png" alt="image-20210404020040346"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020139825.png" alt="image-20210404020139825"></p>
-<p>然而其他代码呢？其他代码与主题有关，通常是主题的JS、CSS具体可以参考自己主题里面的<code>source</code>文件夹</p>
-<h2 id="自定义页面"><a href="#自定义页面" class="headerlink" title="自定义页面"></a>自定义页面</h2><h3 id="markdown-内嵌HTML、JS、CSS"><a href="#markdown-内嵌HTML、JS、CSS" class="headerlink" title="markdown 内嵌HTML、JS、CSS"></a>markdown 内嵌HTML、JS、CSS</h3><h3 id="使用自定义HTML页面"><a href="#使用自定义HTML页面" class="headerlink" title="使用自定义HTML页面"></a>使用自定义HTML页面</h3><p>既然我们知道了他的生成方式和定位方式，那我们就可以将html、放一些资源进去了吗？理论上可行，因为知道hexo对于资源是会添油加醋的，所以需要配合好主题自带的样式和JS，当然可以通过不指定hexo渲染方法来实现，具体方法:</p>
-<h4 id="1-在source文件夹中新建一个文件夹-名字随意-用于装载不经过主题格式化的HTML。"><a href="#1-在source文件夹中新建一个文件夹-名字随意-用于装载不经过主题格式化的HTML。" class="headerlink" title="1.在source文件夹中新建一个文件夹(名字随意),用于装载不经过主题格式化的HTML。"></a>1.在source文件夹中新建一个文件夹(名字随意),用于装载不经过主题格式化的HTML。</h4><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210406114751633.png" alt="image-20210406114751633"></p>
-<h4 id="2-配置根目录的-comfig-yml，指定跳过渲染位置"><a href="#2-配置根目录的-comfig-yml，指定跳过渲染位置" class="headerlink" title="2.配置根目录的_comfig.yml，指定跳过渲染位置"></a>2.配置根目录的_comfig.yml，指定跳过渲染位置</h4><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210406114914766.png" alt="image-20210406114914766"></p>
-<p>注意配置格式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">skip_render:</span><br><span class="line">	- &quot;目录名/*&quot;			// 目录下的所有文件都跳过渲染</span><br><span class="line">	- &quot;目录名/**&quot;			// 目录下的所有文件、所有文件夹都跳过渲染</span><br><span class="line">	- &quot;目录1/目录2/*&quot;	   // 目录2下面的所有文件都跳过渲染</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-添加主题模板"><a href="#3-添加主题模板" class="headerlink" title="3.添加主题模板"></a>3.添加主题模板</h4><p>在上面已经将结果，当我们使用<code>hexo g</code>的时候，hexo会根据主题的不同给我们的文章添加一些JS、CSS来渲染文章，第二部我们禁止了这种渲染，所以就需要手动把这些JS、CSS加上，这些文件一般在<code>themes/(主题名称)/source</code>里面，把这些文件复制到你新建的文件夹那里（笔者的是<code>norender</code>）</p>
-<h3 id="使用自定义的404错误页"><a href="#使用自定义的404错误页" class="headerlink" title="使用自定义的404错误页"></a>使用自定义的404错误页</h3><p>不需要<code>hexo-generator-index</code>插件渲染文章，不指定主题模板</p>
-<h3 id="实例：使用自定义时钟"><a href="#实例：使用自定义时钟" class="headerlink" title="实例：使用自定义时钟"></a>实例：使用自定义时钟</h3><h3 id="生成无渲染模板"><a href="#生成无渲染模板" class="headerlink" title="生成无渲染模板"></a>生成无渲染模板</h3>]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>reference</tag>
-        <tag>explain</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>添加搜索功能</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<h2 id="基于next-hexo-generator-searchdb的搜索功能"><a href="#基于next-hexo-generator-searchdb的搜索功能" class="headerlink" title="基于next + hexo-generator-searchdb的搜索功能"></a>基于next + hexo-generator-searchdb的搜索功能</h2><span id="more"></span>
-
-<h2 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h2><p>在博客根目录下，启动git bash，键入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-
-<p>如果添加了淘宝源，键入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-
-<h2 id="修改博客和主题的-config-yml"><a href="#修改博客和主题的-config-yml" class="headerlink" title="修改博客和主题的__config.yml"></a>修改博客和主题的__config.yml</h2><h3 id="博客的-config-yml"><a href="#博客的-config-yml" class="headerlink" title="博客的__config.yml"></a>博客的__config.yml</h3><p>在配置文件末尾添加：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101118677.png" alt="image-20210812101118677"></p>
-<p>其中这些参数：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">path：表示搜索后生成的文件路径，可以生成xml和json两种格式；将path设置为“content.json”就可以替代第二个插件。</span><br><span class="line">field：表示搜索的范围，有“post、page和all”三种值。</span><br><span class="line">    post：所有的文章；</span><br><span class="line">    page：所有顶部导航选项的页面；</span><br><span class="line">    all：所有的文章和顶部导航选项的页面。</span><br><span class="line">content：是否包含搜索到的文章的全部内容。如果false，生成的结果只包括标题和创建时间这些信息，没有文章主体。默认情况下是true.</span><br><span class="line">format：搜索到的内容、选项的格式。</span><br><span class="line">    html(默认)：将html原文本缩略。</span><br><span class="line">    striptags：将html原文本缩略，并删除所有标记。</span><br><span class="line">    raw：记下每一篇文章或每一页的文字。</span><br></pre></td></tr></table></figure>
-
-<h3 id="主题的-config-yml"><a href="#主题的-config-yml" class="headerlink" title="主题的__config.yml"></a>主题的__config.yml</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101256981.png" alt="image-20210812101256981"></p>
-<p>当然<code>enable</code>后面的东西可以自行修改。</p>
-<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812104330740.png" alt="image-20210812104330740"></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo_优化</tag>
-        <tag>hexo_添加</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo中文乱码</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
-    <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
-
-<p>出现中文乱码可能是因为配置文件中不是使用<code>utf-8</code>进行保存，因此</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
-<p>即可解决问题</p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>添加评论功能</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<h2 id="基于next-来必力添加评论功能"><a href="#基于next-来必力添加评论功能" class="headerlink" title="基于next+来必力添加评论功能"></a>基于next+来必力添加评论功能</h2><span id="more"></span>
-
-<h2 id="注册账号"><a href="#注册账号" class="headerlink" title="注册账号"></a>注册账号</h2><p><a href="https://livere.com/">来必力官网</a></p>
-<p>貌似需要科学上网，但是我在宿舍自己电脑能直接上，换成机房的电脑就不行😥😥</p>
-<h2 id="复制UID"><a href="#复制UID" class="headerlink" title="复制UID"></a>复制UID</h2><p>进入管理界面，点击代码管理，复制<code>data-uid</code>后面的<code>uid</code></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085250263.png" alt="image-20210812085250263"></p>
-<h2 id="配置-Config-yml"><a href="#配置-Config-yml" class="headerlink" title="配置_Config.yml"></a>配置_Config.yml</h2><p>配置位置位于：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085408153.png" alt="image-20210812085408153"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085535585.png" alt="image-20210812085535585"></p>
-<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812090325909.png" alt="image-20210812090325909"></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo_优化</tag>
-        <tag>hexo_添加</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo标签和分类页面无法正常显示</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/</url>
-    <content><![CDATA[<h2 id="解决hexo标签和分类页面无法正常显示"><a href="#解决hexo标签和分类页面无法正常显示" class="headerlink" title="解决hexo标签和分类页面无法正常显示"></a>解决hexo标签和分类页面无法正常显示</h2><span id="more"></span>
-
-<p>需要找到</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/image-20210812083030492.png" alt="image-20210812083030492"></p>
-<p>打开<code>index.md</code></p>
-<p>分别添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type: &quot;categories&quot;</span><br><span class="line">layout: &quot;categories&quot;</span><br><span class="line"></span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">layout: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
-
-<p>即可解决</p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo部署到github上图片无法显示问题</title>
-    <url>/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="解决hexo部署到github上图片无法显示问题"><a href="#解决hexo部署到github上图片无法显示问题" class="headerlink" title="解决hexo部署到github上图片无法显示问题"></a>解决hexo部署到github上图片无法显示问题</h1><span id="more"></span>
-
-<h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>设置站点配置文件<code>_config.yml</code>中 <code>post_asset_folder:true</code></p>
-<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811190704876.png" alt="image-20210811190704876"></p>
-<p><code>Hexo</code> 提供了一种更方便管理 <code>Asset</code> 的设定：<code>post_asset_folder</code>当您设置为<code>true</code>参数后，在建立文件时，<code>Hexo</code><strong>会自动建立一个与文章同名的文件夹，您可以把与该文章相关的所有资源都放到那个文件夹。</strong></p>
-<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>在hexo的目录下执行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
-
-<p>完成安装后用<code>hexo</code>新建文章的时候会发现<code>_posts</code>目录下面会多出一个和文章名字一样的文件夹。图片就可以放在文件夹下面。</p>
-<p>然后进行正常的<code>hexo</code>三连就可以了</p>
-<h2 id="可能出现的问题"><a href="#可能出现的问题" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h2><p>大家按照上面的步骤完成之后，在部署或者测试的时候图片可能仍然无法正常显示，这涉及到<code>hexo-asset-image</code>插件的问题。</p>
-<p>如果在<code>hexo g</code>之后图片的加载是这样的：</p>
-<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811192905480.png" alt="image-20210811192905480"></p>
-<p>带<code>/.com//d</code>的，那你的图片百分百是没法显示的。解决这个问题也很简单：</p>
-<ol>
-<li><p>找到<code>node_modules\hexo-asset-image</code></p>
-</li>
-<li><p>打开<code>index.js</code></p>
-</li>
-<li><p>修改24行为：</p>
-</li>
-</ol>
-<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193248235.png" alt="image-20210811193248235"></p>
-<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193519193.png" alt="image-20210811193519193"></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo-github hexo g time out 443</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
-    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
-<span id="more"></span>
-
-<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>如果不需要代理了，则可以运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>常用正则表达式</title>
     <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
@@ -1301,6 +1062,391 @@ npm -v
       </tags>
   </entry>
   <entry>
+    <title>“El表达式”</title>
+    <url>/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<span id="more"></span>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>hexo恢复搭建</title>
+    <url>/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<p>写下这篇博客，主要用于记录自己搭建博客过程，以后重装系统后有一个参考的恢复方向（已经干掉重新来了好几次，每次都要找资料，猝），而且，不得不说，windows系统，C盘没100G真的用不了多久，不知道是不是只有我是这样！！😭😭😭😭</p>
+<span id="more"></span>
+
+<h2 id="2-提前准备"><a href="#2-提前准备" class="headerlink" title="2.提前准备"></a>2.提前准备</h2><p>安装 <code>Hexo</code> 相当简单，只需要先安装下列应用程序即可：</p>
+<ul>
+<li><a href="http://nodejs.cn/download/">Node.js</a></li>
+<li><a href="https://gitforwindows.org/">Git for Windows</a></li>
+<li><a href="https://npm.taobao.org/mirrors/git-for-windows/">Git淘宝源</a></li>
+</ul>
+<p>可以点击上面的链接进去官网下载，git下载慢的可以去淘宝源。这里我分享我目前用的版本：</p>
+<ul>
+<li><a href="http://xz.w10a.com/Small/Nodejs.zip">node.js 12.14</a></li>
+<li><a href="https://cdn.npm.taobao.org/dist/git-for-windows/v2.29.2.windows.3/Git-2.29.2.3-64-bit.exe">Git-2.29.2.3</a></li>
+</ul>
+<p>安装过程不再详细说明，简单的全选下一步就行，安装的位置自己喜欢放哪里就放哪里呗（doge）</p>
+<h2 id="3-安装npm（cnpm）"><a href="#3-安装npm（cnpm）" class="headerlink" title="3.安装npm（cnpm）"></a>3.安装npm（cnpm）</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(Win+R)运行 ---&gt; cmd </span><br></pre></td></tr></table></figure>
+
+<p>查看版本：</p>
+<pre><code>node -v
+npm -v
+</code></pre>
+<p>因为国内的比较慢，所以安装淘宝源cnpm：</p>
+<pre><code>npm install -g cnpm --registry=http://registry.npm.taobao.org
+</code></pre>
+<p>若发现淘宝源下载过程中出现卡死，则最好换回原服务器：</p>
+<pre><code>npm config delete registry
+</code></pre>
+<h2 id="4-安装hexo"><a href="#4-安装hexo" class="headerlink" title="4.安装hexo"></a>4.安装hexo</h2><p>同样在cmd中安装：</p>
+<pre><code>cnpm install -g hexo-cli
+</code></pre>
+<h2 id="5-初始化hexo"><a href="#5-初始化hexo" class="headerlink" title="5.初始化hexo"></a>5.初始化hexo</h2><ol>
+<li><p>选择一个目录，用于本地部署</p>
+</li>
+<li><p>在目录里边用<code>Git bash</code>或者<code>Powershell</code>，初始化<code>hexo</code></p>
+ <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>注意：如果你的<code>git</code>版本比较高，如笔者使用的<code>Git-2.31.1-64-bit</code>默认会开启服务器的SSL证书第三方机构签署认证，而<code>github</code>没有，所以可能会报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git</span><br><span class="line">fatal: unable to access </span><br><span class="line">&#x27;https://github.com/hexojs/hexo-starter.git/&#x27;: OpenSSL SSL_read: Connection was reset, errno 10054</span><br></pre></td></tr></table></figure>
+
+<p>解决方法是把SSL认证关掉：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.sslVerify &quot;false&quot;</span><br></pre></td></tr></table></figure>
+
+<p>或者如果打开了多个bash，把不用的关掉</p>
+<p>初始化完成之后使用<code>hexo g</code>、再<code>hexo s</code>，如果弹出默认主题初始页，则说明本地初始化成功了！</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402190136280.png" alt="image-20210402190136280"></p>
+<h2 id="6-部署到远端"><a href="#6-部署到远端" class="headerlink" title="6.部署到远端"></a>6.部署到远端</h2><h3 id="6-1创建SSH密钥"><a href="#6-1创建SSH密钥" class="headerlink" title="6.1创建SSH密钥"></a>6.1创建SSH密钥</h3><p>打开<code>gitbash</code>，配置本机用户名和邮箱，生成SSH密钥</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402191410819.png" alt="image-20210402191410819"></p>
+<p><strong>生成密钥过程所有的提问全部回车就行</strong></p>
+<p>生成的密钥文件放在：<code>C:\Users\（你计算机的当前用户名）\.ssh</code>中</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201820428.png" alt="image-20210402201820428"></p>
+<p><strong>其中pub结尾的为公钥，用记事本打开复制里面的所有内容</strong></p>
+<h3 id="6-2将密钥放在远端"><a href="#6-2将密钥放在远端" class="headerlink" title="6.2将密钥放在远端"></a>6.2将密钥放在远端</h3><p>注册Github或者Gitee账号，将复制的公钥添加进SSH中</p>
+<p>Setting –&gt; SSh</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402214646615.png" alt="image-20210402214646615"></p>
+<h3 id="6-3创建仓库"><a href="#6-3创建仓库" class="headerlink" title="6.3创建仓库"></a>6.3创建仓库</h3><p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192650539.png" alt="image-20210402192650539"></p>
+<p>同时勾上这个</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192738568.png" alt="image-20210402192738568"></p>
+<h3 id="6-4-配置-comfig-yml"><a href="#6-4-配置-comfig-yml" class="headerlink" title="6.4 配置_comfig.yml"></a>6.4 配置<code>_comfig.yml</code></h3><p>仓库创建好之后，复制仓库地址建议使用SSH（github、gitee都一样的操作）</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402193005129.png" alt="image-20210402193005129"></p>
+<p>打开<code>hexo</code>主目录下的<code>_comfig.yml</code>，在最后，修改：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/one-command-deployment</span><br><span class="line">deploy:</span><br><span class="line">  type: &#x27;git&#x27;</span><br><span class="line">  repo: 你刚刚复制的仓库地址</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<p>如果你打开文件只看到<code>type</code>，没有<code>repo</code>和<code>branch</code>，自己加上就行了，<strong>注意属性名和属性值之间的空格</strong>，如<code>type</code>和<code>&#39;git&#39;</code>中间是有空格的，<strong>另外type属性的两个单引号，不要去掉！！</strong></p>
+<h2 id="7-安装hexo-deployer推进远端"><a href="#7-安装hexo-deployer推进远端" class="headerlink" title="7.安装hexo deployer推进远端"></a>7.安装<code>hexo deployer</code>推进远端</h2><p>回到<code>git bash</code>或者<code>powershell</code>，安装<code>hexo deployer</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install --save hexo-deployer-git</span><br></pre></td></tr></table></figure>
+
+<p>然后推到远端：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>这一步Github可能会弹出对话框确认OpenSSH</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402215905251.png" alt="image-20210402215905251"></p>
+<p>甚至是提示登陆的窗口：</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20210811150819631.png" alt="image-20210811150819631"></p>
+<p>注意：</p>
+<p>如果遇到这种情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fatal: unable to access &#x27;https://github.com/ArgentoAskia2/ArgentoAskia2.github.io.git/&#x27;: Could not resolve host: github.com</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">error: RPC failed; curl 56 OpenSSL SSL_read: Connection was reset, errno 10054</span><br><span class="line">send-pack: unexpected disconnect while reading sideband packet</span><br></pre></td></tr></table></figure>
+
+<p>造成上面的情况有很多原因，如果是<code>github</code>，最常见就是<code>github</code>抽风了，访问不了，尝试多几次<code>hexo</code>三连就好。</p>
+<p>如果还不行的话，请运行下面的命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy </span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+<p>在进行<code>hexo d</code></p>
+<h2 id="8-最后的一步"><a href="#8-最后的一步" class="headerlink" title="8.最后的一步"></a>8.最后的一步</h2><p>对于Github的朋友，你们的小窝估计已经搭好了，访问地址一般都是<strong>用户名.github.io</strong></p>
+<p>而对于Gitee的朋友，你们还需要部署GiteePage</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201359207.png" alt="image-20210402201359207"></p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201430087.png" alt="image-20210402201430087"></p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201510671.png" alt="image-20210402201510671"></p>
+<p>开启服务之后，这个就是你的博客地址啦，可以通过这个来访问！</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>recovery</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客绑定个人域名</title>
+    <url>/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/</url>
+    <content><![CDATA[<h2 id="预备"><a href="#预备" class="headerlink" title="预备"></a>预备</h2><ul>
+<li>默认博客已经建好！</li>
+<li>默认当事人已经购买了域名，且已经实名认证。（阿里云的、百度的…都可以）</li>
+</ul>
+<p>当然没有购买域名的同学，请往这里走：<a href="https://promotion.aliyun.com/ntms/act/domainbrand.html?spm=5176.8006371.772226.domainbackorder.b46f7e63AuIXBy">阿里云域名注册</a></p>
+<p>在注册域名时，还需要通过一个真实邮箱认证模板，因此需要一个可用的邮箱！</p>
+<p>阿里云的实名认证还是很快的，说是两三个工作日内审核，但是我半个小时不到就通过了。</p>
+<span id="more"></span>
+
+<h2 id="正片开始"><a href="#正片开始" class="headerlink" title="正片开始"></a>正片开始</h2><h3 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h3><p>先进入<a href="https://dc.console.aliyun.com/next/index?spm=5176.8006371.J_8058803260.1314.54897e63e7caJc#/domain/list/all-domain">阿里云域名后台</a>，点击<img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E7%82%B9%E5%87%BB%E8%A7%A3%E6%9E%90.png" alt="点击解析"></p>
+<p>按下快捷键<code>win+R</code>打开运行，运行<code>cmd</code>，ping您建好的博客地址（若部署在github上的博客则地址就是<code>yourname.github.io</code>,实际上也是一个域名），笔者的hexo博客部署在github上，因此需要这样做：</p>
+<p>![ping github](hexo博客绑定个人域名/ping github.png)</p>
+<p>在域名解析设置添加两条记录：</p>
+<ul>
+<li>CNAME记录：设置您的github访问页</li>
+<li>A记录：刚刚ping的IP</li>
+</ul>
+<p>可以参考下笔者的设置</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E8%AE%BE%E7%BD%AE.png" alt="设置"></p>
+<p>关于这些记录可以参考</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5CA%E3%80%81cname.png" alt="A、cname"></p>
+<p>域名前缀可以参考：</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5C%E4%B8%BB%E6%9C%BA%E8%AE%B0%E5%BD%95.png" alt="主机记录"></p>
+<p>就看你想要<code>www</code>、<code>@</code>还是其他了！</p>
+<h3 id="本地配置"><a href="#本地配置" class="headerlink" title="本地配置"></a>本地配置</h3><p>在<code>hexo根目录/source</code>文件夹中添加一个<code>CNAME</code>文件，注意文件无后缀，内容设置为您自己的域名：</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/CNAME.png" alt="CNAME"></p>
+<p>保存之后。hexo三连即可！</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<h2 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h2><p>可以使用域名访问自己的博客啦！</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>recovery</tag>
+        <tag>domain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于hexoGenerate</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/</url>
+    <content><![CDATA[<p>本次讲解<code>hexo</code>博客常用的命令：<code>hexo g</code></p>
+<span id="more"></span>
+
+<h2 id="如何生成静态文件"><a href="#如何生成静态文件" class="headerlink" title="如何生成静态文件"></a>如何生成静态文件</h2><p>hexo生成静态文件的方法非常简单,只需要使用<code>hexo g</code>命令（当然也可以使用全名<code>hexo generate</code>），你在我的一些关于hexo的文章中可能会看到一个叫素质三连的词，这个词代表你要执行三条命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean			// 清空上一次的生成</span><br><span class="line">hexo generate		// 重新生成</span><br><span class="line">hexo server			// 本地启动浏览效果</span><br></pre></td></tr></table></figure>
+
+<p>当然上面的命令在面对文件被改变的时候，可能需要你重新生成，如果不想每次都三连的话，可以使用：<code>hexo generate --watch</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean			</span><br><span class="line">hexo generate --watch		</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<p>这样，hexo可以监视文件更改并立即重新生成文件。hexo将比较文件的sha1校验和，仅在检测到文件更改时才写入。</p>
+<p>如果想生成之后立刻部署到远端，可以：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成细节"><a href="#生成细节" class="headerlink" title="生成细节"></a>生成细节</h2><h3 id="public文件夹及URL定位"><a href="#public文件夹及URL定位" class="headerlink" title="public文件夹及URL定位"></a>public文件夹及URL定位</h3><p>你可能会注意到，在你的<strong>博客根目录</strong>中有一个public文件夹，<strong>用于装载生成之后的文件</strong>，也就是说当运行<code>hexo g</code>之后，hexo会将资源经过处理（具体怎样处理待会会讲）放在这个文件夹里面，当你运行<code>hexo server</code>的时候，本地启动的URL也是根据这个文件来设定的。</p>
+<p>比如，当你素质三连之后，你打开<code>http://localhost:4000/</code>，那么这个地址定位到的相应html文件就是你public文件夹下的index.html（URL中的index.html可以不写，默认就是定位这个文件）。没错，你可能猜到了，如果你想访问某个页面，只需要定位它的html资源在public文件夹的哪个地方就可以，比如我想访问关于页面（这个页面的位置是public/about/index.html）,那么我就可以修改URl为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://localhost:4000/about/</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404005943351-16287272629311.png" alt="image-20210404005943351"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404010237512.png" alt="image-20210404010237512"></p>
+<p>对于远端来讲也是差不多的，<code>hexo deploy</code>指令只是将public文件夹里的所有·内容上传到远端，那么这个时候只要把<code>http://localhost:4000/</code>替换成<code>远端服务器的地址</code>就行！</p>
+<h3 id="生成哪些内容"><a href="#生成哪些内容" class="headerlink" title="生成哪些内容"></a>生成哪些内容</h3><p><code>hexo g</code>之后，<code>hexo</code>会把这些内容放在public文件夹中，包括单不仅限于：你的文章、你自定义的特效（鼠标点击特效等）、你的文章设置（文章加密）、头像和背景图等媒体、归档、分类、标签等。涉及到的目录包括<code>source</code>、<code>themes</code>目录下的<code>source</code>、<code>script</code>、<code>layout</code>等，其中重要的是<code>source</code>文件夹，因为该文件夹的内容都会被放在public中</p>
+<p>另外，hexo对<code>source</code>中的<code>_post</code>文件夹内的所有文章的生成，不直接用部署文件名二而是采用<code>年/月/日/文章标题/index.html</code>的方式来部署（当然可以在<code>_config.yml</code>中修改这个生成方式），如果你的文章位于<code>_post\XXX\</code>目录下面，那么生成的就是<code>年/月/日/XXX/文章标题/index.html</code>，多级目录以此类推！如下图：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404014541573.png" alt="image-20210404014541573"></p>
+<p>那么<code>hexo g</code>之后public对应的访问路径就是：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404014800864.png" alt="image-20210404014800864"></p>
+<h3 id="添油加醋"><a href="#添油加醋" class="headerlink" title="添油加醋"></a>添油加醋</h3><p>现在知道了<code>source</code>文件夹的东西都会被放在public中，也知道在本地启动之后可以通过手写URL的方式来访问，但是还有一个问题：我们在<code>source</code>文件夹中写的是<code>markdown</code>，而public中确实html文件，这说明了<code>hexo g</code>并不是简单的把文章复制，而是对文章进行过加工，仔细对比public中的hello-world和source中的hello-world可知：hexo会对所有的文章进行主题格式化，也就是说会把主题需要的CSS样式、JS等都添加进去文章中：</p>
+<p>这里是文章的地方：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020004962.png" alt="image-20210404020004962"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020040346.png" alt="image-20210404020040346"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020139825.png" alt="image-20210404020139825"></p>
+<p>然而其他代码呢？其他代码与主题有关，通常是主题的JS、CSS具体可以参考自己主题里面的<code>source</code>文件夹</p>
+<h2 id="自定义页面"><a href="#自定义页面" class="headerlink" title="自定义页面"></a>自定义页面</h2><h3 id="markdown-内嵌HTML、JS、CSS"><a href="#markdown-内嵌HTML、JS、CSS" class="headerlink" title="markdown 内嵌HTML、JS、CSS"></a>markdown 内嵌HTML、JS、CSS</h3><h3 id="使用自定义HTML页面"><a href="#使用自定义HTML页面" class="headerlink" title="使用自定义HTML页面"></a>使用自定义HTML页面</h3><p>既然我们知道了他的生成方式和定位方式，那我们就可以将html、放一些资源进去了吗？理论上可行，因为知道hexo对于资源是会添油加醋的，所以需要配合好主题自带的样式和JS，当然可以通过不指定hexo渲染方法来实现，具体方法:</p>
+<h4 id="1-在source文件夹中新建一个文件夹-名字随意-用于装载不经过主题格式化的HTML。"><a href="#1-在source文件夹中新建一个文件夹-名字随意-用于装载不经过主题格式化的HTML。" class="headerlink" title="1.在source文件夹中新建一个文件夹(名字随意),用于装载不经过主题格式化的HTML。"></a>1.在source文件夹中新建一个文件夹(名字随意),用于装载不经过主题格式化的HTML。</h4><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210406114751633.png" alt="image-20210406114751633"></p>
+<h4 id="2-配置根目录的-comfig-yml，指定跳过渲染位置"><a href="#2-配置根目录的-comfig-yml，指定跳过渲染位置" class="headerlink" title="2.配置根目录的_comfig.yml，指定跳过渲染位置"></a>2.配置根目录的_comfig.yml，指定跳过渲染位置</h4><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210406114914766.png" alt="image-20210406114914766"></p>
+<p>注意配置格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">skip_render:</span><br><span class="line">	- &quot;目录名/*&quot;			// 目录下的所有文件都跳过渲染</span><br><span class="line">	- &quot;目录名/**&quot;			// 目录下的所有文件、所有文件夹都跳过渲染</span><br><span class="line">	- &quot;目录1/目录2/*&quot;	   // 目录2下面的所有文件都跳过渲染</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-添加主题模板"><a href="#3-添加主题模板" class="headerlink" title="3.添加主题模板"></a>3.添加主题模板</h4><p>在上面已经将结果，当我们使用<code>hexo g</code>的时候，hexo会根据主题的不同给我们的文章添加一些JS、CSS来渲染文章，第二部我们禁止了这种渲染，所以就需要手动把这些JS、CSS加上，这些文件一般在<code>themes/(主题名称)/source</code>里面，把这些文件复制到你新建的文件夹那里（笔者的是<code>norender</code>）</p>
+<h3 id="使用自定义的404错误页"><a href="#使用自定义的404错误页" class="headerlink" title="使用自定义的404错误页"></a>使用自定义的404错误页</h3><p>不需要<code>hexo-generator-index</code>插件渲染文章，不指定主题模板</p>
+<h3 id="实例：使用自定义时钟"><a href="#实例：使用自定义时钟" class="headerlink" title="实例：使用自定义时钟"></a>实例：使用自定义时钟</h3><h3 id="生成无渲染模板"><a href="#生成无渲染模板" class="headerlink" title="生成无渲染模板"></a>生成无渲染模板</h3>]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>explain</tag>
+        <tag>reference</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>添加搜索功能</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h2 id="基于next-hexo-generator-searchdb的搜索功能"><a href="#基于next-hexo-generator-searchdb的搜索功能" class="headerlink" title="基于next + hexo-generator-searchdb的搜索功能"></a>基于next + hexo-generator-searchdb的搜索功能</h2><span id="more"></span>
+
+<h2 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h2><p>在博客根目录下，启动git bash，键入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+<p>如果添加了淘宝源，键入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改博客和主题的-config-yml"><a href="#修改博客和主题的-config-yml" class="headerlink" title="修改博客和主题的__config.yml"></a>修改博客和主题的__config.yml</h2><h3 id="博客的-config-yml"><a href="#博客的-config-yml" class="headerlink" title="博客的__config.yml"></a>博客的__config.yml</h3><p>在配置文件末尾添加：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101118677.png" alt="image-20210812101118677"></p>
+<p>其中这些参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">path：表示搜索后生成的文件路径，可以生成xml和json两种格式；将path设置为“content.json”就可以替代第二个插件。</span><br><span class="line">field：表示搜索的范围，有“post、page和all”三种值。</span><br><span class="line">    post：所有的文章；</span><br><span class="line">    page：所有顶部导航选项的页面；</span><br><span class="line">    all：所有的文章和顶部导航选项的页面。</span><br><span class="line">content：是否包含搜索到的文章的全部内容。如果false，生成的结果只包括标题和创建时间这些信息，没有文章主体。默认情况下是true.</span><br><span class="line">format：搜索到的内容、选项的格式。</span><br><span class="line">    html(默认)：将html原文本缩略。</span><br><span class="line">    striptags：将html原文本缩略，并删除所有标记。</span><br><span class="line">    raw：记下每一篇文章或每一页的文字。</span><br></pre></td></tr></table></figure>
+
+<h3 id="主题的-config-yml"><a href="#主题的-config-yml" class="headerlink" title="主题的__config.yml"></a>主题的__config.yml</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101256981.png" alt="image-20210812101256981"></p>
+<p>当然<code>enable</code>后面的东西可以自行修改。</p>
+<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812104330740.png" alt="image-20210812104330740"></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo_优化</tag>
+        <tag>hexo_添加</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>添加评论功能</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h2 id="基于next-来必力添加评论功能"><a href="#基于next-来必力添加评论功能" class="headerlink" title="基于next+来必力添加评论功能"></a>基于next+来必力添加评论功能</h2><span id="more"></span>
+
+<h2 id="注册账号"><a href="#注册账号" class="headerlink" title="注册账号"></a>注册账号</h2><p><a href="https://livere.com/">来必力官网</a></p>
+<p>貌似需要科学上网，但是我在宿舍自己电脑能直接上，换成机房的电脑就不行😥😥</p>
+<h2 id="复制UID"><a href="#复制UID" class="headerlink" title="复制UID"></a>复制UID</h2><p>进入管理界面，点击代码管理，复制<code>data-uid</code>后面的<code>uid</code></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085250263.png" alt="image-20210812085250263"></p>
+<h2 id="配置-Config-yml"><a href="#配置-Config-yml" class="headerlink" title="配置_Config.yml"></a>配置_Config.yml</h2><p>配置位置位于：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085408153.png" alt="image-20210812085408153"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085535585.png" alt="image-20210812085535585"></p>
+<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812090325909.png" alt="image-20210812090325909"></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo_优化</tag>
+        <tag>hexo_添加</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo模板修改和使用</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
+<span id="more"></span>
+
+<p><code>hexo</code>的模板一般放在：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
+<p>有三个文件</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
+<p>对应new命令的三种创建类型！</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
+<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
+<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>reference</tag>
+        <tag>features</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo部署到github上图片无法显示问题</title>
+    <url>/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="解决hexo部署到github上图片无法显示问题"><a href="#解决hexo部署到github上图片无法显示问题" class="headerlink" title="解决hexo部署到github上图片无法显示问题"></a>解决hexo部署到github上图片无法显示问题</h1><span id="more"></span>
+
+<h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>设置站点配置文件<code>_config.yml</code>中 <code>post_asset_folder:true</code></p>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811190704876.png" alt="image-20210811190704876"></p>
+<p><code>Hexo</code> 提供了一种更方便管理 <code>Asset</code> 的设定：<code>post_asset_folder</code>当您设置为<code>true</code>参数后，在建立文件时，<code>Hexo</code><strong>会自动建立一个与文章同名的文件夹，您可以把与该文章相关的所有资源都放到那个文件夹。</strong></p>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>在hexo的目录下执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<p>完成安装后用<code>hexo</code>新建文章的时候会发现<code>_posts</code>目录下面会多出一个和文章名字一样的文件夹。图片就可以放在文件夹下面。</p>
+<p>然后进行正常的<code>hexo</code>三连就可以了</p>
+<h2 id="可能出现的问题"><a href="#可能出现的问题" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h2><p>大家按照上面的步骤完成之后，在部署或者测试的时候图片可能仍然无法正常显示，这涉及到<code>hexo-asset-image</code>插件的问题。</p>
+<p>如果在<code>hexo g</code>之后图片的加载是这样的：</p>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811192905480.png" alt="image-20210811192905480"></p>
+<p>带<code>/.com//d</code>的，那你的图片百分百是没法显示的。解决这个问题也很简单：</p>
+<ol>
+<li><p>找到<code>node_modules\hexo-asset-image</code></p>
+</li>
+<li><p>打开<code>index.js</code></p>
+</li>
+<li><p>修改24行为：</p>
+</li>
+</ol>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193248235.png" alt="image-20210811193248235"></p>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193519193.png" alt="image-20210811193519193"></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo中文乱码</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
+
+<p>出现中文乱码可能是因为配置文件中不是使用<code>utf-8</code>进行保存，因此</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
+<p>即可解决问题</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo标签和分类页面无法正常显示</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/</url>
+    <content><![CDATA[<h2 id="解决hexo标签和分类页面无法正常显示"><a href="#解决hexo标签和分类页面无法正常显示" class="headerlink" title="解决hexo标签和分类页面无法正常显示"></a>解决hexo标签和分类页面无法正常显示</h2><span id="more"></span>
+
+<p>需要找到</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/image-20210812083030492.png" alt="image-20210812083030492"></p>
+<p>打开<code>index.md</code></p>
+<p>分别添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type: &quot;categories&quot;</span><br><span class="line">layout: &quot;categories&quot;</span><br><span class="line"></span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">layout: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
+
+<p>即可解决</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo-github hexo g time out 443</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
+    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
+<span id="more"></span>
+
+<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>如果不需要代理了，则可以运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java反射机制</title>
     <url>/2021/08/12/Java/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<p>反射（Reflection），<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
@@ -1448,9 +1594,9 @@ npm -v
         <category>java学习笔记</category>
       </categories>
       <tags>
-        <tag>java_features</tag>
         <tag>java_core</tag>
         <tag>java_lib</tag>
+        <tag>java_features</tag>
       </tags>
   </entry>
   <entry>
@@ -2113,13 +2259,13 @@ npm -v
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>archives</title>
-    <url>/archives/index.html</url>
+    <title>categories</title>
+    <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
+    <title>archives</title>
+    <url>/archives/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
