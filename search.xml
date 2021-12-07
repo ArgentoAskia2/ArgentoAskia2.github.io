@@ -62,145 +62,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java代理</title>
-    <url>/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/</url>
-    <content><![CDATA[<p>Java 代理，主要主要是指动态代理，是学习AOP的基础，该知识点非常重要，有必要好好了解！</p>
-<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
-<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
-<ul>
-<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
-<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
-<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
-<li>……</li>
-</ul>
-<span id="more"></span>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在实战mybatis，在研究实现原理的时候，重新又把焦点放在了代理模式上，因此记下此篇。</p>
-<p>java代理实际为动态代理，用起来可能比较抽象，但实际上并没有那么难。</p>
-<h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>要想完全弄清楚代理，我认为还是要先从静态代理出发，首先我们传统方法上的调用可以被归纳为一个对应关系，<strong>即调用方调用被调用方的方法，被调用方返回结果给调用方</strong>：</p>
-<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902162423038.png" alt="image-20210902162423038"></p>
-<p>这种调用很常见，但是如果遇到下面的情况：</p>
-<ul>
-<li>被调用方不想暴露自己的方法给调用方</li>
-<li>被调用方是一个已经打包好的包且调用方法前后需要做一些预处理事务</li>
-</ul>
-<p>那么就需要一个“第三者”来帮助调用方进行方法调用。可以称这个“第三者”为<strong>代理对象</strong></p>
-<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902163304246.png" alt="image-20210902163304246"></p>
-<p>这样调用方调用的时候，代理对象对调用请求进行预处理，然后调用被调用方的相应方法，再返回。</p>
-<p>这种设计方法应用场景非常多，比如在<strong>交流通信中的黑名单功能</strong>，可以参考下面代码的写法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Connection.java</span></span><br><span class="line"><span class="comment">// Connection为接口，代理类和被调用方类都要实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Connection</span> </span></span><br><span class="line"><span class="class">	// 建立连接通信通道，连接成功返回<span class="title">true</span>，连接失败返回<span class="title">false</span></span></span><br><span class="line"><span class="class">	<span class="title">boolean</span> <span class="title">connect</span>(<span class="title">Socket</span> <span class="title">socket</span>)</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ConnectionImpl.java</span></span><br><span class="line"><span class="comment">// 被调用方</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectionImpl</span> <span class="keyword">implements</span> <span class="title">Connection</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connect</span><span class="params">(Socket socket)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 具体建立连接的代码</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ConnectionImplProxy.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectionImplProxy</span> <span class="keyword">implements</span> <span class="title">Connection</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> ConnectionImpl impl;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 初始化impl的相关方法</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connect</span><span class="params">(Socket socket)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 判断对方IP是否在黑名单内</span></span><br><span class="line">		<span class="keyword">boolean</span> isBlackGuy = checkFromBlacklist(socket.getInetAddress());</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 如果对方是黑名单成员，则不建立通信连接，否则，建立连接</span></span><br><span class="line">		<span class="keyword">if</span>(isBlackGuy)&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> impl.connect(socket);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>他们的关系可以使用下图表达</p>
-<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902165843702.png"></p>
-<h3 id="静态代理的实现"><a href="#静态代理的实现" class="headerlink" title="静态代理的实现"></a>静态代理的实现</h3><ol>
-<li>首先需要一个<strong>公共的接口</strong>，<strong>代理类和被调用方都要实现这个接口</strong></li>
-<li>代理类要<strong>初始化一个被调用方类的对象作为字段</strong></li>
-<li><strong>调用方通过调用代理类的方法</strong>，<strong>代理类调用被调用方的方法</strong>，然后返回结果，这一个过程便是静态代理。</li>
-</ol>
-<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>动态代理与静态代理的主要不同，就是动态代理对象由Proxy类来生成而不是由程序员通过编码来生成。</p>
-<p>要生成一个代理对象，需要提供两个东西：</p>
-<ul>
-<li>调用处理器</li>
-<li>目标接口（一个或多个）</li>
-</ul>
-<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902182406151.png" alt="###"></p>
-<h3 id="使用动态代理"><a href="#使用动态代理" class="headerlink" title="使用动态代理"></a>使用动态代理</h3><p>首先要使用动态代理，需要定义一个调用处理器</p>
-<h4 id="调用处理器"><a href="#调用处理器" class="headerlink" title="调用处理器"></a>调用处理器</h4><p>所谓调用处理器是实现了<code>InvocationHandler</code>接口的类，该接口只有一个方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>;</span><br></pre></td></tr></table></figure>
-
-<p>其中proxy为代理对象，method为当前调用的方法，args 为方法所有参数</p>
-<p><strong>代理器中需要持有目标对象（被调用者）的句柄</strong>，一般来说，完成代理需要的任何目标对象，都要储存在调用处理器中，换句话说，目标对象。调用处理器的写法可以参考：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 这个就是目标对象</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 初始化目标对象</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 预处理</span></span><br><span class="line">	    System.out.print(target);</span><br><span class="line">	    System.out.print(<span class="string">&quot;.&quot;</span> + method.getName + <span class="string">&quot;(&quot;</span>);</span><br><span class="line">	    <span class="keyword">if</span>(args != <span class="keyword">null</span>)&#123;</span><br><span class="line">	    	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; args.length; i++)&#123;</span><br><span class="line">	    		System.out.print(args[i]);</span><br><span class="line">	    		<span class="keyword">if</span>(i &lt; args.lengthv - <span class="number">1</span>)</span><br><span class="line">	    			System.out.print(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">	    	&#125;</span><br><span class="line">	    	System.out.print(<span class="string">&quot;)&quot;</span>);</span><br><span class="line">	    &#125;</span><br><span class="line">	    </span><br><span class="line">        <span class="comment">// 调用真正的对象（被调用者）相应的方法</span></span><br><span class="line">	    <span class="keyword">return</span> method.invoke(target, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>接口中所有的方法都是需要被代理对象截拦的方法。<strong>对所有接口方法的调用都会转为调用代理对象的invoke()。</strong></p>
-<p>注意提供给Proxy类的接口可以有多个，newProxyInstance()中第二个参数也是提供一个数组，当提供多个接口时，<strong>接口的顺序就很关键</strong>，如果<strong>存在两个或多个接口具有相同的方法，则默认以靠前的接口的方法进行调用。</strong></p>
-<h3 id="Proxy类"><a href="#Proxy类" class="headerlink" title="Proxy类"></a>Proxy类</h3><p><strong>Proxy类负责生成代理对象</strong>，需要关注的方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler handler)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>该方法生成代理对象。</p>
-<p><strong>Proxy类中只有一个InvocationHandler实例字段对象，用于处理所有的方法调用的截拦。</strong></p>
-<p>生成代理可以参考：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> elements = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elements.length; i++)&#123;</span><br><span class="line">	Integer value = i + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//!!!!</span></span><br><span class="line">	Object proxy = Proxy.newProxyInstance(</span><br><span class="line">		ClassLoader.getSystemClassLoader(),</span><br><span class="line">		<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">		handler</span><br><span class="line">	);</span><br><span class="line">	<span class="comment">// 也可以这样写</span></span><br><span class="line">	Comparable proxy = (Comparable)Proxy.newProxyInstance(</span><br><span class="line">		ClassLoader.getSystemClassLoader(),</span><br><span class="line">		<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">		handler</span><br><span class="line">	);</span><br><span class="line">	elements[i] = proxy;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>特别注意，对于一个特定的类加载器和预设的一组接口来说，只能有一个代理类，换句话说如果对同一个类加载器和接口调用多次newProxyInstance()，只会得到同一个代理类的多个代理对象</strong></p>
-<p>如果想要获取代理对象的代理类，可以使用</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> Class&lt;?&gt; getProxyClass(ClassLoader loader, Class&lt;?&gt; …interfaces)</span><br></pre></td></tr></table></figure>
-
-<p><strong>代理类总是<code>public</code>和<code>final</code>的，如果代理类实现的所有接口都是<code>public</code>的，这个代理类就不属于任何特定的包，否则，所有的非<code>public</code>接口都必须要在同一个包，而且生成的代理类也会在这个包中。</strong></p>
-<p>可以使用：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="title">isProxyClass</span><span class="params">(Class&lt;?&gt; cl)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>判断一个类是否为代理类。</p>
-<h3 id="代理对象"><a href="#代理对象" class="headerlink" title="代理对象"></a>代理对象</h3><p><strong>所有的代理类都要扩展Proxy类，同时实现提供给Proxy类的所有接口</strong>，<strong>这些代理类在运行时通过反射被生成，如果没有定义代理类名字，Oracle虚拟机对所有扩展了Proxy类的代理类赋予 <code>$Proxy</code>开头的类名。</strong>因为Proxy类中有唯一的InvocationHandler实例字段，并且这个字段是protected的，<strong>这个实例字段在使用newProxyInstance()时会对其赋值</strong>。</p>
-<p><strong>所有代理类都要覆盖Object类中的toString()、equals()、hashCode()，和接口上的方法一样，对这些方法的调用都会引发对invoke()的调用</strong>，Object类的其他方法没有被覆盖。</p>
-<h2 id="完整代码解析动态代理过程"><a href="#完整代码解析动态代理过程" class="headerlink" title="完整代码解析动态代理过程"></a>完整代码解析动态代理过程</h2><p>将上面的代码进行综合</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyTest</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">var</span> proxys = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elements.length; i++)&#123;</span><br><span class="line">			Integer value = i + <span class="number">1</span>;</span><br><span class="line">            </span><br><span class="line">			<span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br><span class="line">		</span><br><span class="line">			<span class="comment">//!!!!</span></span><br><span class="line">			Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br><span class="line">       </span><br><span class="line">			proxys[i] = proxy;</span><br><span class="line">		&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> key = <span class="number">56</span>;</span><br><span class="line">        <span class="keyword">int</span> result = Arrays.binarySearch(proxys, key);</span><br><span class="line">        <span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            System.out.println(proxys[result]);</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 储存数据</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 预处理</span></span><br><span class="line">	    System.out.print(target);</span><br><span class="line">	    System.out.print(<span class="string">&quot;.&quot;</span> + method.getName + <span class="string">&quot;(&quot;</span>);</span><br><span class="line">	    <span class="keyword">if</span>(args != <span class="keyword">null</span>)&#123;</span><br><span class="line">	    	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; args.length; i++)&#123;</span><br><span class="line">	    		System.out.print(args[i]);</span><br><span class="line">	    		<span class="keyword">if</span>(i &lt; args.lengthv - <span class="number">1</span>)</span><br><span class="line">	    			System.out.print(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">	    	&#125;</span><br><span class="line">	    	System.out.print(<span class="string">&quot;)&quot;</span>);</span><br><span class="line">	    &#125;</span><br><span class="line">	    </span><br><span class="line">        <span class="comment">// 调用真正的对象（被调用者）相应的方法</span></span><br><span class="line">	    <span class="keyword">return</span> method.invoke(target, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面的代码实现了在1-1000中使用二分查找找到56！</p>
-<p>看上面的代码，首先创建一个proxys代理对象数组：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> proxys = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br></pre></td></tr></table></figure>
-
-<p>然后生成一个调用处理器，并且传入被调用的对象（数据）</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer value = i + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br></pre></td></tr></table></figure>
-
-<p>由于Integer类实现了Comparable接口，因此创建一个实现了Comparable，同时使用TraceHandler作为调用处理器的代理对象proxy：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br></pre></td></tr></table></figure>
-
-<p>然后将代理对象存储在代理对象数组中。</p>
-<p>接下来真正的动态代理过程：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> key = <span class="number">56</span>;</span><br><span class="line"><span class="keyword">int</span> result = Arrays.binarySearch(proxys, key);</span><br><span class="line"><span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">	System.out.println(proxys[result]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> proxys数组中的每一个元素都是一个代理对象，之前已经有提到，一个代理类中有唯一的<code>InvocationHandler</code>实例字段，<strong>这个实例字段在调用newProxyInstance()时会对其赋值</strong>。因此对于每一个代理对象，都会有一个<code>handle</code>实例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var handler = new TraceHandler(value);</span><br></pre></td></tr></table></figure>
-
-<p><strong>binarySearch()里面会调用compareTo()<strong>，</strong>由于代理对象实现了Comparable接口</strong>，因此binarySearch()内部将会调用代理对象的compareTo()，上面也提到过，<strong>对所有接口方法的调用都会转为调用代理对象的invoke()，因此代理对象的compareTo()将会调用invoke()<strong>，</strong>同时把代理对象自身（this），将compareTo()封装为Method对象，把所有compareTo()方法的参数储存在Object[]，并将这三个信息传递给invoke()。</strong></p>
-<p>在invoke()里面，通过使用Method对象：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">method.invoke(target, args);</span><br><span class="line"><span class="comment">// 注意这个invoke是method对象的invoke，不是TraceHandler的invoke</span></span><br></pre></td></tr></table></figure>
-
-<p>来调用真正的compareTo()。</p>
-<p>还记得我们是如何声明TraceHandler的吗？</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Integer value = i + 1;</span><br><span class="line">var handler = new TraceHandler(value);</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 储存数据</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>value就是target哦</strong>！！！对于代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">method.invoke(target, args);</span><br></pre></td></tr></table></figure>
-
-<p>由于compareTo()只有一个参数，因此args数组只有一个成员，上面的代码就相当于：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">target.compareTo(args[<span class="number">0</span>]);</span><br><span class="line"><span class="comment">// 实际上就是：</span></span><br><span class="line">value.compareTo(args[<span class="number">0</span>]);</span><br></pre></td></tr></table></figure>
-
-<p>对于这段代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">	System.out.println(proxys[result]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>其实也是一样，先调用<code>proxys[result]</code>的<code>toString()</code>,<code>toString()</code>会调用代理处理器<code>handler</code>的<code>invoke() </code>在<code>invoke() </code>里面，会调用<code>method.invoke(target, args);</code>由于<code>toString()</code>没有参数，因此<code>method.invoke(target, args);</code>相当于<code>method.invoke(target, null)</code>，相当于<code>target.toString()</code>也就是<code>value.toString()</code></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902222620840.png" alt="image-20210902222620840"></p>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p><strong>调用newProxyInstance()只传递了一个接口时，那么就要要求目标对象实际上也是实现了这个接口的类所产生的对象</strong>，例如：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br></pre></td></tr></table></figure>
-
-<p>那么<strong>调用处理器内的目标对象句柄也要实现Comparable</strong>，在TraceHandle类中，他内部的目标对象是：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer value = i + <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-
-<p><strong>Integer类本身就实现了Comparable。</strong>因此在进行<code>method.invoke(target, args)</code>才可以通过，否则会报<code>MethodNotFoundException</code></p>
-<p><strong>如果调用newProxyInstance()传递了多个接口，那么对于目标对象就需要实现其中至少一个接口，这个时候的关键点其实不在目标对象而在调用处理器invoke()的编写。</strong></p>
-<p>在这情况下<strong>，调用处理器中所有目标对象总共实现的所有接口应要包含传递给newProxyInstance()的多个接口</strong></p>
-<h2 id="动态代理用途"><a href="#动态代理用途" class="headerlink" title="动态代理用途"></a>动态代理用途</h2><ol>
-<li>对目标对象的方法每次被调用，进行动态拦截。</li>
-<li>代理处理器可以储存多个目标对象，在invoke内部，可以根据不同的method，使用不同的目标对象。</li>
-<li>对接口方法进行预处理（增强方法）</li>
-</ol>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java_core</tag>
-        <tag>java_lib</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java正则表达式</title>
     <url>/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<p>正则表达式并非是Java固有，几乎每一门语言都有，正则表达式在匹配字符串，字符串搜索和模式匹配上一直发挥着重要的作用，因此学习正则表达式非常有必要</p>
@@ -696,9 +557,9 @@
         <category>java</category>
       </categories>
       <tags>
+        <tag>java_features</tag>
         <tag>java_core</tag>
         <tag>java_lib</tag>
-        <tag>java_features</tag>
       </tags>
   </entry>
   <entry>
@@ -725,6 +586,145 @@
       </categories>
       <tags>
         <tag>java_skill</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java代理</title>
+    <url>/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<p>Java 代理，主要主要是指动态代理，是学习AOP的基础，该知识点非常重要，有必要好好了解！</p>
+<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
+<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
+<ul>
+<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
+<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
+<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
+<li>……</li>
+</ul>
+<span id="more"></span>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在实战mybatis，在研究实现原理的时候，重新又把焦点放在了代理模式上，因此记下此篇。</p>
+<p>java代理实际为动态代理，用起来可能比较抽象，但实际上并没有那么难。</p>
+<h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>要想完全弄清楚代理，我认为还是要先从静态代理出发，首先我们传统方法上的调用可以被归纳为一个对应关系，<strong>即调用方调用被调用方的方法，被调用方返回结果给调用方</strong>：</p>
+<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902162423038.png" alt="image-20210902162423038"></p>
+<p>这种调用很常见，但是如果遇到下面的情况：</p>
+<ul>
+<li>被调用方不想暴露自己的方法给调用方</li>
+<li>被调用方是一个已经打包好的包且调用方法前后需要做一些预处理事务</li>
+</ul>
+<p>那么就需要一个“第三者”来帮助调用方进行方法调用。可以称这个“第三者”为<strong>代理对象</strong></p>
+<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902163304246.png" alt="image-20210902163304246"></p>
+<p>这样调用方调用的时候，代理对象对调用请求进行预处理，然后调用被调用方的相应方法，再返回。</p>
+<p>这种设计方法应用场景非常多，比如在<strong>交流通信中的黑名单功能</strong>，可以参考下面代码的写法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Connection.java</span></span><br><span class="line"><span class="comment">// Connection为接口，代理类和被调用方类都要实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Connection</span> </span></span><br><span class="line"><span class="class">	// 建立连接通信通道，连接成功返回<span class="title">true</span>，连接失败返回<span class="title">false</span></span></span><br><span class="line"><span class="class">	<span class="title">boolean</span> <span class="title">connect</span>(<span class="title">Socket</span> <span class="title">socket</span>)</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ConnectionImpl.java</span></span><br><span class="line"><span class="comment">// 被调用方</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectionImpl</span> <span class="keyword">implements</span> <span class="title">Connection</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connect</span><span class="params">(Socket socket)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 具体建立连接的代码</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ConnectionImplProxy.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectionImplProxy</span> <span class="keyword">implements</span> <span class="title">Connection</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> ConnectionImpl impl;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 初始化impl的相关方法</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connect</span><span class="params">(Socket socket)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 判断对方IP是否在黑名单内</span></span><br><span class="line">		<span class="keyword">boolean</span> isBlackGuy = checkFromBlacklist(socket.getInetAddress());</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 如果对方是黑名单成员，则不建立通信连接，否则，建立连接</span></span><br><span class="line">		<span class="keyword">if</span>(isBlackGuy)&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> impl.connect(socket);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>他们的关系可以使用下图表达</p>
+<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902165843702.png"></p>
+<h3 id="静态代理的实现"><a href="#静态代理的实现" class="headerlink" title="静态代理的实现"></a>静态代理的实现</h3><ol>
+<li>首先需要一个<strong>公共的接口</strong>，<strong>代理类和被调用方都要实现这个接口</strong></li>
+<li>代理类要<strong>初始化一个被调用方类的对象作为字段</strong></li>
+<li><strong>调用方通过调用代理类的方法</strong>，<strong>代理类调用被调用方的方法</strong>，然后返回结果，这一个过程便是静态代理。</li>
+</ol>
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>动态代理与静态代理的主要不同，就是动态代理对象由Proxy类来生成而不是由程序员通过编码来生成。</p>
+<p>要生成一个代理对象，需要提供两个东西：</p>
+<ul>
+<li>调用处理器</li>
+<li>目标接口（一个或多个）</li>
+</ul>
+<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902182406151.png" alt="###"></p>
+<h3 id="使用动态代理"><a href="#使用动态代理" class="headerlink" title="使用动态代理"></a>使用动态代理</h3><p>首先要使用动态代理，需要定义一个调用处理器</p>
+<h4 id="调用处理器"><a href="#调用处理器" class="headerlink" title="调用处理器"></a>调用处理器</h4><p>所谓调用处理器是实现了<code>InvocationHandler</code>接口的类，该接口只有一个方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>;</span><br></pre></td></tr></table></figure>
+
+<p>其中proxy为代理对象，method为当前调用的方法，args 为方法所有参数</p>
+<p><strong>代理器中需要持有目标对象（被调用者）的句柄</strong>，一般来说，完成代理需要的任何目标对象，都要储存在调用处理器中，换句话说，目标对象。调用处理器的写法可以参考：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 这个就是目标对象</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 初始化目标对象</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 预处理</span></span><br><span class="line">	    System.out.print(target);</span><br><span class="line">	    System.out.print(<span class="string">&quot;.&quot;</span> + method.getName + <span class="string">&quot;(&quot;</span>);</span><br><span class="line">	    <span class="keyword">if</span>(args != <span class="keyword">null</span>)&#123;</span><br><span class="line">	    	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; args.length; i++)&#123;</span><br><span class="line">	    		System.out.print(args[i]);</span><br><span class="line">	    		<span class="keyword">if</span>(i &lt; args.lengthv - <span class="number">1</span>)</span><br><span class="line">	    			System.out.print(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">	    	&#125;</span><br><span class="line">	    	System.out.print(<span class="string">&quot;)&quot;</span>);</span><br><span class="line">	    &#125;</span><br><span class="line">	    </span><br><span class="line">        <span class="comment">// 调用真正的对象（被调用者）相应的方法</span></span><br><span class="line">	    <span class="keyword">return</span> method.invoke(target, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>接口中所有的方法都是需要被代理对象截拦的方法。<strong>对所有接口方法的调用都会转为调用代理对象的invoke()。</strong></p>
+<p>注意提供给Proxy类的接口可以有多个，newProxyInstance()中第二个参数也是提供一个数组，当提供多个接口时，<strong>接口的顺序就很关键</strong>，如果<strong>存在两个或多个接口具有相同的方法，则默认以靠前的接口的方法进行调用。</strong></p>
+<h3 id="Proxy类"><a href="#Proxy类" class="headerlink" title="Proxy类"></a>Proxy类</h3><p><strong>Proxy类负责生成代理对象</strong>，需要关注的方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler handler)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>该方法生成代理对象。</p>
+<p><strong>Proxy类中只有一个InvocationHandler实例字段对象，用于处理所有的方法调用的截拦。</strong></p>
+<p>生成代理可以参考：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> elements = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elements.length; i++)&#123;</span><br><span class="line">	Integer value = i + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//!!!!</span></span><br><span class="line">	Object proxy = Proxy.newProxyInstance(</span><br><span class="line">		ClassLoader.getSystemClassLoader(),</span><br><span class="line">		<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">		handler</span><br><span class="line">	);</span><br><span class="line">	<span class="comment">// 也可以这样写</span></span><br><span class="line">	Comparable proxy = (Comparable)Proxy.newProxyInstance(</span><br><span class="line">		ClassLoader.getSystemClassLoader(),</span><br><span class="line">		<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">		handler</span><br><span class="line">	);</span><br><span class="line">	elements[i] = proxy;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>特别注意，对于一个特定的类加载器和预设的一组接口来说，只能有一个代理类，换句话说如果对同一个类加载器和接口调用多次newProxyInstance()，只会得到同一个代理类的多个代理对象</strong></p>
+<p>如果想要获取代理对象的代理类，可以使用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> Class&lt;?&gt; getProxyClass(ClassLoader loader, Class&lt;?&gt; …interfaces)</span><br></pre></td></tr></table></figure>
+
+<p><strong>代理类总是<code>public</code>和<code>final</code>的，如果代理类实现的所有接口都是<code>public</code>的，这个代理类就不属于任何特定的包，否则，所有的非<code>public</code>接口都必须要在同一个包，而且生成的代理类也会在这个包中。</strong></p>
+<p>可以使用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="title">isProxyClass</span><span class="params">(Class&lt;?&gt; cl)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>判断一个类是否为代理类。</p>
+<h3 id="代理对象"><a href="#代理对象" class="headerlink" title="代理对象"></a>代理对象</h3><p><strong>所有的代理类都要扩展Proxy类，同时实现提供给Proxy类的所有接口</strong>，<strong>这些代理类在运行时通过反射被生成，如果没有定义代理类名字，Oracle虚拟机对所有扩展了Proxy类的代理类赋予 <code>$Proxy</code>开头的类名。</strong>因为Proxy类中有唯一的InvocationHandler实例字段，并且这个字段是protected的，<strong>这个实例字段在使用newProxyInstance()时会对其赋值</strong>。</p>
+<p><strong>所有代理类都要覆盖Object类中的toString()、equals()、hashCode()，和接口上的方法一样，对这些方法的调用都会引发对invoke()的调用</strong>，Object类的其他方法没有被覆盖。</p>
+<h2 id="完整代码解析动态代理过程"><a href="#完整代码解析动态代理过程" class="headerlink" title="完整代码解析动态代理过程"></a>完整代码解析动态代理过程</h2><p>将上面的代码进行综合</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyTest</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">var</span> proxys = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elements.length; i++)&#123;</span><br><span class="line">			Integer value = i + <span class="number">1</span>;</span><br><span class="line">            </span><br><span class="line">			<span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br><span class="line">		</span><br><span class="line">			<span class="comment">//!!!!</span></span><br><span class="line">			Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br><span class="line">       </span><br><span class="line">			proxys[i] = proxy;</span><br><span class="line">		&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> key = <span class="number">56</span>;</span><br><span class="line">        <span class="keyword">int</span> result = Arrays.binarySearch(proxys, key);</span><br><span class="line">        <span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            System.out.println(proxys[result]);</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 储存数据</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 预处理</span></span><br><span class="line">	    System.out.print(target);</span><br><span class="line">	    System.out.print(<span class="string">&quot;.&quot;</span> + method.getName + <span class="string">&quot;(&quot;</span>);</span><br><span class="line">	    <span class="keyword">if</span>(args != <span class="keyword">null</span>)&#123;</span><br><span class="line">	    	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; args.length; i++)&#123;</span><br><span class="line">	    		System.out.print(args[i]);</span><br><span class="line">	    		<span class="keyword">if</span>(i &lt; args.lengthv - <span class="number">1</span>)</span><br><span class="line">	    			System.out.print(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">	    	&#125;</span><br><span class="line">	    	System.out.print(<span class="string">&quot;)&quot;</span>);</span><br><span class="line">	    &#125;</span><br><span class="line">	    </span><br><span class="line">        <span class="comment">// 调用真正的对象（被调用者）相应的方法</span></span><br><span class="line">	    <span class="keyword">return</span> method.invoke(target, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码实现了在1-1000中使用二分查找找到56！</p>
+<p>看上面的代码，首先创建一个proxys代理对象数组：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> proxys = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br></pre></td></tr></table></figure>
+
+<p>然后生成一个调用处理器，并且传入被调用的对象（数据）</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer value = i + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br></pre></td></tr></table></figure>
+
+<p>由于Integer类实现了Comparable接口，因此创建一个实现了Comparable，同时使用TraceHandler作为调用处理器的代理对象proxy：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br></pre></td></tr></table></figure>
+
+<p>然后将代理对象存储在代理对象数组中。</p>
+<p>接下来真正的动态代理过程：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> key = <span class="number">56</span>;</span><br><span class="line"><span class="keyword">int</span> result = Arrays.binarySearch(proxys, key);</span><br><span class="line"><span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">	System.out.println(proxys[result]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> proxys数组中的每一个元素都是一个代理对象，之前已经有提到，一个代理类中有唯一的<code>InvocationHandler</code>实例字段，<strong>这个实例字段在调用newProxyInstance()时会对其赋值</strong>。因此对于每一个代理对象，都会有一个<code>handle</code>实例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var handler = new TraceHandler(value);</span><br></pre></td></tr></table></figure>
+
+<p><strong>binarySearch()里面会调用compareTo()<strong>，</strong>由于代理对象实现了Comparable接口</strong>，因此binarySearch()内部将会调用代理对象的compareTo()，上面也提到过，<strong>对所有接口方法的调用都会转为调用代理对象的invoke()，因此代理对象的compareTo()将会调用invoke()<strong>，</strong>同时把代理对象自身（this），将compareTo()封装为Method对象，把所有compareTo()方法的参数储存在Object[]，并将这三个信息传递给invoke()。</strong></p>
+<p>在invoke()里面，通过使用Method对象：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">method.invoke(target, args);</span><br><span class="line"><span class="comment">// 注意这个invoke是method对象的invoke，不是TraceHandler的invoke</span></span><br></pre></td></tr></table></figure>
+
+<p>来调用真正的compareTo()。</p>
+<p>还记得我们是如何声明TraceHandler的吗？</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Integer value = i + 1;</span><br><span class="line">var handler = new TraceHandler(value);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 储存数据</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>value就是target哦</strong>！！！对于代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">method.invoke(target, args);</span><br></pre></td></tr></table></figure>
+
+<p>由于compareTo()只有一个参数，因此args数组只有一个成员，上面的代码就相当于：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">target.compareTo(args[<span class="number">0</span>]);</span><br><span class="line"><span class="comment">// 实际上就是：</span></span><br><span class="line">value.compareTo(args[<span class="number">0</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>对于这段代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">	System.out.println(proxys[result]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实也是一样，先调用<code>proxys[result]</code>的<code>toString()</code>,<code>toString()</code>会调用代理处理器<code>handler</code>的<code>invoke() </code>在<code>invoke() </code>里面，会调用<code>method.invoke(target, args);</code>由于<code>toString()</code>没有参数，因此<code>method.invoke(target, args);</code>相当于<code>method.invoke(target, null)</code>，相当于<code>target.toString()</code>也就是<code>value.toString()</code></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902222620840.png" alt="image-20210902222620840"></p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p><strong>调用newProxyInstance()只传递了一个接口时，那么就要要求目标对象实际上也是实现了这个接口的类所产生的对象</strong>，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br></pre></td></tr></table></figure>
+
+<p>那么<strong>调用处理器内的目标对象句柄也要实现Comparable</strong>，在TraceHandle类中，他内部的目标对象是：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer value = i + <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Integer类本身就实现了Comparable。</strong>因此在进行<code>method.invoke(target, args)</code>才可以通过，否则会报<code>MethodNotFoundException</code></p>
+<p><strong>如果调用newProxyInstance()传递了多个接口，那么对于目标对象就需要实现其中至少一个接口，这个时候的关键点其实不在目标对象而在调用处理器invoke()的编写。</strong></p>
+<p>在这情况下<strong>，调用处理器中所有目标对象总共实现的所有接口应要包含传递给newProxyInstance()的多个接口</strong></p>
+<h2 id="动态代理用途"><a href="#动态代理用途" class="headerlink" title="动态代理用途"></a>动态代理用途</h2><ol>
+<li>对目标对象的方法每次被调用，进行动态拦截。</li>
+<li>代理处理器可以储存多个目标对象，在invoke内部，可以根据不同的method，使用不同的目标对象。</li>
+<li>对接口方法进行预处理（增强方法）</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java_core</tag>
+        <tag>java_lib</tag>
       </tags>
   </entry>
   <entry>
@@ -1232,32 +1232,6 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
-    <title>解决hexo-github hexo g time out 443</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
-    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
-<span id="more"></span>
-
-<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>如果不需要代理了，则可以运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>解决hexo部署到github上图片无法显示问题</title>
     <url>/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h1 id="解决hexo部署到github上图片无法显示问题"><a href="#解决hexo部署到github上图片无法显示问题" class="headerlink" title="解决hexo部署到github上图片无法显示问题"></a>解决hexo部署到github上图片无法显示问题</h1><span id="more"></span>
@@ -1285,6 +1259,32 @@ cnpm install -g hexo-cli
 <p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193248235.png" alt="image-20210811193248235"></p>
 <p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193519193.png" alt="image-20210811193519193"></p>
 <h2 id="需要注意"><a href="#需要注意" class="headerlink" title="需要注意"></a>需要注意</h2><p>如果使用Typora来编辑Markdown的话，建议使用相对路径，而且路径中，<strong>必须使用</strong><code>/</code>，使用<code>\</code>或者<code>\\</code>都会导致渲染不正确，无法找到图片资源，<strong>还有图片资源文件名不要带空格！！！</strong></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo-github hexo g time out 443</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
+    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
+<span id="more"></span>
+
+<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>如果不需要代理了，则可以运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>博客运维</category>
@@ -1598,9 +1598,9 @@ cnpm install -g hexo-cli
         <category>java</category>
       </categories>
       <tags>
+        <tag>java_features</tag>
         <tag>java_core</tag>
         <tag>java_lib</tag>
-        <tag>java_features</tag>
       </tags>
   </entry>
   <entry>
@@ -2258,33 +2258,34 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
+    <title>archives</title>
+    <url>/archives/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>about</title>
     <url>/about/index.html</url>
     <content><![CDATA[<img src="/about/index/avatar.jpg" alt="头像" style="margin: 0 auto;">
 
 
 <p>没啥好说的.。</p>
-<p>想找我吹水的往这个邮箱发：<a href="mailto:&#x41;&#x73;&#107;&#x69;&#x61;&#120;&#x69;&#x61;&#x6f;&#x6d;&#105;&#x6e;&#103;&#x40;&#111;&#x75;&#116;&#108;&#111;&#x6f;&#107;&#46;&#99;&#111;&#109;">&#x41;&#x73;&#107;&#x69;&#x61;&#120;&#x69;&#x61;&#x6f;&#x6d;&#105;&#x6e;&#103;&#x40;&#111;&#x75;&#116;&#108;&#111;&#x6f;&#107;&#46;&#99;&#111;&#109;</a></p>
-<p>要借一步说话的往这个邮箱发：<a href="mailto:&#x41;&#115;&#107;&#x69;&#97;&#120;&#x69;&#97;&#111;&#x68;&#117;&#97;&#x40;&#x6f;&#117;&#x74;&#108;&#111;&#x6f;&#107;&#x2e;&#99;&#111;&#109;">&#x41;&#115;&#107;&#x69;&#97;&#120;&#x69;&#97;&#111;&#x68;&#117;&#97;&#x40;&#x6f;&#117;&#x74;&#108;&#111;&#x6f;&#107;&#x2e;&#99;&#111;&#109;</a></p>
-<p>同好的往这里发：<a href="mailto:&#67;&#x6f;&#100;&#x65;&#x58;&#x55;&#112;&#x64;&#97;&#116;&#x65;&#64;&#x31;&#54;&#51;&#x2e;&#x63;&#x6f;&#x6d;">&#67;&#x6f;&#100;&#x65;&#x58;&#x55;&#112;&#x64;&#97;&#116;&#x65;&#64;&#x31;&#54;&#51;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+<p>想找我吹水的往这个邮箱发：<a href="mailto:&#65;&#x73;&#107;&#105;&#x61;&#120;&#x69;&#x61;&#111;&#x6d;&#105;&#110;&#103;&#x40;&#x6f;&#x75;&#x74;&#108;&#x6f;&#x6f;&#107;&#x2e;&#x63;&#x6f;&#x6d;">&#65;&#x73;&#107;&#105;&#x61;&#120;&#x69;&#x61;&#111;&#x6d;&#105;&#110;&#103;&#x40;&#x6f;&#x75;&#x74;&#108;&#x6f;&#x6f;&#107;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+<p>要借一步说话的往这个邮箱发：<a href="mailto:&#65;&#115;&#107;&#x69;&#x61;&#x78;&#105;&#x61;&#x6f;&#x68;&#x75;&#97;&#x40;&#111;&#117;&#116;&#108;&#111;&#111;&#x6b;&#46;&#99;&#x6f;&#109;">&#65;&#115;&#107;&#x69;&#x61;&#x78;&#105;&#x61;&#x6f;&#x68;&#x75;&#97;&#x40;&#111;&#117;&#116;&#108;&#111;&#111;&#x6b;&#46;&#99;&#x6f;&#109;</a></p>
+<p>同好的往这里发：<a href="mailto:&#x43;&#x6f;&#x64;&#x65;&#x58;&#85;&#112;&#x64;&#x61;&#116;&#x65;&#x40;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#x6d;">&#x43;&#x6f;&#x64;&#x65;&#x58;&#85;&#112;&#x64;&#x61;&#116;&#x65;&#x40;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#x6d;</a></p>
 <p>生活不易，那就早点睡觉。</p>
 <p>生活苦闷，那就网吧五黑。</p>
 <p>没有什么问题是解决不了的，大不了解决提出问题的人！</p>
+<p><strong>尽量周更！！</strong></p>
 ]]></content>
   </entry>
   <entry>
-    <title>archives</title>
-    <url>/archives/index.html</url>
+    <title>categories</title>
+    <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>tags</title>
     <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
 </search>
