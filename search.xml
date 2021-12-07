@@ -2260,16 +2260,24 @@ cnpm install -g hexo-cli
   <entry>
     <title>about</title>
     <url>/about/index.html</url>
+    <content><![CDATA[<p><img src="/about/index/avatar.jpg" alt="avatar"></p>
+<p>没啥好说的.。</p>
+<p>想找我吹水的往这个邮箱发：<a href="mailto:&#x41;&#115;&#x6b;&#105;&#x61;&#x78;&#x69;&#x61;&#111;&#109;&#x69;&#x6e;&#103;&#x40;&#111;&#117;&#116;&#108;&#x6f;&#x6f;&#x6b;&#x2e;&#99;&#x6f;&#109;">&#x41;&#115;&#x6b;&#105;&#x61;&#x78;&#x69;&#x61;&#111;&#109;&#x69;&#x6e;&#103;&#x40;&#111;&#117;&#116;&#108;&#x6f;&#x6f;&#x6b;&#x2e;&#99;&#x6f;&#109;</a></p>
+<p>要借一步说话的往这个邮箱发：<a href="mailto:&#x41;&#x73;&#107;&#105;&#97;&#120;&#105;&#97;&#111;&#104;&#117;&#x61;&#64;&#111;&#117;&#116;&#108;&#111;&#x6f;&#107;&#x2e;&#x63;&#x6f;&#109;">&#x41;&#x73;&#107;&#105;&#97;&#120;&#105;&#97;&#111;&#104;&#117;&#x61;&#64;&#111;&#117;&#116;&#108;&#111;&#x6f;&#107;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<p>同好的往这里发：<a href="mailto:&#x43;&#x6f;&#100;&#101;&#x58;&#85;&#112;&#x64;&#x61;&#116;&#x65;&#x40;&#x31;&#54;&#51;&#x2e;&#x63;&#111;&#109;">&#x43;&#x6f;&#100;&#101;&#x58;&#85;&#112;&#x64;&#x61;&#116;&#x65;&#x40;&#x31;&#54;&#51;&#x2e;&#x63;&#111;&#109;</a></p>
+<p>生活不易，那就早点睡觉。</p>
+<p>生活苦闷，那就网吧五黑。</p>
+<p>没有什么问题是解决不了的，大不了解决提出问题的人！</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>archives</title>
+    <url>/archives/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>categories</title>
     <url>/categories/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>archives</title>
-    <url>/archives/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
