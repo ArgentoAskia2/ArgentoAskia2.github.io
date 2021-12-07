@@ -1232,6 +1232,32 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
+    <title>解决hexo-github hexo g time out 443</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
+    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
+<span id="more"></span>
+
+<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>如果不需要代理了，则可以运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>解决hexo部署到github上图片无法显示问题</title>
     <url>/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h1 id="解决hexo部署到github上图片无法显示问题"><a href="#解决hexo部署到github上图片无法显示问题" class="headerlink" title="解决hexo部署到github上图片无法显示问题"></a>解决hexo部署到github上图片无法显示问题</h1><span id="more"></span>
@@ -1259,32 +1285,6 @@ cnpm install -g hexo-cli
 <p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193248235.png" alt="image-20210811193248235"></p>
 <p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193519193.png" alt="image-20210811193519193"></p>
 <h2 id="需要注意"><a href="#需要注意" class="headerlink" title="需要注意"></a>需要注意</h2><p>如果使用Typora来编辑Markdown的话，建议使用相对路径，而且路径中，<strong>必须使用</strong><code>/</code>，使用<code>\</code>或者<code>\\</code>都会导致渲染不正确，无法找到图片资源，<strong>还有图片资源文件名不要带空格！！！</strong></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo-github hexo g time out 443</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
-    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
-<span id="more"></span>
-
-<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>如果不需要代理了，则可以运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
-
 ]]></content>
       <categories>
         <category>博客运维</category>
@@ -2260,14 +2260,13 @@ cnpm install -g hexo-cli
   <entry>
     <title>about</title>
     <url>/about/index.html</url>
-    <content><![CDATA[<div align="center">
-    <img src="/about/index/avatar.jpg" alt="头像">
-</div>
+    <content><![CDATA[<img src="/about/index/avatar.jpg" alt="头像" style="margin: 0 auto;">
+
 
 <p>没啥好说的.。</p>
-<p>想找我吹水的往这个邮箱发：<a href="mailto:&#x41;&#x73;&#x6b;&#x69;&#x61;&#x78;&#x69;&#97;&#111;&#109;&#105;&#x6e;&#x67;&#64;&#x6f;&#x75;&#x74;&#x6c;&#111;&#x6f;&#x6b;&#x2e;&#x63;&#111;&#x6d;">&#x41;&#x73;&#x6b;&#x69;&#x61;&#x78;&#x69;&#97;&#111;&#109;&#105;&#x6e;&#x67;&#64;&#x6f;&#x75;&#x74;&#x6c;&#111;&#x6f;&#x6b;&#x2e;&#x63;&#111;&#x6d;</a></p>
-<p>要借一步说话的往这个邮箱发：<a href="mailto:&#65;&#115;&#x6b;&#x69;&#x61;&#x78;&#105;&#x61;&#x6f;&#104;&#x75;&#x61;&#x40;&#x6f;&#x75;&#x74;&#108;&#111;&#111;&#107;&#46;&#99;&#x6f;&#x6d;">&#65;&#115;&#x6b;&#x69;&#x61;&#x78;&#105;&#x61;&#x6f;&#104;&#x75;&#x61;&#x40;&#x6f;&#x75;&#x74;&#108;&#111;&#111;&#107;&#46;&#99;&#x6f;&#x6d;</a></p>
-<p>同好的往这里发：<a href="mailto:&#x43;&#x6f;&#100;&#x65;&#x58;&#85;&#x70;&#100;&#x61;&#116;&#x65;&#x40;&#49;&#x36;&#51;&#x2e;&#x63;&#111;&#109;">&#x43;&#x6f;&#100;&#x65;&#x58;&#85;&#x70;&#100;&#x61;&#116;&#x65;&#x40;&#49;&#x36;&#51;&#x2e;&#x63;&#111;&#109;</a></p>
+<p>想找我吹水的往这个邮箱发：<a href="mailto:&#x41;&#x73;&#107;&#x69;&#x61;&#120;&#x69;&#x61;&#x6f;&#x6d;&#105;&#x6e;&#103;&#x40;&#111;&#x75;&#116;&#108;&#111;&#x6f;&#107;&#46;&#99;&#111;&#109;">&#x41;&#x73;&#107;&#x69;&#x61;&#120;&#x69;&#x61;&#x6f;&#x6d;&#105;&#x6e;&#103;&#x40;&#111;&#x75;&#116;&#108;&#111;&#x6f;&#107;&#46;&#99;&#111;&#109;</a></p>
+<p>要借一步说话的往这个邮箱发：<a href="mailto:&#x41;&#115;&#107;&#x69;&#97;&#120;&#x69;&#97;&#111;&#x68;&#117;&#97;&#x40;&#x6f;&#117;&#x74;&#108;&#111;&#x6f;&#107;&#x2e;&#99;&#111;&#109;">&#x41;&#115;&#107;&#x69;&#97;&#120;&#x69;&#97;&#111;&#x68;&#117;&#97;&#x40;&#x6f;&#117;&#x74;&#108;&#111;&#x6f;&#107;&#x2e;&#99;&#111;&#109;</a></p>
+<p>同好的往这里发：<a href="mailto:&#67;&#x6f;&#100;&#x65;&#x58;&#x55;&#112;&#x64;&#97;&#116;&#x65;&#64;&#x31;&#54;&#51;&#x2e;&#x63;&#x6f;&#x6d;">&#67;&#x6f;&#100;&#x65;&#x58;&#x55;&#112;&#x64;&#97;&#116;&#x65;&#64;&#x31;&#54;&#51;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 <p>生活不易，那就早点睡觉。</p>
 <p>生活苦闷，那就网吧五黑。</p>
 <p>没有什么问题是解决不了的，大不了解决提出问题的人！</p>
@@ -2279,13 +2278,13 @@ cnpm install -g hexo-cli
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
+    <title>tags</title>
+    <url>/tags/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>tags</title>
-    <url>/tags/index.html</url>
+    <title>categories</title>
+    <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
 </search>
