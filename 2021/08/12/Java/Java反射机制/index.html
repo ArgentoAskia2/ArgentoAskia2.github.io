@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="反射（Reflection），java语言的核心知识之一，各大框架经常使用的技术。 针对java语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。 各位有需要可以在tags那里点击所有以java开头的标签，这些标签的意义如下：  java_core：核心的java知识，包括反射、泛型、注解、代理…… java_lib：各类java类库的使用基础，jav">
+  <meta name="description" content="反射（Reflection），java语言的核心知识之一，各大框架经常使用的技术。 针对java语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。 各位有需要可以在tags那里点击所有以java开头的标签，这些标签的意义如下：  java_core：核心的java知识，包括反射、泛型、注解、代理…… java_lib：各类java类库的使用基础 jav">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java反射机制">
 <meta property="og:url" content="http://example.com/2021/08/12/Java/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="Askia的学习笔记">
-<meta property="og:description" content="反射（Reflection），java语言的核心知识之一，各大框架经常使用的技术。 针对java语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。 各位有需要可以在tags那里点击所有以java开头的标签，这些标签的意义如下：  java_core：核心的java知识，包括反射、泛型、注解、代理…… java_lib：各类java类库的使用基础，jav">
+<meta property="og:description" content="反射（Reflection），java语言的核心知识之一，各大框架经常使用的技术。 针对java语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。 各位有需要可以在tags那里点击所有以java开头的标签，这些标签的意义如下：  java_core：核心的java知识，包括反射、泛型、注解、代理…… java_lib：各类java类库的使用基础 jav">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-08-12T01:37:12.000Z">
-<meta property="article:modified_time" content="2021-08-12T03:55:09.660Z">
+<meta property="article:modified_time" content="2021-12-07T05:48:37.005Z">
 <meta property="article:author" content="Askia">
 <meta property="article:tag" content="java_core">
 <meta property="article:tag" content="java_lib">
@@ -219,17 +219,23 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-08-12 09:37:12 / 修改时间：11:55:09" itemprop="dateCreated datePublished" datetime="2021-08-12T09:37:12+08:00">2021-08-12</time>
+              <time title="创建时间：2021-08-12 09:37:12" itemprop="dateCreated datePublished" datetime="2021-08-12T09:37:12+08:00">2021-08-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-07 13:48:37" itemprop="dateModified" datetime="2021-12-07T13:48:37+08:00">2021-12-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">java学习笔记</span></a>
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
                 </span>
             </span>
 
@@ -249,9 +255,10 @@
 <p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
 <ul>
 <li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
-<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
+<li>java_lib：各类java类库的使用基础</li>
+<li>java_api：Java API中文翻译，或者一些API的历史</li>
 <li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
-<li>……</li>
+<li>java_version: Java版本特性整理</li>
 </ul>
 <span id="more"></span>
 
@@ -490,14 +497,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

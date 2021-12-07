@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/08/11/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<span id="more"></span>
-
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>解决Git--Unsupported-SSL-backend</title>
     <url>/2021/08/12/Git/%E8%A7%A3%E5%86%B3Git-Unsupported-SSL-backend/</url>
     <content><![CDATA[<h2 id="解决Git–Unsupported-SSL-backend"><a href="#解决Git–Unsupported-SSL-backend" class="headerlink" title="解决Git–Unsupported-SSL-backend"></a>解决Git–Unsupported-SSL-backend</h2><span id="more"></span>
@@ -75,7 +55,7 @@
 <h3 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h3><p>如果发现<code>idea</code>按照上面的步骤做下来，还是没办法打包，请确认下工程目录里有没有<code>MANIFEST.MF</code></p>
 ]]></content>
       <categories>
-        <category>java学习笔记</category>
+        <category>java</category>
       </categories>
       <tags>
         <tag>java_jar</tag>
@@ -213,7 +193,7 @@
 </ol>
 ]]></content>
       <categories>
-        <category>java学习笔记</category>
+        <category>java</category>
       </categories>
       <tags>
         <tag>java_core</tag>
@@ -499,7 +479,7 @@
 <h2 id="运算符优先级"><a href="#运算符优先级" class="headerlink" title="运算符优先级"></a>运算符优先级</h2><p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210311182844145.png" alt="image-20210311182844145"></p>
 ]]></content>
       <categories>
-        <category>java学习笔记</category>
+        <category>java</category>
       </categories>
       <tags>
         <tag>java_features</tag>
@@ -621,7 +601,7 @@
 </ul>
 <h3 id="不能构造泛型数组"><a href="#不能构造泛型数组" class="headerlink" title="不能构造泛型数组"></a>不能构造泛型数组</h3><h2 id="泛型继承"><a href="#泛型继承" class="headerlink" title="泛型继承"></a>泛型继承</h2><h2 id="泛型通配符"><a href="#泛型通配符" class="headerlink" title="泛型通配符"></a>泛型通配符</h2><h2 id="反射与泛型"><a href="#反射与泛型" class="headerlink" title="反射与泛型"></a>反射与泛型</h2>]]></content>
       <categories>
-        <category>java学习笔记</category>
+        <category>java</category>
       </categories>
       <tags>
         <tag>java_core</tag>
@@ -713,7 +693,7 @@
 <h2 id="注解的作用"><a href="#注解的作用" class="headerlink" title="注解的作用"></a>注解的作用</h2><p>注解可以用于编译检查，帮助阅读代码（Override）、生成帮助文档等。其中最为频繁的使用方式，就是下面要介绍的这个，很多大型框架中的注解的原理就跟下面类似。</p>
 <h3 id="使用反射机制获取注解内容"><a href="#使用反射机制获取注解内容" class="headerlink" title="使用反射机制获取注解内容"></a>使用反射机制获取注解内容</h3>]]></content>
       <categories>
-        <category>java学习笔记</category>
+        <category>java</category>
       </categories>
       <tags>
         <tag>java_core</tag>
@@ -722,7 +702,7 @@
       </tags>
   </entry>
   <entry>
-    <title>”Java运行时获取运行位置“</title>
+    <title>Java运行时获取运行位置</title>
     <url>/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/</url>
     <content><![CDATA[<p>获取运行时路径的方法在jar包中和在工程中都不同，下面进行区分讲解</p>
 <span id="more"></span>
@@ -741,7 +721,7 @@
 <h3 id="class-getResourceAsStream-String-resourceFile"><a href="#class-getResourceAsStream-String-resourceFile" class="headerlink" title="class.getResourceAsStream(String resourceFile)"></a>class.getResourceAsStream(String resourceFile)</h3><p>要想在jar包中也能够读取资源文件，请使用这个方法！</p>
 ]]></content>
       <categories>
-        <category>Java学习笔记</category>
+        <category>java</category>
       </categories>
       <tags>
         <tag>java_skill</tag>
@@ -778,7 +758,7 @@
 <p><strong>参数列表相同，返回值不同既不属于重载也不属于重写</strong>！！！</p>
 ]]></content>
       <categories>
-        <category>java学习笔记</category>
+        <category>java</category>
       </categories>
       <tags>
         <tag>java_core</tag>
@@ -904,6 +884,384 @@
       <tags>
         <tag>javaweb_servlet</tag>
         <tag>javaweb_tomcat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客绑定个人域名</title>
+    <url>/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/</url>
+    <content><![CDATA[<h2 id="预备"><a href="#预备" class="headerlink" title="预备"></a>预备</h2><ul>
+<li>默认博客已经建好！</li>
+<li>默认当事人已经购买了域名，且已经实名认证。（阿里云的、百度的…都可以）</li>
+</ul>
+<p>当然没有购买域名的同学，请往这里走：<a href="https://promotion.aliyun.com/ntms/act/domainbrand.html?spm=5176.8006371.772226.domainbackorder.b46f7e63AuIXBy">阿里云域名注册</a></p>
+<p>在注册域名时，还需要通过一个真实邮箱认证模板，因此需要一个可用的邮箱！</p>
+<p>阿里云的实名认证还是很快的，说是两三个工作日内审核，但是我半个小时不到就通过了。</p>
+<span id="more"></span>
+
+<h2 id="正片开始"><a href="#正片开始" class="headerlink" title="正片开始"></a>正片开始</h2><h3 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h3><p>先进入<a href="https://dc.console.aliyun.com/next/index?spm=5176.8006371.J_8058803260.1314.54897e63e7caJc#/domain/list/all-domain">阿里云域名后台</a>，点击<img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E7%82%B9%E5%87%BB%E8%A7%A3%E6%9E%90.png" alt="点击解析"></p>
+<p>按下快捷键<code>win+R</code>打开运行，运行<code>cmd</code>，ping您建好的博客地址（若部署在github上的博客则地址就是<code>yourname.github.io</code>,实际上也是一个域名），笔者的hexo博客部署在github上，因此需要这样做：</p>
+<p>![ping github](hexo博客绑定个人域名/ping github.png)</p>
+<p>在域名解析设置添加两条记录：</p>
+<ul>
+<li>CNAME记录：设置您的github访问页</li>
+<li>A记录：刚刚ping的IP</li>
+</ul>
+<p>可以参考下笔者的设置</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E8%AE%BE%E7%BD%AE.png" alt="设置"></p>
+<p>关于这些记录可以参考</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5CA%E3%80%81cname.png" alt="A、cname"></p>
+<p>域名前缀可以参考：</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5C%E4%B8%BB%E6%9C%BA%E8%AE%B0%E5%BD%95.png" alt="主机记录"></p>
+<p>就看你想要<code>www</code>、<code>@</code>还是其他了！</p>
+<h3 id="本地配置"><a href="#本地配置" class="headerlink" title="本地配置"></a>本地配置</h3><p>在<code>hexo根目录/source</code>文件夹中添加一个<code>CNAME</code>文件，注意文件无后缀，内容设置为您自己的域名：</p>
+<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/CNAME.png" alt="CNAME"></p>
+<p>保存之后。hexo三连即可！</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<h2 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h2><p>可以使用域名访问自己的博客啦！</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>recovery</tag>
+        <tag>domain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo恢复搭建</title>
+    <url>/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<p>写下这篇博客，主要用于记录自己搭建博客过程，以后重装系统后有一个参考的恢复方向（已经干掉重新来了好几次，每次都要找资料，猝），而且，不得不说，windows系统，C盘没100G真的用不了多久，不知道是不是只有我是这样！！😭😭😭😭</p>
+<span id="more"></span>
+
+<h2 id="2-提前准备"><a href="#2-提前准备" class="headerlink" title="2.提前准备"></a>2.提前准备</h2><p>安装 <code>Hexo</code> 相当简单，只需要先安装下列应用程序即可：</p>
+<ul>
+<li><a href="http://nodejs.cn/download/">Node.js</a></li>
+<li><a href="https://gitforwindows.org/">Git for Windows</a></li>
+<li><a href="https://npm.taobao.org/mirrors/git-for-windows/">Git淘宝源</a></li>
+</ul>
+<p>可以点击上面的链接进去官网下载，git下载慢的可以去淘宝源。这里我分享我目前用的版本：</p>
+<ul>
+<li><a href="http://xz.w10a.com/Small/Nodejs.zip">node.js 12.14</a></li>
+<li><a href="https://cdn.npm.taobao.org/dist/git-for-windows/v2.29.2.windows.3/Git-2.29.2.3-64-bit.exe">Git-2.29.2.3</a></li>
+</ul>
+<p>安装过程不再详细说明，简单的全选下一步就行，安装的位置自己喜欢放哪里就放哪里呗（doge）</p>
+<h2 id="3-安装npm（cnpm）"><a href="#3-安装npm（cnpm）" class="headerlink" title="3.安装npm（cnpm）"></a>3.安装npm（cnpm）</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(Win+R)运行 ---&gt; cmd </span><br></pre></td></tr></table></figure>
+
+<p>查看版本：</p>
+<pre><code>node -v
+npm -v
+</code></pre>
+<p>因为国内的比较慢，所以安装淘宝源cnpm：</p>
+<pre><code>npm install -g cnpm --registry=http://registry.npm.taobao.org
+</code></pre>
+<p>若发现淘宝源下载过程中出现卡死，则最好换回原服务器：</p>
+<pre><code>npm config delete registry
+</code></pre>
+<h2 id="4-安装hexo"><a href="#4-安装hexo" class="headerlink" title="4.安装hexo"></a>4.安装hexo</h2><p>同样在cmd中安装：</p>
+<pre><code>cnpm install -g hexo-cli
+</code></pre>
+<h2 id="5-初始化hexo"><a href="#5-初始化hexo" class="headerlink" title="5.初始化hexo"></a>5.初始化hexo</h2><ol>
+<li><p>选择一个目录，用于本地部署</p>
+</li>
+<li><p>在目录里边用<code>Git bash</code>或者<code>Powershell</code>，初始化<code>hexo</code></p>
+ <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>注意：如果你的<code>git</code>版本比较高，如笔者使用的<code>Git-2.31.1-64-bit</code>默认会开启服务器的SSL证书第三方机构签署认证，而<code>github</code>没有，所以可能会报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git</span><br><span class="line">fatal: unable to access </span><br><span class="line">&#x27;https://github.com/hexojs/hexo-starter.git/&#x27;: OpenSSL SSL_read: Connection was reset, errno 10054</span><br></pre></td></tr></table></figure>
+
+<p>解决方法是把SSL认证关掉：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.sslVerify &quot;false&quot;</span><br></pre></td></tr></table></figure>
+
+<p>或者如果打开了多个bash，把不用的关掉</p>
+<p>初始化完成之后使用<code>hexo g</code>、再<code>hexo s</code>，如果弹出默认主题初始页，则说明本地初始化成功了！</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402190136280.png" alt="image-20210402190136280"></p>
+<h2 id="6-部署到远端"><a href="#6-部署到远端" class="headerlink" title="6.部署到远端"></a>6.部署到远端</h2><h3 id="6-1创建SSH密钥"><a href="#6-1创建SSH密钥" class="headerlink" title="6.1创建SSH密钥"></a>6.1创建SSH密钥</h3><p>打开<code>gitbash</code>，配置本机用户名和邮箱，生成SSH密钥</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402191410819.png" alt="image-20210402191410819"></p>
+<p><strong>生成密钥过程所有的提问全部回车就行</strong></p>
+<p>生成的密钥文件放在：<code>C:\Users\（你计算机的当前用户名）\.ssh</code>中</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201820428.png" alt="image-20210402201820428"></p>
+<p><strong>其中pub结尾的为公钥，用记事本打开复制里面的所有内容</strong></p>
+<h3 id="6-2将密钥放在远端"><a href="#6-2将密钥放在远端" class="headerlink" title="6.2将密钥放在远端"></a>6.2将密钥放在远端</h3><p>注册Github或者Gitee账号，将复制的公钥添加进SSH中</p>
+<p>Setting –&gt; SSh</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402214646615.png" alt="image-20210402214646615"></p>
+<h3 id="6-3创建仓库"><a href="#6-3创建仓库" class="headerlink" title="6.3创建仓库"></a>6.3创建仓库</h3><p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192650539.png" alt="image-20210402192650539"></p>
+<p>同时勾上这个</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192738568.png" alt="image-20210402192738568"></p>
+<h3 id="6-4-配置-comfig-yml"><a href="#6-4-配置-comfig-yml" class="headerlink" title="6.4 配置_comfig.yml"></a>6.4 配置<code>_comfig.yml</code></h3><p>仓库创建好之后，复制仓库地址建议使用SSH（github、gitee都一样的操作）</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402193005129.png" alt="image-20210402193005129"></p>
+<p>打开<code>hexo</code>主目录下的<code>_comfig.yml</code>，在最后，修改：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/one-command-deployment</span><br><span class="line">deploy:</span><br><span class="line">  type: &#x27;git&#x27;</span><br><span class="line">  repo: 你刚刚复制的仓库地址</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<p>如果你打开文件只看到<code>type</code>，没有<code>repo</code>和<code>branch</code>，自己加上就行了，<strong>注意属性名和属性值之间的空格</strong>，如<code>type</code>和<code>&#39;git&#39;</code>中间是有空格的，<strong>另外type属性的两个单引号，不要去掉！！</strong></p>
+<h2 id="7-安装hexo-deployer推进远端"><a href="#7-安装hexo-deployer推进远端" class="headerlink" title="7.安装hexo deployer推进远端"></a>7.安装<code>hexo deployer</code>推进远端</h2><p>回到<code>git bash</code>或者<code>powershell</code>，安装<code>hexo deployer</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install --save hexo-deployer-git</span><br></pre></td></tr></table></figure>
+
+<p>然后推到远端：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>这一步Github可能会弹出对话框确认OpenSSH</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402215905251.png" alt="image-20210402215905251"></p>
+<p>甚至是提示登陆的窗口：</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20210811150819631.png" alt="image-20210811150819631"></p>
+<p>注意：</p>
+<p>如果遇到这种情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fatal: unable to access &#x27;https://github.com/ArgentoAskia2/ArgentoAskia2.github.io.git/&#x27;: Could not resolve host: github.com</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">error: RPC failed; curl 56 OpenSSL SSL_read: Connection was reset, errno 10054</span><br><span class="line">send-pack: unexpected disconnect while reading sideband packet</span><br></pre></td></tr></table></figure>
+
+<p>造成上面的情况有很多原因，如果是<code>github</code>，最常见就是<code>github</code>抽风了，访问不了，尝试多几次<code>hexo</code>三连就好。</p>
+<p>如果还不行的话，请运行下面的命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy </span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+<p>在进行<code>hexo d</code></p>
+<h2 id="8-最后的一步"><a href="#8-最后的一步" class="headerlink" title="8.最后的一步"></a>8.最后的一步</h2><p>对于Github的朋友，你们的小窝估计已经搭好了，访问地址一般都是<strong>用户名.github.io</strong></p>
+<p>而对于Gitee的朋友，你们还需要部署GiteePage</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201359207.png" alt="image-20210402201359207"></p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201430087.png" alt="image-20210402201430087"></p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201510671.png" alt="image-20210402201510671"></p>
+<p>开启服务之后，这个就是你的博客地址啦，可以通过这个来访问！</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>recovery</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo模板修改和使用</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
+<span id="more"></span>
+
+<p><code>hexo</code>的模板一般放在：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
+<p>有三个文件</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
+<p>对应new命令的三种创建类型！</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
+<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
+<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>features</tag>
+        <tag>reference</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于hexoGenerate</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/</url>
+    <content><![CDATA[<p>本次讲解<code>hexo</code>博客常用的命令：<code>hexo g</code></p>
+<span id="more"></span>
+
+<h2 id="如何生成静态文件"><a href="#如何生成静态文件" class="headerlink" title="如何生成静态文件"></a>如何生成静态文件</h2><p>hexo生成静态文件的方法非常简单,只需要使用<code>hexo g</code>命令（当然也可以使用全名<code>hexo generate</code>），你在我的一些关于hexo的文章中可能会看到一个叫素质三连的词，这个词代表你要执行三条命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean			// 清空上一次的生成</span><br><span class="line">hexo generate		// 重新生成</span><br><span class="line">hexo server			// 本地启动浏览效果</span><br></pre></td></tr></table></figure>
+
+<p>当然上面的命令在面对文件被改变的时候，可能需要你重新生成，如果不想每次都三连的话，可以使用：<code>hexo generate --watch</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean			</span><br><span class="line">hexo generate --watch		</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<p>这样，hexo可以监视文件更改并立即重新生成文件。hexo将比较文件的sha1校验和，仅在检测到文件更改时才写入。</p>
+<p>如果想生成之后立刻部署到远端，可以：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成细节"><a href="#生成细节" class="headerlink" title="生成细节"></a>生成细节</h2><h3 id="public文件夹及URL定位"><a href="#public文件夹及URL定位" class="headerlink" title="public文件夹及URL定位"></a>public文件夹及URL定位</h3><p>你可能会注意到，在你的<strong>博客根目录</strong>中有一个public文件夹，<strong>用于装载生成之后的文件</strong>，也就是说当运行<code>hexo g</code>之后，hexo会将资源经过处理（具体怎样处理待会会讲）放在这个文件夹里面，当你运行<code>hexo server</code>的时候，本地启动的URL也是根据这个文件来设定的。</p>
+<p>比如，当你素质三连之后，你打开<code>http://localhost:4000/</code>，那么这个地址定位到的相应html文件就是你public文件夹下的index.html（URL中的index.html可以不写，默认就是定位这个文件）。没错，你可能猜到了，如果你想访问某个页面，只需要定位它的html资源在public文件夹的哪个地方就可以，比如我想访问关于页面（这个页面的位置是public/about/index.html）,那么我就可以修改URl为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://localhost:4000/about/</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404005943351-16287272629311.png" alt="image-20210404005943351"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404010237512.png" alt="image-20210404010237512"></p>
+<p>对于远端来讲也是差不多的，<code>hexo deploy</code>指令只是将public文件夹里的所有·内容上传到远端，那么这个时候只要把<code>http://localhost:4000/</code>替换成<code>远端服务器的地址</code>就行！</p>
+<h3 id="生成哪些内容"><a href="#生成哪些内容" class="headerlink" title="生成哪些内容"></a>生成哪些内容</h3><p><code>hexo g</code>之后，<code>hexo</code>会把这些内容放在public文件夹中，包括单不仅限于：你的文章、你自定义的特效（鼠标点击特效等）、你的文章设置（文章加密）、头像和背景图等媒体、归档、分类、标签等。涉及到的目录包括<code>source</code>、<code>themes</code>目录下的<code>source</code>、<code>script</code>、<code>layout</code>等，其中重要的是<code>source</code>文件夹，因为该文件夹的内容都会被放在public中</p>
+<p>另外，hexo对<code>source</code>中的<code>_post</code>文件夹内的所有文章的生成，不直接用部署文件名二而是采用<code>年/月/日/文章标题/index.html</code>的方式来部署（当然可以在<code>_config.yml</code>中修改这个生成方式），如果你的文章位于<code>_post\XXX\</code>目录下面，那么生成的就是<code>年/月/日/XXX/文章标题/index.html</code>，多级目录以此类推！如下图：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404014541573.png" alt="image-20210404014541573"></p>
+<p>那么<code>hexo g</code>之后public对应的访问路径就是：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404014800864.png" alt="image-20210404014800864"></p>
+<h3 id="添油加醋"><a href="#添油加醋" class="headerlink" title="添油加醋"></a>添油加醋</h3><p>现在知道了<code>source</code>文件夹的东西都会被放在public中，也知道在本地启动之后可以通过手写URL的方式来访问，但是还有一个问题：我们在<code>source</code>文件夹中写的是<code>markdown</code>，而public中确实html文件，这说明了<code>hexo g</code>并不是简单的把文章复制，而是对文章进行过加工，仔细对比public中的hello-world和source中的hello-world可知：hexo会对所有的文章进行主题格式化，也就是说会把主题需要的CSS样式、JS等都添加进去文章中：</p>
+<p>这里是文章的地方：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020004962.png" alt="image-20210404020004962"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020040346.png" alt="image-20210404020040346"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020139825.png" alt="image-20210404020139825"></p>
+<p>然而其他代码呢？其他代码与主题有关，通常是主题的JS、CSS具体可以参考自己主题里面的<code>source</code>文件夹</p>
+<h2 id="自定义页面"><a href="#自定义页面" class="headerlink" title="自定义页面"></a>自定义页面</h2><h3 id="markdown-内嵌HTML、JS、CSS"><a href="#markdown-内嵌HTML、JS、CSS" class="headerlink" title="markdown 内嵌HTML、JS、CSS"></a>markdown 内嵌HTML、JS、CSS</h3><h3 id="使用自定义HTML页面"><a href="#使用自定义HTML页面" class="headerlink" title="使用自定义HTML页面"></a>使用自定义HTML页面</h3><p>既然我们知道了他的生成方式和定位方式，那我们就可以将html、放一些资源进去了吗？理论上可行，因为知道hexo对于资源是会添油加醋的，所以需要配合好主题自带的样式和JS，当然可以通过不指定hexo渲染方法来实现，具体方法:</p>
+<h4 id="1-在source文件夹中新建一个文件夹-名字随意-用于装载不经过主题格式化的HTML。"><a href="#1-在source文件夹中新建一个文件夹-名字随意-用于装载不经过主题格式化的HTML。" class="headerlink" title="1.在source文件夹中新建一个文件夹(名字随意),用于装载不经过主题格式化的HTML。"></a>1.在source文件夹中新建一个文件夹(名字随意),用于装载不经过主题格式化的HTML。</h4><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210406114751633.png" alt="image-20210406114751633"></p>
+<h4 id="2-配置根目录的-comfig-yml，指定跳过渲染位置"><a href="#2-配置根目录的-comfig-yml，指定跳过渲染位置" class="headerlink" title="2.配置根目录的_comfig.yml，指定跳过渲染位置"></a>2.配置根目录的_comfig.yml，指定跳过渲染位置</h4><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210406114914766.png" alt="image-20210406114914766"></p>
+<p>注意配置格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">skip_render:</span><br><span class="line">	- &quot;目录名/*&quot;			// 目录下的所有文件都跳过渲染</span><br><span class="line">	- &quot;目录名/**&quot;			// 目录下的所有文件、所有文件夹都跳过渲染</span><br><span class="line">	- &quot;目录1/目录2/*&quot;	   // 目录2下面的所有文件都跳过渲染</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-添加主题模板"><a href="#3-添加主题模板" class="headerlink" title="3.添加主题模板"></a>3.添加主题模板</h4><p>在上面已经将结果，当我们使用<code>hexo g</code>的时候，hexo会根据主题的不同给我们的文章添加一些JS、CSS来渲染文章，第二部我们禁止了这种渲染，所以就需要手动把这些JS、CSS加上，这些文件一般在<code>themes/(主题名称)/source</code>里面，把这些文件复制到你新建的文件夹那里（笔者的是<code>norender</code>）</p>
+<h3 id="使用自定义的404错误页"><a href="#使用自定义的404错误页" class="headerlink" title="使用自定义的404错误页"></a>使用自定义的404错误页</h3><p>不需要<code>hexo-generator-index</code>插件渲染文章，不指定主题模板</p>
+<h3 id="实例：使用自定义时钟"><a href="#实例：使用自定义时钟" class="headerlink" title="实例：使用自定义时钟"></a>实例：使用自定义时钟</h3><h3 id="生成无渲染模板"><a href="#生成无渲染模板" class="headerlink" title="生成无渲染模板"></a>生成无渲染模板</h3>]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>reference</tag>
+        <tag>explain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>添加搜索功能</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h2 id="基于next-hexo-generator-searchdb的搜索功能"><a href="#基于next-hexo-generator-searchdb的搜索功能" class="headerlink" title="基于next + hexo-generator-searchdb的搜索功能"></a>基于next + hexo-generator-searchdb的搜索功能</h2><span id="more"></span>
+
+<h2 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h2><p>在博客根目录下，启动git bash，键入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+<p>如果添加了淘宝源，键入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改博客和主题的-config-yml"><a href="#修改博客和主题的-config-yml" class="headerlink" title="修改博客和主题的__config.yml"></a>修改博客和主题的__config.yml</h2><h3 id="博客的-config-yml"><a href="#博客的-config-yml" class="headerlink" title="博客的__config.yml"></a>博客的__config.yml</h3><p>在配置文件末尾添加：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101118677.png" alt="image-20210812101118677"></p>
+<p>其中这些参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">path：表示搜索后生成的文件路径，可以生成xml和json两种格式；将path设置为“content.json”就可以替代第二个插件。</span><br><span class="line">field：表示搜索的范围，有“post、page和all”三种值。</span><br><span class="line">    post：所有的文章；</span><br><span class="line">    page：所有顶部导航选项的页面；</span><br><span class="line">    all：所有的文章和顶部导航选项的页面。</span><br><span class="line">content：是否包含搜索到的文章的全部内容。如果false，生成的结果只包括标题和创建时间这些信息，没有文章主体。默认情况下是true.</span><br><span class="line">format：搜索到的内容、选项的格式。</span><br><span class="line">    html(默认)：将html原文本缩略。</span><br><span class="line">    striptags：将html原文本缩略，并删除所有标记。</span><br><span class="line">    raw：记下每一篇文章或每一页的文字。</span><br></pre></td></tr></table></figure>
+
+<h3 id="主题的-config-yml"><a href="#主题的-config-yml" class="headerlink" title="主题的__config.yml"></a>主题的__config.yml</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101256981.png" alt="image-20210812101256981"></p>
+<p>当然<code>enable</code>后面的东西可以自行修改。</p>
+<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812104330740.png" alt="image-20210812104330740"></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo_优化</tag>
+        <tag>hexo_添加</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>添加评论功能</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h2 id="基于next-来必力添加评论功能"><a href="#基于next-来必力添加评论功能" class="headerlink" title="基于next+来必力添加评论功能"></a>基于next+来必力添加评论功能</h2><span id="more"></span>
+
+<h2 id="注册账号"><a href="#注册账号" class="headerlink" title="注册账号"></a>注册账号</h2><p><a href="https://livere.com/">来必力官网</a></p>
+<p>貌似需要科学上网，但是我在宿舍自己电脑能直接上，换成机房的电脑就不行😥😥</p>
+<h2 id="复制UID"><a href="#复制UID" class="headerlink" title="复制UID"></a>复制UID</h2><p>进入管理界面，点击代码管理，复制<code>data-uid</code>后面的<code>uid</code></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085250263.png" alt="image-20210812085250263"></p>
+<h2 id="配置-Config-yml"><a href="#配置-Config-yml" class="headerlink" title="配置_Config.yml"></a>配置_Config.yml</h2><p>配置位置位于：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085408153.png" alt="image-20210812085408153"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085535585.png" alt="image-20210812085535585"></p>
+<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812090325909.png" alt="image-20210812090325909"></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo_优化</tag>
+        <tag>hexo_添加</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo中文乱码</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
+
+<p>出现中文乱码可能是因为配置文件中不是使用<code>utf-8</code>进行保存，因此</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
+<p>即可解决问题</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo标签和分类页面无法正常显示</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/</url>
+    <content><![CDATA[<h2 id="解决hexo标签和分类页面无法正常显示"><a href="#解决hexo标签和分类页面无法正常显示" class="headerlink" title="解决hexo标签和分类页面无法正常显示"></a>解决hexo标签和分类页面无法正常显示</h2><span id="more"></span>
+
+<p>需要找到</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/image-20210812083030492.png" alt="image-20210812083030492"></p>
+<p>打开<code>index.md</code></p>
+<p>分别添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type: &quot;categories&quot;</span><br><span class="line">layout: &quot;categories&quot;</span><br><span class="line"></span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">layout: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
+
+<p>即可解决</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo部署到github上图片无法显示问题</title>
+    <url>/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="解决hexo部署到github上图片无法显示问题"><a href="#解决hexo部署到github上图片无法显示问题" class="headerlink" title="解决hexo部署到github上图片无法显示问题"></a>解决hexo部署到github上图片无法显示问题</h1><span id="more"></span>
+
+<h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>设置站点配置文件<code>_config.yml</code>中 <code>post_asset_folder:true</code></p>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811190704876.png" alt="image-20210811190704876"></p>
+<p><code>Hexo</code> 提供了一种更方便管理 <code>Asset</code> 的设定：<code>post_asset_folder</code>当您设置为<code>true</code>参数后，在建立文件时，<code>Hexo</code><strong>会自动建立一个与文章同名的文件夹，您可以把与该文章相关的所有资源都放到那个文件夹。</strong></p>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>在hexo的目录下执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<p>完成安装后用<code>hexo</code>新建文章的时候会发现<code>_posts</code>目录下面会多出一个和文章名字一样的文件夹。图片就可以放在文件夹下面。</p>
+<p>然后进行正常的<code>hexo</code>三连就可以了</p>
+<h2 id="可能出现的问题"><a href="#可能出现的问题" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h2><p>大家按照上面的步骤完成之后，在部署或者测试的时候图片可能仍然无法正常显示，这涉及到<code>hexo-asset-image</code>插件的问题。</p>
+<p>如果在<code>hexo g</code>之后图片的加载是这样的：</p>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811192905480.png" alt="image-20210811192905480"></p>
+<p>带<code>/.com//d</code>的，那你的图片百分百是没法显示的。解决这个问题也很简单：</p>
+<ol>
+<li><p>找到<code>node_modules\hexo-asset-image</code></p>
+</li>
+<li><p>打开<code>index.js</code></p>
+</li>
+<li><p>修改24行为：</p>
+</li>
+</ol>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193248235.png" alt="image-20210811193248235"></p>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193519193.png" alt="image-20210811193519193"></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo-github hexo g time out 443</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
+    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
+<span id="more"></span>
+
+<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>如果不需要代理了，则可以运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
       </tags>
   </entry>
   <entry>
@@ -1062,391 +1420,6 @@
       </tags>
   </entry>
   <entry>
-    <title>“El表达式”</title>
-    <url>/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<span id="more"></span>
-
-]]></content>
-  </entry>
-  <entry>
-    <title>hexo恢复搭建</title>
-    <url>/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/</url>
-    <content><![CDATA[<p>写下这篇博客，主要用于记录自己搭建博客过程，以后重装系统后有一个参考的恢复方向（已经干掉重新来了好几次，每次都要找资料，猝），而且，不得不说，windows系统，C盘没100G真的用不了多久，不知道是不是只有我是这样！！😭😭😭😭</p>
-<span id="more"></span>
-
-<h2 id="2-提前准备"><a href="#2-提前准备" class="headerlink" title="2.提前准备"></a>2.提前准备</h2><p>安装 <code>Hexo</code> 相当简单，只需要先安装下列应用程序即可：</p>
-<ul>
-<li><a href="http://nodejs.cn/download/">Node.js</a></li>
-<li><a href="https://gitforwindows.org/">Git for Windows</a></li>
-<li><a href="https://npm.taobao.org/mirrors/git-for-windows/">Git淘宝源</a></li>
-</ul>
-<p>可以点击上面的链接进去官网下载，git下载慢的可以去淘宝源。这里我分享我目前用的版本：</p>
-<ul>
-<li><a href="http://xz.w10a.com/Small/Nodejs.zip">node.js 12.14</a></li>
-<li><a href="https://cdn.npm.taobao.org/dist/git-for-windows/v2.29.2.windows.3/Git-2.29.2.3-64-bit.exe">Git-2.29.2.3</a></li>
-</ul>
-<p>安装过程不再详细说明，简单的全选下一步就行，安装的位置自己喜欢放哪里就放哪里呗（doge）</p>
-<h2 id="3-安装npm（cnpm）"><a href="#3-安装npm（cnpm）" class="headerlink" title="3.安装npm（cnpm）"></a>3.安装npm（cnpm）</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(Win+R)运行 ---&gt; cmd </span><br></pre></td></tr></table></figure>
-
-<p>查看版本：</p>
-<pre><code>node -v
-npm -v
-</code></pre>
-<p>因为国内的比较慢，所以安装淘宝源cnpm：</p>
-<pre><code>npm install -g cnpm --registry=http://registry.npm.taobao.org
-</code></pre>
-<p>若发现淘宝源下载过程中出现卡死，则最好换回原服务器：</p>
-<pre><code>npm config delete registry
-</code></pre>
-<h2 id="4-安装hexo"><a href="#4-安装hexo" class="headerlink" title="4.安装hexo"></a>4.安装hexo</h2><p>同样在cmd中安装：</p>
-<pre><code>cnpm install -g hexo-cli
-</code></pre>
-<h2 id="5-初始化hexo"><a href="#5-初始化hexo" class="headerlink" title="5.初始化hexo"></a>5.初始化hexo</h2><ol>
-<li><p>选择一个目录，用于本地部署</p>
-</li>
-<li><p>在目录里边用<code>Git bash</code>或者<code>Powershell</code>，初始化<code>hexo</code></p>
- <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>注意：如果你的<code>git</code>版本比较高，如笔者使用的<code>Git-2.31.1-64-bit</code>默认会开启服务器的SSL证书第三方机构签署认证，而<code>github</code>没有，所以可能会报错：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git</span><br><span class="line">fatal: unable to access </span><br><span class="line">&#x27;https://github.com/hexojs/hexo-starter.git/&#x27;: OpenSSL SSL_read: Connection was reset, errno 10054</span><br></pre></td></tr></table></figure>
-
-<p>解决方法是把SSL认证关掉：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.sslVerify &quot;false&quot;</span><br></pre></td></tr></table></figure>
-
-<p>或者如果打开了多个bash，把不用的关掉</p>
-<p>初始化完成之后使用<code>hexo g</code>、再<code>hexo s</code>，如果弹出默认主题初始页，则说明本地初始化成功了！</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402190136280.png" alt="image-20210402190136280"></p>
-<h2 id="6-部署到远端"><a href="#6-部署到远端" class="headerlink" title="6.部署到远端"></a>6.部署到远端</h2><h3 id="6-1创建SSH密钥"><a href="#6-1创建SSH密钥" class="headerlink" title="6.1创建SSH密钥"></a>6.1创建SSH密钥</h3><p>打开<code>gitbash</code>，配置本机用户名和邮箱，生成SSH密钥</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402191410819.png" alt="image-20210402191410819"></p>
-<p><strong>生成密钥过程所有的提问全部回车就行</strong></p>
-<p>生成的密钥文件放在：<code>C:\Users\（你计算机的当前用户名）\.ssh</code>中</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201820428.png" alt="image-20210402201820428"></p>
-<p><strong>其中pub结尾的为公钥，用记事本打开复制里面的所有内容</strong></p>
-<h3 id="6-2将密钥放在远端"><a href="#6-2将密钥放在远端" class="headerlink" title="6.2将密钥放在远端"></a>6.2将密钥放在远端</h3><p>注册Github或者Gitee账号，将复制的公钥添加进SSH中</p>
-<p>Setting –&gt; SSh</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402214646615.png" alt="image-20210402214646615"></p>
-<h3 id="6-3创建仓库"><a href="#6-3创建仓库" class="headerlink" title="6.3创建仓库"></a>6.3创建仓库</h3><p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192650539.png" alt="image-20210402192650539"></p>
-<p>同时勾上这个</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402192738568.png" alt="image-20210402192738568"></p>
-<h3 id="6-4-配置-comfig-yml"><a href="#6-4-配置-comfig-yml" class="headerlink" title="6.4 配置_comfig.yml"></a>6.4 配置<code>_comfig.yml</code></h3><p>仓库创建好之后，复制仓库地址建议使用SSH（github、gitee都一样的操作）</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402193005129.png" alt="image-20210402193005129"></p>
-<p>打开<code>hexo</code>主目录下的<code>_comfig.yml</code>，在最后，修改：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/one-command-deployment</span><br><span class="line">deploy:</span><br><span class="line">  type: &#x27;git&#x27;</span><br><span class="line">  repo: 你刚刚复制的仓库地址</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-
-<p>注意：</p>
-<p>如果你打开文件只看到<code>type</code>，没有<code>repo</code>和<code>branch</code>，自己加上就行了，<strong>注意属性名和属性值之间的空格</strong>，如<code>type</code>和<code>&#39;git&#39;</code>中间是有空格的，<strong>另外type属性的两个单引号，不要去掉！！</strong></p>
-<h2 id="7-安装hexo-deployer推进远端"><a href="#7-安装hexo-deployer推进远端" class="headerlink" title="7.安装hexo deployer推进远端"></a>7.安装<code>hexo deployer</code>推进远端</h2><p>回到<code>git bash</code>或者<code>powershell</code>，安装<code>hexo deployer</code></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install --save hexo-deployer-git</span><br></pre></td></tr></table></figure>
-
-<p>然后推到远端：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<p>这一步Github可能会弹出对话框确认OpenSSH</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402215905251.png" alt="image-20210402215905251"></p>
-<p>甚至是提示登陆的窗口：</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20210811150819631.png" alt="image-20210811150819631"></p>
-<p>注意：</p>
-<p>如果遇到这种情况：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fatal: unable to access &#x27;https://github.com/ArgentoAskia2/ArgentoAskia2.github.io.git/&#x27;: Could not resolve host: github.com</span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">error: RPC failed; curl 56 OpenSSL SSL_read: Connection was reset, errno 10054</span><br><span class="line">send-pack: unexpected disconnect while reading sideband packet</span><br></pre></td></tr></table></figure>
-
-<p>造成上面的情况有很多原因，如果是<code>github</code>，最常见就是<code>github</code>抽风了，访问不了，尝试多几次<code>hexo</code>三连就好。</p>
-<p>如果还不行的话，请运行下面的命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global --unset http.proxy </span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-<p>在进行<code>hexo d</code></p>
-<h2 id="8-最后的一步"><a href="#8-最后的一步" class="headerlink" title="8.最后的一步"></a>8.最后的一步</h2><p>对于Github的朋友，你们的小窝估计已经搭好了，访问地址一般都是<strong>用户名.github.io</strong></p>
-<p>而对于Gitee的朋友，你们还需要部署GiteePage</p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201359207.png" alt="image-20210402201359207"></p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201430087.png" alt="image-20210402201430087"></p>
-<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA%5Cimage-20210402201510671.png" alt="image-20210402201510671"></p>
-<p>开启服务之后，这个就是你的博客地址啦，可以通过这个来访问！</p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>recovery</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo博客绑定个人域名</title>
-    <url>/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/</url>
-    <content><![CDATA[<h2 id="预备"><a href="#预备" class="headerlink" title="预备"></a>预备</h2><ul>
-<li>默认博客已经建好！</li>
-<li>默认当事人已经购买了域名，且已经实名认证。（阿里云的、百度的…都可以）</li>
-</ul>
-<p>当然没有购买域名的同学，请往这里走：<a href="https://promotion.aliyun.com/ntms/act/domainbrand.html?spm=5176.8006371.772226.domainbackorder.b46f7e63AuIXBy">阿里云域名注册</a></p>
-<p>在注册域名时，还需要通过一个真实邮箱认证模板，因此需要一个可用的邮箱！</p>
-<p>阿里云的实名认证还是很快的，说是两三个工作日内审核，但是我半个小时不到就通过了。</p>
-<span id="more"></span>
-
-<h2 id="正片开始"><a href="#正片开始" class="headerlink" title="正片开始"></a>正片开始</h2><h3 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h3><p>先进入<a href="https://dc.console.aliyun.com/next/index?spm=5176.8006371.J_8058803260.1314.54897e63e7caJc#/domain/list/all-domain">阿里云域名后台</a>，点击<img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E7%82%B9%E5%87%BB%E8%A7%A3%E6%9E%90.png" alt="点击解析"></p>
-<p>按下快捷键<code>win+R</code>打开运行，运行<code>cmd</code>，ping您建好的博客地址（若部署在github上的博客则地址就是<code>yourname.github.io</code>,实际上也是一个域名），笔者的hexo博客部署在github上，因此需要这样做：</p>
-<p>![ping github](hexo博客绑定个人域名/ping github.png)</p>
-<p>在域名解析设置添加两条记录：</p>
-<ul>
-<li>CNAME记录：设置您的github访问页</li>
-<li>A记录：刚刚ping的IP</li>
-</ul>
-<p>可以参考下笔者的设置</p>
-<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/%E8%AE%BE%E7%BD%AE.png" alt="设置"></p>
-<p>关于这些记录可以参考</p>
-<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5CA%E3%80%81cname.png" alt="A、cname"></p>
-<p>域名前缀可以参考：</p>
-<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%5C%E4%B8%BB%E6%9C%BA%E8%AE%B0%E5%BD%95.png" alt="主机记录"></p>
-<p>就看你想要<code>www</code>、<code>@</code>还是其他了！</p>
-<h3 id="本地配置"><a href="#本地配置" class="headerlink" title="本地配置"></a>本地配置</h3><p>在<code>hexo根目录/source</code>文件夹中添加一个<code>CNAME</code>文件，注意文件无后缀，内容设置为您自己的域名：</p>
-<p><img src="/2020/12/18/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/CNAME.png" alt="CNAME"></p>
-<p>保存之后。hexo三连即可！</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<h2 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h2><p>可以使用域名访问自己的博客啦！</p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>recovery</tag>
-        <tag>domain</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于hexoGenerate</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/</url>
-    <content><![CDATA[<p>本次讲解<code>hexo</code>博客常用的命令：<code>hexo g</code></p>
-<span id="more"></span>
-
-<h2 id="如何生成静态文件"><a href="#如何生成静态文件" class="headerlink" title="如何生成静态文件"></a>如何生成静态文件</h2><p>hexo生成静态文件的方法非常简单,只需要使用<code>hexo g</code>命令（当然也可以使用全名<code>hexo generate</code>），你在我的一些关于hexo的文章中可能会看到一个叫素质三连的词，这个词代表你要执行三条命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean			// 清空上一次的生成</span><br><span class="line">hexo generate		// 重新生成</span><br><span class="line">hexo server			// 本地启动浏览效果</span><br></pre></td></tr></table></figure>
-
-<p>当然上面的命令在面对文件被改变的时候，可能需要你重新生成，如果不想每次都三连的话，可以使用：<code>hexo generate --watch</code>。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean			</span><br><span class="line">hexo generate --watch		</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
-<p>这样，hexo可以监视文件更改并立即重新生成文件。hexo将比较文件的sha1校验和，仅在检测到文件更改时才写入。</p>
-<p>如果想生成之后立刻部署到远端，可以：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
-
-<h2 id="生成细节"><a href="#生成细节" class="headerlink" title="生成细节"></a>生成细节</h2><h3 id="public文件夹及URL定位"><a href="#public文件夹及URL定位" class="headerlink" title="public文件夹及URL定位"></a>public文件夹及URL定位</h3><p>你可能会注意到，在你的<strong>博客根目录</strong>中有一个public文件夹，<strong>用于装载生成之后的文件</strong>，也就是说当运行<code>hexo g</code>之后，hexo会将资源经过处理（具体怎样处理待会会讲）放在这个文件夹里面，当你运行<code>hexo server</code>的时候，本地启动的URL也是根据这个文件来设定的。</p>
-<p>比如，当你素质三连之后，你打开<code>http://localhost:4000/</code>，那么这个地址定位到的相应html文件就是你public文件夹下的index.html（URL中的index.html可以不写，默认就是定位这个文件）。没错，你可能猜到了，如果你想访问某个页面，只需要定位它的html资源在public文件夹的哪个地方就可以，比如我想访问关于页面（这个页面的位置是public/about/index.html）,那么我就可以修改URl为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://localhost:4000/about/</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404005943351-16287272629311.png" alt="image-20210404005943351"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404010237512.png" alt="image-20210404010237512"></p>
-<p>对于远端来讲也是差不多的，<code>hexo deploy</code>指令只是将public文件夹里的所有·内容上传到远端，那么这个时候只要把<code>http://localhost:4000/</code>替换成<code>远端服务器的地址</code>就行！</p>
-<h3 id="生成哪些内容"><a href="#生成哪些内容" class="headerlink" title="生成哪些内容"></a>生成哪些内容</h3><p><code>hexo g</code>之后，<code>hexo</code>会把这些内容放在public文件夹中，包括单不仅限于：你的文章、你自定义的特效（鼠标点击特效等）、你的文章设置（文章加密）、头像和背景图等媒体、归档、分类、标签等。涉及到的目录包括<code>source</code>、<code>themes</code>目录下的<code>source</code>、<code>script</code>、<code>layout</code>等，其中重要的是<code>source</code>文件夹，因为该文件夹的内容都会被放在public中</p>
-<p>另外，hexo对<code>source</code>中的<code>_post</code>文件夹内的所有文章的生成，不直接用部署文件名二而是采用<code>年/月/日/文章标题/index.html</code>的方式来部署（当然可以在<code>_config.yml</code>中修改这个生成方式），如果你的文章位于<code>_post\XXX\</code>目录下面，那么生成的就是<code>年/月/日/XXX/文章标题/index.html</code>，多级目录以此类推！如下图：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404014541573.png" alt="image-20210404014541573"></p>
-<p>那么<code>hexo g</code>之后public对应的访问路径就是：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404014800864.png" alt="image-20210404014800864"></p>
-<h3 id="添油加醋"><a href="#添油加醋" class="headerlink" title="添油加醋"></a>添油加醋</h3><p>现在知道了<code>source</code>文件夹的东西都会被放在public中，也知道在本地启动之后可以通过手写URL的方式来访问，但是还有一个问题：我们在<code>source</code>文件夹中写的是<code>markdown</code>，而public中确实html文件，这说明了<code>hexo g</code>并不是简单的把文章复制，而是对文章进行过加工，仔细对比public中的hello-world和source中的hello-world可知：hexo会对所有的文章进行主题格式化，也就是说会把主题需要的CSS样式、JS等都添加进去文章中：</p>
-<p>这里是文章的地方：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020004962.png" alt="image-20210404020004962"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020040346.png" alt="image-20210404020040346"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404020139825.png" alt="image-20210404020139825"></p>
-<p>然而其他代码呢？其他代码与主题有关，通常是主题的JS、CSS具体可以参考自己主题里面的<code>source</code>文件夹</p>
-<h2 id="自定义页面"><a href="#自定义页面" class="headerlink" title="自定义页面"></a>自定义页面</h2><h3 id="markdown-内嵌HTML、JS、CSS"><a href="#markdown-内嵌HTML、JS、CSS" class="headerlink" title="markdown 内嵌HTML、JS、CSS"></a>markdown 内嵌HTML、JS、CSS</h3><h3 id="使用自定义HTML页面"><a href="#使用自定义HTML页面" class="headerlink" title="使用自定义HTML页面"></a>使用自定义HTML页面</h3><p>既然我们知道了他的生成方式和定位方式，那我们就可以将html、放一些资源进去了吗？理论上可行，因为知道hexo对于资源是会添油加醋的，所以需要配合好主题自带的样式和JS，当然可以通过不指定hexo渲染方法来实现，具体方法:</p>
-<h4 id="1-在source文件夹中新建一个文件夹-名字随意-用于装载不经过主题格式化的HTML。"><a href="#1-在source文件夹中新建一个文件夹-名字随意-用于装载不经过主题格式化的HTML。" class="headerlink" title="1.在source文件夹中新建一个文件夹(名字随意),用于装载不经过主题格式化的HTML。"></a>1.在source文件夹中新建一个文件夹(名字随意),用于装载不经过主题格式化的HTML。</h4><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210406114751633.png" alt="image-20210406114751633"></p>
-<h4 id="2-配置根目录的-comfig-yml，指定跳过渲染位置"><a href="#2-配置根目录的-comfig-yml，指定跳过渲染位置" class="headerlink" title="2.配置根目录的_comfig.yml，指定跳过渲染位置"></a>2.配置根目录的_comfig.yml，指定跳过渲染位置</h4><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210406114914766.png" alt="image-20210406114914766"></p>
-<p>注意配置格式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">skip_render:</span><br><span class="line">	- &quot;目录名/*&quot;			// 目录下的所有文件都跳过渲染</span><br><span class="line">	- &quot;目录名/**&quot;			// 目录下的所有文件、所有文件夹都跳过渲染</span><br><span class="line">	- &quot;目录1/目录2/*&quot;	   // 目录2下面的所有文件都跳过渲染</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-添加主题模板"><a href="#3-添加主题模板" class="headerlink" title="3.添加主题模板"></a>3.添加主题模板</h4><p>在上面已经将结果，当我们使用<code>hexo g</code>的时候，hexo会根据主题的不同给我们的文章添加一些JS、CSS来渲染文章，第二部我们禁止了这种渲染，所以就需要手动把这些JS、CSS加上，这些文件一般在<code>themes/(主题名称)/source</code>里面，把这些文件复制到你新建的文件夹那里（笔者的是<code>norender</code>）</p>
-<h3 id="使用自定义的404错误页"><a href="#使用自定义的404错误页" class="headerlink" title="使用自定义的404错误页"></a>使用自定义的404错误页</h3><p>不需要<code>hexo-generator-index</code>插件渲染文章，不指定主题模板</p>
-<h3 id="实例：使用自定义时钟"><a href="#实例：使用自定义时钟" class="headerlink" title="实例：使用自定义时钟"></a>实例：使用自定义时钟</h3><h3 id="生成无渲染模板"><a href="#生成无渲染模板" class="headerlink" title="生成无渲染模板"></a>生成无渲染模板</h3>]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>explain</tag>
-        <tag>reference</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>添加搜索功能</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<h2 id="基于next-hexo-generator-searchdb的搜索功能"><a href="#基于next-hexo-generator-searchdb的搜索功能" class="headerlink" title="基于next + hexo-generator-searchdb的搜索功能"></a>基于next + hexo-generator-searchdb的搜索功能</h2><span id="more"></span>
-
-<h2 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h2><p>在博客根目录下，启动git bash，键入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-
-<p>如果添加了淘宝源，键入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-
-<h2 id="修改博客和主题的-config-yml"><a href="#修改博客和主题的-config-yml" class="headerlink" title="修改博客和主题的__config.yml"></a>修改博客和主题的__config.yml</h2><h3 id="博客的-config-yml"><a href="#博客的-config-yml" class="headerlink" title="博客的__config.yml"></a>博客的__config.yml</h3><p>在配置文件末尾添加：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101118677.png" alt="image-20210812101118677"></p>
-<p>其中这些参数：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">path：表示搜索后生成的文件路径，可以生成xml和json两种格式；将path设置为“content.json”就可以替代第二个插件。</span><br><span class="line">field：表示搜索的范围，有“post、page和all”三种值。</span><br><span class="line">    post：所有的文章；</span><br><span class="line">    page：所有顶部导航选项的页面；</span><br><span class="line">    all：所有的文章和顶部导航选项的页面。</span><br><span class="line">content：是否包含搜索到的文章的全部内容。如果false，生成的结果只包括标题和创建时间这些信息，没有文章主体。默认情况下是true.</span><br><span class="line">format：搜索到的内容、选项的格式。</span><br><span class="line">    html(默认)：将html原文本缩略。</span><br><span class="line">    striptags：将html原文本缩略，并删除所有标记。</span><br><span class="line">    raw：记下每一篇文章或每一页的文字。</span><br></pre></td></tr></table></figure>
-
-<h3 id="主题的-config-yml"><a href="#主题的-config-yml" class="headerlink" title="主题的__config.yml"></a>主题的__config.yml</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101256981.png" alt="image-20210812101256981"></p>
-<p>当然<code>enable</code>后面的东西可以自行修改。</p>
-<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812104330740.png" alt="image-20210812104330740"></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo_优化</tag>
-        <tag>hexo_添加</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>添加评论功能</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<h2 id="基于next-来必力添加评论功能"><a href="#基于next-来必力添加评论功能" class="headerlink" title="基于next+来必力添加评论功能"></a>基于next+来必力添加评论功能</h2><span id="more"></span>
-
-<h2 id="注册账号"><a href="#注册账号" class="headerlink" title="注册账号"></a>注册账号</h2><p><a href="https://livere.com/">来必力官网</a></p>
-<p>貌似需要科学上网，但是我在宿舍自己电脑能直接上，换成机房的电脑就不行😥😥</p>
-<h2 id="复制UID"><a href="#复制UID" class="headerlink" title="复制UID"></a>复制UID</h2><p>进入管理界面，点击代码管理，复制<code>data-uid</code>后面的<code>uid</code></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085250263.png" alt="image-20210812085250263"></p>
-<h2 id="配置-Config-yml"><a href="#配置-Config-yml" class="headerlink" title="配置_Config.yml"></a>配置_Config.yml</h2><p>配置位置位于：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085408153.png" alt="image-20210812085408153"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085535585.png" alt="image-20210812085535585"></p>
-<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812090325909.png" alt="image-20210812090325909"></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo_优化</tag>
-        <tag>hexo_添加</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo模板修改和使用</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
-<span id="more"></span>
-
-<p><code>hexo</code>的模板一般放在：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
-<p>有三个文件</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
-<p>对应new命令的三种创建类型！</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
-<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
-<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>reference</tag>
-        <tag>features</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo部署到github上图片无法显示问题</title>
-    <url>/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="解决hexo部署到github上图片无法显示问题"><a href="#解决hexo部署到github上图片无法显示问题" class="headerlink" title="解决hexo部署到github上图片无法显示问题"></a>解决hexo部署到github上图片无法显示问题</h1><span id="more"></span>
-
-<h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>设置站点配置文件<code>_config.yml</code>中 <code>post_asset_folder:true</code></p>
-<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811190704876.png" alt="image-20210811190704876"></p>
-<p><code>Hexo</code> 提供了一种更方便管理 <code>Asset</code> 的设定：<code>post_asset_folder</code>当您设置为<code>true</code>参数后，在建立文件时，<code>Hexo</code><strong>会自动建立一个与文章同名的文件夹，您可以把与该文章相关的所有资源都放到那个文件夹。</strong></p>
-<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>在hexo的目录下执行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
-
-<p>完成安装后用<code>hexo</code>新建文章的时候会发现<code>_posts</code>目录下面会多出一个和文章名字一样的文件夹。图片就可以放在文件夹下面。</p>
-<p>然后进行正常的<code>hexo</code>三连就可以了</p>
-<h2 id="可能出现的问题"><a href="#可能出现的问题" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h2><p>大家按照上面的步骤完成之后，在部署或者测试的时候图片可能仍然无法正常显示，这涉及到<code>hexo-asset-image</code>插件的问题。</p>
-<p>如果在<code>hexo g</code>之后图片的加载是这样的：</p>
-<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811192905480.png" alt="image-20210811192905480"></p>
-<p>带<code>/.com//d</code>的，那你的图片百分百是没法显示的。解决这个问题也很简单：</p>
-<ol>
-<li><p>找到<code>node_modules\hexo-asset-image</code></p>
-</li>
-<li><p>打开<code>index.js</code></p>
-</li>
-<li><p>修改24行为：</p>
-</li>
-</ol>
-<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193248235.png" alt="image-20210811193248235"></p>
-<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193519193.png" alt="image-20210811193519193"></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo中文乱码</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
-    <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
-
-<p>出现中文乱码可能是因为配置文件中不是使用<code>utf-8</code>进行保存，因此</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
-<p>即可解决问题</p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo标签和分类页面无法正常显示</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/</url>
-    <content><![CDATA[<h2 id="解决hexo标签和分类页面无法正常显示"><a href="#解决hexo标签和分类页面无法正常显示" class="headerlink" title="解决hexo标签和分类页面无法正常显示"></a>解决hexo标签和分类页面无法正常显示</h2><span id="more"></span>
-
-<p>需要找到</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/image-20210812083030492.png" alt="image-20210812083030492"></p>
-<p>打开<code>index.md</code></p>
-<p>分别添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type: &quot;categories&quot;</span><br><span class="line">layout: &quot;categories&quot;</span><br><span class="line"></span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">layout: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
-
-<p>即可解决</p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo-github hexo g time out 443</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
-    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
-<span id="more"></span>
-
-<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>如果不需要代理了，则可以运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java反射机制</title>
     <url>/2021/08/12/Java/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<p>反射（Reflection），<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
@@ -1454,9 +1427,10 @@ npm -v
 <p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
 <ul>
 <li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
-<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
+<li>java_lib：各类java类库的使用基础</li>
+<li>java_api：Java API中文翻译，或者一些API的历史</li>
 <li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
-<li>……</li>
+<li>java_version: Java版本特性整理</li>
 </ul>
 <span id="more"></span>
 
@@ -1591,7 +1565,7 @@ npm -v
 
 <h3 id="Array类"><a href="#Array类" class="headerlink" title="Array类"></a>Array类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">static Object get(Object array, int index)</span><br><span class="line">static XXX getXXX(Object array, int index)</span><br><span class="line">// 获取数组中下标为index的值，其中XXX指的是8种基本类型</span><br><span class="line"></span><br><span class="line">static void set(Object array, int index, Object newValue)</span><br><span class="line">static void setXXXO(Object array, int index, XXX newValue)</span><br><span class="line">// 设置数组中下标为index的新值，其中XXX指的是8种基本类型</span><br><span class="line"></span><br><span class="line">static int getLength(Object array)	// 返回给定数组长度</span><br><span class="line"></span><br><span class="line">static Object newInstance(Class comonentType, int length)</span><br><span class="line">static Object newInstance(Class componentType, int[] lengths)</span><br><span class="line">// 创建特定类型、长度的数组</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>java学习笔记</category>
+        <category>java</category>
       </categories>
       <tags>
         <tag>java_core</tag>
@@ -2246,7 +2220,7 @@ npm -v
 <p>这一类情况一般发生在BufferedWriter或Writer中，因此关闭流要优先关闭这一类流。</p>
 ]]></content>
       <categories>
-        <category>java学习笔记</category>
+        <category>java</category>
       </categories>
       <tags>
         <tag>java_core</tag>
@@ -2259,13 +2233,13 @@ npm -v
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
+    <title>archives</title>
+    <url>/archives/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>archives</title>
-    <url>/archives/index.html</url>
+    <title>categories</title>
+    <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
