@@ -39,12 +39,13 @@
 <meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/sock5.png">
 <meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20210402215905251.png">
 <meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20210811150819631.png">
+<meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/success_deploy_but_something_wrong.png">
 <meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20211207160257550.png">
 <meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20210402201359207.png">
 <meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20210402201430087.png">
 <meta property="og:image" content="http://example.com/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20210402201510671.png">
 <meta property="article:published_time" content="2020-02-19T05:48:19.000Z">
-<meta property="article:modified_time" content="2021-12-07T08:24:02.250Z">
+<meta property="article:modified_time" content="2021-12-07T08:27:06.082Z">
 <meta property="article:author" content="Askia">
 <meta property="article:tag" content="hexo">
 <meta property="article:tag" content="recovery">
@@ -243,7 +244,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-07 16:24:02" itemprop="dateModified" datetime="2021-12-07T16:24:02+08:00">2021-12-07</time>
+                <time title="修改时间：2021-12-07 16:27:06" itemprop="dateModified" datetime="2021-12-07T16:27:06+08:00">2021-12-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -375,7 +376,7 @@ cnpm install -g hexo-cli
 <p>2021.12.7 多keygen情况下，hexo d未指定user.name和user.email问题</p>
 </blockquote>
 <p>如果电脑配置了多个密钥，那么在提交过程中可能会出现，未指定全局user.name和user.email的问题</p>
-<p>![success deploy but something wrong](hexo恢复搭建/success deploy but something wrong.png)</p>
+<p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/success_deploy_but_something_wrong.png" alt="success deploy but something wrong"></p>
 <p>最后面的Everything up-to-date的意思就是当前文件时最新的。出现这个的时候，你在Github不会看到有任何的Commit记录，它只会把当前的分支master和远端的master分支进行同步，所以如果你对source文件夹里面的文章进行了增删改的话，也会同步到远端分支，但是不会留下任何的commit记录（不知道我这样描述的对不对，我特地把某篇文章删了，然后重新hexo d，上去github一文章真的没有了，但是没有任何commit记录）</p>
 <p>因为Git在提交的时候需要user.name和user.email来确定提交者，所以这个问题也很好解决，<strong>只要指定全局user.name和user.email就可以了（指令在图的Run后面）</strong>，但是在指定的时<strong>候需要注意user.name和user.email的填写，尤其是在本机配置了多个密钥的情况下，一定要写对</strong>，因为官方是根据user.email来定位你在Github中的账户的（具体见Github的<a target="_blank" rel="noopener" href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-user-account/managing-email-preferences/adding-an-email-address-to-your-github-account">Setting—&gt;email</a>），如果你写错了user.email和user.name，而且还是在同一台机器上，那么在Github的部署仓库那边，贡献者那一栏就不是你了😭😭😭😭，如下图：</p>
 <p><img src="/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/image-20211207160257550.png" alt="image-20211207160257550"></p>
