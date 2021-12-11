@@ -62,6 +62,145 @@
       </tags>
   </entry>
   <entry>
+    <title>Java代理</title>
+    <url>/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<p>Java 代理，主要主要是指动态代理，是学习AOP的基础，该知识点非常重要，有必要好好了解！</p>
+<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
+<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
+<ul>
+<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
+<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
+<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
+<li>……</li>
+</ul>
+<span id="more"></span>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在实战mybatis，在研究实现原理的时候，重新又把焦点放在了代理模式上，因此记下此篇。</p>
+<p>java代理实际为动态代理，用起来可能比较抽象，但实际上并没有那么难。</p>
+<h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>要想完全弄清楚代理，我认为还是要先从静态代理出发，首先我们传统方法上的调用可以被归纳为一个对应关系，<strong>即调用方调用被调用方的方法，被调用方返回结果给调用方</strong>：</p>
+<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902162423038.png" alt="image-20210902162423038"></p>
+<p>这种调用很常见，但是如果遇到下面的情况：</p>
+<ul>
+<li>被调用方不想暴露自己的方法给调用方</li>
+<li>被调用方是一个已经打包好的包且调用方法前后需要做一些预处理事务</li>
+</ul>
+<p>那么就需要一个“第三者”来帮助调用方进行方法调用。可以称这个“第三者”为<strong>代理对象</strong></p>
+<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902163304246.png" alt="image-20210902163304246"></p>
+<p>这样调用方调用的时候，代理对象对调用请求进行预处理，然后调用被调用方的相应方法，再返回。</p>
+<p>这种设计方法应用场景非常多，比如在<strong>交流通信中的黑名单功能</strong>，可以参考下面代码的写法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Connection.java</span></span><br><span class="line"><span class="comment">// Connection为接口，代理类和被调用方类都要实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Connection</span> </span></span><br><span class="line"><span class="class">	// 建立连接通信通道，连接成功返回<span class="title">true</span>，连接失败返回<span class="title">false</span></span></span><br><span class="line"><span class="class">	<span class="title">boolean</span> <span class="title">connect</span>(<span class="title">Socket</span> <span class="title">socket</span>)</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ConnectionImpl.java</span></span><br><span class="line"><span class="comment">// 被调用方</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectionImpl</span> <span class="keyword">implements</span> <span class="title">Connection</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connect</span><span class="params">(Socket socket)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 具体建立连接的代码</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ConnectionImplProxy.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectionImplProxy</span> <span class="keyword">implements</span> <span class="title">Connection</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> ConnectionImpl impl;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 初始化impl的相关方法</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connect</span><span class="params">(Socket socket)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 判断对方IP是否在黑名单内</span></span><br><span class="line">		<span class="keyword">boolean</span> isBlackGuy = checkFromBlacklist(socket.getInetAddress());</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 如果对方是黑名单成员，则不建立通信连接，否则，建立连接</span></span><br><span class="line">		<span class="keyword">if</span>(isBlackGuy)&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> impl.connect(socket);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>他们的关系可以使用下图表达</p>
+<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902165843702.png"></p>
+<h3 id="静态代理的实现"><a href="#静态代理的实现" class="headerlink" title="静态代理的实现"></a>静态代理的实现</h3><ol>
+<li>首先需要一个<strong>公共的接口</strong>，<strong>代理类和被调用方都要实现这个接口</strong></li>
+<li>代理类要<strong>初始化一个被调用方类的对象作为字段</strong></li>
+<li><strong>调用方通过调用代理类的方法</strong>，<strong>代理类调用被调用方的方法</strong>，然后返回结果，这一个过程便是静态代理。</li>
+</ol>
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>动态代理与静态代理的主要不同，就是动态代理对象由Proxy类来生成而不是由程序员通过编码来生成。</p>
+<p>要生成一个代理对象，需要提供两个东西：</p>
+<ul>
+<li>调用处理器</li>
+<li>目标接口（一个或多个）</li>
+</ul>
+<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902182406151.png" alt="###"></p>
+<h3 id="使用动态代理"><a href="#使用动态代理" class="headerlink" title="使用动态代理"></a>使用动态代理</h3><p>首先要使用动态代理，需要定义一个调用处理器</p>
+<h4 id="调用处理器"><a href="#调用处理器" class="headerlink" title="调用处理器"></a>调用处理器</h4><p>所谓调用处理器是实现了<code>InvocationHandler</code>接口的类，该接口只有一个方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>;</span><br></pre></td></tr></table></figure>
+
+<p>其中proxy为代理对象，method为当前调用的方法，args 为方法所有参数</p>
+<p><strong>代理器中需要持有目标对象（被调用者）的句柄</strong>，一般来说，完成代理需要的任何目标对象，都要储存在调用处理器中，换句话说，目标对象。调用处理器的写法可以参考：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 这个就是目标对象</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 初始化目标对象</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 预处理</span></span><br><span class="line">	    System.out.print(target);</span><br><span class="line">	    System.out.print(<span class="string">&quot;.&quot;</span> + method.getName + <span class="string">&quot;(&quot;</span>);</span><br><span class="line">	    <span class="keyword">if</span>(args != <span class="keyword">null</span>)&#123;</span><br><span class="line">	    	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; args.length; i++)&#123;</span><br><span class="line">	    		System.out.print(args[i]);</span><br><span class="line">	    		<span class="keyword">if</span>(i &lt; args.lengthv - <span class="number">1</span>)</span><br><span class="line">	    			System.out.print(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">	    	&#125;</span><br><span class="line">	    	System.out.print(<span class="string">&quot;)&quot;</span>);</span><br><span class="line">	    &#125;</span><br><span class="line">	    </span><br><span class="line">        <span class="comment">// 调用真正的对象（被调用者）相应的方法</span></span><br><span class="line">	    <span class="keyword">return</span> method.invoke(target, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>接口中所有的方法都是需要被代理对象截拦的方法。<strong>对所有接口方法的调用都会转为调用代理对象的invoke()。</strong></p>
+<p>注意提供给Proxy类的接口可以有多个，newProxyInstance()中第二个参数也是提供一个数组，当提供多个接口时，<strong>接口的顺序就很关键</strong>，如果<strong>存在两个或多个接口具有相同的方法，则默认以靠前的接口的方法进行调用。</strong></p>
+<h3 id="Proxy类"><a href="#Proxy类" class="headerlink" title="Proxy类"></a>Proxy类</h3><p><strong>Proxy类负责生成代理对象</strong>，需要关注的方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler handler)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>该方法生成代理对象。</p>
+<p><strong>Proxy类中只有一个InvocationHandler实例字段对象，用于处理所有的方法调用的截拦。</strong></p>
+<p>生成代理可以参考：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> elements = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elements.length; i++)&#123;</span><br><span class="line">	Integer value = i + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//!!!!</span></span><br><span class="line">	Object proxy = Proxy.newProxyInstance(</span><br><span class="line">		ClassLoader.getSystemClassLoader(),</span><br><span class="line">		<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">		handler</span><br><span class="line">	);</span><br><span class="line">	<span class="comment">// 也可以这样写</span></span><br><span class="line">	Comparable proxy = (Comparable)Proxy.newProxyInstance(</span><br><span class="line">		ClassLoader.getSystemClassLoader(),</span><br><span class="line">		<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">		handler</span><br><span class="line">	);</span><br><span class="line">	elements[i] = proxy;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>特别注意，对于一个特定的类加载器和预设的一组接口来说，只能有一个代理类，换句话说如果对同一个类加载器和接口调用多次newProxyInstance()，只会得到同一个代理类的多个代理对象</strong></p>
+<p>如果想要获取代理对象的代理类，可以使用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> Class&lt;?&gt; getProxyClass(ClassLoader loader, Class&lt;?&gt; …interfaces)</span><br></pre></td></tr></table></figure>
+
+<p><strong>代理类总是<code>public</code>和<code>final</code>的，如果代理类实现的所有接口都是<code>public</code>的，这个代理类就不属于任何特定的包，否则，所有的非<code>public</code>接口都必须要在同一个包，而且生成的代理类也会在这个包中。</strong></p>
+<p>可以使用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="title">isProxyClass</span><span class="params">(Class&lt;?&gt; cl)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>判断一个类是否为代理类。</p>
+<h3 id="代理对象"><a href="#代理对象" class="headerlink" title="代理对象"></a>代理对象</h3><p><strong>所有的代理类都要扩展Proxy类，同时实现提供给Proxy类的所有接口</strong>，<strong>这些代理类在运行时通过反射被生成，如果没有定义代理类名字，Oracle虚拟机对所有扩展了Proxy类的代理类赋予 <code>$Proxy</code>开头的类名。</strong>因为Proxy类中有唯一的InvocationHandler实例字段，并且这个字段是protected的，<strong>这个实例字段在使用newProxyInstance()时会对其赋值</strong>。</p>
+<p><strong>所有代理类都要覆盖Object类中的toString()、equals()、hashCode()，和接口上的方法一样，对这些方法的调用都会引发对invoke()的调用</strong>，Object类的其他方法没有被覆盖。</p>
+<h2 id="完整代码解析动态代理过程"><a href="#完整代码解析动态代理过程" class="headerlink" title="完整代码解析动态代理过程"></a>完整代码解析动态代理过程</h2><p>将上面的代码进行综合</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyTest</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">var</span> proxys = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elements.length; i++)&#123;</span><br><span class="line">			Integer value = i + <span class="number">1</span>;</span><br><span class="line">            </span><br><span class="line">			<span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br><span class="line">		</span><br><span class="line">			<span class="comment">//!!!!</span></span><br><span class="line">			Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br><span class="line">       </span><br><span class="line">			proxys[i] = proxy;</span><br><span class="line">		&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> key = <span class="number">56</span>;</span><br><span class="line">        <span class="keyword">int</span> result = Arrays.binarySearch(proxys, key);</span><br><span class="line">        <span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            System.out.println(proxys[result]);</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 储存数据</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 预处理</span></span><br><span class="line">	    System.out.print(target);</span><br><span class="line">	    System.out.print(<span class="string">&quot;.&quot;</span> + method.getName + <span class="string">&quot;(&quot;</span>);</span><br><span class="line">	    <span class="keyword">if</span>(args != <span class="keyword">null</span>)&#123;</span><br><span class="line">	    	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; args.length; i++)&#123;</span><br><span class="line">	    		System.out.print(args[i]);</span><br><span class="line">	    		<span class="keyword">if</span>(i &lt; args.lengthv - <span class="number">1</span>)</span><br><span class="line">	    			System.out.print(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">	    	&#125;</span><br><span class="line">	    	System.out.print(<span class="string">&quot;)&quot;</span>);</span><br><span class="line">	    &#125;</span><br><span class="line">	    </span><br><span class="line">        <span class="comment">// 调用真正的对象（被调用者）相应的方法</span></span><br><span class="line">	    <span class="keyword">return</span> method.invoke(target, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码实现了在1-1000中使用二分查找找到56！</p>
+<p>看上面的代码，首先创建一个proxys代理对象数组：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> proxys = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br></pre></td></tr></table></figure>
+
+<p>然后生成一个调用处理器，并且传入被调用的对象（数据）</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer value = i + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br></pre></td></tr></table></figure>
+
+<p>由于Integer类实现了Comparable接口，因此创建一个实现了Comparable，同时使用TraceHandler作为调用处理器的代理对象proxy：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br></pre></td></tr></table></figure>
+
+<p>然后将代理对象存储在代理对象数组中。</p>
+<p>接下来真正的动态代理过程：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> key = <span class="number">56</span>;</span><br><span class="line"><span class="keyword">int</span> result = Arrays.binarySearch(proxys, key);</span><br><span class="line"><span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">	System.out.println(proxys[result]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> proxys数组中的每一个元素都是一个代理对象，之前已经有提到，一个代理类中有唯一的<code>InvocationHandler</code>实例字段，<strong>这个实例字段在调用newProxyInstance()时会对其赋值</strong>。因此对于每一个代理对象，都会有一个<code>handle</code>实例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var handler = new TraceHandler(value);</span><br></pre></td></tr></table></figure>
+
+<p><strong>binarySearch()里面会调用compareTo()<strong>，</strong>由于代理对象实现了Comparable接口</strong>，因此binarySearch()内部将会调用代理对象的compareTo()，上面也提到过，<strong>对所有接口方法的调用都会转为调用代理对象的invoke()，因此代理对象的compareTo()将会调用invoke()<strong>，</strong>同时把代理对象自身（this），将compareTo()封装为Method对象，把所有compareTo()方法的参数储存在Object[]，并将这三个信息传递给invoke()。</strong></p>
+<p>在invoke()里面，通过使用Method对象：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">method.invoke(target, args);</span><br><span class="line"><span class="comment">// 注意这个invoke是method对象的invoke，不是TraceHandler的invoke</span></span><br></pre></td></tr></table></figure>
+
+<p>来调用真正的compareTo()。</p>
+<p>还记得我们是如何声明TraceHandler的吗？</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Integer value = i + 1;</span><br><span class="line">var handler = new TraceHandler(value);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 储存数据</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>value就是target哦</strong>！！！对于代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">method.invoke(target, args);</span><br></pre></td></tr></table></figure>
+
+<p>由于compareTo()只有一个参数，因此args数组只有一个成员，上面的代码就相当于：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">target.compareTo(args[<span class="number">0</span>]);</span><br><span class="line"><span class="comment">// 实际上就是：</span></span><br><span class="line">value.compareTo(args[<span class="number">0</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>对于这段代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">	System.out.println(proxys[result]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实也是一样，先调用<code>proxys[result]</code>的<code>toString()</code>,<code>toString()</code>会调用代理处理器<code>handler</code>的<code>invoke() </code>在<code>invoke() </code>里面，会调用<code>method.invoke(target, args);</code>由于<code>toString()</code>没有参数，因此<code>method.invoke(target, args);</code>相当于<code>method.invoke(target, null)</code>，相当于<code>target.toString()</code>也就是<code>value.toString()</code></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902222620840.png" alt="image-20210902222620840"></p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p><strong>调用newProxyInstance()只传递了一个接口时，那么就要要求目标对象实际上也是实现了这个接口的类所产生的对象</strong>，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br></pre></td></tr></table></figure>
+
+<p>那么<strong>调用处理器内的目标对象句柄也要实现Comparable</strong>，在TraceHandle类中，他内部的目标对象是：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer value = i + <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Integer类本身就实现了Comparable。</strong>因此在进行<code>method.invoke(target, args)</code>才可以通过，否则会报<code>MethodNotFoundException</code></p>
+<p><strong>如果调用newProxyInstance()传递了多个接口，那么对于目标对象就需要实现其中至少一个接口，这个时候的关键点其实不在目标对象而在调用处理器invoke()的编写。</strong></p>
+<p>在这情况下<strong>，调用处理器中所有目标对象总共实现的所有接口应要包含传递给newProxyInstance()的多个接口</strong></p>
+<h2 id="动态代理用途"><a href="#动态代理用途" class="headerlink" title="动态代理用途"></a>动态代理用途</h2><ol>
+<li>对目标对象的方法每次被调用，进行动态拦截。</li>
+<li>代理处理器可以储存多个目标对象，在invoke内部，可以根据不同的method，使用不同的目标对象。</li>
+<li>对接口方法进行预处理（增强方法）</li>
+</ol>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java_core</tag>
+        <tag>java_lib</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java正则表达式</title>
     <url>/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<p>正则表达式并非是Java固有，几乎每一门语言都有，正则表达式在匹配字符串，字符串搜索和模式匹配上一直发挥着重要的作用，因此学习正则表达式非常有必要</p>
@@ -347,6 +486,44 @@
       </tags>
   </entry>
   <entry>
+    <title>Java重载VS重写</title>
+    <url>/2021/08/14/Java/Java%E9%87%8D%E8%BD%BDVS%E9%87%8D%E5%86%99/</url>
+    <content><![CDATA[<p>希望这篇文章能够帮助各位重载和重写傻傻分不清的朋友！</p>
+<span id="more"></span>
+
+<h2 id="重写（Override）"><a href="#重写（Override）" class="headerlink" title="重写（Override）"></a>重写（Override）</h2><p>重写一般是对父类的方法进行重写，要求</p>
+<ul>
+<li><strong>返回值和形参都不能改变！</strong></li>
+<li><strong>返回值类型可以不相同，但必须是父类返回值的派生类（java 7↑）</strong></li>
+<li><strong>重写的方法能够抛出任何非强制性异常，但当父类方法本身也声明抛出的异常的时候，子类异常只能是父类异常的子类</strong></li>
+<li><strong>不能缩窄访问权限（父类方法是public，子类重写方法就不能为protected）</strong></li>
+<li><strong>声明为<code>final</code>的方法不能被重写</strong></li>
+<li><strong>声明为<code>static</code>的方法不能被重写，但是能够被再次声明</strong></li>
+<li><strong>子类和父类在同一个包中，那么子类可以重写父类所有方法，除了声明为 private 和 final 的方法。</strong></li>
+<li><strong>子类和父类不在同一个包中，那么子类只能够重写父类的声明为 public 和 protected 的非 final 方法。</strong></li>
+<li><strong>构造方法不能被重写</strong></li>
+</ul>
+<h2 id="重载（Overload）"><a href="#重载（Overload）" class="headerlink" title="重载（Overload）"></a>重载（Overload）</h2><ul>
+<li><strong>被重载的方法必须改变参数列表(参数个数或类型或顺序不一样)；</strong></li>
+<li><strong>被重载的方法可以改变返回类型；</strong></li>
+<li><strong>被重载的方法可以改变访问修饰符；</strong></li>
+<li><strong>被重载的方法可以声明新的或更广的检查异常；</strong></li>
+<li><strong>方法能够在同一个类中或者在一个子类中被重载。</strong></li>
+<li><strong>无法以返回值类型作为重载函数的区分标准。</strong></li>
+</ul>
+<h2 id="简单地讲："><a href="#简单地讲：" class="headerlink" title="简单地讲："></a>简单地讲：</h2><p>重写：<strong>返回值和参数列表都不能改变！</strong></p>
+<p>重载：<strong>参数列表必须改变</strong>！</p>
+<p><strong>参数列表相同，返回值不同既不属于重载也不属于重写</strong>！！！</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java_core</tag>
+        <tag>java_oop</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java泛型</title>
     <url>/2021/08/12/Java/Java%E6%B3%9B%E5%9E%8B/</url>
     <content><![CDATA[<p>Java泛型，<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
@@ -469,421 +646,158 @@
       </tags>
   </entry>
   <entry>
-    <title>Java注解</title>
-    <url>/2021/08/12/Java/Java%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[<p>Java注解，<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
-<p>注解在代码标注、编译提示中都具有非常好的效果，本章将对Java的注解进行简略的介绍。</p>
-<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
-<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
-<ul>
-<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
-<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
-<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
-<li>……</li>
-</ul>
-<span id="more"></span>
+    <title>常用正则表达式</title>
+    <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
+<h2 id="常用表达式举例"><a href="#常用表达式举例" class="headerlink" title="常用表达式举例"></a>常用表达式举例</h2><span id="more"></span>
 
-<h2 id="关于注解"><a href="#关于注解" class="headerlink" title="关于注解"></a>关于注解</h2><p>Java注解（Annotation），又称之为元数据，通常用于标记代码信息、添加代码标记。Java内置定义了自己的一套内置注解，共7个。</p>
-<p>按照分类可以分成：</p>
-<h3 id="标识所有内容（代码或注解）："><a href="#标识所有内容（代码或注解）：" class="headerlink" title="标识所有内容（代码或注解）："></a>标识所有内容（代码或注解）：</h3><p>@Documented：标记这些注解是否可以生成在用户文档中（javadoc）</p>
-<p>@SuppressWarnings：忽略注解中声明的警告。</p>
-<h3 id="与代码相关："><a href="#与代码相关：" class="headerlink" title="与代码相关："></a>与代码相关：</h3><p>@Override：用于标记、检查方法是否是重写方法。</p>
-<p>@Deprecated：标记方法为过时方法，使用这一类方法，IDE会在其上面加上删除线。</p>
-<h3 id="用于创建、标识其他注解："><a href="#用于创建、标识其他注解：" class="headerlink" title="用于创建、标识其他注解："></a>用于创建、标识其他注解：</h3><p>@Retention：标识这个注解如何保存，有三种方式。</p>
-<p>@Target：标记这个注解是哪种Java类型（属性、方法、类…）</p>
-<p>@Inherited：标记注解继承于哪个注解类</p>
-<blockquote>
-<p>Java 7、8以后额外添加了三个：@SafeVarargs、@FunctionalInterface、@Repeatable</p>
-<p>@Repeatable：标识某注解可以在同一个声明上使用多次。</p>
-<p>@FunctionalInterface：标识一个匿名函数或者函数式接口</p>
-<p>@SafeVarargs：忽略任何使用参数为泛型变量的方法或构造函数调用产生的警告。通常用在泛型数组。</p>
-</blockquote>
-<h2 id="注解组成部分"><a href="#注解组成部分" class="headerlink" title="注解组成部分"></a>注解组成部分</h2><p>一个注解的定义可以由两部分组成：<strong>1-n个</strong><code>ElementType</code>（作用对象）和<strong>1种</strong><code>RetentionPolicy</code>（存储方式）。</p>
-<p><img src="/2021/08/12/Java/Java%E6%B3%A8%E8%A7%A3/6.jpg" alt="6"></p>
-<p><code>ElementType</code>主要有：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">ElementType</span></span>&#123;</span><br><span class="line">	TYPE,					<span class="comment">// 类、接口、枚举</span></span><br><span class="line">	FIELD,					<span class="comment">// 字段、枚举常量</span></span><br><span class="line">	METHOD,					<span class="comment">// 方法</span></span><br><span class="line">	PARAMETER,				<span class="comment">// 方法参数</span></span><br><span class="line">	CONSTRUCTOR,			<span class="comment">// 构造方法</span></span><br><span class="line">	LOCAL_VARIABLE,			<span class="comment">// 局部变量</span></span><br><span class="line">	ANNOTATION_TYPE,		<span class="comment">// 注解类型</span></span><br><span class="line">	PACKAGE,				<span class="comment">// 包</span></span><br><span class="line">	TYPE_PARAMETER,			<span class="comment">// catch参数</span></span><br><span class="line">	TYPE_USE</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h3><h5 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
 
-<p><code>RetentionPolicy</code>主要有：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">RetentionPolicy</span> </span>&#123;</span><br><span class="line">    SOURCE,            <span class="comment">// Annotation信息仅存在于编译器处理期间，编译器编译成class文件的时候，注解被遗弃。</span></span><br><span class="line"></span><br><span class="line">    CLASS,             <span class="comment">// 编译器将Annotation存储于类对应的.class文件中，但在jvm加载类的时候被遗弃，默认行为。 </span></span><br><span class="line"></span><br><span class="line">    RUNTIME            <span class="comment">// 编译器将Annotation存储于class文件中，并且在jvm加载类的时候，仍然存在。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="n位数字（n为具体数字）"><a href="#n位数字（n为具体数字）" class="headerlink" title="n位数字（n为具体数字）"></a>n位数字（n为具体数字）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n&#125;$</span><br></pre></td></tr></table></figure>
 
-<h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><p>想要自定义注解，首先要了解注解的接口<code>Annotation</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Annotation</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">String <span class="title">toString</span><span class="params">()</span></span>;</span><br><span class="line">    Class&lt;? extends Annotation&gt; annotationType();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="至少n位的数字"><a href="#至少n位的数字" class="headerlink" title="至少n位的数字"></a>至少n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n,&#125;$</span><br></pre></td></tr></table></figure>
 
-<p>这个接口的具体实现由编译器完成，编译器实现该接口提供<code>@interface</code>注解用于创建新注解。这与通常的<code>implement</code>接口不太一样。</p>
-<p>创建过程中，需要指定注解的<strong>两个组成部分</strong>：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.FIELD, ELementType.METHOD)</span>	<span class="comment">// 指定该注解的作用范围</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span>				<span class="comment">// 指定注解保存形式</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Overload&#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> &quot;func1&quot;</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="m-n位的数字"><a href="#m-n位的数字" class="headerlink" title="m-n位的数字"></a>m-n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;m,n&#125;$</span><br></pre></td></tr></table></figure>
 
-<p>使用<code>@interface</code>定义这是一个注解，是必须的。</p>
-<p><code>@Target</code>用于指定该注解作用与哪些对象上。</p>
-<p><code>@Retention</code>用于指定注解储存方式，有默认值CLASS，可选的。</p>
-<h2 id="内置注解类"><a href="#内置注解类" class="headerlink" title="内置注解类"></a>内置注解类</h2><h3 id="Override"><a href="#Override" class="headerlink" title="@Override"></a>@Override</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.METHOD)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Override &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="零和非零开头的数字"><a href="#零和非零开头的数字" class="headerlink" title="零和非零开头的数字"></a>零和非零开头的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$</span><br></pre></td></tr></table></figure>
 
-<p><code>@Override</code>注解的触发，最常用的就是标注方法为重写方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="非零开头的最多带两位小数的数字"><a href="#非零开头的最多带两位小数的数字" class="headerlink" title="非零开头的最多带两位小数的数字"></a>非零开头的最多带两位小数的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)+(\.[0-9]&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
 
-<p>一般建议是在有重写的地方就标上<code>@Override</code>，会有好处的！</p>
-<h3 id="Deprecated"><a href="#Deprecated" class="headerlink" title="@Deprecated"></a>@Deprecated</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(value=&#123;CONSTRUCTOR, FIELD, LOCAL_VARIABLE, METHOD, PACKAGE, MODULE, PARAMETER, TYPE&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Deprecated &#123;</span><br><span class="line">    <span class="function">String <span class="title">since</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;				<span class="comment">// 从哪个版本开始废弃</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">forRemoval</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="带1-2位小数的正数或负数"><a href="#带1-2位小数的正数或负数" class="headerlink" title="带1-2位小数的正数或负数"></a>带1-2位小数的正数或负数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-)?\d+(\.\d&#123;1,2&#125;)$</span><br></pre></td></tr></table></figure>
 
-<p><strong><code>@Deprecated</code>标记的方法，在被使用时会被加上删除线</strong>，可以加参数，第一个参数用来标明该对象在何时开始被弃用。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="meta">@Deprecated(&quot;1.5&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="正数、负数、和小数"><a href="#正数、负数、和小数" class="headerlink" title="正数、负数、和小数"></a>正数、负数、和小数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-|\+)?\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
 
-<h3 id="Documented"><a href="#Documented" class="headerlink" title="@Documented"></a>@Documented</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Documented &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="有两位小数的正实数"><a href="#有两位小数的正实数" class="headerlink" title="有两位小数的正实数"></a>有两位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;2&#125;)?$</span><br></pre></td></tr></table></figure>
 
-<p>标记这个注解可以被javadoc处理。</p>
-<h3 id="Inherited"><a href="#Inherited" class="headerlink" title="@Inherited"></a>@Inherited</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Inherited &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="有1-3位小数的正实数"><a href="#有1-3位小数的正实数" class="headerlink" title="有1~3位小数的正实数"></a>有1~3位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;1,3&#125;)?$</span><br></pre></td></tr></table></figure>
 
-<p>标注该注解对于子类也是可见的(存在继承关系)，子类可以通过反射来获取父类的注解类。</p>
-<h3 id="Retention"><a href="#Retention" class="headerlink" title="@Retention"></a>@Retention</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Repeatable &#123;</span><br><span class="line">    Class&lt;? extends Annotation&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="非零的正整数"><a href="#非零的正整数" class="headerlink" title="非零的正整数"></a>非零的正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*$</span><br></pre></td></tr></table></figure>
 
-<h3 id="Target"><a href="#Target" class="headerlink" title="@Target"></a>@Target</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Target &#123;</span><br><span class="line">    ElementType[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)&#123;1,3&#125;$</span><br></pre></td></tr></table></figure>
 
-<h3 id="SuppressWarnings"><a href="#SuppressWarnings" class="headerlink" title="@SuppressWarnings"></a>@SuppressWarnings</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE, MODULE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SuppressWarnings &#123;</span><br><span class="line">    String[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\+?[1-9][0-9]*$</span><br></pre></td></tr></table></figure>
 
-<p>这个注解用于忽略某些警告，有对应的可选项：参数Value可以填入：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deprecation  -- 使用了不赞成使用的类或方法时的警告</span><br><span class="line">unchecked    -- 执行了未检查的转换时的警告，例如当使用集合时没有用泛型 (Generics) 来指定集合保存的类型。</span><br><span class="line">fallthrough  -- 当 Switch 程序块直接通往下一种情况而没有 Break 时的警告。</span><br><span class="line">path         -- 在类路径、源文件路径等中有不存在的路径时的警告。</span><br><span class="line">serial       -- 当在可序列化的类上缺少 serialVersionUID 定义时的警告。</span><br><span class="line">finally      -- 任何 finally 子句不能正常完成时的警告。</span><br><span class="line">all          -- 关于以上所有情况的警告。</span><br></pre></td></tr></table></figure>
+<h5 id="非零的负整数"><a href="#非零的负整数" class="headerlink" title="非零的负整数"></a>非零的负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\-[1-9][]0-9&quot;*$</span><br></pre></td></tr></table></figure>
 
-<h3 id="Repeatable"><a href="#Repeatable" class="headerlink" title="@Repeatable"></a>@Repeatable</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.ANNOTATION_TYPE)</span><br><span class="line">public @interface Repeatable &#123;</span><br><span class="line">    Class&lt;? extends Annotation&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*$</span><br></pre></td></tr></table></figure>
 
-<h3 id="SafeVarargs"><a href="#SafeVarargs" class="headerlink" title="@SafeVarargs"></a>@SafeVarargs</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(&#123;ElementType.CONSTRUCTOR, ElementType.METHOD&#125;)</span><br><span class="line">public @interface SafeVarargs &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="非负整数"><a href="#非负整数" class="headerlink" title="非负整数"></a>非负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+$</span><br></pre></td></tr></table></figure>
 
-<p>在声明具有<strong>模糊类型（比如：泛型）的可变参数的构造函数或方法时</strong>，Java编译器会报unchecked警告。鉴于这些情况，如果程序员断定声明的构造函数和方法的主体不会对其varargs参数执行潜在的不安全的操作，可使用@SafeVarargs进行标记，这样的话，Java编译器就不会报unchecked警告</p>
-<p><strong>@SafeVarargs注解，对于非static或非final声明的方法，不适用，会编译不通过，对于非static或非final声明的方法，请使用@SuppressWarnings(“unchecked”)</strong></p>
-<h3 id="FunctionalInterface"><a href="#FunctionalInterface" class="headerlink" title="@FunctionalInterface"></a>@FunctionalInterface</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">public @interface FunctionalInterface &#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
 
-<p>用于标注只含有一个抽象方法的函数接口</p>
-<h2 id="注解的作用"><a href="#注解的作用" class="headerlink" title="注解的作用"></a>注解的作用</h2><p>注解可以用于编译检查，帮助阅读代码（Override）、生成帮助文档等。其中最为频繁的使用方式，就是下面要介绍的这个，很多大型框架中的注解的原理就跟下面类似。</p>
-<h3 id="使用反射机制获取注解内容"><a href="#使用反射机制获取注解内容" class="headerlink" title="使用反射机制获取注解内容"></a>使用反射机制获取注解内容</h3>]]></content>
+<h5 id="非正整数"><a href="#非正整数" class="headerlink" title="非正整数"></a>非正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+)|(0+))$</span><br></pre></td></tr></table></figure>
+
+<h5 id="非负浮点数"><a href="#非负浮点数" class="headerlink" title="非负浮点数"></a>非负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+
+<h5 id="非正浮点数"><a href="#非正浮点数" class="headerlink" title="非正浮点数"></a>非正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+(\.\d+)?)|(0+(\.0+)?))$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+
+<h5 id="正浮点数"><a href="#正浮点数" class="headerlink" title="正浮点数"></a>正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</span><br></pre></td></tr></table></figure>
+
+<h5 id="负浮点数"><a href="#负浮点数" class="headerlink" title="负浮点数"></a>负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</span><br></pre></td></tr></table></figure>
+
+<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-?\d+)(\.\d+)?$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span><br></pre></td></tr></table></figure>
+
+<h3 id="校验字符的表达式"><a href="#校验字符的表达式" class="headerlink" title="校验字符的表达式"></a>校验字符的表达式</h3><h5 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;0,&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="英文和数字"><a href="#英文和数字" class="headerlink" title="英文和数字"></a>英文和数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;4,40&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="长度为3-20的所有字符"><a href="#长度为3-20的所有字符" class="headerlink" title="长度为3-20的所有字符"></a>长度为3-20的所有字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^.&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="由26个英文字母组成的字符串"><a href="#由26个英文字母组成的字符串" class="headerlink" title="由26个英文字母组成的字符串"></a>由26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z]+$</span><br></pre></td></tr></table></figure>
+
+<h5 id="由26个大写英文字母组成的字符串"><a href="#由26个大写英文字母组成的字符串" class="headerlink" title="由26个大写英文字母组成的字符串"></a>由26个大写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Z]+$</span><br></pre></td></tr></table></figure>
+
+<h5 id="由26个小写英文字母组成的字符串"><a href="#由26个小写英文字母组成的字符串" class="headerlink" title="由26个小写英文字母组成的字符串"></a>由26个小写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-z]+$</span><br></pre></td></tr></table></figure>
+
+<h5 id="由数字和26个英文字母组成的字符串"><a href="#由数字和26个英文字母组成的字符串" class="headerlink" title="由数字和26个英文字母组成的字符串"></a>由数字和26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+
+<h5 id="由数字、26个英文字母或者下划线组成的字符串"><a href="#由数字、26个英文字母或者下划线组成的字符串" class="headerlink" title="由数字、26个英文字母或者下划线组成的字符串"></a>由数字、26个英文字母或者下划线组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+$ 或 ^\w&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="中文、英文、数字包括下划线"><a href="#中文、英文、数字包括下划线" class="headerlink" title="中文、英文、数字包括下划线"></a>中文、英文、数字包括下划线</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9_]+$</span><br></pre></td></tr></table></figure>
+
+<h5 id="中文、英文、数字但不包括下划线等符号"><a href="#中文、英文、数字但不包括下划线等符号" class="headerlink" title="中文、英文、数字但不包括下划线等符号"></a>中文、英文、数字但不包括下划线等符号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]&#123;2,20&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="可以输入含有-amp-’-quot-等字符"><a href="#可以输入含有-amp-’-quot-等字符" class="headerlink" title="可以输入含有^%&amp;’,;=?$&quot;等字符"></a>可以输入含有^%&amp;’,;=?$&quot;等字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^%&amp;&#x27;,;=?$\x22]+</span><br></pre></td></tr></table></figure>
+
+<h5 id="禁止输入含有-的字符"><a href="#禁止输入含有-的字符" class="headerlink" title="禁止输入含有~的字符"></a>禁止输入含有~的字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^~\x22]+</span><br></pre></td></tr></table></figure>
+
+<h3 id="特殊需求表达式"><a href="#特殊需求表达式" class="headerlink" title="特殊需求表达式"></a>特殊需求表达式</h3><h5 id="Email地址"><a href="#Email地址" class="headerlink" title="Email地址"></a>Email地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br></pre></td></tr></table></figure>
+
+<h5 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(\.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+\.?</span><br></pre></td></tr></table></figure>
+
+<h5 id="InternetURL"><a href="#InternetURL" class="headerlink" title="InternetURL"></a>InternetURL</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-z]+://[^\s]*</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</span><br></pre></td></tr></table></figure>
+
+<h5 id="手机号码"><a href="#手机号码" class="headerlink" title="手机号码"></a>手机号码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX"><a href="#电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX" class="headerlink" title="电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)"></a>电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="国内电话号码-0511-4405222、021-87888822"><a href="#国内电话号码-0511-4405222、021-87888822" class="headerlink" title="国内电话号码(0511-4405222、021-87888822)"></a>国内电话号码(0511-4405222、021-87888822)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><a href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）" class="headerlink" title="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"></a>电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((\d&#123;11&#125;)|^((\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;)|(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;))$)</span><br></pre></td></tr></table></figure>
+
+<h5 id="身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X"><a href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X" class="headerlink" title="身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X"></a>身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)</span><br></pre></td></tr></table></figure>
+
+<h5 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线"><a href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线" class="headerlink" title="帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)"></a>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线"><a href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线" class="headerlink" title="密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)"></a>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z]\w&#123;5,17&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间"><a href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)"></a>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"><a href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)"></a>强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="日期格式"><a href="#日期格式" class="headerlink" title="日期格式"></a>日期格式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="一年的12个月-01～09和1～12"><a href="#一年的12个月-01～09和1～12" class="headerlink" title="一年的12个月(01～09和1～12)"></a>一年的12个月(01～09和1～12)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0?[1-9]|1[0-2])$</span><br></pre></td></tr></table></figure>
+
+<h5 id="一个月的31天-01～09和1～31"><a href="#一个月的31天-01～09和1～31" class="headerlink" title="一个月的31天(01～09和1～31)"></a>一个月的31天(01～09和1～31)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((0?[1-9])|((1|2)[0-9])|30|31)$</span><br></pre></td></tr></table></figure>
+
+<h5 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</span><br></pre></td></tr></table></figure>
+
+<h5 id="中国邮政编码"><a href="#中国邮政编码" class="headerlink" title="中国邮政编码"></a>中国邮政编码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9]\d&#123;5&#125;(?!\d) </span><br></pre></td></tr></table></figure>
+
+<h5 id="腾讯QQ号"><a href="#腾讯QQ号" class="headerlink" title="腾讯QQ号"></a>腾讯QQ号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9][0-9]&#123;4,&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="IPv4地址"><a href="#IPv4地址" class="headerlink" title="IPv4地址"></a>IPv4地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;)(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;))&#123;3&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="字符过滤类"><a href="#字符过滤类" class="headerlink" title="字符过滤类"></a>字符过滤类</h3><h5 id="中文字符的正则表达式"><a href="#中文字符的正则表达式" class="headerlink" title="中文字符的正则表达式"></a>中文字符的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[\u4e00-\u9fa5]</span><br></pre></td></tr></table></figure>
+
+<h5 id="双字节字符"><a href="#双字节字符" class="headerlink" title="双字节字符"></a>双字节字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\x00-\xff] </span><br></pre></td></tr></table></figure>
+
+<p>(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</p>
+<h5 id="空白行的正则表达式"><a href="#空白行的正则表达式" class="headerlink" title="空白行的正则表达式"></a>空白行的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\n\s*\r</span><br></pre></td></tr></table></figure>
+
+<p>(可以用来删除空白行)</p>
+<h5 id="HTML标记的正则表达式"><a href="#HTML标记的正则表达式" class="headerlink" title="HTML标记的正则表达式"></a>HTML标记的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt;</span><br></pre></td></tr></table></figure>
+
+<p> <strong>( 首尾空白字符的正则表达式：<code>^\s\*|\s\*$</code>或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</strong></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>匹配字符中不出现某些特殊字符可以这样:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]		// 不匹配带有\/*:?&quot;&lt;&gt;|的字符串</span><br></pre></td></tr></table></figure>
+
+<p>匹配目录是否合法(windows)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[C-Z]:\\([^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]+\\)*$</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>java</category>
+        <category>正则表达式</category>
       </categories>
       <tags>
-        <tag>java_features</tag>
-        <tag>java_core</tag>
-        <tag>java_lib</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java运行时获取运行位置</title>
-    <url>/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>获取运行时路径的方法在jar包中和在工程中都不同，下面进行区分讲解</p>
-<span id="more"></span>
-
-<h2 id="获取路径"><a href="#获取路径" class="headerlink" title="获取路径"></a>获取路径</h2><p>以下介绍的方法同时适用于jar包和工程中</p>
-<p>获取运行时路径的方法很多，这里只介绍一种通用的方法</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[ClassName].class.getProtectionDomain().getCodeSource().getLocation();</span><br></pre></td></tr></table></figure>
-
-<p>这种方法在工程中获取的是工程项目的位置，在jar包中是获取jar包所在的位置（包括XXXX.jar）</p>
-<h2 id="加载资源"><a href="#加载资源" class="headerlink" title="加载资源"></a>加载资源</h2><h3 id="class-getResource-String-resourceFile"><a href="#class-getResource-String-resourceFile" class="headerlink" title="class.getResource(String resourceFile)"></a>class.getResource(String resourceFile)</h3><h3 id="class-getClassLoader-getResource-String-resourceFile"><a href="#class-getClassLoader-getResource-String-resourceFile" class="headerlink" title="class.getClassLoader().getResource(String resourceFile)"></a>class.getClassLoader().getResource(String resourceFile)</h3><p>上面的区别看这里：</p>
-<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-2023e3d7fdae0160e22a5dedde736368_720w.jpg" alt="img"></p>
-<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-33f6acaa7515bb06d292abf9051cb535_720w.jpg" alt="img"></p>
-<p><code>class.getResource(String resource)</code> 调用当前类路径下的资源</p>
-<p><code>class.getClassLoader().getResource(String resource)</code> 获取跟路径，调用根目录下资源</p>
-<p><strong>上面的两种方式在工程项目中有效，在jar包中无效</strong></p>
-<h3 id="class-getResourceAsStream-String-resourceFile"><a href="#class-getResourceAsStream-String-resourceFile" class="headerlink" title="class.getResourceAsStream(String resourceFile)"></a>class.getResourceAsStream(String resourceFile)</h3><p>要想在jar包中也能够读取资源文件，请使用这个方法！</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java_skill</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java代理</title>
-    <url>/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/</url>
-    <content><![CDATA[<p>Java 代理，主要主要是指动态代理，是学习AOP的基础，该知识点非常重要，有必要好好了解！</p>
-<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
-<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
-<ul>
-<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
-<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
-<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
-<li>……</li>
-</ul>
-<span id="more"></span>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在实战mybatis，在研究实现原理的时候，重新又把焦点放在了代理模式上，因此记下此篇。</p>
-<p>java代理实际为动态代理，用起来可能比较抽象，但实际上并没有那么难。</p>
-<h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>要想完全弄清楚代理，我认为还是要先从静态代理出发，首先我们传统方法上的调用可以被归纳为一个对应关系，<strong>即调用方调用被调用方的方法，被调用方返回结果给调用方</strong>：</p>
-<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902162423038.png" alt="image-20210902162423038"></p>
-<p>这种调用很常见，但是如果遇到下面的情况：</p>
-<ul>
-<li>被调用方不想暴露自己的方法给调用方</li>
-<li>被调用方是一个已经打包好的包且调用方法前后需要做一些预处理事务</li>
-</ul>
-<p>那么就需要一个“第三者”来帮助调用方进行方法调用。可以称这个“第三者”为<strong>代理对象</strong></p>
-<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902163304246.png" alt="image-20210902163304246"></p>
-<p>这样调用方调用的时候，代理对象对调用请求进行预处理，然后调用被调用方的相应方法，再返回。</p>
-<p>这种设计方法应用场景非常多，比如在<strong>交流通信中的黑名单功能</strong>，可以参考下面代码的写法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Connection.java</span></span><br><span class="line"><span class="comment">// Connection为接口，代理类和被调用方类都要实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Connection</span> </span></span><br><span class="line"><span class="class">	// 建立连接通信通道，连接成功返回<span class="title">true</span>，连接失败返回<span class="title">false</span></span></span><br><span class="line"><span class="class">	<span class="title">boolean</span> <span class="title">connect</span>(<span class="title">Socket</span> <span class="title">socket</span>)</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ConnectionImpl.java</span></span><br><span class="line"><span class="comment">// 被调用方</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectionImpl</span> <span class="keyword">implements</span> <span class="title">Connection</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connect</span><span class="params">(Socket socket)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 具体建立连接的代码</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ConnectionImplProxy.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectionImplProxy</span> <span class="keyword">implements</span> <span class="title">Connection</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> ConnectionImpl impl;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 初始化impl的相关方法</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connect</span><span class="params">(Socket socket)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 判断对方IP是否在黑名单内</span></span><br><span class="line">		<span class="keyword">boolean</span> isBlackGuy = checkFromBlacklist(socket.getInetAddress());</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 如果对方是黑名单成员，则不建立通信连接，否则，建立连接</span></span><br><span class="line">		<span class="keyword">if</span>(isBlackGuy)&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> impl.connect(socket);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>他们的关系可以使用下图表达</p>
-<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902165843702.png"></p>
-<h3 id="静态代理的实现"><a href="#静态代理的实现" class="headerlink" title="静态代理的实现"></a>静态代理的实现</h3><ol>
-<li>首先需要一个<strong>公共的接口</strong>，<strong>代理类和被调用方都要实现这个接口</strong></li>
-<li>代理类要<strong>初始化一个被调用方类的对象作为字段</strong></li>
-<li><strong>调用方通过调用代理类的方法</strong>，<strong>代理类调用被调用方的方法</strong>，然后返回结果，这一个过程便是静态代理。</li>
-</ol>
-<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>动态代理与静态代理的主要不同，就是动态代理对象由Proxy类来生成而不是由程序员通过编码来生成。</p>
-<p>要生成一个代理对象，需要提供两个东西：</p>
-<ul>
-<li>调用处理器</li>
-<li>目标接口（一个或多个）</li>
-</ul>
-<p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902182406151.png" alt="###"></p>
-<h3 id="使用动态代理"><a href="#使用动态代理" class="headerlink" title="使用动态代理"></a>使用动态代理</h3><p>首先要使用动态代理，需要定义一个调用处理器</p>
-<h4 id="调用处理器"><a href="#调用处理器" class="headerlink" title="调用处理器"></a>调用处理器</h4><p>所谓调用处理器是实现了<code>InvocationHandler</code>接口的类，该接口只有一个方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>;</span><br></pre></td></tr></table></figure>
-
-<p>其中proxy为代理对象，method为当前调用的方法，args 为方法所有参数</p>
-<p><strong>代理器中需要持有目标对象（被调用者）的句柄</strong>，一般来说，完成代理需要的任何目标对象，都要储存在调用处理器中，换句话说，目标对象。调用处理器的写法可以参考：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 这个就是目标对象</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 初始化目标对象</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 预处理</span></span><br><span class="line">	    System.out.print(target);</span><br><span class="line">	    System.out.print(<span class="string">&quot;.&quot;</span> + method.getName + <span class="string">&quot;(&quot;</span>);</span><br><span class="line">	    <span class="keyword">if</span>(args != <span class="keyword">null</span>)&#123;</span><br><span class="line">	    	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; args.length; i++)&#123;</span><br><span class="line">	    		System.out.print(args[i]);</span><br><span class="line">	    		<span class="keyword">if</span>(i &lt; args.lengthv - <span class="number">1</span>)</span><br><span class="line">	    			System.out.print(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">	    	&#125;</span><br><span class="line">	    	System.out.print(<span class="string">&quot;)&quot;</span>);</span><br><span class="line">	    &#125;</span><br><span class="line">	    </span><br><span class="line">        <span class="comment">// 调用真正的对象（被调用者）相应的方法</span></span><br><span class="line">	    <span class="keyword">return</span> method.invoke(target, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>接口中所有的方法都是需要被代理对象截拦的方法。<strong>对所有接口方法的调用都会转为调用代理对象的invoke()。</strong></p>
-<p>注意提供给Proxy类的接口可以有多个，newProxyInstance()中第二个参数也是提供一个数组，当提供多个接口时，<strong>接口的顺序就很关键</strong>，如果<strong>存在两个或多个接口具有相同的方法，则默认以靠前的接口的方法进行调用。</strong></p>
-<h3 id="Proxy类"><a href="#Proxy类" class="headerlink" title="Proxy类"></a>Proxy类</h3><p><strong>Proxy类负责生成代理对象</strong>，需要关注的方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler handler)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>该方法生成代理对象。</p>
-<p><strong>Proxy类中只有一个InvocationHandler实例字段对象，用于处理所有的方法调用的截拦。</strong></p>
-<p>生成代理可以参考：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> elements = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elements.length; i++)&#123;</span><br><span class="line">	Integer value = i + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//!!!!</span></span><br><span class="line">	Object proxy = Proxy.newProxyInstance(</span><br><span class="line">		ClassLoader.getSystemClassLoader(),</span><br><span class="line">		<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">		handler</span><br><span class="line">	);</span><br><span class="line">	<span class="comment">// 也可以这样写</span></span><br><span class="line">	Comparable proxy = (Comparable)Proxy.newProxyInstance(</span><br><span class="line">		ClassLoader.getSystemClassLoader(),</span><br><span class="line">		<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">		handler</span><br><span class="line">	);</span><br><span class="line">	elements[i] = proxy;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>特别注意，对于一个特定的类加载器和预设的一组接口来说，只能有一个代理类，换句话说如果对同一个类加载器和接口调用多次newProxyInstance()，只会得到同一个代理类的多个代理对象</strong></p>
-<p>如果想要获取代理对象的代理类，可以使用</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> Class&lt;?&gt; getProxyClass(ClassLoader loader, Class&lt;?&gt; …interfaces)</span><br></pre></td></tr></table></figure>
-
-<p><strong>代理类总是<code>public</code>和<code>final</code>的，如果代理类实现的所有接口都是<code>public</code>的，这个代理类就不属于任何特定的包，否则，所有的非<code>public</code>接口都必须要在同一个包，而且生成的代理类也会在这个包中。</strong></p>
-<p>可以使用：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="title">isProxyClass</span><span class="params">(Class&lt;?&gt; cl)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>判断一个类是否为代理类。</p>
-<h3 id="代理对象"><a href="#代理对象" class="headerlink" title="代理对象"></a>代理对象</h3><p><strong>所有的代理类都要扩展Proxy类，同时实现提供给Proxy类的所有接口</strong>，<strong>这些代理类在运行时通过反射被生成，如果没有定义代理类名字，Oracle虚拟机对所有扩展了Proxy类的代理类赋予 <code>$Proxy</code>开头的类名。</strong>因为Proxy类中有唯一的InvocationHandler实例字段，并且这个字段是protected的，<strong>这个实例字段在使用newProxyInstance()时会对其赋值</strong>。</p>
-<p><strong>所有代理类都要覆盖Object类中的toString()、equals()、hashCode()，和接口上的方法一样，对这些方法的调用都会引发对invoke()的调用</strong>，Object类的其他方法没有被覆盖。</p>
-<h2 id="完整代码解析动态代理过程"><a href="#完整代码解析动态代理过程" class="headerlink" title="完整代码解析动态代理过程"></a>完整代码解析动态代理过程</h2><p>将上面的代码进行综合</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyTest</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">var</span> proxys = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; elements.length; i++)&#123;</span><br><span class="line">			Integer value = i + <span class="number">1</span>;</span><br><span class="line">            </span><br><span class="line">			<span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br><span class="line">		</span><br><span class="line">			<span class="comment">//!!!!</span></span><br><span class="line">			Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br><span class="line">       </span><br><span class="line">			proxys[i] = proxy;</span><br><span class="line">		&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> key = <span class="number">56</span>;</span><br><span class="line">        <span class="keyword">int</span> result = Arrays.binarySearch(proxys, key);</span><br><span class="line">        <span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            System.out.println(proxys[result]);</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 储存数据</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 预处理</span></span><br><span class="line">	    System.out.print(target);</span><br><span class="line">	    System.out.print(<span class="string">&quot;.&quot;</span> + method.getName + <span class="string">&quot;(&quot;</span>);</span><br><span class="line">	    <span class="keyword">if</span>(args != <span class="keyword">null</span>)&#123;</span><br><span class="line">	    	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; args.length; i++)&#123;</span><br><span class="line">	    		System.out.print(args[i]);</span><br><span class="line">	    		<span class="keyword">if</span>(i &lt; args.lengthv - <span class="number">1</span>)</span><br><span class="line">	    			System.out.print(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">	    	&#125;</span><br><span class="line">	    	System.out.print(<span class="string">&quot;)&quot;</span>);</span><br><span class="line">	    &#125;</span><br><span class="line">	    </span><br><span class="line">        <span class="comment">// 调用真正的对象（被调用者）相应的方法</span></span><br><span class="line">	    <span class="keyword">return</span> method.invoke(target, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面的代码实现了在1-1000中使用二分查找找到56！</p>
-<p>看上面的代码，首先创建一个proxys代理对象数组：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> proxys = <span class="keyword">new</span> Object[<span class="number">1000</span>];</span><br></pre></td></tr></table></figure>
-
-<p>然后生成一个调用处理器，并且传入被调用的对象（数据）</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer value = i + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> handler = <span class="keyword">new</span> TraceHandler(value);</span><br></pre></td></tr></table></figure>
-
-<p>由于Integer类实现了Comparable接口，因此创建一个实现了Comparable，同时使用TraceHandler作为调用处理器的代理对象proxy：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br></pre></td></tr></table></figure>
-
-<p>然后将代理对象存储在代理对象数组中。</p>
-<p>接下来真正的动态代理过程：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> key = <span class="number">56</span>;</span><br><span class="line"><span class="keyword">int</span> result = Arrays.binarySearch(proxys, key);</span><br><span class="line"><span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">	System.out.println(proxys[result]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> proxys数组中的每一个元素都是一个代理对象，之前已经有提到，一个代理类中有唯一的<code>InvocationHandler</code>实例字段，<strong>这个实例字段在调用newProxyInstance()时会对其赋值</strong>。因此对于每一个代理对象，都会有一个<code>handle</code>实例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var handler = new TraceHandler(value);</span><br></pre></td></tr></table></figure>
-
-<p><strong>binarySearch()里面会调用compareTo()<strong>，</strong>由于代理对象实现了Comparable接口</strong>，因此binarySearch()内部将会调用代理对象的compareTo()，上面也提到过，<strong>对所有接口方法的调用都会转为调用代理对象的invoke()，因此代理对象的compareTo()将会调用invoke()<strong>，</strong>同时把代理对象自身（this），将compareTo()封装为Method对象，把所有compareTo()方法的参数储存在Object[]，并将这三个信息传递给invoke()。</strong></p>
-<p>在invoke()里面，通过使用Method对象：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">method.invoke(target, args);</span><br><span class="line"><span class="comment">// 注意这个invoke是method对象的invoke，不是TraceHandler的invoke</span></span><br></pre></td></tr></table></figure>
-
-<p>来调用真正的compareTo()。</p>
-<p>还记得我们是如何声明TraceHandler的吗？</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Integer value = i + 1;</span><br><span class="line">var handler = new TraceHandler(value);</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TraceHandle</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	<span class="comment">// 储存数据</span></span><br><span class="line">	<span class="keyword">private</span> Integer target;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TraceHandle</span><span class="params">(<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>value就是target哦</strong>！！！对于代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">method.invoke(target, args);</span><br></pre></td></tr></table></figure>
-
-<p>由于compareTo()只有一个参数，因此args数组只有一个成员，上面的代码就相当于：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">target.compareTo(args[<span class="number">0</span>]);</span><br><span class="line"><span class="comment">// 实际上就是：</span></span><br><span class="line">value.compareTo(args[<span class="number">0</span>]);</span><br></pre></td></tr></table></figure>
-
-<p>对于这段代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(result &gt; <span class="number">0</span>)&#123;</span><br><span class="line">	System.out.println(proxys[result]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>其实也是一样，先调用<code>proxys[result]</code>的<code>toString()</code>,<code>toString()</code>会调用代理处理器<code>handler</code>的<code>invoke() </code>在<code>invoke() </code>里面，会调用<code>method.invoke(target, args);</code>由于<code>toString()</code>没有参数，因此<code>method.invoke(target, args);</code>相当于<code>method.invoke(target, null)</code>，相当于<code>target.toString()</code>也就是<code>value.toString()</code></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><img src="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/image-20210902222620840.png" alt="image-20210902222620840"></p>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p><strong>调用newProxyInstance()只传递了一个接口时，那么就要要求目标对象实际上也是实现了这个接口的类所产生的对象</strong>，例如：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object proxy = Proxy.newProxyInstance</span><br><span class="line">            (</span><br><span class="line">				ClassLoader.getSystemClassLoader(),</span><br><span class="line">				<span class="keyword">new</span> Class[] &#123;Comparable.class&#125;,</span><br><span class="line">				handler</span><br><span class="line">			);</span><br></pre></td></tr></table></figure>
-
-<p>那么<strong>调用处理器内的目标对象句柄也要实现Comparable</strong>，在TraceHandle类中，他内部的目标对象是：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Integer value = i + <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-
-<p><strong>Integer类本身就实现了Comparable。</strong>因此在进行<code>method.invoke(target, args)</code>才可以通过，否则会报<code>MethodNotFoundException</code></p>
-<p><strong>如果调用newProxyInstance()传递了多个接口，那么对于目标对象就需要实现其中至少一个接口，这个时候的关键点其实不在目标对象而在调用处理器invoke()的编写。</strong></p>
-<p>在这情况下<strong>，调用处理器中所有目标对象总共实现的所有接口应要包含传递给newProxyInstance()的多个接口</strong></p>
-<h2 id="动态代理用途"><a href="#动态代理用途" class="headerlink" title="动态代理用途"></a>动态代理用途</h2><ol>
-<li>对目标对象的方法每次被调用，进行动态拦截。</li>
-<li>代理处理器可以储存多个目标对象，在invoke内部，可以根据不同的method，使用不同的目标对象。</li>
-<li>对接口方法进行预处理（增强方法）</li>
-</ol>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java_core</tag>
-        <tag>java_lib</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java重载VS重写</title>
-    <url>/2021/08/14/Java/Java%E9%87%8D%E8%BD%BDVS%E9%87%8D%E5%86%99/</url>
-    <content><![CDATA[<p>希望这篇文章能够帮助各位重载和重写傻傻分不清的朋友！</p>
-<span id="more"></span>
-
-<h2 id="重写（Override）"><a href="#重写（Override）" class="headerlink" title="重写（Override）"></a>重写（Override）</h2><p>重写一般是对父类的方法进行重写，要求</p>
-<ul>
-<li><strong>返回值和形参都不能改变！</strong></li>
-<li><strong>返回值类型可以不相同，但必须是父类返回值的派生类（java 7↑）</strong></li>
-<li><strong>重写的方法能够抛出任何非强制性异常，但当父类方法本身也声明抛出的异常的时候，子类异常只能是父类异常的子类</strong></li>
-<li><strong>不能缩窄访问权限（父类方法是public，子类重写方法就不能为protected）</strong></li>
-<li><strong>声明为<code>final</code>的方法不能被重写</strong></li>
-<li><strong>声明为<code>static</code>的方法不能被重写，但是能够被再次声明</strong></li>
-<li><strong>子类和父类在同一个包中，那么子类可以重写父类所有方法，除了声明为 private 和 final 的方法。</strong></li>
-<li><strong>子类和父类不在同一个包中，那么子类只能够重写父类的声明为 public 和 protected 的非 final 方法。</strong></li>
-<li><strong>构造方法不能被重写</strong></li>
-</ul>
-<h2 id="重载（Overload）"><a href="#重载（Overload）" class="headerlink" title="重载（Overload）"></a>重载（Overload）</h2><ul>
-<li><strong>被重载的方法必须改变参数列表(参数个数或类型或顺序不一样)；</strong></li>
-<li><strong>被重载的方法可以改变返回类型；</strong></li>
-<li><strong>被重载的方法可以改变访问修饰符；</strong></li>
-<li><strong>被重载的方法可以声明新的或更广的检查异常；</strong></li>
-<li><strong>方法能够在同一个类中或者在一个子类中被重载。</strong></li>
-<li><strong>无法以返回值类型作为重载函数的区分标准。</strong></li>
-</ul>
-<h2 id="简单地讲："><a href="#简单地讲：" class="headerlink" title="简单地讲："></a>简单地讲：</h2><p>重写：<strong>返回值和参数列表都不能改变！</strong></p>
-<p>重载：<strong>参数列表必须改变</strong>！</p>
-<p><strong>参数列表相同，返回值不同既不属于重载也不属于重写</strong>！！！</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java_core</tag>
-        <tag>java_oop</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Tomcat&amp;Servlet基础</title>
-    <url>/2021/08/14/JavaWeb/Tomcat&amp;Servlet%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
-<p>19年黑马<code>JavaWeb</code>课程的笔记</p>
-<span id="more"></span>
-
-<h2 id="Servlet-Tomcat？"><a href="#Servlet-Tomcat？" class="headerlink" title="Servlet? Tomcat？"></a>Servlet? Tomcat？</h2><p>在讲解<code>Servlet</code>之前，先补充一些<code>web</code>服务器的知识，所谓服务器，通俗上的理解就是安装了服务器软件的计算机。这些服务器软件通过接受用户请求、处理用户请求，回传响应来实现提供某一种服务。</p>
-<p>而<code>Tomcat</code>就可以理解为是一种服务器软件。</p>
-<p><code>Servlet</code>全名是：<code>server applet</code>，也就是运行在服务端的小程序，这些小程序配合服务器软件处理具体的业务。因此通常服务器接收到具体的请求的时候，服务器会将请求分配给相应的<code>servlet</code>进行处理，再将<code>servlet</code>的响应结果回传给用户。</p>
-<p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20210809184109992.png" alt="image-20210809184109992"></p>
-<h2 id="Tomcat服务器安装"><a href="#Tomcat服务器安装" class="headerlink" title="Tomcat服务器安装"></a>Tomcat服务器安装</h2><p>下载地址：<a href="http://tomcat.apache.org/">Apache Tomcat® - Welcome!</a></p>
-<p>解压压缩包，建议不带中文，可以看到Tomcat服务器的如下目录结构：</p>
-<p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20210809184145766.png" alt="image-20210809184145766"></p>
-<img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/tomcat目录结构.png" alt="tomcat目录结构" style="zoom:200%;">
-
-<p>在<code>bin</code>目录下双击<code>startup.bat</code>即可启动<code>tomcat</code></p>
-<p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20210809184319851.png" alt="image-20210809184319851"></p>
-<h2 id="Tomcat部署配置"><a href="#Tomcat部署配置" class="headerlink" title="Tomcat部署配置"></a>Tomcat部署配置</h2><p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20210809184429573.png" alt="image-20210809184429573"></p>
-<h2 id="Servlet配置"><a href="#Servlet配置" class="headerlink" title="Servlet配置"></a>Servlet配置</h2><h3 id="基于XML的配置"><a href="#基于XML的配置" class="headerlink" title="基于XML的配置"></a>基于XML的配置</h3><ol>
-<li><p>创建<code>JavaEE</code>项目</p>
-</li>
-<li><p>定义一个类，实现Servlet接口</p>
-</li>
-</ol>
- <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public class ServletDemo1 implements Servlet</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>实现接口中的抽象方法</li>
-<li>配置Servlet， 在web.xml中配置：</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--配置Servlet --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>demo1<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>cn.itcast.web.servlet.ServletDemo1<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>demo1<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/demo1<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="执行原理"><a href="#执行原理" class="headerlink" title="执行原理"></a>执行原理</h4><ol>
-<li>当服务器接受到客户端浏览器的请求后，会解析请求<code>URL</code>路径，获取访问的<code>Servlet</code>的资源路径</li>
-<li>查找<code>web.xml</code>文件，是否有对应的<code>&lt;url-pattern&gt;</code>标签体内容。</li>
-<li>如果有，则在找到对应的<code>&lt;servlet-class&gt;</code>全类名</li>
-<li><code>tomcat</code>会将字节码文件加载进内存，并且创建其对象</li>
-<li>调用其方法</li>
-</ol>
-<h3 id="基于注解的配置"><a href="#基于注解的配置" class="headerlink" title="基于注解的配置"></a>基于注解的配置</h3><ol>
-<li><p>创建<code>JavaEE</code>项目，选择<code>Servlet</code>的版本<strong>3.0</strong>以上，可以不创建<code>web.xml</code></p>
-</li>
-<li><p>定义一个类，实现<code>Servlet</code>接口</p>
-</li>
-<li><p>复写方法</p>
-</li>
-<li><p>在类上使用<code>@WebServlet</code>注解，进行配置</p>
-</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@WebServlet(&quot;资源路径&quot;)</span><br></pre></td></tr></table></figure>
-
-<p>   这个注解的源代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Target(&#123;ElementType.TYPE&#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">public @interface WebServlet &#123;</span><br><span class="line">	String name() default &quot;&quot;;//相当于&lt;Servlet-name&gt;</span><br><span class="line">	String[] value() default &#123;&#125;;//代表urlPatterns()属性配置</span><br><span class="line">	String[] urlPatterns() default &#123;&#125;;//相当于&lt;url-pattern&gt;</span><br><span class="line">	int loadOnStartup() default -1;//相当于&lt;load-on-startup&gt;</span><br><span class="line">	WebInitParam[] initParams() default &#123;&#125;;</span><br><span class="line">	boolean asyncSupported() default false;</span><br><span class="line">	String smallIcon() default &quot;&quot;;</span><br><span class="line">	String largeIcon() default &quot;&quot;;</span><br><span class="line">	String description() default &quot;&quot;;</span><br><span class="line">	String displayName() default &quot;&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Servlet-生命周期"><a href="#Servlet-生命周期" class="headerlink" title="Servlet 生命周期"></a>Servlet 生命周期</h2><p>一个<code>servlet</code>程序要想在<code>Web</code>服务器上运行，一般需要四个步骤：</p>
-<ol>
-<li>装入</li>
-<li>初始化</li>
-<li>提供服务</li>
-<li>销毁</li>
-</ol>
-<p>其中程序员能决定，从步骤2开始，到步骤4，装入一般交给<code>web</code>服务器，准确点来说是服务器软件，如<code>Tomcat</code>负责。</p>
-<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>初始化，也就是实例化<code>Servlet</code>的具体实现类的工作，这个动作会调用<code>Servlet</code>接口的<code>init()</code>，在整个<code>servlet</code>生命周期中只会执行一次。</p>
-<p>那这里就产生了两个问题</p>
-<h4 id="Servlet什么时候初始化？"><a href="#Servlet什么时候初始化？" class="headerlink" title="Servlet什么时候初始化？"></a>Servlet什么时候初始化？</h4><p>默认情况下，第一次被访问时，Servlet类就被初始化，可以配置执行Servlet的创建时机。</p>
-<p>在<code>&lt;servlet&gt;</code>标签下配置</p>
-<ol>
-<li>第一次被访问时，创建<code>&lt;load-on-startup&gt;</code>的值为负数</li>
-<li>在服务器启动时，创建<code>&lt;load-on-startup&gt;</code>的值为0或正整数</li>
-</ol>
-<h4 id="Servlet是单例的"><a href="#Servlet是单例的" class="headerlink" title="Servlet是单例的"></a>Servlet是单例的</h4><p>Servlet的初始化在整个生命周期过程中只执行一次，这就说明对于每一个<code>Servlet</code>的具体实现类被加载之后，必须要走完整个生命周期，才能再次创建相同实现类的实例，<strong>因此在内存中只存在唯一对象，<code>Servlet</code>是单例的</strong>，<strong>一旦涉及到单例，就可能存在线程安全问题</strong>。</p>
-<p><strong>因此尽量不要在<code>Servlet</code>中定义成员变量。</strong>即使定义了成员变量，也不要修改值</p>
-<h3 id="提供服务"><a href="#提供服务" class="headerlink" title="提供服务"></a>提供服务</h3><p>该过程会执行<code>service()</code>，执行多次，每次访问Servlet时，Service方法都会被调用一次。</p>
-<p>由于对<code>Servlet</code>接口的进一步封装，现在也很少直接在<code>service()</code>进行编码，一般使用的是<code>HttpServlet</code>的<code>doGet()</code>、<code>doPost()</code>等</p>
-<h3 id="销毁"><a href="#销毁" class="headerlink" title="销毁"></a>销毁</h3><p>执行destroy方法，只执行一次，<code>Servlet</code>被销毁时执行。服务器关闭时，Servlet被销毁</p>
-<ul>
-<li>只有服务器正常关闭时，才会执行destroy方法。</li>
-<li>destroy方法在<code>Servlet</code>被销毁之前执行，一般用于释放资源</li>
-</ul>
-<h2 id="Servlet-API"><a href="#Servlet-API" class="headerlink" title="Servlet API"></a>Servlet API</h2><p>![Servlet API类图](Tomcat&amp;Servlet基础/Servlet API类图.png)</p>
-<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><h4 id="Servlet实现相关"><a href="#Servlet实现相关" class="headerlink" title="Servlet实现相关"></a>Servlet实现相关</h4><ul>
-<li>javax.servlet.Servlet</li>
-<li>javax.servlet.GenericServlet</li>
-<li>javax.servlet.http.HttpServlet</li>
-</ul>
-<h4 id="Servlet配置文件相关（Web-xml解析结果）"><a href="#Servlet配置文件相关（Web-xml解析结果）" class="headerlink" title="Servlet配置文件相关（Web.xml解析结果）"></a>Servlet配置文件相关（Web.xml解析结果）</h4><ul>
-<li>javax.servlet.ServletConfig</li>
-</ul>
-<h4 id="响应和请求"><a href="#响应和请求" class="headerlink" title="响应和请求"></a>响应和请求</h4><ul>
-<li>javax.servlet.ServletResponse</li>
-<li>javax.servlet.ServletRequest</li>
-<li>javax.servlet.http.HttpServletResponse</li>
-<li>javax.servlet.http.HttpServletRequest</li>
-</ul>
-<h4 id="会话跟踪"><a href="#会话跟踪" class="headerlink" title="会话跟踪"></a>会话跟踪</h4><ul>
-<li>javax.servlet.http.HttpSession</li>
-<li>javax.servlet.http.HttpSessionBindingListener</li>
-<li>javax.servlet.http.HttpSessionBindingEvent</li>
-</ul>
-<h4 id="Servlet上下文环境"><a href="#Servlet上下文环境" class="headerlink" title="Servlet上下文环境"></a>Servlet上下文环境</h4><ul>
-<li>javax.servlet.ServletContext</li>
-</ul>
-<h4 id="Servlet协作"><a href="#Servlet协作" class="headerlink" title="Servlet协作"></a>Servlet协作</h4><ul>
-<li>javax.servlet.RequestDispatcher</li>
-</ul>
-<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><ul>
-<li>javax.servlet.http.Cookie</li>
-</ul>
-<h4 id="Utils"><a href="#Utils" class="headerlink" title="Utils"></a>Utils</h4><ul>
-<li>javax.servlet.http.HttpUtils</li>
-</ul>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_servlet</tag>
-        <tag>javaweb_tomcat</tag>
+        <tag>常用正则表达式持续更新</tag>
       </tags>
   </entry>
   <entry>
@@ -1062,6 +976,126 @@ cnpm install -g hexo-cli
       <tags>
         <tag>hexo</tag>
         <tag>recovery</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java注解</title>
+    <url>/2021/08/12/Java/Java%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[<p>Java注解，<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
+<p>注解在代码标注、编译提示中都具有非常好的效果，本章将对Java的注解进行简略的介绍。</p>
+<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
+<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
+<ul>
+<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
+<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
+<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
+<li>……</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="关于注解"><a href="#关于注解" class="headerlink" title="关于注解"></a>关于注解</h2><p>Java注解（Annotation），又称之为元数据，通常用于标记代码信息、添加代码标记。Java内置定义了自己的一套内置注解，共7个。</p>
+<p>按照分类可以分成：</p>
+<h3 id="标识所有内容（代码或注解）："><a href="#标识所有内容（代码或注解）：" class="headerlink" title="标识所有内容（代码或注解）："></a>标识所有内容（代码或注解）：</h3><p>@Documented：标记这些注解是否可以生成在用户文档中（javadoc）</p>
+<p>@SuppressWarnings：忽略注解中声明的警告。</p>
+<h3 id="与代码相关："><a href="#与代码相关：" class="headerlink" title="与代码相关："></a>与代码相关：</h3><p>@Override：用于标记、检查方法是否是重写方法。</p>
+<p>@Deprecated：标记方法为过时方法，使用这一类方法，IDE会在其上面加上删除线。</p>
+<h3 id="用于创建、标识其他注解："><a href="#用于创建、标识其他注解：" class="headerlink" title="用于创建、标识其他注解："></a>用于创建、标识其他注解：</h3><p>@Retention：标识这个注解如何保存，有三种方式。</p>
+<p>@Target：标记这个注解是哪种Java类型（属性、方法、类…）</p>
+<p>@Inherited：标记注解继承于哪个注解类</p>
+<blockquote>
+<p>Java 7、8以后额外添加了三个：@SafeVarargs、@FunctionalInterface、@Repeatable</p>
+<p>@Repeatable：标识某注解可以在同一个声明上使用多次。</p>
+<p>@FunctionalInterface：标识一个匿名函数或者函数式接口</p>
+<p>@SafeVarargs：忽略任何使用参数为泛型变量的方法或构造函数调用产生的警告。通常用在泛型数组。</p>
+</blockquote>
+<h2 id="注解组成部分"><a href="#注解组成部分" class="headerlink" title="注解组成部分"></a>注解组成部分</h2><p>一个注解的定义可以由两部分组成：<strong>1-n个</strong><code>ElementType</code>（作用对象）和<strong>1种</strong><code>RetentionPolicy</code>（存储方式）。</p>
+<p><img src="/2021/08/12/Java/Java%E6%B3%A8%E8%A7%A3/6.jpg" alt="6"></p>
+<p><code>ElementType</code>主要有：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">ElementType</span></span>&#123;</span><br><span class="line">	TYPE,					<span class="comment">// 类、接口、枚举</span></span><br><span class="line">	FIELD,					<span class="comment">// 字段、枚举常量</span></span><br><span class="line">	METHOD,					<span class="comment">// 方法</span></span><br><span class="line">	PARAMETER,				<span class="comment">// 方法参数</span></span><br><span class="line">	CONSTRUCTOR,			<span class="comment">// 构造方法</span></span><br><span class="line">	LOCAL_VARIABLE,			<span class="comment">// 局部变量</span></span><br><span class="line">	ANNOTATION_TYPE,		<span class="comment">// 注解类型</span></span><br><span class="line">	PACKAGE,				<span class="comment">// 包</span></span><br><span class="line">	TYPE_PARAMETER,			<span class="comment">// catch参数</span></span><br><span class="line">	TYPE_USE</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>RetentionPolicy</code>主要有：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">RetentionPolicy</span> </span>&#123;</span><br><span class="line">    SOURCE,            <span class="comment">// Annotation信息仅存在于编译器处理期间，编译器编译成class文件的时候，注解被遗弃。</span></span><br><span class="line"></span><br><span class="line">    CLASS,             <span class="comment">// 编译器将Annotation存储于类对应的.class文件中，但在jvm加载类的时候被遗弃，默认行为。 </span></span><br><span class="line"></span><br><span class="line">    RUNTIME            <span class="comment">// 编译器将Annotation存储于class文件中，并且在jvm加载类的时候，仍然存在。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><p>想要自定义注解，首先要了解注解的接口<code>Annotation</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Annotation</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">String <span class="title">toString</span><span class="params">()</span></span>;</span><br><span class="line">    Class&lt;? extends Annotation&gt; annotationType();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个接口的具体实现由编译器完成，编译器实现该接口提供<code>@interface</code>注解用于创建新注解。这与通常的<code>implement</code>接口不太一样。</p>
+<p>创建过程中，需要指定注解的<strong>两个组成部分</strong>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.FIELD, ELementType.METHOD)</span>	<span class="comment">// 指定该注解的作用范围</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span>				<span class="comment">// 指定注解保存形式</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Overload&#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> &quot;func1&quot;</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>@interface</code>定义这是一个注解，是必须的。</p>
+<p><code>@Target</code>用于指定该注解作用与哪些对象上。</p>
+<p><code>@Retention</code>用于指定注解储存方式，有默认值CLASS，可选的。</p>
+<h2 id="内置注解类"><a href="#内置注解类" class="headerlink" title="内置注解类"></a>内置注解类</h2><h3 id="Override"><a href="#Override" class="headerlink" title="@Override"></a>@Override</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.METHOD)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Override &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>@Override</code>注解的触发，最常用的就是标注方法为重写方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一般建议是在有重写的地方就标上<code>@Override</code>，会有好处的！</p>
+<h3 id="Deprecated"><a href="#Deprecated" class="headerlink" title="@Deprecated"></a>@Deprecated</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(value=&#123;CONSTRUCTOR, FIELD, LOCAL_VARIABLE, METHOD, PACKAGE, MODULE, PARAMETER, TYPE&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Deprecated &#123;</span><br><span class="line">    <span class="function">String <span class="title">since</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;				<span class="comment">// 从哪个版本开始废弃</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">forRemoval</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>@Deprecated</code>标记的方法，在被使用时会被加上删除线</strong>，可以加参数，第一个参数用来标明该对象在何时开始被弃用。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="meta">@Deprecated(&quot;1.5&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Documented"><a href="#Documented" class="headerlink" title="@Documented"></a>@Documented</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Documented &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>标记这个注解可以被javadoc处理。</p>
+<h3 id="Inherited"><a href="#Inherited" class="headerlink" title="@Inherited"></a>@Inherited</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Inherited &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>标注该注解对于子类也是可见的(存在继承关系)，子类可以通过反射来获取父类的注解类。</p>
+<h3 id="Retention"><a href="#Retention" class="headerlink" title="@Retention"></a>@Retention</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Repeatable &#123;</span><br><span class="line">    Class&lt;? extends Annotation&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Target"><a href="#Target" class="headerlink" title="@Target"></a>@Target</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Target &#123;</span><br><span class="line">    ElementType[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SuppressWarnings"><a href="#SuppressWarnings" class="headerlink" title="@SuppressWarnings"></a>@SuppressWarnings</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE, MODULE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SuppressWarnings &#123;</span><br><span class="line">    String[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个注解用于忽略某些警告，有对应的可选项：参数Value可以填入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deprecation  -- 使用了不赞成使用的类或方法时的警告</span><br><span class="line">unchecked    -- 执行了未检查的转换时的警告，例如当使用集合时没有用泛型 (Generics) 来指定集合保存的类型。</span><br><span class="line">fallthrough  -- 当 Switch 程序块直接通往下一种情况而没有 Break 时的警告。</span><br><span class="line">path         -- 在类路径、源文件路径等中有不存在的路径时的警告。</span><br><span class="line">serial       -- 当在可序列化的类上缺少 serialVersionUID 定义时的警告。</span><br><span class="line">finally      -- 任何 finally 子句不能正常完成时的警告。</span><br><span class="line">all          -- 关于以上所有情况的警告。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Repeatable"><a href="#Repeatable" class="headerlink" title="@Repeatable"></a>@Repeatable</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.ANNOTATION_TYPE)</span><br><span class="line">public @interface Repeatable &#123;</span><br><span class="line">    Class&lt;? extends Annotation&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SafeVarargs"><a href="#SafeVarargs" class="headerlink" title="@SafeVarargs"></a>@SafeVarargs</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(&#123;ElementType.CONSTRUCTOR, ElementType.METHOD&#125;)</span><br><span class="line">public @interface SafeVarargs &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在声明具有<strong>模糊类型（比如：泛型）的可变参数的构造函数或方法时</strong>，Java编译器会报unchecked警告。鉴于这些情况，如果程序员断定声明的构造函数和方法的主体不会对其varargs参数执行潜在的不安全的操作，可使用@SafeVarargs进行标记，这样的话，Java编译器就不会报unchecked警告</p>
+<p><strong>@SafeVarargs注解，对于非static或非final声明的方法，不适用，会编译不通过，对于非static或非final声明的方法，请使用@SuppressWarnings(“unchecked”)</strong></p>
+<h3 id="FunctionalInterface"><a href="#FunctionalInterface" class="headerlink" title="@FunctionalInterface"></a>@FunctionalInterface</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">public @interface FunctionalInterface &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用于标注只含有一个抽象方法的函数接口</p>
+<h2 id="注解的作用"><a href="#注解的作用" class="headerlink" title="注解的作用"></a>注解的作用</h2><p>注解可以用于编译检查，帮助阅读代码（Override）、生成帮助文档等。其中最为频繁的使用方式，就是下面要介绍的这个，很多大型框架中的注解的原理就跟下面类似。</p>
+<h3 id="使用反射机制获取注解内容"><a href="#使用反射机制获取注解内容" class="headerlink" title="使用反射机制获取注解内容"></a>使用反射机制获取注解内容</h3>]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java_core</tag>
+        <tag>java_lib</tag>
+        <tag>java_features</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java运行时获取运行位置</title>
+    <url>/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>获取运行时路径的方法在jar包中和在工程中都不同，下面进行区分讲解</p>
+<span id="more"></span>
+
+<h2 id="获取路径"><a href="#获取路径" class="headerlink" title="获取路径"></a>获取路径</h2><p>以下介绍的方法同时适用于jar包和工程中</p>
+<p>获取运行时路径的方法很多，这里只介绍一种通用的方法</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[ClassName].class.getProtectionDomain().getCodeSource().getLocation();</span><br></pre></td></tr></table></figure>
+
+<p>这种方法在工程中获取的是工程项目的位置，在jar包中是获取jar包所在的位置（包括XXXX.jar）</p>
+<h2 id="加载资源"><a href="#加载资源" class="headerlink" title="加载资源"></a>加载资源</h2><h3 id="class-getResource-String-resourceFile"><a href="#class-getResource-String-resourceFile" class="headerlink" title="class.getResource(String resourceFile)"></a>class.getResource(String resourceFile)</h3><h3 id="class-getClassLoader-getResource-String-resourceFile"><a href="#class-getClassLoader-getResource-String-resourceFile" class="headerlink" title="class.getClassLoader().getResource(String resourceFile)"></a>class.getClassLoader().getResource(String resourceFile)</h3><p>上面的区别看这里：</p>
+<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-2023e3d7fdae0160e22a5dedde736368_720w.jpg" alt="img"></p>
+<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-33f6acaa7515bb06d292abf9051cb535_720w.jpg" alt="img"></p>
+<p><code>class.getResource(String resource)</code> 调用当前类路径下的资源</p>
+<p><code>class.getClassLoader().getResource(String resource)</code> 获取跟路径，调用根目录下资源</p>
+<p><strong>上面的两种方式在工程项目中有效，在jar包中无效</strong></p>
+<h3 id="class-getResourceAsStream-String-resourceFile"><a href="#class-getResourceAsStream-String-resourceFile" class="headerlink" title="class.getResourceAsStream(String resourceFile)"></a>class.getResourceAsStream(String resourceFile)</h3><p>要想在jar包中也能够读取资源文件，请使用这个方法！</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java_skill</tag>
       </tags>
   </entry>
   <entry>
@@ -1295,161 +1329,6 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
-    <title>常用正则表达式</title>
-    <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
-<h2 id="常用表达式举例"><a href="#常用表达式举例" class="headerlink" title="常用表达式举例"></a>常用表达式举例</h2><span id="more"></span>
-
-<h3 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h3><h5 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
-
-<h5 id="n位数字（n为具体数字）"><a href="#n位数字（n为具体数字）" class="headerlink" title="n位数字（n为具体数字）"></a>n位数字（n为具体数字）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="至少n位的数字"><a href="#至少n位的数字" class="headerlink" title="至少n位的数字"></a>至少n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n,&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="m-n位的数字"><a href="#m-n位的数字" class="headerlink" title="m-n位的数字"></a>m-n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;m,n&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="零和非零开头的数字"><a href="#零和非零开头的数字" class="headerlink" title="零和非零开头的数字"></a>零和非零开头的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非零开头的最多带两位小数的数字"><a href="#非零开头的最多带两位小数的数字" class="headerlink" title="非零开头的最多带两位小数的数字"></a>非零开头的最多带两位小数的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)+(\.[0-9]&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
-
-<h5 id="带1-2位小数的正数或负数"><a href="#带1-2位小数的正数或负数" class="headerlink" title="带1-2位小数的正数或负数"></a>带1-2位小数的正数或负数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-)?\d+(\.\d&#123;1,2&#125;)$</span><br></pre></td></tr></table></figure>
-
-<h5 id="正数、负数、和小数"><a href="#正数、负数、和小数" class="headerlink" title="正数、负数、和小数"></a>正数、负数、和小数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-|\+)?\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
-
-<h5 id="有两位小数的正实数"><a href="#有两位小数的正实数" class="headerlink" title="有两位小数的正实数"></a>有两位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;2&#125;)?$</span><br></pre></td></tr></table></figure>
-
-<h5 id="有1-3位小数的正实数"><a href="#有1-3位小数的正实数" class="headerlink" title="有1~3位小数的正实数"></a>有1~3位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;1,3&#125;)?$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非零的正整数"><a href="#非零的正整数" class="headerlink" title="非零的正整数"></a>非零的正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)&#123;1,3&#125;$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\+?[1-9][0-9]*$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非零的负整数"><a href="#非零的负整数" class="headerlink" title="非零的负整数"></a>非零的负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\-[1-9][]0-9&quot;*$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非负整数"><a href="#非负整数" class="headerlink" title="非负整数"></a>非负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非正整数"><a href="#非正整数" class="headerlink" title="非正整数"></a>非正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+)|(0+))$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非负浮点数"><a href="#非负浮点数" class="headerlink" title="非负浮点数"></a>非负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非正浮点数"><a href="#非正浮点数" class="headerlink" title="非正浮点数"></a>非正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+(\.\d+)?)|(0+(\.0+)?))$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span><br></pre></td></tr></table></figure>
-
-<h5 id="正浮点数"><a href="#正浮点数" class="headerlink" title="正浮点数"></a>正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</span><br></pre></td></tr></table></figure>
-
-<h5 id="负浮点数"><a href="#负浮点数" class="headerlink" title="负浮点数"></a>负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</span><br></pre></td></tr></table></figure>
-
-<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-?\d+)(\.\d+)?$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span><br></pre></td></tr></table></figure>
-
-<h3 id="校验字符的表达式"><a href="#校验字符的表达式" class="headerlink" title="校验字符的表达式"></a>校验字符的表达式</h3><h5 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;0,&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="英文和数字"><a href="#英文和数字" class="headerlink" title="英文和数字"></a>英文和数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;4,40&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="长度为3-20的所有字符"><a href="#长度为3-20的所有字符" class="headerlink" title="长度为3-20的所有字符"></a>长度为3-20的所有字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^.&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="由26个英文字母组成的字符串"><a href="#由26个英文字母组成的字符串" class="headerlink" title="由26个英文字母组成的字符串"></a>由26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z]+$</span><br></pre></td></tr></table></figure>
-
-<h5 id="由26个大写英文字母组成的字符串"><a href="#由26个大写英文字母组成的字符串" class="headerlink" title="由26个大写英文字母组成的字符串"></a>由26个大写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Z]+$</span><br></pre></td></tr></table></figure>
-
-<h5 id="由26个小写英文字母组成的字符串"><a href="#由26个小写英文字母组成的字符串" class="headerlink" title="由26个小写英文字母组成的字符串"></a>由26个小写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-z]+$</span><br></pre></td></tr></table></figure>
-
-<h5 id="由数字和26个英文字母组成的字符串"><a href="#由数字和26个英文字母组成的字符串" class="headerlink" title="由数字和26个英文字母组成的字符串"></a>由数字和26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-
-<h5 id="由数字、26个英文字母或者下划线组成的字符串"><a href="#由数字、26个英文字母或者下划线组成的字符串" class="headerlink" title="由数字、26个英文字母或者下划线组成的字符串"></a>由数字、26个英文字母或者下划线组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+$ 或 ^\w&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="中文、英文、数字包括下划线"><a href="#中文、英文、数字包括下划线" class="headerlink" title="中文、英文、数字包括下划线"></a>中文、英文、数字包括下划线</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9_]+$</span><br></pre></td></tr></table></figure>
-
-<h5 id="中文、英文、数字但不包括下划线等符号"><a href="#中文、英文、数字但不包括下划线等符号" class="headerlink" title="中文、英文、数字但不包括下划线等符号"></a>中文、英文、数字但不包括下划线等符号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]&#123;2,20&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="可以输入含有-amp-’-quot-等字符"><a href="#可以输入含有-amp-’-quot-等字符" class="headerlink" title="可以输入含有^%&amp;’,;=?$&quot;等字符"></a>可以输入含有^%&amp;’,;=?$&quot;等字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^%&amp;&#x27;,;=?$\x22]+</span><br></pre></td></tr></table></figure>
-
-<h5 id="禁止输入含有-的字符"><a href="#禁止输入含有-的字符" class="headerlink" title="禁止输入含有~的字符"></a>禁止输入含有~的字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^~\x22]+</span><br></pre></td></tr></table></figure>
-
-<h3 id="特殊需求表达式"><a href="#特殊需求表达式" class="headerlink" title="特殊需求表达式"></a>特殊需求表达式</h3><h5 id="Email地址"><a href="#Email地址" class="headerlink" title="Email地址"></a>Email地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br></pre></td></tr></table></figure>
-
-<h5 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(\.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+\.?</span><br></pre></td></tr></table></figure>
-
-<h5 id="InternetURL"><a href="#InternetURL" class="headerlink" title="InternetURL"></a>InternetURL</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-z]+://[^\s]*</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</span><br></pre></td></tr></table></figure>
-
-<h5 id="手机号码"><a href="#手机号码" class="headerlink" title="手机号码"></a>手机号码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX"><a href="#电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX" class="headerlink" title="电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)"></a>电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="国内电话号码-0511-4405222、021-87888822"><a href="#国内电话号码-0511-4405222、021-87888822" class="headerlink" title="国内电话号码(0511-4405222、021-87888822)"></a>国内电话号码(0511-4405222、021-87888822)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><a href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）" class="headerlink" title="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"></a>电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((\d&#123;11&#125;)|^((\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;)|(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;))$)</span><br></pre></td></tr></table></figure>
-
-<h5 id="身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X"><a href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X" class="headerlink" title="身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X"></a>身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)</span><br></pre></td></tr></table></figure>
-
-<h5 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线"><a href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线" class="headerlink" title="帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)"></a>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线"><a href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线" class="headerlink" title="密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)"></a>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z]\w&#123;5,17&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间"><a href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)"></a>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"><a href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)"></a>强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="日期格式"><a href="#日期格式" class="headerlink" title="日期格式"></a>日期格式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="一年的12个月-01～09和1～12"><a href="#一年的12个月-01～09和1～12" class="headerlink" title="一年的12个月(01～09和1～12)"></a>一年的12个月(01～09和1～12)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0?[1-9]|1[0-2])$</span><br></pre></td></tr></table></figure>
-
-<h5 id="一个月的31天-01～09和1～31"><a href="#一个月的31天-01～09和1～31" class="headerlink" title="一个月的31天(01～09和1～31)"></a>一个月的31天(01～09和1～31)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((0?[1-9])|((1|2)[0-9])|30|31)$</span><br></pre></td></tr></table></figure>
-
-<h5 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</span><br></pre></td></tr></table></figure>
-
-<h5 id="中国邮政编码"><a href="#中国邮政编码" class="headerlink" title="中国邮政编码"></a>中国邮政编码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9]\d&#123;5&#125;(?!\d) </span><br></pre></td></tr></table></figure>
-
-<h5 id="腾讯QQ号"><a href="#腾讯QQ号" class="headerlink" title="腾讯QQ号"></a>腾讯QQ号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9][0-9]&#123;4,&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="IPv4地址"><a href="#IPv4地址" class="headerlink" title="IPv4地址"></a>IPv4地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;)(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;))&#123;3&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="字符过滤类"><a href="#字符过滤类" class="headerlink" title="字符过滤类"></a>字符过滤类</h3><h5 id="中文字符的正则表达式"><a href="#中文字符的正则表达式" class="headerlink" title="中文字符的正则表达式"></a>中文字符的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[\u4e00-\u9fa5]</span><br></pre></td></tr></table></figure>
-
-<h5 id="双字节字符"><a href="#双字节字符" class="headerlink" title="双字节字符"></a>双字节字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\x00-\xff] </span><br></pre></td></tr></table></figure>
-
-<p>(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</p>
-<h5 id="空白行的正则表达式"><a href="#空白行的正则表达式" class="headerlink" title="空白行的正则表达式"></a>空白行的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\n\s*\r</span><br></pre></td></tr></table></figure>
-
-<p>(可以用来删除空白行)</p>
-<h5 id="HTML标记的正则表达式"><a href="#HTML标记的正则表达式" class="headerlink" title="HTML标记的正则表达式"></a>HTML标记的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt;</span><br></pre></td></tr></table></figure>
-
-<p> <strong>( 首尾空白字符的正则表达式：<code>^\s\*|\s\*$</code>或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</strong></p>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>匹配字符中不出现某些特殊字符可以这样:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]		// 不匹配带有\/*:?&quot;&lt;&gt;|的字符串</span><br></pre></td></tr></table></figure>
-
-<p>匹配目录是否合法(windows)</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[C-Z]:\\([^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]+\\)*$</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>正则表达式</category>
-      </categories>
-      <tags>
-        <tag>常用正则表达式持续更新</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java反射机制</title>
     <url>/2021/08/12/Java/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<p>反射（Reflection），<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
@@ -1598,9 +1477,270 @@ cnpm install -g hexo-cli
         <category>java</category>
       </categories>
       <tags>
-        <tag>java_features</tag>
         <tag>java_core</tag>
         <tag>java_lib</tag>
+        <tag>java_features</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Tomcat&amp;Servlet基础</title>
+    <url>/2021/08/14/JavaWeb/Tomcat&amp;Servlet%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
+<p>19年黑马<code>JavaWeb</code>课程的笔记</p>
+<span id="more"></span>
+
+<h2 id="Servlet-Tomcat？"><a href="#Servlet-Tomcat？" class="headerlink" title="Servlet? Tomcat？"></a>Servlet? Tomcat？</h2><p>在讲解<code>Servlet</code>之前，先补充一些<code>web</code>服务器的知识，所谓服务器，通俗上的理解就是安装了服务器软件的计算机。这些服务器软件通过接受用户请求、处理用户请求，回传响应来实现提供某一种服务。</p>
+<p>而<code>Tomcat</code>就可以理解为是一种服务器软件。</p>
+<p><code>Servlet</code>全名是：<code>server applet</code>，也就是运行在服务端的小程序，这些小程序配合服务器软件处理具体的业务。因此通常服务器接收到具体的请求的时候，服务器会将请求分配给相应的<code>servlet</code>进行处理，再将<code>servlet</code>的响应结果回传给用户。</p>
+<p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20210809184109992.png" alt="image-20210809184109992"></p>
+<h2 id="Tomcat服务器安装"><a href="#Tomcat服务器安装" class="headerlink" title="Tomcat服务器安装"></a>Tomcat服务器安装</h2><p>下载地址：<a href="http://tomcat.apache.org/">Apache Tomcat® - Welcome!</a></p>
+<p>解压压缩包，建议不带中文，可以看到Tomcat服务器的如下目录结构：</p>
+<p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20210809184145766.png" alt="image-20210809184145766"></p>
+<img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/tomcat目录结构.png" alt="tomcat目录结构" style="zoom:200%;">
+
+<p>在<code>bin</code>目录下双击<code>startup.bat</code>即可启动<code>tomcat</code></p>
+<p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20210809184319851.png" alt="image-20210809184319851"></p>
+<h2 id="Tomcat部署配置"><a href="#Tomcat部署配置" class="headerlink" title="Tomcat部署配置"></a>Tomcat部署配置</h2><p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20210809184429573.png" alt="image-20210809184429573"></p>
+<h2 id="Servlet配置"><a href="#Servlet配置" class="headerlink" title="Servlet配置"></a>Servlet配置</h2><h3 id="环境配置——IDEA"><a href="#环境配置——IDEA" class="headerlink" title="环境配置——IDEA"></a>环境配置——IDEA</h3><p>首先新建web项目，这个在不同版本的idea中都不同，通常都是选择：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">new --&gt; project --&gt;java Enterprise --&gt;Web project | Servlet</span><br></pre></td></tr></table></figure>
+
+<p>然后就是配置Tomcat了，顺带一提，下载tomcat之后，不要乱改<code>bin</code>里面的<code>catalina.bat</code>，我当时就是因为乱码问题作死改了这个配置里面的 <code>JAVA_OPTS（set  JAVA_OPTS = -Dfile = utf-8）</code>，然后idea就一直报错了，错误如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">unable to ping server localhost：1099</span><br></pre></td></tr></table></figure>
+
+<p><code>idea</code>会帮你配置<code>JAVA_OPTS</code>， 如果你配置了，那么你的配置将会覆盖掉<code>idea</code>的<del>（坑爹啊，艹）</del></p>
+<p>配置可以参考下面的图：</p>
+<p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20211123115635964.png" alt="image-20211123115635964"></p>
+<p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20211123115718686.png" alt="image-20211123115718686"></p>
+<h3 id="环境配置——Eclipse"><a href="#环境配置——Eclipse" class="headerlink" title="环境配置——Eclipse"></a>环境配置——Eclipse</h3><h3 id="基于XML的配置"><a href="#基于XML的配置" class="headerlink" title="基于XML的配置"></a>基于XML的配置</h3><ol>
+<li><p>创建<code>JavaEE</code>项目，项目名称（虚拟目录）为：<code>/servletTest</code>，就是上图的那个<code>Application context</code></p>
+</li>
+<li><p>定义一个类，实现Servlet接口</p>
+</li>
+<li><p>实现接口中的抽象方法</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServletDemo1</span> <span class="keyword">implements</span> <span class="title">Servlet</span></span>&#123;</span><br><span class="line">	...</span><br><span class="line">	  <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">       System.out.println(<span class="string">&quot;Hello World!&quot;</span>);</span><br><span class="line">   &#125;</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>配置Servlet， 在web.xml中配置：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--配置Servlet --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>demo1<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>cn.itcast.web.servlet.ServletDemo1<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>demo1<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/demo1<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>Link Start</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">http:<span class="comment">//localhost:8080/servletTest/demo1</span></span><br><span class="line"><span class="comment">// http://ip:port/Application context/servlet URI</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="执行原理"><a href="#执行原理" class="headerlink" title="执行原理"></a>执行原理</h4><ol>
+<li>当服务器接受到客户端浏览器的请求后，会解析请求<code>URL</code>路径，获取访问的<code>Servlet</code>的资源路径</li>
+<li>查找<code>web.xml</code>文件，是否有对应的<code>&lt;url-pattern&gt;</code>标签体内容。</li>
+<li>如果有，则在找到对应的<code>&lt;servlet-class&gt;</code>全类名</li>
+<li><code>tomcat</code>会将字节码文件加载进内存，并且创建其对象</li>
+<li>调用其方法</li>
+</ol>
+<h3 id="基于注解的配置"><a href="#基于注解的配置" class="headerlink" title="基于注解的配置"></a>基于注解的配置</h3><ol>
+<li>创建<code>JavaEE</code>项目，选择<code>Servlet</code>的版本<strong>3.0</strong>以上，可以不创建<code>web.xml</code></li>
+<li>定义一个类，实现<code>Servlet</code>接口</li>
+<li>复写方法<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServletDemo1</span> <span class="keyword">implements</span> <span class="title">Servlet</span></span>&#123;</span><br><span class="line"> 	...</span><br><span class="line"> 	  <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello World!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></li>
+<li>在类上使用<code>@WebServlet</code>注解，进行配置</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@WebServlet(&quot;资源路径&quot;)</span></span><br></pre></td></tr></table></figure>
+
+<p>   这个注解的源代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WebServlet &#123;</span><br><span class="line">	<span class="function">String <span class="title">name</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;<span class="comment">//相当于&lt;Servlet-name&gt;</span></span><br><span class="line">	String[] value() <span class="keyword">default</span> &#123;&#125;;<span class="comment">//代表urlPatterns()属性配置</span></span><br><span class="line">	String[] urlPatterns() <span class="keyword">default</span> &#123;&#125;;<span class="comment">//相当于&lt;url-pattern&gt;</span></span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">loadOnStartup</span><span class="params">()</span> <span class="keyword">default</span> -1</span>;<span class="comment">//相当于&lt;load-on-startup&gt;</span></span><br><span class="line">	WebInitParam[] initParams() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">asyncSupported</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line">	<span class="function">String <span class="title">smallIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;</span><br><span class="line">	<span class="function">String <span class="title">largeIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;</span><br><span class="line">	<span class="function">String <span class="title">description</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;</span><br><span class="line">	<span class="function">String <span class="title">displayName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@WebServlet(name = &quot;demo1&quot;, urlPatterns = &quot;/demo1&quot;)</span></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServletDemo1</span> <span class="keyword">implements</span> <span class="title">Servlet</span></span>&#123;</span><br><span class="line">  	...</span><br><span class="line">  	  <span class="meta">@Override</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">         System.out.println(<span class="string">&quot;Hello World!&quot;</span>);</span><br><span class="line">     &#125;</span><br><span class="line">     ...</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Servlet-生命周期"><a href="#Servlet-生命周期" class="headerlink" title="Servlet 生命周期"></a>Servlet 生命周期</h2><p>一个<code>servlet</code>程序要想在<code>Web</code>服务器上运行，一般需要四个步骤：</p>
+<ol>
+<li>装入</li>
+<li>初始化</li>
+<li>提供服务</li>
+<li>销毁</li>
+</ol>
+<p>其中程序员能决定，从步骤2开始，到步骤4，装入一般交给<code>web</code>服务器，准确点来说是服务器软件，如<code>Tomcat</code>负责。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>初始化，也就是实例化<code>Servlet</code>的具体实现类的工作，这个动作会调用<code>Servlet</code>接口的<code>init()</code>，在整个<code>servlet</code>生命周期中只会执行一次。</p>
+<p>那这里就产生了两个问题</p>
+<h4 id="Servlet什么时候初始化？"><a href="#Servlet什么时候初始化？" class="headerlink" title="Servlet什么时候初始化？"></a>Servlet什么时候初始化？</h4><p>默认情况下，第一次被访问时，Servlet类就被初始化，可以配置执行Servlet的创建时机。</p>
+<p>在<code>&lt;servlet&gt;</code>标签下配置</p>
+<ol>
+<li>第一次被访问时创建，<code>&lt;load-on-startup&gt;</code>的值为负数</li>
+<li>在服务器启动时创建，<code>&lt;load-on-startup&gt;</code>的值为0或正整数</li>
+</ol>
+<h4 id="Servlet是单例的"><a href="#Servlet是单例的" class="headerlink" title="Servlet是单例的"></a>Servlet是单例的</h4><p>Servlet的初始化在整个生命周期过程中只执行一次，这就说明对于每一个<code>Servlet</code>的具体实现类被加载之后，必须要走完整个生命周期，才能再次创建相同实现类的实例，<strong>因此在内存中只存在唯一对象，<code>Servlet</code>是单例的</strong>，<strong>一旦涉及到单例，就可能存在线程安全问题</strong>。</p>
+<p><strong>因此尽量不要在<code>Servlet</code>中定义成员变量。</strong>即使定义了成员变量，也不要修改值</p>
+<h3 id="提供服务"><a href="#提供服务" class="headerlink" title="提供服务"></a>提供服务</h3><p>该过程会执行<code>service()</code>，执行多次，每次访问Servlet时，Service方法都会被调用一次。</p>
+<p>由于对<code>Servlet</code>接口的进一步封装，现在也很少直接在<code>service()</code>进行编码，一般使用的是<code>HttpServlet</code>的<code>doGet()</code>、<code>doPost()</code>等</p>
+<h3 id="销毁"><a href="#销毁" class="headerlink" title="销毁"></a>销毁</h3><p>执行destroy方法，只执行一次，<code>Servlet</code>被销毁时执行。服务器关闭时，Servlet被销毁</p>
+<ul>
+<li>只有服务器正常关闭时，才会执行destroy方法。</li>
+<li>destroy方法在<code>Servlet</code>被销毁之前执行，一般用于释放资源</li>
+</ul>
+<h2 id="Servlet-API及体系结构"><a href="#Servlet-API及体系结构" class="headerlink" title="Servlet API及体系结构"></a>Servlet API及体系结构</h2><p>一般自定义的servlet都是派生于：<code>HttpServlet</code></p>
+<p>![Servlet API类图](Tomcat&amp;Servlet基础/Servlet API类图.png)</p>
+<p>其中<code>GenericServlet</code>和<code>HttpServlet</code>都是抽象类，<code>GenericServlet</code>只提供一个抽象方法<code>service()</code>，对Servlet中的其他方法都做了默认实现。因此如果需要继承GenericServlet，只需要实现一个方法：<code>service()</code></p>
+<p>而对于<code>HttpServlet</code>来说，<code>Http</code>有7中请求方式，将这7种方式都封装在<code>HttpServlet</code>，它们都是：<code>doXXX()</code>这样的方法！</p>
+<p>实际上观察<code>HttpServlet</code>的<code>service()</code>方法可以看到：</p>
+<p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20211123125340201.png" alt="image-20211123125340201"></p>
+<p>首先<code>getMethod()</code>返回请求方式，如果是<code>post</code>，调用<code>doPost()</code>，如果是<code>get</code>，调用<code>doGet()</code>，以此类推。</p>
+<p>实际上对于<code>HttpServlet</code>，常用的两个方法是：<code>doGet()</code>和<code>doPost()</code>，因此继承自<code>HttpServlet</code>的<code>Servlet</code>类只需要重写这两个方法即可。</p>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><h4 id="Servlet实现相关"><a href="#Servlet实现相关" class="headerlink" title="Servlet实现相关"></a>Servlet实现相关</h4><ul>
+<li>javax.servlet.Servlet</li>
+<li>javax.servlet.GenericServlet</li>
+<li>javax.servlet.http.HttpServlet</li>
+</ul>
+<h4 id="Servlet配置文件相关（Web-xml解析结果）"><a href="#Servlet配置文件相关（Web-xml解析结果）" class="headerlink" title="Servlet配置文件相关（Web.xml解析结果）"></a>Servlet配置文件相关（Web.xml解析结果）</h4><ul>
+<li>javax.servlet.ServletConfig</li>
+</ul>
+<h4 id="响应和请求"><a href="#响应和请求" class="headerlink" title="响应和请求"></a>响应和请求</h4><ul>
+<li>javax.servlet.ServletResponse</li>
+<li>javax.servlet.ServletRequest</li>
+<li>javax.servlet.http.HttpServletResponse</li>
+<li>javax.servlet.http.HttpServletRequest</li>
+</ul>
+<h4 id="会话跟踪"><a href="#会话跟踪" class="headerlink" title="会话跟踪"></a>会话跟踪</h4><ul>
+<li>javax.servlet.http.HttpSession</li>
+<li>javax.servlet.http.HttpSessionBindingListener</li>
+<li>javax.servlet.http.HttpSessionBindingEvent</li>
+</ul>
+<h4 id="Servlet上下文环境"><a href="#Servlet上下文环境" class="headerlink" title="Servlet上下文环境"></a>Servlet上下文环境</h4><ul>
+<li>javax.servlet.ServletContext</li>
+</ul>
+<h4 id="Servlet协作"><a href="#Servlet协作" class="headerlink" title="Servlet协作"></a>Servlet协作</h4><ul>
+<li>javax.servlet.RequestDispatcher</li>
+</ul>
+<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><ul>
+<li>javax.servlet.http.Cookie</li>
+</ul>
+<h4 id="Utils"><a href="#Utils" class="headerlink" title="Utils"></a>Utils</h4><ul>
+<li>javax.servlet.http.HttpUtils</li>
+</ul>
+<h2 id="再谈URLPartten"><a href="#再谈URLPartten" class="headerlink" title="再谈URLPartten"></a>再谈URLPartten</h2><p>在前面的Servlet配置中，我们详细介绍对于<code>servlet</code>中的<code>URL</code>如何配置，本小节我们继续深入探讨配置<code>URL</code>的几种方式。</p>
+<p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20211123125816380.png" alt="image-20211123125816380"></p>
+<p>首先在WebServlet里面，可以看到：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String[] urlPatterns() <span class="keyword">default</span> &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>urlPatterns</code>实际上却可以接受一个数组，这说明对于一个<code>servlet</code>它可以有多个访问的<code>URL</code>，如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Application Context: servletDemo</span></span><br><span class="line"><span class="meta">@WebServlet(&#123;&quot;/demo1&quot;, &quot;/demo2&quot;, &quot;/demo3&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServletDemo1</span> <span class="keyword">implements</span> <span class="title">Servlet</span> </span>&#123;</span><br><span class="line">    ... <span class="comment">// 省略其他方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello World!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样当你本地的tomcat服务器启动后，你在浏览器输入下面三个地址都会链接到该<code>servlet</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">localhost:<span class="number">8080</span>/servletDemo/demo1</span><br><span class="line">localhost:<span class="number">8080</span>/servletDemo/demo2</span><br><span class="line">localhost:<span class="number">8080</span>/servletDemo/demo3</span><br></pre></td></tr></table></figure>
+
+<p>当然对于一个servlet，你也可以配置多层访问URL，如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Application Context: servletDemo</span></span><br><span class="line"><span class="meta">@WebServlet(&#123;&quot;/user/demo1&quot;, &quot;/user/Askia/demo2&quot;, &quot;/user/argento/askia/Hello/demo3&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServletDemo1</span> <span class="keyword">implements</span> <span class="title">Servlet</span> </span>&#123;</span><br><span class="line">    ... <span class="comment">// 省略其他方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello World!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样当你本地的tomcat服务器启动后，你需要这样才能够访问这个<code>servlet</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">localhost:<span class="number">8080</span>/servletDemo/user/demo1</span><br><span class="line">localhost:<span class="number">8080</span>/servletDemo/user/Askia/demo2</span><br><span class="line">localhost:<span class="number">8080</span>/servletDemo/user/argento/askia/Hello/demo3</span><br></pre></td></tr></table></figure>
+
+<p>如果你只写这样：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">localhost:<span class="number">8080</span>/servletDemo/user</span><br><span class="line">localhost:<span class="number">8080</span>/servletDemo/user/argento</span><br></pre></td></tr></table></figure>
+
+<p>相信我，绝对会<code>404</code></p>
+<p>同时<code>URL</code>也是支持通配符<code>*</code>的，如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Application Context: servletDemo</span></span><br><span class="line"><span class="meta">@WebServlet(&quot;/user/*&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServletDemo1</span> <span class="keyword">implements</span> <span class="title">Servlet</span> </span>&#123;</span><br><span class="line">    ... <span class="comment">// 省略其他方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello World!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>后面的<code>*</code>无论你输入什么都可以跳转到该<code>servlet</code>，如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">localhost:<span class="number">8080</span>/servletDemo/user/askia</span><br><span class="line">localhost:<span class="number">8080</span>/servletDemo/user/Jewo</span><br><span class="line">localhost:<span class="number">8080</span>/servletDemo/user/newHappy</span><br></pre></td></tr></table></figure>
+
+<p>这些<code>URL</code>都会跳转到这个Servlet里面，当然：如果你只是输入：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">localhost:<span class="number">8080</span>/servletDemo/Askia</span><br><span class="line">localhost:<span class="number">8080</span>/servletDemo/Jewo</span><br></pre></td></tr></table></figure>
+
+<p>那也会<code>404</code>，要看准链接！</p>
+<h2 id="Request"><a href="#Request" class="headerlink" title="Request"></a>Request</h2><h3 id="HTTP请求消息数据格式"><a href="#HTTP请求消息数据格式" class="headerlink" title="HTTP请求消息数据格式"></a>HTTP请求消息数据格式</h3><p>关于HTTP的具体内容这里不具体阐述，可以看<a href>这篇文章</a>，这里只放出关于HTTP的请求消息数据格式的解析。</p>
+<p>我们浏览器一旦有处理一次HTTP请求，都会发一次类似这样的消息：</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">POST /login.html	HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>localhost</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0</span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line"><span class="attribute">Accept-Language</span><span class="punctuation">: </span>zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line"><span class="attribute">Accept-Encoding</span><span class="punctuation">: </span>gzip, deflate</span><br><span class="line"><span class="attribute">Referer</span><span class="punctuation">: </span>http://localhost/login.html</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span><span class="punctuation">: </span>1</span><br><span class="line">		</span><br><span class="line">username=zhangsan	</span><br></pre></td></tr></table></figure>
+
+<h4 id="请求行"><a href="#请求行" class="headerlink" title="请求行"></a>请求行</h4><p>请求行数据就是HTTP请求数据的第一行，也就是：</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">POST /login.html	HTTP/1.1</span><br></pre></td></tr></table></figure>
+
+<p>这里面包含了<code>请求方式，请求URL，请求协议/版本</code>，如上面的请求消息解析出来就是：</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">请求方式：Post</span><br><span class="line">请求URL：/login.html</span><br><span class="line">请求协议/版本： HTTP/1.1</span><br></pre></td></tr></table></figure>
+
+<h4 id="请求头"><a href="#请求头" class="headerlink" title="请求头"></a>请求头</h4><p>请求头通常是键值对存在，包含非常多的信息：</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>localhost</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0</span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line"><span class="attribute">Accept-Language</span><span class="punctuation">: </span>zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line"><span class="attribute">Accept-Encoding</span><span class="punctuation">: </span>gzip, deflate</span><br><span class="line"><span class="attribute">Referer</span><span class="punctuation">: </span>http://localhost/login.html</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span><span class="punctuation">: </span>1</span><br></pre></td></tr></table></figure>
+
+<p>其中比较重要的是：</p>
+<ol>
+<li>User-Agent：浏览器告诉服务器，我访问你使用的浏览器版本信息，可以在服务器端获取该头的信息，解决浏览器的兼容性问题</li>
+<li>Referer： 告诉服务器，我(当前请求)从哪里来？，如：<code>http://localhost/login.html</code>，这个东西的作用有两个：防盗链和统计工作。</li>
+</ol>
+<h4 id="请求空行"><a href="#请求空行" class="headerlink" title="请求空行"></a>请求空行</h4><p>就是<code>Upgrade-Insecure-Requests: 1</code>和<code>username=zhangsan</code>之间的那个空行，用于分割POST请求的请求头和请求体。</p>
+<h4 id="请求体-正文"><a href="#请求体-正文" class="headerlink" title="请求体(正文)"></a>请求体(正文)</h4><p>封装POST请求消息的请求参数的，只有POST请求方式，才有请求体，如：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">username</span>=<span class="string">zhangsan	</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Request对象继承体系结构"><a href="#Request对象继承体系结构" class="headerlink" title="Request对象继承体系结构"></a>Request对象继承体系结构</h3><p><img src="/2021/08/14/JavaWeb/Tomcat&Servlet%E5%9F%BA%E7%A1%80/image-20211129114632092.png" alt="image-20211129114632092"></p>
+<p>可以看到上面的继承体系，和Servlet的继承体系如出一辙，其中<code>HttpServletRequest</code>只能在<code>HttpServlet</code>中见到。在GenericServlet中常见到的是<code>ServletRequest</code></p>
+<h3 id="Request功能"><a href="#Request功能" class="headerlink" title="Request功能"></a>Request功能</h3><h4 id="获取请求行信息的方法"><a href="#获取请求行信息的方法" class="headerlink" title="获取请求行信息的方法"></a>获取请求行信息的方法</h4><p>对于请求行数据：</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/day14/demo1?name=zhangsan&amp;user=lisi</span> <span class="meta">HTTP/1.1</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getMethod</span><span class="params">()</span>				<span class="comment">// 获取请求方式 ：GET</span></span></span><br><span class="line"><span class="function">String <span class="title">getContextPath</span><span class="params">()</span>			<span class="comment">// 获取虚拟目录：/day14</span></span></span><br><span class="line"><span class="function">String <span class="title">getServletPath</span><span class="params">()</span>			<span class="comment">// 获取Servlet路径: /demo1</span></span></span><br><span class="line"><span class="function">String <span class="title">getQueryString</span><span class="params">()</span>			<span class="comment">// 获取get方式请求参数：name=zhangsan&amp;user=lisi</span></span></span><br><span class="line"><span class="function">String <span class="title">getRequestURI</span><span class="params">()</span>			<span class="comment">// 获取请求URI：/day14/demo1</span></span></span><br><span class="line"><span class="function">StringBuffer <span class="title">getRequestURL</span><span class="params">()</span>	<span class="comment">// 获取请求URL：http://localhost/day14/demo1</span></span></span><br><span class="line"><span class="function">String <span class="title">getProtocol</span><span class="params">()</span>			<span class="comment">// 获取协议及版本：HTTP/1.1</span></span></span><br><span class="line"><span class="function">String <span class="title">getRemoteAddr</span><span class="params">()</span>			<span class="comment">// 获取客户机的IP地址		</span></span></span><br></pre></td></tr></table></figure>
+
+<h4 id="获取请求头信息的方法"><a href="#获取请求头信息的方法" class="headerlink" title="获取请求头信息的方法"></a>获取请求头信息的方法</h4><p>之前说过请求头信息是一组键值对，因此：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getHeader</span><span class="params">(String name)</span></span>;			<span class="comment">// 通过请求头的名称获取请求头的值</span></span><br><span class="line"><span class="function">Enumeration&lt;String&gt; <span class="title">getHeaderNames</span><span class="params">()</span>	<span class="comment">//获取所有的请求头名称</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">request.getHeader(<span class="string">&quot;User-Agent&quot;</span>);</span><br><span class="line">request.getHeader(<span class="string">&quot;Accept&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取请求体信息的方法"><a href="#获取请求体信息的方法" class="headerlink" title="获取请求体信息的方法"></a>获取请求体信息的方法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">BufferedReader <span class="title">getReader</span><span class="params">()</span>				<span class="comment">// 获取字符输入流，只能操作字符数据(文本)</span></span></span><br><span class="line"><span class="function">ServletInputStream <span class="title">getInputStream</span><span class="params">()</span> 	<span class="comment">// 获取字节输入流，可以操作所有类型数据(字节)</span></span></span><br></pre></td></tr></table></figure>
+<p>对于这个请求体：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">username</span>=<span class="string">zhangsan	</span></span><br></pre></td></tr></table></figure>
+
+<p>获取它的方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str = request.getReader().readLine();	<span class="comment">// str = username=zhangsan	</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Request额外功能"><a href="#Request额外功能" class="headerlink" title="Request额外功能"></a>Request额外功能</h3><h4 id="更加通用的获取请求参数方法"><a href="#更加通用的获取请求参数方法" class="headerlink" title="更加通用的获取请求参数方法"></a>更加通用的获取请求参数方法</h4><p>前面在请求头里面介绍过获取请求参数的方法：<code>String getQueryString()</code>    这个方法获取到的参数是：<code>XXXXX=XXXX&amp;XXXX=XXX</code>格式的，并且只能是Get方式的请求参数，有没有更加通用的方法，既能获取Get请求参数也能获取Post请求参数，有：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getParameter</span><span class="params">(String name)</span></span>;			<span class="comment">// 根据参数名称获取参数值</span></span><br><span class="line">String[] getParameterValues(String name);	<span class="comment">// 根据参数名称获取参数值的数组:hobby=xx&amp;hobby=game</span></span><br><span class="line"><span class="function">Enumeration&lt;String&gt; <span class="title">getParameterNames</span><span class="params">()</span></span>;	<span class="comment">// 获取所有请求的参数名称</span></span><br><span class="line">Map&lt;String,String[]&gt; getParameterMap(); 	<span class="comment">// 获取所有参数的map集合</span></span><br></pre></td></tr></table></figure>
+
+<p>上面四个方法，对于Post、Get都通用，对于下面的请求参数：</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">/day14/demo1?name=zhangsan&amp;user=lisi</span><br></pre></td></tr></table></figure>
+
+<p>只需要使用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String s = request.getParameter(<span class="string">&quot;name&quot;</span>);	<span class="comment">// s = zhangsan</span></span><br></pre></td></tr></table></figure>
+
+<p>同时有时候需要使用到多个参数的时候，比如说：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">hobby</span>=<span class="string">xx&amp;hobby=game</span></span><br></pre></td></tr></table></figure>
+
+<p>两个Hobby，那就需要使用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String[] ss = request.getParameterValues(<span class="string">&quot;hobby&quot;</span>);	<span class="comment">// ss = &#123;&quot;xx&quot;, &quot;game&quot;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="防止乱码现象"><a href="#防止乱码现象" class="headerlink" title="防止乱码现象"></a>防止乱码现象</h4><p>乱码现象在<code>Get</code>方式中一般不会出现，<code>tomcat 8</code> 已经将<code>Get</code>方式乱码问题解决了，当然如果你使用<code>tomcat 7</code>，或者你使用的是<code>Post</code>方式<strong>你可以在获取请求参数之前使用：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">request.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>来防止乱码现象</strong></p>
+<h4 id="请求转发"><a href="#请求转发" class="headerlink" title="请求转发"></a>请求转发</h4><p>Request可以实现服务器内部的资源跳转，例如，你现在有两个Servlet，URL什么的已经配置好了，如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@WebServlet(&quot;/demo1&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Servlet1</span> <span class="keyword">implements</span> <span class="title">HttpServlet</span></span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@WebServlet(&quot;/demo2&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Servlet2</span> <span class="keyword">implements</span> <span class="title">HttpServlet</span></span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我希望在<code>Servlet1</code>处理完之后能够跳转到<code>Servlet2</code>，做一个请求的转发，要做到这点需要两个步骤：</p>
+<ol>
+<li>通过request对象获取请求转发器对象：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">RequestDispatcher <span class="title">getRequestDispatcher</span><span class="params">(String path)</span></span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>使用<code>RequestDispatcher</code>的<code>forward()</code>进行转发：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">forward</span><span class="params">(ServletRequest request, ServletResponse response)</span> </span></span><br></pre></td></tr></table></figure>
+
+<p>如上面的例子，我们可以这样写转发：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@WebServlet(&quot;/demo1&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Servlet1</span> <span class="keyword">implements</span> <span class="title">HttpServlet</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span>&#123;</span><br><span class="line">        ...		<span class="comment">// 其他代码省略</span></span><br><span class="line">        request.getRequestDispatcher(<span class="string">&quot;/demo2&quot;</span>).forward(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@WebServlet(&quot;/demo2&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Servlet2</span> <span class="keyword">implements</span> <span class="title">HttpServlet</span></span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>请求转发有三个特点：</p>
+<ol>
+<li>浏览器地址栏路径不发生变化<br> 调用了<code>request.getRequestDispatcher(&quot;/demo2&quot;).forward(request, response);</code>之后浏览器的URL还是<code>/demo1</code>，不会因为调用请求转发而改变</li>
+<li>只能转发到当前服务器内部资源中。<br> <code>request.getRequestDispatcher(&quot;www.baidu.com&quot;)</code>是没法完成请求转发的！</li>
+<li>转发是一次请求</li>
+</ol>
+<h4 id="数据共享"><a href="#数据共享" class="headerlink" title="数据共享"></a>数据共享</h4><p>域对象：一个有作用范围的对象，可以在范围内共享数据。</p>
+<p>request域：代表一次请求的范围，一般用于请求转发的多个资源中共享数据</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setAttribute</span><span class="params">(String name,Object obj)</span>		<span class="comment">// 存储数据</span></span></span><br><span class="line"><span class="function">Object <span class="title">getAttitude</span><span class="params">(String name)</span>					<span class="comment">// 通过键获取值</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">removeAttribute</span><span class="params">(String name)</span>				<span class="comment">// 通过键移除键值对</span></span></span><br></pre></td></tr></table></figure>
+
+<p>结合请求转发来使用，可以实现多个Servlet之间的数据共享！</p>
+<h4 id="获取ServletContext（Web-xml上的内容）"><a href="#获取ServletContext（Web-xml上的内容）" class="headerlink" title="获取ServletContext（Web.xml上的内容）"></a>获取ServletContext（Web.xml上的内容）</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">ServletContext <span class="title">getServletContext</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_servlet</tag>
+        <tag>javaweb_tomcat</tag>
       </tags>
   </entry>
   <entry>
@@ -2258,25 +2398,25 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
-    <title>archives</title>
-    <url>/archives/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>about</title>
     <url>/about/index.html</url>
     <content><![CDATA[<img src="/about/index/avatar.jpg" alt="头像" style="margin: 0 auto;">
 
 
 <p>没啥好说的.。</p>
-<p>想找我吹水的往这个邮箱发：<a href="mailto:&#65;&#x73;&#107;&#105;&#x61;&#120;&#x69;&#x61;&#111;&#x6d;&#105;&#110;&#103;&#x40;&#x6f;&#x75;&#x74;&#108;&#x6f;&#x6f;&#107;&#x2e;&#x63;&#x6f;&#x6d;">&#65;&#x73;&#107;&#105;&#x61;&#120;&#x69;&#x61;&#111;&#x6d;&#105;&#110;&#103;&#x40;&#x6f;&#x75;&#x74;&#108;&#x6f;&#x6f;&#107;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
-<p>要借一步说话的往这个邮箱发：<a href="mailto:&#65;&#115;&#107;&#x69;&#x61;&#x78;&#105;&#x61;&#x6f;&#x68;&#x75;&#97;&#x40;&#111;&#117;&#116;&#108;&#111;&#111;&#x6b;&#46;&#99;&#x6f;&#109;">&#65;&#115;&#107;&#x69;&#x61;&#x78;&#105;&#x61;&#x6f;&#x68;&#x75;&#97;&#x40;&#111;&#117;&#116;&#108;&#111;&#111;&#x6b;&#46;&#99;&#x6f;&#109;</a></p>
-<p>同好的往这里发：<a href="mailto:&#x43;&#x6f;&#x64;&#x65;&#x58;&#85;&#112;&#x64;&#x61;&#116;&#x65;&#x40;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#x6d;">&#x43;&#x6f;&#x64;&#x65;&#x58;&#85;&#112;&#x64;&#x61;&#116;&#x65;&#x40;&#x31;&#x36;&#51;&#46;&#x63;&#x6f;&#x6d;</a></p>
+<p>想找我吹水的往这个邮箱发：<a href="mailto:&#x41;&#x73;&#107;&#x69;&#x61;&#x78;&#105;&#x61;&#111;&#109;&#x69;&#110;&#x67;&#x40;&#111;&#x75;&#x74;&#x6c;&#111;&#x6f;&#107;&#x2e;&#99;&#x6f;&#x6d;">&#x41;&#x73;&#107;&#x69;&#x61;&#x78;&#105;&#x61;&#111;&#109;&#x69;&#110;&#x67;&#x40;&#111;&#x75;&#x74;&#x6c;&#111;&#x6f;&#107;&#x2e;&#99;&#x6f;&#x6d;</a></p>
+<p>要借一步说话的往这个邮箱发：<a href="mailto:&#65;&#x73;&#x6b;&#105;&#x61;&#120;&#x69;&#97;&#x6f;&#x68;&#117;&#97;&#x40;&#x6f;&#117;&#x74;&#108;&#x6f;&#111;&#107;&#x2e;&#99;&#x6f;&#x6d;">&#65;&#x73;&#x6b;&#105;&#x61;&#120;&#x69;&#97;&#x6f;&#x68;&#117;&#97;&#x40;&#x6f;&#117;&#x74;&#108;&#x6f;&#111;&#107;&#x2e;&#99;&#x6f;&#x6d;</a></p>
+<p>同好的往这里发：<a href="mailto:&#x43;&#x6f;&#100;&#x65;&#x58;&#85;&#112;&#100;&#97;&#116;&#101;&#64;&#49;&#x36;&#51;&#46;&#x63;&#111;&#109;">&#x43;&#x6f;&#100;&#x65;&#x58;&#85;&#112;&#100;&#97;&#116;&#101;&#64;&#49;&#x36;&#51;&#46;&#x63;&#111;&#109;</a></p>
 <p>生活不易，那就早点睡觉。</p>
 <p>生活苦闷，那就网吧五黑。</p>
 <p>没有什么问题是解决不了的，大不了解决提出问题的人！</p>
 <p><strong>尽量周更！！</strong></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>archives</title>
+    <url>/archives/index.html</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>categories</title>
