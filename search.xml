@@ -486,44 +486,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java重载VS重写</title>
-    <url>/2021/08/14/Java/Java%E9%87%8D%E8%BD%BDVS%E9%87%8D%E5%86%99/</url>
-    <content><![CDATA[<p>希望这篇文章能够帮助各位重载和重写傻傻分不清的朋友！</p>
-<span id="more"></span>
-
-<h2 id="重写（Override）"><a href="#重写（Override）" class="headerlink" title="重写（Override）"></a>重写（Override）</h2><p>重写一般是对父类的方法进行重写，要求</p>
-<ul>
-<li><strong>返回值和形参都不能改变！</strong></li>
-<li><strong>返回值类型可以不相同，但必须是父类返回值的派生类（java 7↑）</strong></li>
-<li><strong>重写的方法能够抛出任何非强制性异常，但当父类方法本身也声明抛出的异常的时候，子类异常只能是父类异常的子类</strong></li>
-<li><strong>不能缩窄访问权限（父类方法是public，子类重写方法就不能为protected）</strong></li>
-<li><strong>声明为<code>final</code>的方法不能被重写</strong></li>
-<li><strong>声明为<code>static</code>的方法不能被重写，但是能够被再次声明</strong></li>
-<li><strong>子类和父类在同一个包中，那么子类可以重写父类所有方法，除了声明为 private 和 final 的方法。</strong></li>
-<li><strong>子类和父类不在同一个包中，那么子类只能够重写父类的声明为 public 和 protected 的非 final 方法。</strong></li>
-<li><strong>构造方法不能被重写</strong></li>
-</ul>
-<h2 id="重载（Overload）"><a href="#重载（Overload）" class="headerlink" title="重载（Overload）"></a>重载（Overload）</h2><ul>
-<li><strong>被重载的方法必须改变参数列表(参数个数或类型或顺序不一样)；</strong></li>
-<li><strong>被重载的方法可以改变返回类型；</strong></li>
-<li><strong>被重载的方法可以改变访问修饰符；</strong></li>
-<li><strong>被重载的方法可以声明新的或更广的检查异常；</strong></li>
-<li><strong>方法能够在同一个类中或者在一个子类中被重载。</strong></li>
-<li><strong>无法以返回值类型作为重载函数的区分标准。</strong></li>
-</ul>
-<h2 id="简单地讲："><a href="#简单地讲：" class="headerlink" title="简单地讲："></a>简单地讲：</h2><p>重写：<strong>返回值和参数列表都不能改变！</strong></p>
-<p>重载：<strong>参数列表必须改变</strong>！</p>
-<p><strong>参数列表相同，返回值不同既不属于重载也不属于重写</strong>！！！</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java_core</tag>
-        <tag>java_oop</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java泛型</title>
     <url>/2021/08/12/Java/Java%E6%B3%9B%E5%9E%8B/</url>
     <content><![CDATA[<p>Java泛型，<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
@@ -646,158 +608,346 @@
       </tags>
   </entry>
   <entry>
-    <title>常用正则表达式</title>
-    <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
-<h2 id="常用表达式举例"><a href="#常用表达式举例" class="headerlink" title="常用表达式举例"></a>常用表达式举例</h2><span id="more"></span>
-
-<h3 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h3><h5 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
-
-<h5 id="n位数字（n为具体数字）"><a href="#n位数字（n为具体数字）" class="headerlink" title="n位数字（n为具体数字）"></a>n位数字（n为具体数字）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="至少n位的数字"><a href="#至少n位的数字" class="headerlink" title="至少n位的数字"></a>至少n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n,&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="m-n位的数字"><a href="#m-n位的数字" class="headerlink" title="m-n位的数字"></a>m-n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;m,n&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="零和非零开头的数字"><a href="#零和非零开头的数字" class="headerlink" title="零和非零开头的数字"></a>零和非零开头的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非零开头的最多带两位小数的数字"><a href="#非零开头的最多带两位小数的数字" class="headerlink" title="非零开头的最多带两位小数的数字"></a>非零开头的最多带两位小数的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)+(\.[0-9]&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
-
-<h5 id="带1-2位小数的正数或负数"><a href="#带1-2位小数的正数或负数" class="headerlink" title="带1-2位小数的正数或负数"></a>带1-2位小数的正数或负数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-)?\d+(\.\d&#123;1,2&#125;)$</span><br></pre></td></tr></table></figure>
-
-<h5 id="正数、负数、和小数"><a href="#正数、负数、和小数" class="headerlink" title="正数、负数、和小数"></a>正数、负数、和小数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-|\+)?\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
-
-<h5 id="有两位小数的正实数"><a href="#有两位小数的正实数" class="headerlink" title="有两位小数的正实数"></a>有两位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;2&#125;)?$</span><br></pre></td></tr></table></figure>
-
-<h5 id="有1-3位小数的正实数"><a href="#有1-3位小数的正实数" class="headerlink" title="有1~3位小数的正实数"></a>有1~3位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;1,3&#125;)?$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非零的正整数"><a href="#非零的正整数" class="headerlink" title="非零的正整数"></a>非零的正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)&#123;1,3&#125;$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\+?[1-9][0-9]*$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非零的负整数"><a href="#非零的负整数" class="headerlink" title="非零的负整数"></a>非零的负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\-[1-9][]0-9&quot;*$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非负整数"><a href="#非负整数" class="headerlink" title="非负整数"></a>非负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非正整数"><a href="#非正整数" class="headerlink" title="非正整数"></a>非正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+)|(0+))$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非负浮点数"><a href="#非负浮点数" class="headerlink" title="非负浮点数"></a>非负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span><br></pre></td></tr></table></figure>
-
-<h5 id="非正浮点数"><a href="#非正浮点数" class="headerlink" title="非正浮点数"></a>非正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+(\.\d+)?)|(0+(\.0+)?))$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span><br></pre></td></tr></table></figure>
-
-<h5 id="正浮点数"><a href="#正浮点数" class="headerlink" title="正浮点数"></a>正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</span><br></pre></td></tr></table></figure>
-
-<h5 id="负浮点数"><a href="#负浮点数" class="headerlink" title="负浮点数"></a>负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</span><br></pre></td></tr></table></figure>
-
-<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-?\d+)(\.\d+)?$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span><br></pre></td></tr></table></figure>
-
-<h3 id="校验字符的表达式"><a href="#校验字符的表达式" class="headerlink" title="校验字符的表达式"></a>校验字符的表达式</h3><h5 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;0,&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="英文和数字"><a href="#英文和数字" class="headerlink" title="英文和数字"></a>英文和数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;4,40&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="长度为3-20的所有字符"><a href="#长度为3-20的所有字符" class="headerlink" title="长度为3-20的所有字符"></a>长度为3-20的所有字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^.&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="由26个英文字母组成的字符串"><a href="#由26个英文字母组成的字符串" class="headerlink" title="由26个英文字母组成的字符串"></a>由26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z]+$</span><br></pre></td></tr></table></figure>
-
-<h5 id="由26个大写英文字母组成的字符串"><a href="#由26个大写英文字母组成的字符串" class="headerlink" title="由26个大写英文字母组成的字符串"></a>由26个大写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Z]+$</span><br></pre></td></tr></table></figure>
-
-<h5 id="由26个小写英文字母组成的字符串"><a href="#由26个小写英文字母组成的字符串" class="headerlink" title="由26个小写英文字母组成的字符串"></a>由26个小写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-z]+$</span><br></pre></td></tr></table></figure>
-
-<h5 id="由数字和26个英文字母组成的字符串"><a href="#由数字和26个英文字母组成的字符串" class="headerlink" title="由数字和26个英文字母组成的字符串"></a>由数字和26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-
-<h5 id="由数字、26个英文字母或者下划线组成的字符串"><a href="#由数字、26个英文字母或者下划线组成的字符串" class="headerlink" title="由数字、26个英文字母或者下划线组成的字符串"></a>由数字、26个英文字母或者下划线组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+$ 或 ^\w&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="中文、英文、数字包括下划线"><a href="#中文、英文、数字包括下划线" class="headerlink" title="中文、英文、数字包括下划线"></a>中文、英文、数字包括下划线</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9_]+$</span><br></pre></td></tr></table></figure>
-
-<h5 id="中文、英文、数字但不包括下划线等符号"><a href="#中文、英文、数字但不包括下划线等符号" class="headerlink" title="中文、英文、数字但不包括下划线等符号"></a>中文、英文、数字但不包括下划线等符号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]&#123;2,20&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="可以输入含有-amp-’-quot-等字符"><a href="#可以输入含有-amp-’-quot-等字符" class="headerlink" title="可以输入含有^%&amp;’,;=?$&quot;等字符"></a>可以输入含有^%&amp;’,;=?$&quot;等字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^%&amp;&#x27;,;=?$\x22]+</span><br></pre></td></tr></table></figure>
-
-<h5 id="禁止输入含有-的字符"><a href="#禁止输入含有-的字符" class="headerlink" title="禁止输入含有~的字符"></a>禁止输入含有~的字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^~\x22]+</span><br></pre></td></tr></table></figure>
-
-<h3 id="特殊需求表达式"><a href="#特殊需求表达式" class="headerlink" title="特殊需求表达式"></a>特殊需求表达式</h3><h5 id="Email地址"><a href="#Email地址" class="headerlink" title="Email地址"></a>Email地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br></pre></td></tr></table></figure>
-
-<h5 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(\.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+\.?</span><br></pre></td></tr></table></figure>
-
-<h5 id="InternetURL"><a href="#InternetURL" class="headerlink" title="InternetURL"></a>InternetURL</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-z]+://[^\s]*</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</span><br></pre></td></tr></table></figure>
-
-<h5 id="手机号码"><a href="#手机号码" class="headerlink" title="手机号码"></a>手机号码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX"><a href="#电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX" class="headerlink" title="电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)"></a>电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="国内电话号码-0511-4405222、021-87888822"><a href="#国内电话号码-0511-4405222、021-87888822" class="headerlink" title="国内电话号码(0511-4405222、021-87888822)"></a>国内电话号码(0511-4405222、021-87888822)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><a href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）" class="headerlink" title="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"></a>电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((\d&#123;11&#125;)|^((\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;)|(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;))$)</span><br></pre></td></tr></table></figure>
-
-<h5 id="身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X"><a href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X" class="headerlink" title="身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X"></a>身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)</span><br></pre></td></tr></table></figure>
-
-<h5 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线"><a href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线" class="headerlink" title="帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)"></a>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线"><a href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线" class="headerlink" title="密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)"></a>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z]\w&#123;5,17&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间"><a href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)"></a>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"><a href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)"></a>强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
-
-<h5 id="日期格式"><a href="#日期格式" class="headerlink" title="日期格式"></a>日期格式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="一年的12个月-01～09和1～12"><a href="#一年的12个月-01～09和1～12" class="headerlink" title="一年的12个月(01～09和1～12)"></a>一年的12个月(01～09和1～12)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0?[1-9]|1[0-2])$</span><br></pre></td></tr></table></figure>
-
-<h5 id="一个月的31天-01～09和1～31"><a href="#一个月的31天-01～09和1～31" class="headerlink" title="一个月的31天(01～09和1～31)"></a>一个月的31天(01～09和1～31)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((0?[1-9])|((1|2)[0-9])|30|31)$</span><br></pre></td></tr></table></figure>
-
-<h5 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</span><br></pre></td></tr></table></figure>
-
-<h5 id="中国邮政编码"><a href="#中国邮政编码" class="headerlink" title="中国邮政编码"></a>中国邮政编码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9]\d&#123;5&#125;(?!\d) </span><br></pre></td></tr></table></figure>
-
-<h5 id="腾讯QQ号"><a href="#腾讯QQ号" class="headerlink" title="腾讯QQ号"></a>腾讯QQ号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9][0-9]&#123;4,&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="IPv4地址"><a href="#IPv4地址" class="headerlink" title="IPv4地址"></a>IPv4地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;)(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;))&#123;3&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="字符过滤类"><a href="#字符过滤类" class="headerlink" title="字符过滤类"></a>字符过滤类</h3><h5 id="中文字符的正则表达式"><a href="#中文字符的正则表达式" class="headerlink" title="中文字符的正则表达式"></a>中文字符的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[\u4e00-\u9fa5]</span><br></pre></td></tr></table></figure>
-
-<h5 id="双字节字符"><a href="#双字节字符" class="headerlink" title="双字节字符"></a>双字节字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\x00-\xff] </span><br></pre></td></tr></table></figure>
-
-<p>(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</p>
-<h5 id="空白行的正则表达式"><a href="#空白行的正则表达式" class="headerlink" title="空白行的正则表达式"></a>空白行的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\n\s*\r</span><br></pre></td></tr></table></figure>
-
-<p>(可以用来删除空白行)</p>
-<h5 id="HTML标记的正则表达式"><a href="#HTML标记的正则表达式" class="headerlink" title="HTML标记的正则表达式"></a>HTML标记的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt;</span><br></pre></td></tr></table></figure>
-
-<p> <strong>( 首尾空白字符的正则表达式：<code>^\s\*|\s\*$</code>或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</strong></p>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>匹配字符中不出现某些特殊字符可以这样:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]		// 不匹配带有\/*:?&quot;&lt;&gt;|的字符串</span><br></pre></td></tr></table></figure>
-
-<p>匹配目录是否合法(windows)</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[C-Z]:\\([^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]+\\)*$</span><br></pre></td></tr></table></figure>]]></content>
+    <title>Java注解</title>
+    <url>/2021/08/12/Java/Java%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[<p>Java注解，<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
+<p>注解在代码标注、编译提示中都具有非常好的效果，本章将对Java的注解进行简略的介绍。</p>
+<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
+<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
+<ul>
+<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
+<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
+<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
+<li>……</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="关于注解"><a href="#关于注解" class="headerlink" title="关于注解"></a>关于注解</h2><p>Java注解（Annotation），又称之为元数据，通常用于标记代码信息、添加代码标记。Java内置定义了自己的一套内置注解，共7个。</p>
+<p>按照分类可以分成：</p>
+<h3 id="标识所有内容（代码或注解）："><a href="#标识所有内容（代码或注解）：" class="headerlink" title="标识所有内容（代码或注解）："></a>标识所有内容（代码或注解）：</h3><p>@Documented：标记这些注解是否可以生成在用户文档中（javadoc）</p>
+<p>@SuppressWarnings：忽略注解中声明的警告。</p>
+<h3 id="与代码相关："><a href="#与代码相关：" class="headerlink" title="与代码相关："></a>与代码相关：</h3><p>@Override：用于标记、检查方法是否是重写方法。</p>
+<p>@Deprecated：标记方法为过时方法，使用这一类方法，IDE会在其上面加上删除线。</p>
+<h3 id="用于创建、标识其他注解："><a href="#用于创建、标识其他注解：" class="headerlink" title="用于创建、标识其他注解："></a>用于创建、标识其他注解：</h3><p>@Retention：标识这个注解如何保存，有三种方式。</p>
+<p>@Target：标记这个注解是哪种Java类型（属性、方法、类…）</p>
+<p>@Inherited：标记注解继承于哪个注解类</p>
+<blockquote>
+<p>Java 7、8以后额外添加了三个：@SafeVarargs、@FunctionalInterface、@Repeatable</p>
+<p>@Repeatable：标识某注解可以在同一个声明上使用多次。</p>
+<p>@FunctionalInterface：标识一个匿名函数或者函数式接口</p>
+<p>@SafeVarargs：忽略任何使用参数为泛型变量的方法或构造函数调用产生的警告。通常用在泛型数组。</p>
+</blockquote>
+<h2 id="注解组成部分"><a href="#注解组成部分" class="headerlink" title="注解组成部分"></a>注解组成部分</h2><p>一个注解的定义可以由两部分组成：<strong>1-n个</strong><code>ElementType</code>（作用对象）和<strong>1种</strong><code>RetentionPolicy</code>（存储方式）。</p>
+<p><img src="/2021/08/12/Java/Java%E6%B3%A8%E8%A7%A3/6.jpg" alt="6"></p>
+<p><code>ElementType</code>主要有：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">ElementType</span></span>&#123;</span><br><span class="line">	TYPE,					<span class="comment">// 类、接口、枚举</span></span><br><span class="line">	FIELD,					<span class="comment">// 字段、枚举常量</span></span><br><span class="line">	METHOD,					<span class="comment">// 方法</span></span><br><span class="line">	PARAMETER,				<span class="comment">// 方法参数</span></span><br><span class="line">	CONSTRUCTOR,			<span class="comment">// 构造方法</span></span><br><span class="line">	LOCAL_VARIABLE,			<span class="comment">// 局部变量</span></span><br><span class="line">	ANNOTATION_TYPE,		<span class="comment">// 注解类型</span></span><br><span class="line">	PACKAGE,				<span class="comment">// 包</span></span><br><span class="line">	TYPE_PARAMETER,			<span class="comment">// catch参数</span></span><br><span class="line">	TYPE_USE</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>RetentionPolicy</code>主要有：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">RetentionPolicy</span> </span>&#123;</span><br><span class="line">    SOURCE,            <span class="comment">// Annotation信息仅存在于编译器处理期间，编译器编译成class文件的时候，注解被遗弃。</span></span><br><span class="line"></span><br><span class="line">    CLASS,             <span class="comment">// 编译器将Annotation存储于类对应的.class文件中，但在jvm加载类的时候被遗弃，默认行为。 </span></span><br><span class="line"></span><br><span class="line">    RUNTIME            <span class="comment">// 编译器将Annotation存储于class文件中，并且在jvm加载类的时候，仍然存在。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><p>想要自定义注解，首先要了解注解的接口<code>Annotation</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Annotation</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">String <span class="title">toString</span><span class="params">()</span></span>;</span><br><span class="line">    Class&lt;? extends Annotation&gt; annotationType();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个接口的具体实现由编译器完成，编译器实现该接口提供<code>@interface</code>注解用于创建新注解。这与通常的<code>implement</code>接口不太一样。</p>
+<p>创建过程中，需要指定注解的<strong>两个组成部分</strong>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.FIELD, ELementType.METHOD)</span>	<span class="comment">// 指定该注解的作用范围</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span>				<span class="comment">// 指定注解保存形式</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Overload&#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> &quot;func1&quot;</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>@interface</code>定义这是一个注解，是必须的。</p>
+<p><code>@Target</code>用于指定该注解作用与哪些对象上。</p>
+<p><code>@Retention</code>用于指定注解储存方式，有默认值CLASS，可选的。</p>
+<h2 id="内置注解类"><a href="#内置注解类" class="headerlink" title="内置注解类"></a>内置注解类</h2><h3 id="Override"><a href="#Override" class="headerlink" title="@Override"></a>@Override</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.METHOD)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Override &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>@Override</code>注解的触发，最常用的就是标注方法为重写方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一般建议是在有重写的地方就标上<code>@Override</code>，会有好处的！</p>
+<h3 id="Deprecated"><a href="#Deprecated" class="headerlink" title="@Deprecated"></a>@Deprecated</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(value=&#123;CONSTRUCTOR, FIELD, LOCAL_VARIABLE, METHOD, PACKAGE, MODULE, PARAMETER, TYPE&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Deprecated &#123;</span><br><span class="line">    <span class="function">String <span class="title">since</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;				<span class="comment">// 从哪个版本开始废弃</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">forRemoval</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>@Deprecated</code>标记的方法，在被使用时会被加上删除线</strong>，可以加参数，第一个参数用来标明该对象在何时开始被弃用。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="meta">@Deprecated(&quot;1.5&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Documented"><a href="#Documented" class="headerlink" title="@Documented"></a>@Documented</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Documented &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>标记这个注解可以被javadoc处理。</p>
+<h3 id="Inherited"><a href="#Inherited" class="headerlink" title="@Inherited"></a>@Inherited</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Inherited &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>标注该注解对于子类也是可见的(存在继承关系)，子类可以通过反射来获取父类的注解类。</p>
+<h3 id="Retention"><a href="#Retention" class="headerlink" title="@Retention"></a>@Retention</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Repeatable &#123;</span><br><span class="line">    Class&lt;? extends Annotation&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Target"><a href="#Target" class="headerlink" title="@Target"></a>@Target</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Target &#123;</span><br><span class="line">    ElementType[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SuppressWarnings"><a href="#SuppressWarnings" class="headerlink" title="@SuppressWarnings"></a>@SuppressWarnings</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE, MODULE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SuppressWarnings &#123;</span><br><span class="line">    String[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个注解用于忽略某些警告，有对应的可选项：参数Value可以填入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deprecation  -- 使用了不赞成使用的类或方法时的警告</span><br><span class="line">unchecked    -- 执行了未检查的转换时的警告，例如当使用集合时没有用泛型 (Generics) 来指定集合保存的类型。</span><br><span class="line">fallthrough  -- 当 Switch 程序块直接通往下一种情况而没有 Break 时的警告。</span><br><span class="line">path         -- 在类路径、源文件路径等中有不存在的路径时的警告。</span><br><span class="line">serial       -- 当在可序列化的类上缺少 serialVersionUID 定义时的警告。</span><br><span class="line">finally      -- 任何 finally 子句不能正常完成时的警告。</span><br><span class="line">all          -- 关于以上所有情况的警告。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Repeatable"><a href="#Repeatable" class="headerlink" title="@Repeatable"></a>@Repeatable</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.ANNOTATION_TYPE)</span><br><span class="line">public @interface Repeatable &#123;</span><br><span class="line">    Class&lt;? extends Annotation&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SafeVarargs"><a href="#SafeVarargs" class="headerlink" title="@SafeVarargs"></a>@SafeVarargs</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(&#123;ElementType.CONSTRUCTOR, ElementType.METHOD&#125;)</span><br><span class="line">public @interface SafeVarargs &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在声明具有<strong>模糊类型（比如：泛型）的可变参数的构造函数或方法时</strong>，Java编译器会报unchecked警告。鉴于这些情况，如果程序员断定声明的构造函数和方法的主体不会对其varargs参数执行潜在的不安全的操作，可使用@SafeVarargs进行标记，这样的话，Java编译器就不会报unchecked警告</p>
+<p><strong>@SafeVarargs注解，对于非static或非final声明的方法，不适用，会编译不通过，对于非static或非final声明的方法，请使用@SuppressWarnings(“unchecked”)</strong></p>
+<h3 id="FunctionalInterface"><a href="#FunctionalInterface" class="headerlink" title="@FunctionalInterface"></a>@FunctionalInterface</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">public @interface FunctionalInterface &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用于标注只含有一个抽象方法的函数接口</p>
+<h2 id="注解的作用"><a href="#注解的作用" class="headerlink" title="注解的作用"></a>注解的作用</h2><p>注解可以用于编译检查，帮助阅读代码（Override）、生成帮助文档等。其中最为频繁的使用方式，就是下面要介绍的这个，很多大型框架中的注解的原理就跟下面类似。</p>
+<h3 id="使用反射机制获取注解内容"><a href="#使用反射机制获取注解内容" class="headerlink" title="使用反射机制获取注解内容"></a>使用反射机制获取注解内容</h3>]]></content>
       <categories>
-        <category>正则表达式</category>
+        <category>java</category>
       </categories>
       <tags>
-        <tag>常用正则表达式持续更新</tag>
+        <tag>java_core</tag>
+        <tag>java_lib</tag>
+        <tag>java_features</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java运行时获取运行位置</title>
+    <url>/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>获取运行时路径的方法在jar包中和在工程中都不同，下面进行区分讲解</p>
+<span id="more"></span>
+
+<h2 id="获取路径"><a href="#获取路径" class="headerlink" title="获取路径"></a>获取路径</h2><p>以下介绍的方法同时适用于jar包和工程中</p>
+<p>获取运行时路径的方法很多，这里只介绍一种通用的方法</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[ClassName].class.getProtectionDomain().getCodeSource().getLocation();</span><br></pre></td></tr></table></figure>
+
+<p>这种方法在工程中获取的是工程项目的位置，在jar包中是获取jar包所在的位置（包括XXXX.jar）</p>
+<h2 id="加载资源"><a href="#加载资源" class="headerlink" title="加载资源"></a>加载资源</h2><h3 id="class-getResource-String-resourceFile"><a href="#class-getResource-String-resourceFile" class="headerlink" title="class.getResource(String resourceFile)"></a>class.getResource(String resourceFile)</h3><h3 id="class-getClassLoader-getResource-String-resourceFile"><a href="#class-getClassLoader-getResource-String-resourceFile" class="headerlink" title="class.getClassLoader().getResource(String resourceFile)"></a>class.getClassLoader().getResource(String resourceFile)</h3><p>上面的区别看这里：</p>
+<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-2023e3d7fdae0160e22a5dedde736368_720w.jpg" alt="img"></p>
+<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-33f6acaa7515bb06d292abf9051cb535_720w.jpg" alt="img"></p>
+<p><code>class.getResource(String resource)</code> 调用当前类路径下的资源</p>
+<p><code>class.getClassLoader().getResource(String resource)</code> 获取跟路径，调用根目录下资源</p>
+<p><strong>上面的两种方式在工程项目中有效，在jar包中无效</strong></p>
+<h3 id="class-getResourceAsStream-String-resourceFile"><a href="#class-getResourceAsStream-String-resourceFile" class="headerlink" title="class.getResourceAsStream(String resourceFile)"></a>class.getResourceAsStream(String resourceFile)</h3><p>要想在jar包中也能够读取资源文件，请使用这个方法！</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java_skill</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java重载VS重写</title>
+    <url>/2021/08/14/Java/Java%E9%87%8D%E8%BD%BDVS%E9%87%8D%E5%86%99/</url>
+    <content><![CDATA[<p>希望这篇文章能够帮助各位重载和重写傻傻分不清的朋友！</p>
+<span id="more"></span>
+
+<h2 id="重写（Override）"><a href="#重写（Override）" class="headerlink" title="重写（Override）"></a>重写（Override）</h2><p>重写一般是对父类的方法进行重写，要求</p>
+<ul>
+<li><strong>返回值和形参都不能改变！</strong></li>
+<li><strong>返回值类型可以不相同，但必须是父类返回值的派生类（java 7↑）</strong></li>
+<li><strong>重写的方法能够抛出任何非强制性异常，但当父类方法本身也声明抛出的异常的时候，子类异常只能是父类异常的子类</strong></li>
+<li><strong>不能缩窄访问权限（父类方法是public，子类重写方法就不能为protected）</strong></li>
+<li><strong>声明为<code>final</code>的方法不能被重写</strong></li>
+<li><strong>声明为<code>static</code>的方法不能被重写，但是能够被再次声明</strong></li>
+<li><strong>子类和父类在同一个包中，那么子类可以重写父类所有方法，除了声明为 private 和 final 的方法。</strong></li>
+<li><strong>子类和父类不在同一个包中，那么子类只能够重写父类的声明为 public 和 protected 的非 final 方法。</strong></li>
+<li><strong>构造方法不能被重写</strong></li>
+</ul>
+<h2 id="重载（Overload）"><a href="#重载（Overload）" class="headerlink" title="重载（Overload）"></a>重载（Overload）</h2><ul>
+<li><strong>被重载的方法必须改变参数列表(参数个数或类型或顺序不一样)；</strong></li>
+<li><strong>被重载的方法可以改变返回类型；</strong></li>
+<li><strong>被重载的方法可以改变访问修饰符；</strong></li>
+<li><strong>被重载的方法可以声明新的或更广的检查异常；</strong></li>
+<li><strong>方法能够在同一个类中或者在一个子类中被重载。</strong></li>
+<li><strong>无法以返回值类型作为重载函数的区分标准。</strong></li>
+</ul>
+<h2 id="简单地讲："><a href="#简单地讲：" class="headerlink" title="简单地讲："></a>简单地讲：</h2><p>重写：<strong>返回值和参数列表都不能改变！</strong></p>
+<p>重载：<strong>参数列表必须改变</strong>！</p>
+<p><strong>参数列表相同，返回值不同既不属于重载也不属于重写</strong>！！！</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java_core</tag>
+        <tag>java_oop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Response对象</title>
+    <url>/2021/12/17/JavaWeb/Response/</url>
+    <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
+<p>19年黑马<code>JavaWeb</code>课程的笔记</p>
+<span id="more"></span>
+
+<h1 id="Response对象"><a href="#Response对象" class="headerlink" title="Response对象"></a>Response对象</h1><h2 id="HTTP响应消息数据格式"><a href="#HTTP响应消息数据格式" class="headerlink" title="HTTP响应消息数据格式"></a>HTTP响应消息数据格式</h2><p>HTTP请求消息是客户端发送给服务器端的数据，HTTP响应消息是服务器端发送给客户端的数据。</p>
+<p>一般响应消息的格式如下：</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/html;charset=UTF-8</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>101</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Wed, 06 Jun 2018 07:08:42 GMT</span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>$Title$<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml">		hello , response</span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>正如HTTP请求消息一样，HTTP响应消息也有<strong>响应行、响应头、响应空行和响应体</strong>！</p>
+<h3 id="响应行"><a href="#响应行" class="headerlink" title="响应行"></a>响应行</h3><p>响应行数据就是HTTP响应数据的第一行，响应行数据格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">协议/版本 响应状态码 状态码描述</span><br></pre></td></tr></table></figure>
+
+<p>如：</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">协议/版本：HTTP/1.1</span><br><span class="line">响应状态码：200</span><br><span class="line">状态码描述：OK</span><br></pre></td></tr></table></figure>
+
+<h4 id="响应状态码"><a href="#响应状态码" class="headerlink" title="响应状态码"></a>响应状态码</h4><p>响应状态码是服务器告诉客户端浏览器本次请求和响应的一个状态。状态码都是3位数字，可以分为：</p>
+<ol>
+<li><code>1xx</code>：服务器就收客户端消息，但没有接受完成，等待一段时间后，发送<code>1xx</code>多状态码</li>
+<li><code>2xx</code>：成功。代表：<code>200</code>（成功）</li>
+<li><code>3xx</code>：重定向。代表：302（重定向），304（访问缓存）</li>
+<li><code>4xx</code>：客户端错误。代表：<code>404</code>（请求路径没有对应的资源） ，<code>405</code>：请求方式没有对应的<code>doXxx()</code></li>
+<li><code>5xx</code>：服务器端错误。代表：500（服务器内部出现异常）</li>
+</ol>
+<p>其中常见的状态码（响应信息）：</p>
+<h5 id="1XX："><a href="#1XX：" class="headerlink" title="1XX："></a>1XX：</h5><ul>
+<li><code>100（Continue）</code>：服务器就饿瘦客户端消息，但没有接收完成，应该让客户端继续其请求，等待一段时间之后，发送100多状态码询问客户端是否还有数据。</li>
+<li><code>101（Switching Protocols）</code>：切换协议，服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</li>
+</ul>
+<h5 id="2XX："><a href="#2XX：" class="headerlink" title="2XX："></a>2XX：</h5><ul>
+<li><code>200（OK）</code>：请求成功。一般用于GET与POST请求</li>
+<li><code>201（Created）</code>：已创建。成功请求并创建了新的资源</li>
+<li><code>202（Accepted）</code>： 已接受。已经接受请求，但未处理完成</li>
+<li><code>203（Non-Authoritative Information）</code>：非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本</li>
+<li><code>204（No Content）</code>：无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</li>
+<li><code>205（Reset Content）</code>：重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域</li>
+<li><code>206（Partial Content）</code>：部分内容。服务器成功处理了部分GET请求</li>
+</ul>
+<h5 id="3XX："><a href="#3XX：" class="headerlink" title="3XX："></a>3XX：</h5><ul>
+<li><p><code>300（Multiple Choices）</code>：多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择</p>
+</li>
+<li><p><code>301（Moved Permanently）</code>：永久重定向。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</p>
+</li>
+<li><p><code>302（Found）</code>：临时重定向。与301类似。但资源只是临时被移动。客户端应继续使用（显示）原有URI</p>
+</li>
+<li><p><code>303（See Other）</code>：查看其它地址。与301类似。使用GET和POST请求查看</p>
+</li>
+<li><p><code>304（Not Modified）</code>：未修改。客户端通常会缓存访问过的资源，服务器返回此状态码时，说明所请求的资源未修改，不会返回任何新的资源。客户端接收到该状态码时将会从缓存下来的所有访问过的资源中寻找特定资源。</p>
+</li>
+<li><p><code>305（Use Proxy）</code>：使用代理。所请求的资源必须通过代理访问</p>
+</li>
+<li><p><code>307（ Temporary Redirect）</code>：临时重定向。与302类似。使用GET请求重定向</p>
+</li>
+</ul>
+<h5 id="4XX："><a href="#4XX：" class="headerlink" title="4XX："></a>4XX：</h5><ul>
+<li><code>400（Bad Request）</code>： 客户端请求的语法错误，服务器无法理解</li>
+<li><code>401（Unauthorized）</code>：请求要求用户的身份认证</li>
+<li><code>402（Payment Required）</code>：保留，将来使用</li>
+<li><code>403（Forbidden）</code>： 服务器理解请求客户端的请求，但是拒绝执行此请求</li>
+<li><code>404（Not Found）</code>：服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置”您所请求的资源无法找到”的个性页面</li>
+<li><code>405（Method Not Allowed）</code>：客户端请求中的方法被禁止</li>
+<li><code>406（Not Acceptable）</code>：服务器无法根据客户端请求的内容特性完成请求</li>
+<li><code>407（Proxy Authentication Required）</code>：请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权</li>
+<li><code>408（Request Time-out）</code>：服务器等待客户端发送的请求时间过长，超时</li>
+<li><code>409（Conflict）</code>：服务器完成客户端的 PUT 请求时可能返回此代码，服务器处理请求时发生了冲突</li>
+<li><code>410（Gone）</code>：客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置</li>
+<li><code>411（Length Required）</code>： 服务器无法处理客户端发送的不带Content-Length的请求信息</li>
+<li><code>412（Precondition Failed）</code>：客户端请求信息的先决条件错误</li>
+<li><code>413（Request Entity Too Large）</code>：由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息</li>
+<li><code>414（Request-URI Too Large）</code>：请求的URI过长（URI通常为网址），服务器无法处理</li>
+<li><code>415（Unsupported Media Type）</code>：服务器无法处理请求附带的媒体格式</li>
+<li><code>416（Requested range not satisfiable）</code>：客户端请求的范围无效</li>
+<li><code>417（Expectation Failed）</code>：服务器无法满足Expect的请求头信息</li>
+</ul>
+<h5 id="5XX："><a href="#5XX：" class="headerlink" title="5XX："></a>5XX：</h5><ul>
+<li><code>500（Internal Server Error）</code>：服务器内部错误，无法完成请求</li>
+<li><code>501（Not Implemented）</code>：服务器不支持请求的功能，无法完成请求</li>
+<li><code>502（Bad Gateway）</code>：作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应</li>
+<li><code>503（Service Unavailable）</code>：由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中</li>
+<li><code>504（Gateway Time-out）</code>：充当网关或代理的服务器，未及时从远端服务器获取请求</li>
+<li><code>505（HTTP Version not supported）</code>：服务器不支持请求的HTTP协议的版本，无法完成处理</li>
+</ul>
+<h3 id="响应头"><a href="#响应头" class="headerlink" title="响应头"></a>响应头</h3><p>响应头的格式一般如下：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">Content-Type</span>: <span class="string">text/html;charset=UTF-8</span></span><br><span class="line"><span class="meta">Content-Length</span>: <span class="string">101</span></span><br><span class="line"><span class="attr">Date</span>: <span class="string">Wed, 06 Jun 2018 07:08:42 GMT</span></span><br></pre></td></tr></table></figure>
+
+<p>一般以键值的形式存在，其中有几个常见的：</p>
+<ul>
+<li><code>Content-Type</code>：服务器告诉客户端本次响应体数据格式以及编码格式，如：<code>text/html;charset=utf-8</code></li>
+<li><code>Content-disposition</code>：服务器告诉客户端以什么格式打开响应体数据，有两个可选值：<ul>
+<li><code>in-line</code>:默认值,在当前页面内打开</li>
+<li><code>attachment;filename=xxx</code>：以附件形式打开响应体。文件下载</li>
+</ul>
+</li>
+<li><code>Content-Length</code>：响应体数据的长度</li>
+<li><code>Date</code>：响应时间</li>
+</ul>
+<h3 id="响应空行"><a href="#响应空行" class="headerlink" title="响应空行"></a>响应空行</h3><p>在响应头和响应体之间有一行空行，用于分割响应头和响应体</p>
+<h3 id="响应体"><a href="#响应体" class="headerlink" title="响应体"></a>响应体</h3><p>响应体为传输给客户端的数据，如：网页源代码，图片资源，下载的文件等等，上面的</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>$Title$<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		hello , response</span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>就是响应体。</p>
+<p>客户端在收到响应消息的时候，会获取该信息并进行缓存，如当请求：<code>localhost/day15/helloResponse.html</code>的时候，服务器会发出一个响应，该响应中的响应体信息正如下：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>$Title$<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		hello , response</span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>客户端收到这个信息的时候，会缓存成一个<code>helloResponse.html</code>，当再次请求的时候，如果网页没有改变，优先在使用本地的<code>helloResponse.html</code>文件。</p>
+<h2 id="Response对象对HTTP响应消息的处理"><a href="#Response对象对HTTP响应消息的处理" class="headerlink" title="Response对象对HTTP响应消息的处理"></a>Response对象对HTTP响应消息的处理</h2><h3 id="响应行-1"><a href="#响应行-1" class="headerlink" title="响应行"></a>响应行</h3><p>获取状态码：<code>getStatus()</code></p>
+<p>设置状态码：<code>setStatus()</code></p>
+<h3 id="响应头-1"><a href="#响应头-1" class="headerlink" title="响应头"></a>响应头</h3><p>设置响应头：<code>setHeader(String name, String value)</code> </p>
+<p>获取响应头：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">Collection&lt;String&gt; <span class="title">getHeaders</span><span class="params">(String headName)</span></span>;</span><br><span class="line"><span class="function">String <span class="title">getHeader</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">Collection&lt;String&gt; <span class="title">getHeaderNames</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="响应体-1"><a href="#响应体-1" class="headerlink" title="响应体"></a>响应体</h3><p>如何写数据给响应体呢？一般按照如下步骤</p>
+<h4 id="获取输出流"><a href="#获取输出流" class="headerlink" title="获取输出流"></a>获取输出流</h4><p>输出流有两种：</p>
+<ul>
+<li>字符输出流：<code>PrintWriter getWriter()</code></li>
+<li>字节输出流：<code>ServletOutputStream getOutputStream()</code></li>
+</ul>
+<h4 id="使用输出流"><a href="#使用输出流" class="headerlink" title="使用输出流"></a>使用输出流</h4><p>就像使用Java的IO流一样使用输出流</p>
+<h3 id="Respons使用"><a href="#Respons使用" class="headerlink" title="Respons使用"></a>Respons使用</h3><h4 id="实现重定向"><a href="#实现重定向" class="headerlink" title="实现重定向"></a>实现重定向</h4><p>首先需要先明确，<strong>客户端（浏览器）会自动响应Response对象中的设置</strong>，什么意思？比如当我们需要实现重定向的时候， 我们可以这样实现：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.setStatus(<span class="number">302</span>);</span><br><span class="line">response.setHeader(<span class="string">&quot;location&quot;</span>,<span class="string">&quot;/day15/responseDemo&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>当我们这样设置<code>response</code>对象的的时候，浏览器做响应之前，会解析response中的状态码，解析到302的时候会去找location响应头，然后进行解析重定向。</p>
+<p><strong>所以当我们需要客户端做一些动作的时候，我们可以通过设置响应头和响应状态码来实现。</strong></p>
+<p>实际上想要实现重定向还有一个简单的方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.sendRedirect(<span class="string">&quot;/day15/responseDemo&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>该方法本质上也是调用上面的两个方法。<code>tomcat</code>的<code>API</code>对它进行了简化。</p>
+<h4 id="响应体数据乱码问题"><a href="#响应体数据乱码问题" class="headerlink" title="响应体数据乱码问题"></a>响应体数据乱码问题</h4><p>上文所说，当我们需要往响应体中写数据时，可以使用这两个方法获取流：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">PrintWriter <span class="title">getWriter</span><span class="params">()</span></span></span><br><span class="line"><span class="function">ServletOutputStream <span class="title">getOutputStream</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+
+<p>但是在客户端进行解析的时候，由于<code>PrintWriter pw = response.getWriter();</code>获取的流的默认编码是<code>ISO-8859-1</code>，所以你懂的，乱码问题在所难免。</p>
+<p>解决的方法也很简单，设置响应头：<code>ContentType</code>，设置编码，是在获取流之前设置。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.setContentType(<span class="string">&quot;text/html;charset=utf-8&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h1 id="重定向和请求转发的区别"><a href="#重定向和请求转发的区别" class="headerlink" title="重定向和请求转发的区别"></a>重定向和请求转发的区别</h1><h2 id="重定向的特点-redirect"><a href="#重定向的特点-redirect" class="headerlink" title="重定向的特点:redirect"></a>重定向的特点:redirect</h2><pre><code> 1. 地址栏发生变化
+ 2. 重定向可以访问其他站点(服务器)的资源
+ 3. 重定向是两次请求。不能使用request对象来共享数据
+</code></pre>
+<h2 id="转发的特点：forward"><a href="#转发的特点：forward" class="headerlink" title="转发的特点：forward"></a>转发的特点：forward</h2><pre><code> 1. 转发地址栏路径不变
+ 2. 转发只能访问当前服务器下的资源
+ 3. 转发是一次请求，可以使用request对象来共享数据
+</code></pre>
+<h1 id="路径写法"><a href="#路径写法" class="headerlink" title="路径写法"></a>路径写法</h1><p>路径写法：<br>            1. 路径分类<br>                1. 相对路径：通过相对路径不可以确定唯一资源<br>                    * 如：./index.html<br>                    * 不以/开头，以.开头路径</p>
+<pre><code>                * 规则：找到当前资源和目标资源之间的相对位置关系
+                    * ./：当前目录
+                    * ../:后退一级目录
+            2. 绝对路径：通过绝对路径可以确定唯一资源
+                * 如：http://localhost/day15/responseDemo2        /day15/responseDemo2
+                * 以/开头的路径
+
+                * 规则：判断定义的路径是给谁用的？判断请求将来从哪儿发出
+                    * 给客户端浏览器使用：需要加虚拟目录(项目的访问路径)
+                        * 建议虚拟目录动态获取：request.getContextPath()
+                        * &lt;a&gt; , &lt;form&gt; 重定向...
+                    * 给服务器使用：不需要加虚拟目录
+                        * 转发路径
+</code></pre>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_servlet</tag>
+        <tag>javaweb_tomcat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ServletContext对象</title>
+    <url>/2021/12/17/JavaWeb/ServletContext/</url>
+    <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
+<p>19年黑马<code>JavaWeb</code>课程的笔记</p>
+<span id="more"></span>
+
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_servlet - javaweb_tomcat</tag>
       </tags>
   </entry>
   <entry>
@@ -976,126 +1126,6 @@ cnpm install -g hexo-cli
       <tags>
         <tag>hexo</tag>
         <tag>recovery</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java注解</title>
-    <url>/2021/08/12/Java/Java%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[<p>Java注解，<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
-<p>注解在代码标注、编译提示中都具有非常好的效果，本章将对Java的注解进行简略的介绍。</p>
-<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
-<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
-<ul>
-<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
-<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
-<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
-<li>……</li>
-</ul>
-<span id="more"></span>
-
-<h2 id="关于注解"><a href="#关于注解" class="headerlink" title="关于注解"></a>关于注解</h2><p>Java注解（Annotation），又称之为元数据，通常用于标记代码信息、添加代码标记。Java内置定义了自己的一套内置注解，共7个。</p>
-<p>按照分类可以分成：</p>
-<h3 id="标识所有内容（代码或注解）："><a href="#标识所有内容（代码或注解）：" class="headerlink" title="标识所有内容（代码或注解）："></a>标识所有内容（代码或注解）：</h3><p>@Documented：标记这些注解是否可以生成在用户文档中（javadoc）</p>
-<p>@SuppressWarnings：忽略注解中声明的警告。</p>
-<h3 id="与代码相关："><a href="#与代码相关：" class="headerlink" title="与代码相关："></a>与代码相关：</h3><p>@Override：用于标记、检查方法是否是重写方法。</p>
-<p>@Deprecated：标记方法为过时方法，使用这一类方法，IDE会在其上面加上删除线。</p>
-<h3 id="用于创建、标识其他注解："><a href="#用于创建、标识其他注解：" class="headerlink" title="用于创建、标识其他注解："></a>用于创建、标识其他注解：</h3><p>@Retention：标识这个注解如何保存，有三种方式。</p>
-<p>@Target：标记这个注解是哪种Java类型（属性、方法、类…）</p>
-<p>@Inherited：标记注解继承于哪个注解类</p>
-<blockquote>
-<p>Java 7、8以后额外添加了三个：@SafeVarargs、@FunctionalInterface、@Repeatable</p>
-<p>@Repeatable：标识某注解可以在同一个声明上使用多次。</p>
-<p>@FunctionalInterface：标识一个匿名函数或者函数式接口</p>
-<p>@SafeVarargs：忽略任何使用参数为泛型变量的方法或构造函数调用产生的警告。通常用在泛型数组。</p>
-</blockquote>
-<h2 id="注解组成部分"><a href="#注解组成部分" class="headerlink" title="注解组成部分"></a>注解组成部分</h2><p>一个注解的定义可以由两部分组成：<strong>1-n个</strong><code>ElementType</code>（作用对象）和<strong>1种</strong><code>RetentionPolicy</code>（存储方式）。</p>
-<p><img src="/2021/08/12/Java/Java%E6%B3%A8%E8%A7%A3/6.jpg" alt="6"></p>
-<p><code>ElementType</code>主要有：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">ElementType</span></span>&#123;</span><br><span class="line">	TYPE,					<span class="comment">// 类、接口、枚举</span></span><br><span class="line">	FIELD,					<span class="comment">// 字段、枚举常量</span></span><br><span class="line">	METHOD,					<span class="comment">// 方法</span></span><br><span class="line">	PARAMETER,				<span class="comment">// 方法参数</span></span><br><span class="line">	CONSTRUCTOR,			<span class="comment">// 构造方法</span></span><br><span class="line">	LOCAL_VARIABLE,			<span class="comment">// 局部变量</span></span><br><span class="line">	ANNOTATION_TYPE,		<span class="comment">// 注解类型</span></span><br><span class="line">	PACKAGE,				<span class="comment">// 包</span></span><br><span class="line">	TYPE_PARAMETER,			<span class="comment">// catch参数</span></span><br><span class="line">	TYPE_USE</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>RetentionPolicy</code>主要有：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">RetentionPolicy</span> </span>&#123;</span><br><span class="line">    SOURCE,            <span class="comment">// Annotation信息仅存在于编译器处理期间，编译器编译成class文件的时候，注解被遗弃。</span></span><br><span class="line"></span><br><span class="line">    CLASS,             <span class="comment">// 编译器将Annotation存储于类对应的.class文件中，但在jvm加载类的时候被遗弃，默认行为。 </span></span><br><span class="line"></span><br><span class="line">    RUNTIME            <span class="comment">// 编译器将Annotation存储于class文件中，并且在jvm加载类的时候，仍然存在。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><p>想要自定义注解，首先要了解注解的接口<code>Annotation</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Annotation</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">String <span class="title">toString</span><span class="params">()</span></span>;</span><br><span class="line">    Class&lt;? extends Annotation&gt; annotationType();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这个接口的具体实现由编译器完成，编译器实现该接口提供<code>@interface</code>注解用于创建新注解。这与通常的<code>implement</code>接口不太一样。</p>
-<p>创建过程中，需要指定注解的<strong>两个组成部分</strong>：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.FIELD, ELementType.METHOD)</span>	<span class="comment">// 指定该注解的作用范围</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span>				<span class="comment">// 指定注解保存形式</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Overload&#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> &quot;func1&quot;</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用<code>@interface</code>定义这是一个注解，是必须的。</p>
-<p><code>@Target</code>用于指定该注解作用与哪些对象上。</p>
-<p><code>@Retention</code>用于指定注解储存方式，有默认值CLASS，可选的。</p>
-<h2 id="内置注解类"><a href="#内置注解类" class="headerlink" title="内置注解类"></a>内置注解类</h2><h3 id="Override"><a href="#Override" class="headerlink" title="@Override"></a>@Override</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.METHOD)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Override &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>@Override</code>注解的触发，最常用的就是标注方法为重写方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>一般建议是在有重写的地方就标上<code>@Override</code>，会有好处的！</p>
-<h3 id="Deprecated"><a href="#Deprecated" class="headerlink" title="@Deprecated"></a>@Deprecated</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(value=&#123;CONSTRUCTOR, FIELD, LOCAL_VARIABLE, METHOD, PACKAGE, MODULE, PARAMETER, TYPE&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Deprecated &#123;</span><br><span class="line">    <span class="function">String <span class="title">since</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;				<span class="comment">// 从哪个版本开始废弃</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">forRemoval</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong><code>@Deprecated</code>标记的方法，在被使用时会被加上删除线</strong>，可以加参数，第一个参数用来标明该对象在何时开始被弃用。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="meta">@Deprecated(&quot;1.5&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Documented"><a href="#Documented" class="headerlink" title="@Documented"></a>@Documented</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Documented &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>标记这个注解可以被javadoc处理。</p>
-<h3 id="Inherited"><a href="#Inherited" class="headerlink" title="@Inherited"></a>@Inherited</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Inherited &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>标注该注解对于子类也是可见的(存在继承关系)，子类可以通过反射来获取父类的注解类。</p>
-<h3 id="Retention"><a href="#Retention" class="headerlink" title="@Retention"></a>@Retention</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Repeatable &#123;</span><br><span class="line">    Class&lt;? extends Annotation&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Target"><a href="#Target" class="headerlink" title="@Target"></a>@Target</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Target &#123;</span><br><span class="line">    ElementType[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="SuppressWarnings"><a href="#SuppressWarnings" class="headerlink" title="@SuppressWarnings"></a>@SuppressWarnings</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE, MODULE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SuppressWarnings &#123;</span><br><span class="line">    String[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这个注解用于忽略某些警告，有对应的可选项：参数Value可以填入：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deprecation  -- 使用了不赞成使用的类或方法时的警告</span><br><span class="line">unchecked    -- 执行了未检查的转换时的警告，例如当使用集合时没有用泛型 (Generics) 来指定集合保存的类型。</span><br><span class="line">fallthrough  -- 当 Switch 程序块直接通往下一种情况而没有 Break 时的警告。</span><br><span class="line">path         -- 在类路径、源文件路径等中有不存在的路径时的警告。</span><br><span class="line">serial       -- 当在可序列化的类上缺少 serialVersionUID 定义时的警告。</span><br><span class="line">finally      -- 任何 finally 子句不能正常完成时的警告。</span><br><span class="line">all          -- 关于以上所有情况的警告。</span><br></pre></td></tr></table></figure>
-
-<h3 id="Repeatable"><a href="#Repeatable" class="headerlink" title="@Repeatable"></a>@Repeatable</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.ANNOTATION_TYPE)</span><br><span class="line">public @interface Repeatable &#123;</span><br><span class="line">    Class&lt;? extends Annotation&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="SafeVarargs"><a href="#SafeVarargs" class="headerlink" title="@SafeVarargs"></a>@SafeVarargs</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(&#123;ElementType.CONSTRUCTOR, ElementType.METHOD&#125;)</span><br><span class="line">public @interface SafeVarargs &#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在声明具有<strong>模糊类型（比如：泛型）的可变参数的构造函数或方法时</strong>，Java编译器会报unchecked警告。鉴于这些情况，如果程序员断定声明的构造函数和方法的主体不会对其varargs参数执行潜在的不安全的操作，可使用@SafeVarargs进行标记，这样的话，Java编译器就不会报unchecked警告</p>
-<p><strong>@SafeVarargs注解，对于非static或非final声明的方法，不适用，会编译不通过，对于非static或非final声明的方法，请使用@SuppressWarnings(“unchecked”)</strong></p>
-<h3 id="FunctionalInterface"><a href="#FunctionalInterface" class="headerlink" title="@FunctionalInterface"></a>@FunctionalInterface</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">public @interface FunctionalInterface &#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>用于标注只含有一个抽象方法的函数接口</p>
-<h2 id="注解的作用"><a href="#注解的作用" class="headerlink" title="注解的作用"></a>注解的作用</h2><p>注解可以用于编译检查，帮助阅读代码（Override）、生成帮助文档等。其中最为频繁的使用方式，就是下面要介绍的这个，很多大型框架中的注解的原理就跟下面类似。</p>
-<h3 id="使用反射机制获取注解内容"><a href="#使用反射机制获取注解内容" class="headerlink" title="使用反射机制获取注解内容"></a>使用反射机制获取注解内容</h3>]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java_core</tag>
-        <tag>java_lib</tag>
-        <tag>java_features</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java运行时获取运行位置</title>
-    <url>/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>获取运行时路径的方法在jar包中和在工程中都不同，下面进行区分讲解</p>
-<span id="more"></span>
-
-<h2 id="获取路径"><a href="#获取路径" class="headerlink" title="获取路径"></a>获取路径</h2><p>以下介绍的方法同时适用于jar包和工程中</p>
-<p>获取运行时路径的方法很多，这里只介绍一种通用的方法</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[ClassName].class.getProtectionDomain().getCodeSource().getLocation();</span><br></pre></td></tr></table></figure>
-
-<p>这种方法在工程中获取的是工程项目的位置，在jar包中是获取jar包所在的位置（包括XXXX.jar）</p>
-<h2 id="加载资源"><a href="#加载资源" class="headerlink" title="加载资源"></a>加载资源</h2><h3 id="class-getResource-String-resourceFile"><a href="#class-getResource-String-resourceFile" class="headerlink" title="class.getResource(String resourceFile)"></a>class.getResource(String resourceFile)</h3><h3 id="class-getClassLoader-getResource-String-resourceFile"><a href="#class-getClassLoader-getResource-String-resourceFile" class="headerlink" title="class.getClassLoader().getResource(String resourceFile)"></a>class.getClassLoader().getResource(String resourceFile)</h3><p>上面的区别看这里：</p>
-<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-2023e3d7fdae0160e22a5dedde736368_720w.jpg" alt="img"></p>
-<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-33f6acaa7515bb06d292abf9051cb535_720w.jpg" alt="img"></p>
-<p><code>class.getResource(String resource)</code> 调用当前类路径下的资源</p>
-<p><code>class.getClassLoader().getResource(String resource)</code> 获取跟路径，调用根目录下资源</p>
-<p><strong>上面的两种方式在工程项目中有效，在jar包中无效</strong></p>
-<h3 id="class-getResourceAsStream-String-resourceFile"><a href="#class-getResourceAsStream-String-resourceFile" class="headerlink" title="class.getResourceAsStream(String resourceFile)"></a>class.getResourceAsStream(String resourceFile)</h3><p>要想在jar包中也能够读取资源文件，请使用这个方法！</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java_skill</tag>
       </tags>
   </entry>
   <entry>
@@ -1329,6 +1359,161 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
+    <title>常用正则表达式</title>
+    <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
+<h2 id="常用表达式举例"><a href="#常用表达式举例" class="headerlink" title="常用表达式举例"></a>常用表达式举例</h2><span id="more"></span>
+
+<h3 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h3><h5 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
+
+<h5 id="n位数字（n为具体数字）"><a href="#n位数字（n为具体数字）" class="headerlink" title="n位数字（n为具体数字）"></a>n位数字（n为具体数字）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="至少n位的数字"><a href="#至少n位的数字" class="headerlink" title="至少n位的数字"></a>至少n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n,&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="m-n位的数字"><a href="#m-n位的数字" class="headerlink" title="m-n位的数字"></a>m-n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;m,n&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="零和非零开头的数字"><a href="#零和非零开头的数字" class="headerlink" title="零和非零开头的数字"></a>零和非零开头的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$</span><br></pre></td></tr></table></figure>
+
+<h5 id="非零开头的最多带两位小数的数字"><a href="#非零开头的最多带两位小数的数字" class="headerlink" title="非零开头的最多带两位小数的数字"></a>非零开头的最多带两位小数的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)+(\.[0-9]&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
+
+<h5 id="带1-2位小数的正数或负数"><a href="#带1-2位小数的正数或负数" class="headerlink" title="带1-2位小数的正数或负数"></a>带1-2位小数的正数或负数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-)?\d+(\.\d&#123;1,2&#125;)$</span><br></pre></td></tr></table></figure>
+
+<h5 id="正数、负数、和小数"><a href="#正数、负数、和小数" class="headerlink" title="正数、负数、和小数"></a>正数、负数、和小数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-|\+)?\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
+
+<h5 id="有两位小数的正实数"><a href="#有两位小数的正实数" class="headerlink" title="有两位小数的正实数"></a>有两位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;2&#125;)?$</span><br></pre></td></tr></table></figure>
+
+<h5 id="有1-3位小数的正实数"><a href="#有1-3位小数的正实数" class="headerlink" title="有1~3位小数的正实数"></a>有1~3位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;1,3&#125;)?$</span><br></pre></td></tr></table></figure>
+
+<h5 id="非零的正整数"><a href="#非零的正整数" class="headerlink" title="非零的正整数"></a>非零的正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)&#123;1,3&#125;$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\+?[1-9][0-9]*$</span><br></pre></td></tr></table></figure>
+
+<h5 id="非零的负整数"><a href="#非零的负整数" class="headerlink" title="非零的负整数"></a>非零的负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\-[1-9][]0-9&quot;*$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*$</span><br></pre></td></tr></table></figure>
+
+<h5 id="非负整数"><a href="#非负整数" class="headerlink" title="非负整数"></a>非负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
+
+<h5 id="非正整数"><a href="#非正整数" class="headerlink" title="非正整数"></a>非正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+)|(0+))$</span><br></pre></td></tr></table></figure>
+
+<h5 id="非负浮点数"><a href="#非负浮点数" class="headerlink" title="非负浮点数"></a>非负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+
+<h5 id="非正浮点数"><a href="#非正浮点数" class="headerlink" title="非正浮点数"></a>非正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+(\.\d+)?)|(0+(\.0+)?))$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+
+<h5 id="正浮点数"><a href="#正浮点数" class="headerlink" title="正浮点数"></a>正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</span><br></pre></td></tr></table></figure>
+
+<h5 id="负浮点数"><a href="#负浮点数" class="headerlink" title="负浮点数"></a>负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</span><br></pre></td></tr></table></figure>
+
+<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-?\d+)(\.\d+)?$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span><br></pre></td></tr></table></figure>
+
+<h3 id="校验字符的表达式"><a href="#校验字符的表达式" class="headerlink" title="校验字符的表达式"></a>校验字符的表达式</h3><h5 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;0,&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="英文和数字"><a href="#英文和数字" class="headerlink" title="英文和数字"></a>英文和数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;4,40&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="长度为3-20的所有字符"><a href="#长度为3-20的所有字符" class="headerlink" title="长度为3-20的所有字符"></a>长度为3-20的所有字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^.&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="由26个英文字母组成的字符串"><a href="#由26个英文字母组成的字符串" class="headerlink" title="由26个英文字母组成的字符串"></a>由26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z]+$</span><br></pre></td></tr></table></figure>
+
+<h5 id="由26个大写英文字母组成的字符串"><a href="#由26个大写英文字母组成的字符串" class="headerlink" title="由26个大写英文字母组成的字符串"></a>由26个大写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Z]+$</span><br></pre></td></tr></table></figure>
+
+<h5 id="由26个小写英文字母组成的字符串"><a href="#由26个小写英文字母组成的字符串" class="headerlink" title="由26个小写英文字母组成的字符串"></a>由26个小写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-z]+$</span><br></pre></td></tr></table></figure>
+
+<h5 id="由数字和26个英文字母组成的字符串"><a href="#由数字和26个英文字母组成的字符串" class="headerlink" title="由数字和26个英文字母组成的字符串"></a>由数字和26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+
+<h5 id="由数字、26个英文字母或者下划线组成的字符串"><a href="#由数字、26个英文字母或者下划线组成的字符串" class="headerlink" title="由数字、26个英文字母或者下划线组成的字符串"></a>由数字、26个英文字母或者下划线组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+$ 或 ^\w&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="中文、英文、数字包括下划线"><a href="#中文、英文、数字包括下划线" class="headerlink" title="中文、英文、数字包括下划线"></a>中文、英文、数字包括下划线</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9_]+$</span><br></pre></td></tr></table></figure>
+
+<h5 id="中文、英文、数字但不包括下划线等符号"><a href="#中文、英文、数字但不包括下划线等符号" class="headerlink" title="中文、英文、数字但不包括下划线等符号"></a>中文、英文、数字但不包括下划线等符号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]&#123;2,20&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="可以输入含有-amp-’-quot-等字符"><a href="#可以输入含有-amp-’-quot-等字符" class="headerlink" title="可以输入含有^%&amp;’,;=?$&quot;等字符"></a>可以输入含有^%&amp;’,;=?$&quot;等字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^%&amp;&#x27;,;=?$\x22]+</span><br></pre></td></tr></table></figure>
+
+<h5 id="禁止输入含有-的字符"><a href="#禁止输入含有-的字符" class="headerlink" title="禁止输入含有~的字符"></a>禁止输入含有~的字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^~\x22]+</span><br></pre></td></tr></table></figure>
+
+<h3 id="特殊需求表达式"><a href="#特殊需求表达式" class="headerlink" title="特殊需求表达式"></a>特殊需求表达式</h3><h5 id="Email地址"><a href="#Email地址" class="headerlink" title="Email地址"></a>Email地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br></pre></td></tr></table></figure>
+
+<h5 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(\.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+\.?</span><br></pre></td></tr></table></figure>
+
+<h5 id="InternetURL"><a href="#InternetURL" class="headerlink" title="InternetURL"></a>InternetURL</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-z]+://[^\s]*</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</span><br></pre></td></tr></table></figure>
+
+<h5 id="手机号码"><a href="#手机号码" class="headerlink" title="手机号码"></a>手机号码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX"><a href="#电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX" class="headerlink" title="电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)"></a>电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="国内电话号码-0511-4405222、021-87888822"><a href="#国内电话号码-0511-4405222、021-87888822" class="headerlink" title="国内电话号码(0511-4405222、021-87888822)"></a>国内电话号码(0511-4405222、021-87888822)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><a href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）" class="headerlink" title="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"></a>电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((\d&#123;11&#125;)|^((\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;)|(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;))$)</span><br></pre></td></tr></table></figure>
+
+<h5 id="身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X"><a href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X" class="headerlink" title="身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X"></a>身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)</span><br></pre></td></tr></table></figure>
+
+<h5 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线"><a href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线" class="headerlink" title="帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)"></a>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线"><a href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线" class="headerlink" title="密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)"></a>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z]\w&#123;5,17&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间"><a href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)"></a>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"><a href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)"></a>强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
+
+<h5 id="日期格式"><a href="#日期格式" class="headerlink" title="日期格式"></a>日期格式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="一年的12个月-01～09和1～12"><a href="#一年的12个月-01～09和1～12" class="headerlink" title="一年的12个月(01～09和1～12)"></a>一年的12个月(01～09和1～12)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0?[1-9]|1[0-2])$</span><br></pre></td></tr></table></figure>
+
+<h5 id="一个月的31天-01～09和1～31"><a href="#一个月的31天-01～09和1～31" class="headerlink" title="一个月的31天(01～09和1～31)"></a>一个月的31天(01～09和1～31)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((0?[1-9])|((1|2)[0-9])|30|31)$</span><br></pre></td></tr></table></figure>
+
+<h5 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</span><br></pre></td></tr></table></figure>
+
+<h5 id="中国邮政编码"><a href="#中国邮政编码" class="headerlink" title="中国邮政编码"></a>中国邮政编码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9]\d&#123;5&#125;(?!\d) </span><br></pre></td></tr></table></figure>
+
+<h5 id="腾讯QQ号"><a href="#腾讯QQ号" class="headerlink" title="腾讯QQ号"></a>腾讯QQ号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9][0-9]&#123;4,&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="IPv4地址"><a href="#IPv4地址" class="headerlink" title="IPv4地址"></a>IPv4地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;)(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;))&#123;3&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="字符过滤类"><a href="#字符过滤类" class="headerlink" title="字符过滤类"></a>字符过滤类</h3><h5 id="中文字符的正则表达式"><a href="#中文字符的正则表达式" class="headerlink" title="中文字符的正则表达式"></a>中文字符的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[\u4e00-\u9fa5]</span><br></pre></td></tr></table></figure>
+
+<h5 id="双字节字符"><a href="#双字节字符" class="headerlink" title="双字节字符"></a>双字节字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\x00-\xff] </span><br></pre></td></tr></table></figure>
+
+<p>(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</p>
+<h5 id="空白行的正则表达式"><a href="#空白行的正则表达式" class="headerlink" title="空白行的正则表达式"></a>空白行的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\n\s*\r</span><br></pre></td></tr></table></figure>
+
+<p>(可以用来删除空白行)</p>
+<h5 id="HTML标记的正则表达式"><a href="#HTML标记的正则表达式" class="headerlink" title="HTML标记的正则表达式"></a>HTML标记的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt;</span><br></pre></td></tr></table></figure>
+
+<p> <strong>( 首尾空白字符的正则表达式：<code>^\s\*|\s\*$</code>或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</strong></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>匹配字符中不出现某些特殊字符可以这样:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]		// 不匹配带有\/*:?&quot;&lt;&gt;|的字符串</span><br></pre></td></tr></table></figure>
+
+<p>匹配目录是否合法(windows)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[C-Z]:\\([^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]+\\)*$</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>正则表达式</category>
+      </categories>
+      <tags>
+        <tag>常用正则表达式持续更新</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java反射机制</title>
     <url>/2021/08/12/Java/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<p>反射（Reflection），<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
@@ -1483,7 +1668,7 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
-    <title>Tomcat&amp;Servlet基础</title>
+    <title>Tomcat&amp;Servlet基础&amp;Request对象</title>
     <url>/2021/08/14/JavaWeb/Tomcat&amp;Servlet%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
 <p>19年黑马<code>JavaWeb</code>课程的笔记</p>
@@ -1671,7 +1856,7 @@ cnpm install -g hexo-cli
 <h3 id="Request功能"><a href="#Request功能" class="headerlink" title="Request功能"></a>Request功能</h3><h4 id="获取请求行信息的方法"><a href="#获取请求行信息的方法" class="headerlink" title="获取请求行信息的方法"></a>获取请求行信息的方法</h4><p>对于请求行数据：</p>
 <figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/day14/demo1?name=zhangsan&amp;user=lisi</span> <span class="meta">HTTP/1.1</span></span><br></pre></td></tr></table></figure>
 
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getMethod</span><span class="params">()</span>				<span class="comment">// 获取请求方式 ：GET</span></span></span><br><span class="line"><span class="function">String <span class="title">getContextPath</span><span class="params">()</span>			<span class="comment">// 获取虚拟目录：/day14</span></span></span><br><span class="line"><span class="function">String <span class="title">getServletPath</span><span class="params">()</span>			<span class="comment">// 获取Servlet路径: /demo1</span></span></span><br><span class="line"><span class="function">String <span class="title">getQueryString</span><span class="params">()</span>			<span class="comment">// 获取get方式请求参数：name=zhangsan&amp;user=lisi</span></span></span><br><span class="line"><span class="function">String <span class="title">getRequestURI</span><span class="params">()</span>			<span class="comment">// 获取请求URI：/day14/demo1</span></span></span><br><span class="line"><span class="function">StringBuffer <span class="title">getRequestURL</span><span class="params">()</span>	<span class="comment">// 获取请求URL：http://localhost/day14/demo1</span></span></span><br><span class="line"><span class="function">String <span class="title">getProtocol</span><span class="params">()</span>			<span class="comment">// 获取协议及版本：HTTP/1.1</span></span></span><br><span class="line"><span class="function">String <span class="title">getRemoteAddr</span><span class="params">()</span>			<span class="comment">// 获取客户机的IP地址		</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getMethod</span><span class="params">()</span>				<span class="comment">// 获取请求方式 ：GET</span></span></span><br><span class="line"><span class="function">String <span class="title">getContextPath</span><span class="params">()</span>			<span class="comment">// 获取虚拟目录：/day14</span></span></span><br><span class="line"><span class="function">String <span class="title">getServletPath</span><span class="params">()</span>			<span class="comment">// 获取Servlet路径: /demo1</span></span></span><br><span class="line"><span class="function">String <span class="title">getQueryString</span><span class="params">()</span>			<span class="comment">// 获取get方式请求参数：name=zhangsan&amp;user=lisi</span></span></span><br><span class="line"><span class="function">String <span class="title">getRequestURI</span><span class="params">()</span>			<span class="comment">// 获取请求URI：/day14/demo1</span></span></span><br><span class="line"><span class="function">StringBuffer <span class="title">getRequestURL</span><span class="params">()</span>	<span class="comment">// 获取请求URL：http://localhost/day14/demo1</span></span></span><br><span class="line"><span class="function">String <span class="title">getProtocol</span><span class="params">()</span>			<span class="comment">// 获取协议及版本：HTTP/1.1</span></span></span><br><span class="line"><span class="function">String <span class="title">getRemoteAddr</span><span class="params">()</span>			<span class="comment">// 获取客户机的IP地址	</span></span></span><br></pre></td></tr></table></figure>
 
 <h4 id="获取请求头信息的方法"><a href="#获取请求头信息的方法" class="headerlink" title="获取请求头信息的方法"></a>获取请求头信息的方法</h4><p>之前说过请求头信息是一组键值对，因此：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getHeader</span><span class="params">(String name)</span></span>;			<span class="comment">// 通过请求头的名称获取请求头的值</span></span><br><span class="line"><span class="function">Enumeration&lt;String&gt; <span class="title">getHeaderNames</span><span class="params">()</span>	<span class="comment">//获取所有的请求头名称</span></span></span><br></pre></td></tr></table></figure>
@@ -1731,7 +1916,7 @@ cnpm install -g hexo-cli
 <p>request域：代表一次请求的范围，一般用于请求转发的多个资源中共享数据</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setAttribute</span><span class="params">(String name,Object obj)</span>		<span class="comment">// 存储数据</span></span></span><br><span class="line"><span class="function">Object <span class="title">getAttitude</span><span class="params">(String name)</span>					<span class="comment">// 通过键获取值</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">removeAttribute</span><span class="params">(String name)</span>				<span class="comment">// 通过键移除键值对</span></span></span><br></pre></td></tr></table></figure>
 
-<p>结合请求转发来使用，可以实现多个Servlet之间的数据共享！</p>
+<p>结合<strong>请求转发</strong>来使用，可以实现多个Servlet之间的数据共享！</p>
 <h4 id="获取ServletContext（Web-xml上的内容）"><a href="#获取ServletContext（Web-xml上的内容）" class="headerlink" title="获取ServletContext（Web.xml上的内容）"></a>获取ServletContext（Web.xml上的内容）</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">ServletContext <span class="title">getServletContext</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
 
 ]]></content>
@@ -2404,13 +2589,13 @@ cnpm install -g hexo-cli
 
 
 <p>没啥好说的.。</p>
-<p>想找我吹水的往这个邮箱发：<a href="mailto:&#x41;&#x73;&#107;&#x69;&#x61;&#x78;&#105;&#x61;&#111;&#109;&#x69;&#110;&#x67;&#x40;&#111;&#x75;&#x74;&#x6c;&#111;&#x6f;&#107;&#x2e;&#99;&#x6f;&#x6d;">&#x41;&#x73;&#107;&#x69;&#x61;&#x78;&#105;&#x61;&#111;&#109;&#x69;&#110;&#x67;&#x40;&#111;&#x75;&#x74;&#x6c;&#111;&#x6f;&#107;&#x2e;&#99;&#x6f;&#x6d;</a></p>
-<p>要借一步说话的往这个邮箱发：<a href="mailto:&#65;&#x73;&#x6b;&#105;&#x61;&#120;&#x69;&#97;&#x6f;&#x68;&#117;&#97;&#x40;&#x6f;&#117;&#x74;&#108;&#x6f;&#111;&#107;&#x2e;&#99;&#x6f;&#x6d;">&#65;&#x73;&#x6b;&#105;&#x61;&#120;&#x69;&#97;&#x6f;&#x68;&#117;&#97;&#x40;&#x6f;&#117;&#x74;&#108;&#x6f;&#111;&#107;&#x2e;&#99;&#x6f;&#x6d;</a></p>
-<p>同好的往这里发：<a href="mailto:&#x43;&#x6f;&#100;&#x65;&#x58;&#85;&#112;&#100;&#97;&#116;&#101;&#64;&#49;&#x36;&#51;&#46;&#x63;&#111;&#109;">&#x43;&#x6f;&#100;&#x65;&#x58;&#85;&#112;&#100;&#97;&#116;&#101;&#64;&#49;&#x36;&#51;&#46;&#x63;&#111;&#109;</a></p>
+<p>想找我吹水的往这个邮箱发：<a href="mailto:&#65;&#x73;&#x6b;&#x69;&#x61;&#120;&#105;&#x61;&#x6f;&#x6d;&#x69;&#x6e;&#x67;&#64;&#111;&#x75;&#116;&#108;&#111;&#x6f;&#x6b;&#x2e;&#99;&#x6f;&#109;">&#65;&#x73;&#x6b;&#x69;&#x61;&#120;&#105;&#x61;&#x6f;&#x6d;&#x69;&#x6e;&#x67;&#64;&#111;&#x75;&#116;&#108;&#111;&#x6f;&#x6b;&#x2e;&#99;&#x6f;&#109;</a></p>
+<p>要借一步说话的往这个邮箱发：<a href="mailto:&#x41;&#x73;&#x6b;&#x69;&#x61;&#120;&#x69;&#x61;&#x6f;&#x68;&#117;&#x61;&#x40;&#x6f;&#117;&#116;&#x6c;&#x6f;&#111;&#107;&#46;&#99;&#x6f;&#109;">&#x41;&#x73;&#x6b;&#x69;&#x61;&#120;&#x69;&#x61;&#x6f;&#x68;&#117;&#x61;&#x40;&#x6f;&#117;&#116;&#x6c;&#x6f;&#111;&#107;&#46;&#99;&#x6f;&#109;</a></p>
+<p>同好的往这里发：<a href="mailto:&#x43;&#x6f;&#x64;&#101;&#88;&#x55;&#x70;&#x64;&#97;&#x74;&#101;&#64;&#x31;&#x36;&#x33;&#46;&#x63;&#x6f;&#109;">&#x43;&#x6f;&#x64;&#101;&#88;&#x55;&#x70;&#x64;&#97;&#x74;&#101;&#64;&#x31;&#x36;&#x33;&#46;&#x63;&#x6f;&#109;</a></p>
 <p>生活不易，那就早点睡觉。</p>
 <p>生活苦闷，那就网吧五黑。</p>
 <p>没有什么问题是解决不了的，大不了解决提出问题的人！</p>
-<p><strong>尽量周更！！</strong></p>
+<p><strong>想到啥写啥，尽量周更！！</strong></p>
 ]]></content>
   </entry>
   <entry>

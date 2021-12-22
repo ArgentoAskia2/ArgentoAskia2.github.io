@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Servlet、Tomcat基础知识点，仅供参考 19年黑马JavaWeb课程的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Response对象">
+<meta property="og:url" content="http://example.com/2021/12/17/JavaWeb/Response/index.html">
+<meta property="og:site_name" content="Askia的学习笔记">
+<meta property="og:description" content="Servlet、Tomcat基础知识点，仅供参考 19年黑马JavaWeb课程的笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-17T15:54:03.000Z">
+<meta property="article:modified_time" content="2021-12-22T08:21:38.385Z">
+<meta property="article:author" content="Askia">
+<meta property="article:tag" content="javaweb_servlet">
+<meta property="article:tag" content="javaweb_tomcat">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/12/17/JavaWeb/Response/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Response对象 | Askia的学习笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Askia的学习笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">好好学习，天天向上</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/17/JavaWeb/Response/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Askia">
+      <meta itemprop="description" content="既然来了，就不要这么快走嘛~~~！嘛~~~~QAQ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Askia的学习笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Response对象
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-17 23:54:03" itemprop="dateCreated datePublished" datetime="2021-12-17T23:54:03+08:00">2021-12-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-22 16:21:38" itemprop="dateModified" datetime="2021-12-22T16:21:38+08:00">2021-12-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaWeb%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">JavaWeb程序设计</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Servlet、Tomcat基础知识点，仅供参考</p>
+<p>19年黑马<code>JavaWeb</code>课程的笔记</p>
+<span id="more"></span>
+
+<h1 id="Response对象"><a href="#Response对象" class="headerlink" title="Response对象"></a>Response对象</h1><h2 id="HTTP响应消息数据格式"><a href="#HTTP响应消息数据格式" class="headerlink" title="HTTP响应消息数据格式"></a>HTTP响应消息数据格式</h2><p>HTTP请求消息是客户端发送给服务器端的数据，HTTP响应消息是服务器端发送给客户端的数据。</p>
+<p>一般响应消息的格式如下：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/html;charset=UTF-8</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>101</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Wed, 06 Jun 2018 07:08:42 GMT</span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>$Title$<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml">		hello , response</span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>正如HTTP请求消息一样，HTTP响应消息也有<strong>响应行、响应头、响应空行和响应体</strong>！</p>
+<h3 id="响应行"><a href="#响应行" class="headerlink" title="响应行"></a>响应行</h3><p>响应行数据就是HTTP响应数据的第一行，响应行数据格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">协议/版本 响应状态码 状态码描述</span><br></pre></td></tr></table></figure>
+
+<p>如：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">协议/版本：HTTP/1.1</span><br><span class="line">响应状态码：200</span><br><span class="line">状态码描述：OK</span><br></pre></td></tr></table></figure>
+
+<h4 id="响应状态码"><a href="#响应状态码" class="headerlink" title="响应状态码"></a>响应状态码</h4><p>响应状态码是服务器告诉客户端浏览器本次请求和响应的一个状态。状态码都是3位数字，可以分为：</p>
+<ol>
+<li><code>1xx</code>：服务器就收客户端消息，但没有接受完成，等待一段时间后，发送<code>1xx</code>多状态码</li>
+<li><code>2xx</code>：成功。代表：<code>200</code>（成功）</li>
+<li><code>3xx</code>：重定向。代表：302（重定向），304（访问缓存）</li>
+<li><code>4xx</code>：客户端错误。代表：<code>404</code>（请求路径没有对应的资源） ，<code>405</code>：请求方式没有对应的<code>doXxx()</code></li>
+<li><code>5xx</code>：服务器端错误。代表：500（服务器内部出现异常）</li>
+</ol>
+<p>其中常见的状态码（响应信息）：</p>
+<h5 id="1XX："><a href="#1XX：" class="headerlink" title="1XX："></a>1XX：</h5><ul>
+<li><code>100（Continue）</code>：服务器就饿瘦客户端消息，但没有接收完成，应该让客户端继续其请求，等待一段时间之后，发送100多状态码询问客户端是否还有数据。</li>
+<li><code>101（Switching Protocols）</code>：切换协议，服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</li>
+</ul>
+<h5 id="2XX："><a href="#2XX：" class="headerlink" title="2XX："></a>2XX：</h5><ul>
+<li><code>200（OK）</code>：请求成功。一般用于GET与POST请求</li>
+<li><code>201（Created）</code>：已创建。成功请求并创建了新的资源</li>
+<li><code>202（Accepted）</code>： 已接受。已经接受请求，但未处理完成</li>
+<li><code>203（Non-Authoritative Information）</code>：非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本</li>
+<li><code>204（No Content）</code>：无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</li>
+<li><code>205（Reset Content）</code>：重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域</li>
+<li><code>206（Partial Content）</code>：部分内容。服务器成功处理了部分GET请求</li>
+</ul>
+<h5 id="3XX："><a href="#3XX：" class="headerlink" title="3XX："></a>3XX：</h5><ul>
+<li><p><code>300（Multiple Choices）</code>：多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择</p>
+</li>
+<li><p><code>301（Moved Permanently）</code>：永久重定向。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</p>
+</li>
+<li><p><code>302（Found）</code>：临时重定向。与301类似。但资源只是临时被移动。客户端应继续使用（显示）原有URI</p>
+</li>
+<li><p><code>303（See Other）</code>：查看其它地址。与301类似。使用GET和POST请求查看</p>
+</li>
+<li><p><code>304（Not Modified）</code>：未修改。客户端通常会缓存访问过的资源，服务器返回此状态码时，说明所请求的资源未修改，不会返回任何新的资源。客户端接收到该状态码时将会从缓存下来的所有访问过的资源中寻找特定资源。</p>
+</li>
+<li><p><code>305（Use Proxy）</code>：使用代理。所请求的资源必须通过代理访问</p>
+</li>
+<li><p><code>307（ Temporary Redirect）</code>：临时重定向。与302类似。使用GET请求重定向</p>
+</li>
+</ul>
+<h5 id="4XX："><a href="#4XX：" class="headerlink" title="4XX："></a>4XX：</h5><ul>
+<li><code>400（Bad Request）</code>： 客户端请求的语法错误，服务器无法理解</li>
+<li><code>401（Unauthorized）</code>：请求要求用户的身份认证</li>
+<li><code>402（Payment Required）</code>：保留，将来使用</li>
+<li><code>403（Forbidden）</code>： 服务器理解请求客户端的请求，但是拒绝执行此请求</li>
+<li><code>404（Not Found）</code>：服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置”您所请求的资源无法找到”的个性页面</li>
+<li><code>405（Method Not Allowed）</code>：客户端请求中的方法被禁止</li>
+<li><code>406（Not Acceptable）</code>：服务器无法根据客户端请求的内容特性完成请求</li>
+<li><code>407（Proxy Authentication Required）</code>：请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权</li>
+<li><code>408（Request Time-out）</code>：服务器等待客户端发送的请求时间过长，超时</li>
+<li><code>409（Conflict）</code>：服务器完成客户端的 PUT 请求时可能返回此代码，服务器处理请求时发生了冲突</li>
+<li><code>410（Gone）</code>：客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置</li>
+<li><code>411（Length Required）</code>： 服务器无法处理客户端发送的不带Content-Length的请求信息</li>
+<li><code>412（Precondition Failed）</code>：客户端请求信息的先决条件错误</li>
+<li><code>413（Request Entity Too Large）</code>：由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息</li>
+<li><code>414（Request-URI Too Large）</code>：请求的URI过长（URI通常为网址），服务器无法处理</li>
+<li><code>415（Unsupported Media Type）</code>：服务器无法处理请求附带的媒体格式</li>
+<li><code>416（Requested range not satisfiable）</code>：客户端请求的范围无效</li>
+<li><code>417（Expectation Failed）</code>：服务器无法满足Expect的请求头信息</li>
+</ul>
+<h5 id="5XX："><a href="#5XX：" class="headerlink" title="5XX："></a>5XX：</h5><ul>
+<li><code>500（Internal Server Error）</code>：服务器内部错误，无法完成请求</li>
+<li><code>501（Not Implemented）</code>：服务器不支持请求的功能，无法完成请求</li>
+<li><code>502（Bad Gateway）</code>：作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应</li>
+<li><code>503（Service Unavailable）</code>：由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中</li>
+<li><code>504（Gateway Time-out）</code>：充当网关或代理的服务器，未及时从远端服务器获取请求</li>
+<li><code>505（HTTP Version not supported）</code>：服务器不支持请求的HTTP协议的版本，无法完成处理</li>
+</ul>
+<h3 id="响应头"><a href="#响应头" class="headerlink" title="响应头"></a>响应头</h3><p>响应头的格式一般如下：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">Content-Type</span>: <span class="string">text/html;charset=UTF-8</span></span><br><span class="line"><span class="meta">Content-Length</span>: <span class="string">101</span></span><br><span class="line"><span class="attr">Date</span>: <span class="string">Wed, 06 Jun 2018 07:08:42 GMT</span></span><br></pre></td></tr></table></figure>
+
+<p>一般以键值的形式存在，其中有几个常见的：</p>
+<ul>
+<li><code>Content-Type</code>：服务器告诉客户端本次响应体数据格式以及编码格式，如：<code>text/html;charset=utf-8</code></li>
+<li><code>Content-disposition</code>：服务器告诉客户端以什么格式打开响应体数据，有两个可选值：<ul>
+<li><code>in-line</code>:默认值,在当前页面内打开</li>
+<li><code>attachment;filename=xxx</code>：以附件形式打开响应体。文件下载</li>
+</ul>
+</li>
+<li><code>Content-Length</code>：响应体数据的长度</li>
+<li><code>Date</code>：响应时间</li>
+</ul>
+<h3 id="响应空行"><a href="#响应空行" class="headerlink" title="响应空行"></a>响应空行</h3><p>在响应头和响应体之间有一行空行，用于分割响应头和响应体</p>
+<h3 id="响应体"><a href="#响应体" class="headerlink" title="响应体"></a>响应体</h3><p>响应体为传输给客户端的数据，如：网页源代码，图片资源，下载的文件等等，上面的</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>$Title$<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		hello , response</span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>就是响应体。</p>
+<p>客户端在收到响应消息的时候，会获取该信息并进行缓存，如当请求：<code>localhost/day15/helloResponse.html</code>的时候，服务器会发出一个响应，该响应中的响应体信息正如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>$Title$<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		hello , response</span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>客户端收到这个信息的时候，会缓存成一个<code>helloResponse.html</code>，当再次请求的时候，如果网页没有改变，优先在使用本地的<code>helloResponse.html</code>文件。</p>
+<h2 id="Response对象对HTTP响应消息的处理"><a href="#Response对象对HTTP响应消息的处理" class="headerlink" title="Response对象对HTTP响应消息的处理"></a>Response对象对HTTP响应消息的处理</h2><h3 id="响应行-1"><a href="#响应行-1" class="headerlink" title="响应行"></a>响应行</h3><p>获取状态码：<code>getStatus()</code></p>
+<p>设置状态码：<code>setStatus()</code></p>
+<h3 id="响应头-1"><a href="#响应头-1" class="headerlink" title="响应头"></a>响应头</h3><p>设置响应头：<code>setHeader(String name, String value)</code> </p>
+<p>获取响应头：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Collection&lt;String&gt; <span class="title">getHeaders</span><span class="params">(String headName)</span></span>;</span><br><span class="line"><span class="function">String <span class="title">getHeader</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">Collection&lt;String&gt; <span class="title">getHeaderNames</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="响应体-1"><a href="#响应体-1" class="headerlink" title="响应体"></a>响应体</h3><p>如何写数据给响应体呢？一般按照如下步骤</p>
+<h4 id="获取输出流"><a href="#获取输出流" class="headerlink" title="获取输出流"></a>获取输出流</h4><p>输出流有两种：</p>
+<ul>
+<li>字符输出流：<code>PrintWriter getWriter()</code></li>
+<li>字节输出流：<code>ServletOutputStream getOutputStream()</code></li>
+</ul>
+<h4 id="使用输出流"><a href="#使用输出流" class="headerlink" title="使用输出流"></a>使用输出流</h4><p>就像使用Java的IO流一样使用输出流</p>
+<h3 id="Respons使用"><a href="#Respons使用" class="headerlink" title="Respons使用"></a>Respons使用</h3><h4 id="实现重定向"><a href="#实现重定向" class="headerlink" title="实现重定向"></a>实现重定向</h4><p>首先需要先明确，<strong>客户端（浏览器）会自动响应Response对象中的设置</strong>，什么意思？比如当我们需要实现重定向的时候， 我们可以这样实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">response.setStatus(<span class="number">302</span>);</span><br><span class="line">response.setHeader(<span class="string">&quot;location&quot;</span>,<span class="string">&quot;/day15/responseDemo&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>当我们这样设置<code>response</code>对象的的时候，浏览器做响应之前，会解析response中的状态码，解析到302的时候会去找location响应头，然后进行解析重定向。</p>
+<p><strong>所以当我们需要客户端做一些动作的时候，我们可以通过设置响应头和响应状态码来实现。</strong></p>
+<p>实际上想要实现重定向还有一个简单的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.sendRedirect(<span class="string">&quot;/day15/responseDemo&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>该方法本质上也是调用上面的两个方法。<code>tomcat</code>的<code>API</code>对它进行了简化。</p>
+<h4 id="响应体数据乱码问题"><a href="#响应体数据乱码问题" class="headerlink" title="响应体数据乱码问题"></a>响应体数据乱码问题</h4><p>上文所说，当我们需要往响应体中写数据时，可以使用这两个方法获取流：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">PrintWriter <span class="title">getWriter</span><span class="params">()</span></span></span><br><span class="line"><span class="function">ServletOutputStream <span class="title">getOutputStream</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+
+<p>但是在客户端进行解析的时候，由于<code>PrintWriter pw = response.getWriter();</code>获取的流的默认编码是<code>ISO-8859-1</code>，所以你懂的，乱码问题在所难免。</p>
+<p>解决的方法也很简单，设置响应头：<code>ContentType</code>，设置编码，是在获取流之前设置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.setContentType(<span class="string">&quot;text/html;charset=utf-8&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h1 id="重定向和请求转发的区别"><a href="#重定向和请求转发的区别" class="headerlink" title="重定向和请求转发的区别"></a>重定向和请求转发的区别</h1><h2 id="重定向的特点-redirect"><a href="#重定向的特点-redirect" class="headerlink" title="重定向的特点:redirect"></a>重定向的特点:redirect</h2><pre><code> 1. 地址栏发生变化
+ 2. 重定向可以访问其他站点(服务器)的资源
+ 3. 重定向是两次请求。不能使用request对象来共享数据
+</code></pre>
+<h2 id="转发的特点：forward"><a href="#转发的特点：forward" class="headerlink" title="转发的特点：forward"></a>转发的特点：forward</h2><pre><code> 1. 转发地址栏路径不变
+ 2. 转发只能访问当前服务器下的资源
+ 3. 转发是一次请求，可以使用request对象来共享数据
+</code></pre>
+<h1 id="路径写法"><a href="#路径写法" class="headerlink" title="路径写法"></a>路径写法</h1><p>路径写法：<br>            1. 路径分类<br>                1. 相对路径：通过相对路径不可以确定唯一资源<br>                    * 如：./index.html<br>                    * 不以/开头，以.开头路径</p>
+<pre><code>                * 规则：找到当前资源和目标资源之间的相对位置关系
+                    * ./：当前目录
+                    * ../:后退一级目录
+            2. 绝对路径：通过绝对路径可以确定唯一资源
+                * 如：http://localhost/day15/responseDemo2        /day15/responseDemo2
+                * 以/开头的路径
+
+                * 规则：判断定义的路径是给谁用的？判断请求将来从哪儿发出
+                    * 给客户端浏览器使用：需要加虚拟目录(项目的访问路径)
+                        * 建议虚拟目录动态获取：request.getContextPath()
+                        * &lt;a&gt; , &lt;form&gt; 重定向...
+                    * 给服务器使用：不需要加虚拟目录
+                        * 转发路径
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javaweb-servlet/" rel="tag"># javaweb_servlet</a>
+              <a href="/tags/javaweb-tomcat/" rel="tag"># javaweb_tomcat</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/" rel="prev" title="Java代理">
+      <i class="fa fa-chevron-left"></i> Java代理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/17/JavaWeb/ServletContext/" rel="next" title="ServletContext对象">
+      ServletContext对象 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzYwNy8yNDEwNw=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Response%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">Response对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP%E5%93%8D%E5%BA%94%E6%B6%88%E6%81%AF%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">HTTP响应消息数据格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E8%A1%8C"><span class="nav-number">1.1.1.</span> <span class="nav-text">响应行</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E7%8A%B6%E6%80%81%E7%A0%81"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">响应状态码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1XX%EF%BC%9A"><span class="nav-number">1.1.1.1.1.</span> <span class="nav-text">1XX：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2XX%EF%BC%9A"><span class="nav-number">1.1.1.1.2.</span> <span class="nav-text">2XX：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3XX%EF%BC%9A"><span class="nav-number">1.1.1.1.3.</span> <span class="nav-text">3XX：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4XX%EF%BC%9A"><span class="nav-number">1.1.1.1.4.</span> <span class="nav-text">4XX：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5XX%EF%BC%9A"><span class="nav-number">1.1.1.1.5.</span> <span class="nav-text">5XX：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E5%A4%B4"><span class="nav-number">1.1.2.</span> <span class="nav-text">响应头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E7%A9%BA%E8%A1%8C"><span class="nav-number">1.1.3.</span> <span class="nav-text">响应空行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E4%BD%93"><span class="nav-number">1.1.4.</span> <span class="nav-text">响应体</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Response%E5%AF%B9%E8%B1%A1%E5%AF%B9HTTP%E5%93%8D%E5%BA%94%E6%B6%88%E6%81%AF%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">Response对象对HTTP响应消息的处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E8%A1%8C-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">响应行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E5%A4%B4-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">响应头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E4%BD%93-1"><span class="nav-number">1.2.3.</span> <span class="nav-text">响应体</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E8%BE%93%E5%87%BA%E6%B5%81"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">获取输出流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%BE%93%E5%87%BA%E6%B5%81"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">使用输出流</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Respons%E4%BD%BF%E7%94%A8"><span class="nav-number">1.2.4.</span> <span class="nav-text">Respons使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">实现重定向</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E4%BD%93%E6%95%B0%E6%8D%AE%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">响应体数据乱码问题</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8C%E8%AF%B7%E6%B1%82%E8%BD%AC%E5%8F%91%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">重定向和请求转发的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91%E7%9A%84%E7%89%B9%E7%82%B9-redirect"><span class="nav-number">2.1.</span> <span class="nav-text">重定向的特点:redirect</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AC%E5%8F%91%E7%9A%84%E7%89%B9%E7%82%B9%EF%BC%9Aforward"><span class="nav-number">2.2.</span> <span class="nav-text">转发的特点：forward</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E5%86%99%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">路径写法</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Askia"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Askia</p>
+  <div class="site-description" itemprop="description">既然来了，就不要这么快走嘛~~~！嘛~~~~QAQ</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Askia</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>
