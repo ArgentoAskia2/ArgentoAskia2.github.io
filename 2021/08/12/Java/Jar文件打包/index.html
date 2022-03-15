@@ -256,35 +256,28 @@
       
         <p>Java归档文件，更多细节请参考：<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/10/docs/specs/jar/jar.html">Oracle JAR Help</a></p>
 <span id="more"></span>
-
 <h2 id="JAR文件简介"><a href="#JAR文件简介" class="headerlink" title="JAR文件简介"></a>JAR文件简介</h2><p>如果你手上已经有一个自制的工具包,并且你希望你工具包能够以单独的文件的形式来被用户使用，而不是包含很多代码的一个目录结构，那么Java归档文件（JAR）就能够帮助你</p>
 <h2 id="创建JAR文件"><a href="#创建JAR文件" class="headerlink" title="创建JAR文件"></a>创建JAR文件</h2><p>如今的IDE已经非常智能，可以不用管Java的命令行具体细节就能实现打包JAR文件，但是这里还是要解释下JAR相关的命令行，既方便跨平台也可以在必要时处理打包JAR产生的错误。</p>
 <p>在<code>jdk\bin</code>目录下，有一个JAR工具（jar.exe）可以用它来创建JAR包，其语法为：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jar cvf jarFilename file1 file2 ...</span><br><span class="line">jar [options] file1 file2...-</span><br></pre></td></tr></table></figure>
-
 <p>对于[options]命令，可以有下选项：</p>
 <p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407210830146.png" alt="image-20210407210830146"></p>
 <h2 id="创建可执行的JAR文件"><a href="#创建可执行的JAR文件" class="headerlink" title="创建可执行的JAR文件"></a>创建可执行的JAR文件</h2><p>使用JAR命令中的e选项指定程序的入口点类（即带main方法的类）：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jar cvfe Tools.jar com.tools.mytools.MainClass ...</span><br></pre></td></tr></table></figure>
-
 <p>还有一种方法，可以在清单文件（下个小节会有说明）中指定程序的主类：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Main-Class: com.tools.mytools.MainClass</span><br></pre></td></tr></table></figure>
-
 <p><strong>注意：清单文件的最后一行必须以换行符结尾，所以上面的代码结尾的换行不是打错！否则清单文件无法被正确地读取！</strong></p>
 <p>使用上面的方法创建可执行的JAR文件，要运行该JAR包，需要执行：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar Tools.jar</span><br></pre></td></tr></table></figure>
-
 <h2 id="清单文件"><a href="#清单文件" class="headerlink" title="清单文件"></a>清单文件</h2><p>除了类文件、图像和其他资源外，每个JAR文件还包含一个清单文件，用于描述归档文件的特殊特性。</p>
 <p>清单文件名字一般为：MANIFEST.MF，在一个特殊的META-INF子目录中。</p>
 <p>一般最小的清单文件非常简单：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Manifest-Version: 1.0</span><br></pre></td></tr></table></figure>
-
 <p>更多细节可以参考：<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/10/docs/specs/jar/jar.html">Oracle JAR Help</a></p>
 <p>要创建包含清单文件的JAR需要运行：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jar cfm Tools.jar mainfest.mf classfile1 ...</span><br></pre></td></tr></table></figure>
-
 <h2 id="在IDEA中创建JAR包"><a href="#在IDEA中创建JAR包" class="headerlink" title="在IDEA中创建JAR包"></a>在IDEA中创建JAR包</h2><p>IDEA中创建使用JAR操作非常简单，参考：</p>
-<h3 id="File–-gt-项目结构中："><a href="#File–-gt-项目结构中：" class="headerlink" title="File–&gt;项目结构中："></a>File–&gt;项目结构中：</h3><p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211249011.png" alt="image-20210407211249011"></p>
+<h3 id="File—-gt-项目结构中："><a href="#File—-gt-项目结构中：" class="headerlink" title="File—&gt;项目结构中："></a>File—&gt;项目结构中：</h3><p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211249011.png" alt="image-20210407211249011"></p>
 <p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211432890.png" alt="image-20210407211432890"></p>
 <p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211528409.png" alt="image-20210407211528409"></p>
 <p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211611167.png" alt="image-20210407211611167"></p>
@@ -377,7 +370,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JAR%E6%96%87%E4%BB%B6%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">JAR文件简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAJAR%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">创建JAR文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%9A%84JAR%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">创建可执行的JAR文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%85%E5%8D%95%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">清单文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8IDEA%E4%B8%AD%E5%88%9B%E5%BB%BAJAR%E5%8C%85"><span class="nav-number">5.</span> <span class="nav-text">在IDEA中创建JAR包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#File%E2%80%93-gt-%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E4%B8%AD%EF%BC%9A"><span class="nav-number">5.1.</span> <span class="nav-text">File–&gt;项目结构中：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A"><span class="nav-number">5.2.</span> <span class="nav-text">注意：</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JAR%E6%96%87%E4%BB%B6%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">JAR文件简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAJAR%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">创建JAR文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%9A%84JAR%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">创建可执行的JAR文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%85%E5%8D%95%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">清单文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8IDEA%E4%B8%AD%E5%88%9B%E5%BB%BAJAR%E5%8C%85"><span class="nav-number">5.</span> <span class="nav-text">在IDEA中创建JAR包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#File%E2%80%94-gt-%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E4%B8%AD%EF%BC%9A"><span class="nav-number">5.1.</span> <span class="nav-text">File—&gt;项目结构中：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A"><span class="nav-number">5.2.</span> <span class="nav-text">注意：</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -393,20 +386,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -432,8 +425,8 @@
 
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -492,6 +485,8 @@
 
 
 
+
+  
 
   
 

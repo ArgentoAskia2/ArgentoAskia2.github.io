@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Filter过滤器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Filter过滤器">
+<meta property="og:url" content="http://example.com/2022/01/01/JavaWeb/Filter/index.html">
+<meta property="og:site_name" content="Askia的学习笔记">
+<meta property="og:description" content="Filter过滤器">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/01/01/JavaWeb/Filter/image-20211230000319755.png">
+<meta property="og:image" content="http://example.com/2022/01/01/JavaWeb/Filter/image-20211230000952257.png">
+<meta property="og:image" content="http://example.com/2022/01/01/JavaWeb/Filter/image-20211230010247571.png">
+<meta property="article:published_time" content="2022-01-01T07:45:02.000Z">
+<meta property="article:modified_time" content="2022-01-08T09:22:36.908Z">
+<meta property="article:author" content="Askia">
+<meta property="article:tag" content="javaweb_filter">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/01/01/JavaWeb/Filter/image-20211230000319755.png">
+
+<link rel="canonical" href="http://example.com/2022/01/01/JavaWeb/Filter/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Filter过滤器 | Askia的学习笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Askia的学习笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">好好学习，天天向上</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/01/JavaWeb/Filter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Askia">
+      <meta itemprop="description" content="既然来了，就不要这么快走嘛~~~！嘛~~~~QAQ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Askia的学习笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Filter过滤器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-01 15:45:02" itemprop="dateCreated datePublished" datetime="2022-01-01T15:45:02+08:00">2022-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-08 17:22:36" itemprop="dateModified" datetime="2022-01-08T17:22:36+08:00">2022-01-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaWeb%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">JavaWeb程序设计</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
+<h2 id="所谓Filter"><a href="#所谓Filter" class="headerlink" title="所谓Filter"></a>所谓Filter</h2><p>当一个请求在到达服务器软件之后，服务器软件响应请求时会找到相关的资源，如<strong>一个Html页面，一个JSP页面，一个servlet</strong>，Filter所做的事情，就是拦截这些请求，然后对它进行预处理。</p>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000319755.png" alt="image-20211230000319755" style="zoom:200%;"></p>
+<p><strong>要注意，Filter不仅仅能够截拦Servlet，对于任意的URL（这个URL可以指向一个html，也可以指向一个jsp），如：<a target="_blank" rel="noopener" href="http://www.argentoaskia.tech/resource.html，也是可以拦截的。">http://www.argentoaskia.tech/resource.html，也是可以拦截的。</a></strong></p>
+<h2 id="配置编写Filter"><a href="#配置编写Filter" class="headerlink" title="配置编写Filter"></a>配置编写Filter</h2><p>编写Filter的步骤应如下：</p>
+<ol>
+<li>新建Filter的Java类</li>
+<li>让该类实现Filter接口</li>
+<li>在doFilter()方法中进行求情拦截</li>
+<li>给该类添加@WebFilter注解，并指定要拦截的URL，或者在Web.xml中添加Filter配置，如：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>FittlerDemo1.ABCFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">       &lt;servlet-name&gt;demo1&lt;/servlet-name&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">urlPattern</span>&gt;</span>/result<span class="tag">&lt;/<span class="name">urlPattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>完整的Filter可以参考：</p>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000952257.png" alt="image-20211230000952257"></p>
+<h2 id="过滤器执行流程"><a href="#过滤器执行流程" class="headerlink" title="过滤器执行流程"></a>过滤器执行流程</h2><p>对于一个过滤器他的执行流程是双向的，也就是说它实际上遵循下面的流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[客户端请求] --&gt;|被截拦| B[过滤器1]</span><br><span class="line">B[过滤器1] --&gt;|过滤器1执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器1调用filterChain.doFilter方法到| C[过滤器2]</span><br><span class="line">C[过滤器2] --&gt;|过滤器2执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器2调用filterChain.doFilter方法到| E[过滤器3]</span><br><span class="line">E[过滤器3] --&gt;|过滤器3执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器3调用filterChain.doFilter方法到| F[过滤器4]</span><br><span class="line">F[过滤器4] --&gt;|过滤器4执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|没有其他过滤器 将会调用请求资源| G[Servlet或者JSP或者HTML]</span><br><span class="line">G[Servlet或者JSP或者HTML] --&gt;|执行完成 回到过滤器4|H[过滤器4]</span><br><span class="line">H[过滤器4] --&gt;|执行filterChain.doFilter方法之后的代码| I[过滤器3]</span><br><span class="line">I[过滤器3] --&gt;|执行filterChain.doFilter方法之后的代码| J[过滤器2]</span><br><span class="line">J[过滤器2] --&gt;|执行filterChain.doFilter方法之后的代码| K[过滤器1]</span><br></pre></td></tr></table></figure>
+<h2 id="过滤器生命周期"><a href="#过滤器生命周期" class="headerlink" title="过滤器生命周期"></a>过滤器生命周期</h2><p>Filter的生命周期主要有三个：</p>
+<ul>
+<li>init()</li>
+<li>doFilter()</li>
+<li>destroy()</li>
+</ul>
+<h2 id="过滤器配置"><a href="#过滤器配置" class="headerlink" title="过滤器配置"></a>过滤器配置</h2><p>@WebFilter源代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WebFilter &#123;</span><br><span class="line">    <span class="function">String <span class="title">description</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 该filter的描述</span></span><br><span class="line">    <span class="function">String <span class="title">displayName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 过滤器的显示名称</span></span><br><span class="line">    WebInitParam[] initParams() <span class="keyword">default</span> &#123;&#125;;	<span class="comment">// 初始化参数</span></span><br><span class="line">    <span class="function">String <span class="title">filterName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// 过滤器名称</span></span><br><span class="line">    <span class="function">String <span class="title">smallIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The small-icon of the filter</span></span><br><span class="line">    <span class="function">String <span class="title">largeIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The large-icon of the filter</span></span><br><span class="line">    String[] servletNames() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The names of the servlets to which the filter applies.</span></span><br><span class="line">    String[] value() <span class="keyword">default</span> &#123;&#125;;			<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    String[] urlPatterns() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    <span class="comment">// The dispatcher types to which the filter applies</span></span><br><span class="line">    DispatcherType[] dispatcherTypes() <span class="keyword">default</span> &#123;DispatcherType.REQUEST&#125;;</span><br><span class="line">    <span class="comment">// Declares whether the filter supports asynchronous operation mode.</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">asyncSupported</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230010247571.png" alt="image-20211230010247571"></p>
+<h3 id="配置方式拦截"><a href="#配置方式拦截" class="headerlink" title="配置方式拦截"></a>配置方式拦截</h3><p>配置方式拦截主要涉及到DispatcherType的指定，有五种方式：</p>
+<ul>
+<li>FORWARD、INCLUDE用于当使用RequestDispatcher的forward()、include()时应用该Filter</li>
+<li>ERROR用于当请求的URL会404时，应用该Filter</li>
+<li>REQUEST默认选项，当发送请求的时候应用该Filter</li>
+<li>ASYNC异步拦截，用于Ajax</li>
+</ul>
+<h3 id="配置路径拦截"><a href="#配置路径拦截" class="headerlink" title="配置路径拦截"></a>配置路径拦截</h3><ol>
+<li>具体资源路径：<code>/index.jsp</code></li>
+<li>拦截目录：<code>/user/*</code>：拦截某个目录下的资源</li>
+<li>后缀名拦截：<code>*.jsp</code>：拦截所有的<code>jsp</code>文件</li>
+<li>拦截所有资源：<code>/*</code></li>
+</ol>
+<h2 id="多个Filter作用顺序-过滤器链"><a href="#多个Filter作用顺序-过滤器链" class="headerlink" title="多个Filter作用顺序(过滤器链)"></a>多个Filter作用顺序(过滤器链)</h2><p>一个Servlet中配置多个Filter的执行顺序是一件很有意思的事情，如果一个项目配置了多个Filter，这些Filter里面包括使用urlPatterns来指定拦截的，使用servletNames来指定拦截Servlet的，有在Web.xml中定义的，也有使用@WebFilter定义的。</p>
+<p>无论有多少，<strong>首先都会执行配置了urlPatterns属性的Filters</strong>，在这些配置了urlPatterns属性的Filters里面，<strong>又优先执行Web.xml中定义的Filters，根据Web.xml中的Filters的上下文排列顺序来执行</strong>，<strong>然后才执行使用@WebFilter的Filter，执行@WebFilter的Filter，根据类名来判断执行顺序，不区分大小写。</strong></p>
+<p><strong>然后才会执行配置了servlet-name属性的Filters</strong>，执行顺序同配置了urlPatterns属性的Filters一样。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javaweb-filter/" rel="tag"># javaweb_filter</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/31/JavaWeb/Web%E5%AE%B9%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/08/JavaWeb/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFSession/" rel="next" title="Session">
+      Session <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzYwNy8yNDEwNw=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Filter%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">Filter过滤器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%80%E8%B0%93Filter"><span class="nav-number">1.1.</span> <span class="nav-text">所谓Filter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%BC%96%E5%86%99Filter"><span class="nav-number">1.2.</span> <span class="nav-text">配置编写Filter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">过滤器执行流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.4.</span> <span class="nav-text">过滤器生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="nav-number">1.5.</span> <span class="nav-text">过滤器配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F%E6%8B%A6%E6%88%AA"><span class="nav-number">1.5.1.</span> <span class="nav-text">配置方式拦截</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%B7%AF%E5%BE%84%E6%8B%A6%E6%88%AA"><span class="nav-number">1.5.2.</span> <span class="nav-text">配置路径拦截</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AAFilter%E4%BD%9C%E7%94%A8%E9%A1%BA%E5%BA%8F-%E8%BF%87%E6%BB%A4%E5%99%A8%E9%93%BE"><span class="nav-number">1.6.</span> <span class="nav-text">多个Filter作用顺序(过滤器链)</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Askia"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Askia</p>
+  <div class="site-description" itemprop="description">既然来了，就不要这么快走嘛~~~！嘛~~~~QAQ</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Askia</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

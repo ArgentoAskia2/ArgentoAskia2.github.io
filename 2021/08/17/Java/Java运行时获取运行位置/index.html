@@ -253,11 +253,9 @@
       
         <p>获取运行时路径的方法在jar包中和在工程中都不同，下面进行区分讲解</p>
 <span id="more"></span>
-
 <h2 id="获取路径"><a href="#获取路径" class="headerlink" title="获取路径"></a>获取路径</h2><p>以下介绍的方法同时适用于jar包和工程中</p>
 <p>获取运行时路径的方法很多，这里只介绍一种通用的方法</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ClassName].class.getProtectionDomain().getCodeSource().getLocation();</span><br></pre></td></tr></table></figure>
-
 <p>这种方法在工程中获取的是工程项目的位置，在jar包中是获取jar包所在的位置（包括XXXX.jar）</p>
 <h2 id="加载资源"><a href="#加载资源" class="headerlink" title="加载资源"></a>加载资源</h2><h3 id="class-getResource-String-resourceFile"><a href="#class-getResource-String-resourceFile" class="headerlink" title="class.getResource(String resourceFile)"></a>class.getResource(String resourceFile)</h3><h3 id="class-getClassLoader-getResource-String-resourceFile"><a href="#class-getClassLoader-getResource-String-resourceFile" class="headerlink" title="class.getClassLoader().getResource(String resourceFile)"></a>class.getClassLoader().getResource(String resourceFile)</h3><p>上面的区别看这里：</p>
 <p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-2023e3d7fdae0160e22a5dedde736368_720w.jpg" alt="img"></p>
@@ -288,8 +286,8 @@
       <i class="fa fa-chevron-left"></i> 常用正则表达式
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/" rel="next" title="Java代理">
-      Java代理 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="next" title="El表达式">
+      El表达式 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -370,20 +368,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -409,8 +407,8 @@
 
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -469,6 +467,8 @@
 
 
 
+
+  
 
   
 

@@ -256,21 +256,16 @@
       
         <p>本次讲解<code>hexo</code>博客常用的命令：<code>hexo g</code></p>
 <span id="more"></span>
-
 <h2 id="如何生成静态文件"><a href="#如何生成静态文件" class="headerlink" title="如何生成静态文件"></a>如何生成静态文件</h2><p>hexo生成静态文件的方法非常简单,只需要使用<code>hexo g</code>命令（当然也可以使用全名<code>hexo generate</code>），你在我的一些关于hexo的文章中可能会看到一个叫素质三连的词，这个词代表你要执行三条命令：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean			// 清空上一次的生成</span><br><span class="line">hexo generate		// 重新生成</span><br><span class="line">hexo server			// 本地启动浏览效果</span><br></pre></td></tr></table></figure>
-
 <p>当然上面的命令在面对文件被改变的时候，可能需要你重新生成，如果不想每次都三连的话，可以使用：<code>hexo generate --watch</code>。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean			</span><br><span class="line">hexo generate --watch		</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
 <p>这样，hexo可以监视文件更改并立即重新生成文件。hexo将比较文件的sha1校验和，仅在检测到文件更改时才写入。</p>
 <p>如果想生成之后立刻部署到远端，可以：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
-
 <h2 id="生成细节"><a href="#生成细节" class="headerlink" title="生成细节"></a>生成细节</h2><h3 id="public文件夹及URL定位"><a href="#public文件夹及URL定位" class="headerlink" title="public文件夹及URL定位"></a>public文件夹及URL定位</h3><p>你可能会注意到，在你的<strong>博客根目录</strong>中有一个public文件夹，<strong>用于装载生成之后的文件</strong>，也就是说当运行<code>hexo g</code>之后，hexo会将资源经过处理（具体怎样处理待会会讲）放在这个文件夹里面，当你运行<code>hexo server</code>的时候，本地启动的URL也是根据这个文件来设定的。</p>
 <p>比如，当你素质三连之后，你打开<code>http://localhost:4000/</code>，那么这个地址定位到的相应html文件就是你public文件夹下的index.html（URL中的index.html可以不写，默认就是定位这个文件）。没错，你可能猜到了，如果你想访问某个页面，只需要定位它的html资源在public文件夹的哪个地方就可以，比如我想访问关于页面（这个页面的位置是public/about/index.html）,那么我就可以修改URl为：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:4000/about/</span><br></pre></td></tr></table></figure>
-
 <p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404005943351-16287272629311.png" alt="image-20210404005943351"></p>
 <p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210404010237512.png" alt="image-20210404010237512"></p>
 <p>对于远端来讲也是差不多的，<code>hexo deploy</code>指令只是将public文件夹里的所有·内容上传到远端，那么这个时候只要把<code>http://localhost:4000/</code>替换成<code>远端服务器的地址</code>就行！</p>
@@ -290,7 +285,6 @@
 <h4 id="2-配置根目录的-comfig-yml，指定跳过渲染位置"><a href="#2-配置根目录的-comfig-yml，指定跳过渲染位置" class="headerlink" title="2.配置根目录的_comfig.yml，指定跳过渲染位置"></a>2.配置根目录的_comfig.yml，指定跳过渲染位置</h4><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/image-20210406114914766.png" alt="image-20210406114914766"></p>
 <p>注意配置格式：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">skip_render:</span><br><span class="line">	- &quot;目录名/*&quot;			// 目录下的所有文件都跳过渲染</span><br><span class="line">	- &quot;目录名/**&quot;			// 目录下的所有文件、所有文件夹都跳过渲染</span><br><span class="line">	- &quot;目录1/目录2/*&quot;	   // 目录2下面的所有文件都跳过渲染</span><br></pre></td></tr></table></figure>
-
 <h4 id="3-添加主题模板"><a href="#3-添加主题模板" class="headerlink" title="3.添加主题模板"></a>3.添加主题模板</h4><p>在上面已经将结果，当我们使用<code>hexo g</code>的时候，hexo会根据主题的不同给我们的文章添加一些JS、CSS来渲染文章，第二部我们禁止了这种渲染，所以就需要手动把这些JS、CSS加上，这些文件一般在<code>themes/(主题名称)/source</code>里面，把这些文件复制到你新建的文件夹那里（笔者的是<code>norender</code>）</p>
 <h3 id="使用自定义的404错误页"><a href="#使用自定义的404错误页" class="headerlink" title="使用自定义的404错误页"></a>使用自定义的404错误页</h3><p>不需要<code>hexo-generator-index</code>插件渲染文章，不指定主题模板</p>
 <h3 id="实例：使用自定义时钟"><a href="#实例：使用自定义时钟" class="headerlink" title="实例：使用自定义时钟"></a>实例：使用自定义时钟</h3><h3 id="生成无渲染模板"><a href="#生成无渲染模板" class="headerlink" title="生成无渲染模板"></a>生成无渲染模板</h3>
@@ -399,20 +393,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -438,8 +432,8 @@
 
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -498,6 +492,8 @@
 
 
 
+
+  
 
   
 

@@ -269,9 +269,7 @@
 <li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
 <li>……</li>
 </ul>
-<p>常用正则表达式：<a target="_blank" rel="noopener" href="https://www.argentoaskia.tech/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">点击这里</a></p>
-<span id="more"></span>
-
+<p>常用正则表达式：<a target="_blank" rel="noopener" href="https://www.argentoaskia.tech/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">点击这里</a><br><span id="more"></span></p>
 <h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>表达式一般以<code>/../</code>来标记为正则表达式</p>
 <h3 id="普通字符"><a href="#普通字符" class="headerlink" title="普通字符"></a>普通字符</h3><p><code>[abc]</code>:匹配a、b、c中的一个字符</p>
 <p><code>[^abc]</code>：匹配除了a、b、c之外的所有字符</p>
@@ -282,134 +280,149 @@
 <p><code>\W</code>：匹配非字母、数字、下划线</p>
 <p><code>\d</code>：匹配一个数字字符。</p>
 <p><code>\D</code>：匹配一个非数字字符。</p>
-<h3 id="非打印字符"><a href="#非打印字符" class="headerlink" title="非打印字符"></a>非打印字符</h3><table>
-<thead>
-<tr>
-<th align="left">字符</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">\cx</td>
-<td align="left">匹配由x指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 ‘c’ 字符。</td>
-</tr>
-<tr>
-<td align="left">\f</td>
-<td align="left">匹配一个换页符。等价于 \x0c 和 \cL。</td>
-</tr>
-<tr>
-<td align="left">\n</td>
-<td align="left">匹配一个换行符。等价于 \x0a 和 \cJ。</td>
-</tr>
-<tr>
-<td align="left">\r</td>
-<td align="left">匹配一个回车符。等价于 \x0d 和 \cM。</td>
-</tr>
-<tr>
-<td align="left">\s</td>
-<td align="left">匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。注意 Unicode 正则表达式会匹配全角空格符。</td>
-</tr>
-<tr>
-<td align="left">\S</td>
-<td align="left">匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。</td>
-</tr>
-<tr>
-<td align="left">\t</td>
-<td align="left">匹配一个制表符。等价于 \x09 和 \cI。</td>
-</tr>
-<tr>
-<td align="left">\v</td>
-<td align="left">匹配一个垂直制表符。等价于 \x0b 和 \cK。</td>
-</tr>
-</tbody></table>
-<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><p>所谓特殊字符，就是一些有特殊含义的字符，如果需要该字符的原意思，则需要加上<code>\</code></p>
+<h3 id="非打印字符"><a href="#非打印字符" class="headerlink" title="非打印字符"></a>非打印字符</h3><div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="left">特别字符</th>
-<th align="left">描述</th>
+<th style="text-align:left">字符</th>
+<th style="text-align:left">描述</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">$</td>
-<td align="left">匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 ‘\n’ 或 ‘\r’。要匹配 $ 字符本身，请使用 <code>\$</code>。</td>
+<tbody>
+<tr>
+<td style="text-align:left">\cx</td>
+<td style="text-align:left">匹配由x指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 ‘c’ 字符。</td>
 </tr>
 <tr>
-<td align="left">( )</td>
-<td align="left">标记一个子表达式的开始和结束位置。子表达式可以获取供以后使用。要匹配这些字符，请使用 <code>\(</code> 和 <code>\)</code>。</td>
+<td style="text-align:left">\f</td>
+<td style="text-align:left">匹配一个换页符。等价于 \x0c 和 \cL。</td>
 </tr>
 <tr>
-<td align="left">*</td>
-<td align="left">匹配前面的子表达式零次或多次。要匹配 * 字符，请使用 <code>\*</code>。</td>
+<td style="text-align:left">\n</td>
+<td style="text-align:left">匹配一个换行符。等价于 \x0a 和 \cJ。</td>
 </tr>
 <tr>
-<td align="left">+</td>
-<td align="left">匹配前面的子表达式一次或多次。要匹配 + 字符，请使用 <code>\+</code>。</td>
+<td style="text-align:left">\r</td>
+<td style="text-align:left">匹配一个回车符。等价于 \x0d 和 \cM。</td>
 </tr>
 <tr>
-<td align="left">.</td>
-<td align="left">匹配除换行符 \n 之外的任何单字符。要匹配 . ，请使用 <code>\.</code> 。</td>
+<td style="text-align:left">\s</td>
+<td style="text-align:left">匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。注意 Unicode 正则表达式会匹配全角空格符。</td>
 </tr>
 <tr>
-<td align="left">[</td>
-<td align="left">标记一个中括号表达式的开始。要匹配 [，请使用 <code>\[</code>。</td>
+<td style="text-align:left">\S</td>
+<td style="text-align:left">匹配任何非空白字符。等价于 <sup><a href="#fn_ \f\n\r\t\v" id="reffn_ \f\n\r\t\v"> \f\n\r\t\v</a></sup>。</td>
 </tr>
 <tr>
-<td align="left">?</td>
-<td align="left">匹配前面的子表达式零次或一次，或指明一个非贪婪限定符。要匹配 ? 字符，请使用 <code>\?</code>。</td>
+<td style="text-align:left">\t</td>
+<td style="text-align:left">匹配一个制表符。等价于 \x09 和 \cI。</td>
 </tr>
 <tr>
-<td align="left">\</td>
-<td align="left">将下一个字符标记为或特殊字符、或原义字符、或向后引用、或八进制转义符。例如， ‘n’ 匹配字符 ‘n’。’\n’ 匹配换行符。序列 ‘\‘ 匹配 “&quot;，而 ‘(‘ 则匹配 “(“。</td>
+<td style="text-align:left">\v</td>
+<td style="text-align:left">匹配一个垂直制表符。等价于 \x0b 和 \cK。</td>
 </tr>
-<tr>
-<td align="left">^</td>
-<td align="left">匹配输入字符串的开始位置，除非在方括号表达式中使用，当该符号在方括号表达式中使用时，表示不接受该方括号表达式中的字符集合。要匹配 ^ 字符本身，请使用 <code>\^</code>。</td>
-</tr>
-<tr>
-<td align="left">{</td>
-<td align="left">标记限定符表达式的开始。要匹配 {，请使用 <code>\&#123;</code>。</td>
-</tr>
-<tr>
-<td align="left">|</td>
-<td align="left">指明两项之间的一个选择。要匹配 |，请使用 <code>|</code>。</td>
-</tr>
-</tbody></table>
-<p><strong>*<strong>和 <strong>+</strong> 限定符都是贪婪的，</strong>因为它们会尽可能多的匹配文字</strong>，只有在它们的后面加上一个 <strong>?</strong> 就可以实现非贪婪或最小匹配。</p>
-<p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210310222706753.png" alt="image-20210310222706753"></p>
-<p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210310222754435.png" alt="image-20210310222754435"></p>
-<h3 id="定位符"><a href="#定位符" class="headerlink" title="定位符"></a>定位符</h3><table>
+</tbody>
+</table>
+</div>
+<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><p>所谓特殊字符，就是一些有特殊含义的字符，如果需要该字符的原意思，则需要加上<code>\</code></p>
+<div class="table-container">
+<table>
 <thead>
 <tr>
-<th align="left">字符</th>
-<th align="left">描述</th>
+<th style="text-align:left">特别字符</th>
+<th style="text-align:left">描述</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">^</td>
-<td align="left">匹配输入字符串开始的位置。如果设置了 RegExp 对象的 Multiline 属性，^ 还会与 \n 或 \r 之后的位置匹配。</td>
+<tbody>
+<tr>
+<td style="text-align:left">$</td>
+<td style="text-align:left">匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 ‘\n’ 或 ‘\r’。要匹配 $ 字符本身，请使用 <code>\$</code>。</td>
 </tr>
 <tr>
-<td align="left">$</td>
-<td align="left">匹配输入字符串结尾的位置。如果设置了 RegExp 对象的 Multiline 属性，$ 还会与 \n 或 \r 之前的位置匹配。</td>
+<td style="text-align:left">( )</td>
+<td style="text-align:left">标记一个子表达式的开始和结束位置。子表达式可以获取供以后使用。要匹配这些字符，请使用 <code>\(</code> 和 <code>\)</code>。</td>
 </tr>
 <tr>
-<td align="left">\b</td>
-<td align="left">匹配一个单词边界，即字与空格间的位置。加上该字符代表单词结束或者开始位置</td>
+<td style="text-align:left">*</td>
+<td style="text-align:left">匹配前面的子表达式零次或多次。要匹配 <em> 字符，请使用 `\</em>`。</td>
 </tr>
 <tr>
-<td align="left">\B</td>
-<td align="left">非单词边界匹配。</td>
+<td style="text-align:left">+</td>
+<td style="text-align:left">匹配前面的子表达式一次或多次。要匹配 + 字符，请使用 <code>\+</code>。</td>
 </tr>
-</tbody></table>
+<tr>
+<td style="text-align:left">.</td>
+<td style="text-align:left">匹配除换行符 \n 之外的任何单字符。要匹配 . ，请使用 <code>\.</code> 。</td>
+</tr>
+<tr>
+<td style="text-align:left">[</td>
+<td style="text-align:left">标记一个中括号表达式的开始。要匹配 [，请使用 <code>\[</code>。</td>
+</tr>
+<tr>
+<td style="text-align:left">?</td>
+<td style="text-align:left">匹配前面的子表达式零次或一次，或指明一个非贪婪限定符。要匹配 ? 字符，请使用 <code>\?</code>。</td>
+</tr>
+<tr>
+<td style="text-align:left">\</td>
+<td style="text-align:left">将下一个字符标记为或特殊字符、或原义字符、或向后引用、或八进制转义符。例如， ‘n’ 匹配字符 ‘n’。’\n’ 匹配换行符。序列 ‘\‘ 匹配 “\”，而 ‘(‘ 则匹配 “(“。</td>
+</tr>
+<tr>
+<td style="text-align:left">^</td>
+<td style="text-align:left">匹配输入字符串的开始位置，除非在方括号表达式中使用，当该符号在方括号表达式中使用时，表示不接受该方括号表达式中的字符集合。要匹配 ^ 字符本身，请使用 <code>\^</code>。</td>
+</tr>
+<tr>
+<td style="text-align:left">{</td>
+<td style="text-align:left">标记限定符表达式的开始。要匹配 {，请使用 <code>\&#123;</code>。</td>
+</tr>
+<tr>
+<td style="text-align:left">\</td>
+<td style="text-align:left"></td>
+<td>指明两项之间的一个选择。要匹配 \</td>
+<td>，请使用 `\</td>
+<td>`。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>*</strong>和 <strong>+</strong> 限定符都是贪婪的，<strong>因为它们会尽可能多的匹配文字</strong>，只有在它们的后面加上一个 <strong>?</strong> 就可以实现非贪婪或最小匹配。</p>
+<p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210310222706753.png" alt="image-20210310222706753"></p>
+<p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210310222754435.png" alt="image-20210310222754435"></p>
+<h3 id="定位符"><a href="#定位符" class="headerlink" title="定位符"></a>定位符</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字符</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">^</td>
+<td style="text-align:left">匹配输入字符串开始的位置。如果设置了 RegExp 对象的 Multiline 属性，^ 还会与 \n 或 \r 之后的位置匹配。</td>
+</tr>
+<tr>
+<td style="text-align:left">$</td>
+<td style="text-align:left">匹配输入字符串结尾的位置。如果设置了 RegExp 对象的 Multiline 属性，$ 还会与 \n 或 \r 之前的位置匹配。</td>
+</tr>
+<tr>
+<td style="text-align:left">\b</td>
+<td style="text-align:left">匹配一个单词边界，即字与空格间的位置。加上该字符代表单词结束或者开始位置</td>
+</tr>
+<tr>
+<td style="text-align:left">\B</td>
+<td style="text-align:left">非单词边界匹配。</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210310223659729.png" alt="image-20210310223659729"></p>
 <p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210310223717605.png" alt="image-20210310223717605"></p>
 <h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><p>用圆括号 <strong>()</strong> 将所有选择项括起来，相邻的选择项之间用 <strong>|</strong> 分隔。</p>
 <p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210310224311818.png" alt="image-20210310224311818"></p>
 <h2 id="先行断言和后行断言"><a href="#先行断言和后行断言" class="headerlink" title="先行断言和后行断言"></a>先行断言和后行断言</h2><ul>
-<li>**exp1(?=exp2)**：查找 exp2 前面的 exp1。</li>
+<li><strong>exp1(?=exp2)</strong>：查找 exp2 前面的 exp1。</li>
 <li><strong>(?&lt;=exp2)exp1</strong>：查找 exp2 后面的 exp1。</li>
-<li>**exp1(?!exp2)**：查找后面不是 exp2 的 exp1。</li>
+<li><strong>exp1(?!exp2)</strong>：查找后面不是 exp2 的 exp1。</li>
 <li><strong>(?&lt;!exp2)exp1</strong>：查找前面不是 exp2 的 exp1。</li>
 </ul>
 <p><img src="https://www.runoob.com/wp-content/uploads/2014/03/reg-111.jpg" alt="img"></p>
@@ -418,8 +431,8 @@
 <p><img src="https://www.runoob.com/wp-content/uploads/2014/03/reg-444.jpg" alt="img"></p>
 <h2 id="反向引用"><a href="#反向引用" class="headerlink" title="反向引用"></a>反向引用</h2><p>对一个正则表达式模式或部分模式两边添加<code>()</code>将导致相关匹配存储到一个临时缓冲区中，所捕获的每个子匹配都按照在正则表达式模式中从左到右出现的顺序存储。缓冲区编号从 1 开始，最多可存储 99 个捕获的子表达式。每个缓冲区都可以使用 <strong>\n</strong> 访问，其中 n 为一个标识特定缓冲区的一位或两位十进制数。例如表达式：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(\d&#123;4&#125;)-(\d&#123;2&#125;-(\d\d))</span><br></pre></td></tr></table></figure>
-
 <p>那么临时缓冲区中捕获组就是：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -427,7 +440,8 @@
 <th>捕获组</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>0</td>
 <td>(\d{4})-(\d{2}-(\d\d))</td>
 </tr>
@@ -443,10 +457,12 @@
 <td>3</td>
 <td>(\d\d)</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">([a-z][a-z])\1&#123;2&#125;</span><br><span class="line">([a-z][a-z])([a-z][a-z])\2</span><br><span class="line"></span><br><span class="line">target：aaaaaassawsaaaddddddssssssasssdwsssdasadawswewewe</span><br></pre></td></tr></table></figure>
-
 <p>对于上面的表达式的捕获组处理是：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -454,7 +470,8 @@
 <th>捕获组</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>0</td>
 <td>([a-z][a-z])\1{2}</td>
 </tr>
@@ -462,7 +479,10 @@
 <td>1</td>
 <td>([a-z][a-z])</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -470,7 +490,8 @@
 <th>捕获组</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>0</td>
 <td>([a-z][a-z])([a-z][a-z])\2</td>
 </tr>
@@ -482,26 +503,26 @@
 <td>2</td>
 <td>([a-z][a-z])</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>对于表达式1：</p>
 <p>([a-z][a-z])：括号表达式要求匹配两个字符，例如：aa。</p>
 <p>\1{2}：反向引用捕获组编号为1的表达式当前的值2次，如果有匹配的则输出，没有匹配则设置捕获组1的下一次的值，如([a-z][a-z])匹配了aa之后，读到\1{2}时是匹配aa值两次，因此后面匹配aaaa，刚好后面有4个a，因此，匹配成功，输出：aaaaaa。（匹配ABABAB的结果，其中A，B为任意字符，并且可以相同），下面为整个表达式的结果</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">aaaaaa</span><br><span class="line">dddddd</span><br><span class="line">ssssss</span><br><span class="line">wewewe</span><br></pre></td></tr></table></figure>
-
 <p>对于表达式2：</p>
 <p>第一个([a-z][a-z])：括号表达式要求匹配两个字符，例如：aa。</p>
 <p>第二个([a-z][a-z])：括号表达式要求匹配两个字符，例如：aa。</p>
 <p>\2：反向引用捕获组编号为2的表达式当前值一次，为：aa</p>
 <p>因此该表达式将匹配aaaaaa（匹配XXABAB的结果，其中X、A、B为任意字符）下面为整个表达式的结果</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">aaaaaa</span><br><span class="line">aadddd</span><br><span class="line">ddssss</span><br><span class="line">wswewe</span><br></pre></td></tr></table></figure>
-
 <h2 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h2><p>在开篇有讲到，一般的正则表达式都是以<code>/.../</code>开头，实际上真正的格式应该是下面这样的：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/pattern/flags</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>pattern：代表表达式</li>
 <li>flags：代表标志，常用的标志有3个（实际上有4个）</li>
 </ul>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -510,7 +531,8 @@
 <th>描述</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>i</td>
 <td>ignore-不区分大小写</td>
 <td>匹配将不区分大小写</td>
@@ -530,7 +552,9 @@
 <td>特殊字符圆点 <strong>.</strong> 中包含换行符 \n</td>
 <td>默认情况下的圆点 <strong>.</strong> 是 匹配除换行符 <strong>\n</strong> 之外的任何字符，加上 <strong>s</strong> 修饰符之后, <strong>.</strong> 中包含换行符 \n。</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>其他的都比较简单，这里只说明m的用途</p>
 <p><img src="https://www.runoob.com/wp-content/uploads/2020/08/BC3E6D8A-21D2-44F8-A1AE-D90C4939D37A.jpg" alt="img"></p>
 <h2 id="运算符优先级"><a href="#运算符优先级" class="headerlink" title="运算符优先级"></a>运算符优先级</h2><p><img src="/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20210311182844145.png" alt="image-20210311182844145"></p>
@@ -638,20 +662,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -677,8 +701,8 @@
 
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -737,6 +761,8 @@
 
 
 
+
+  
 
   
 

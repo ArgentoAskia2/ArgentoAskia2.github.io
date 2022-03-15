@@ -263,7 +263,6 @@
 <li>……</li>
 </ul>
 <span id="more"></span>
-
 <h2 id="关于注解"><a href="#关于注解" class="headerlink" title="关于注解"></a>关于注解</h2><p>Java注解（Annotation），又称之为元数据，通常用于标记代码信息、添加代码标记。Java内置定义了自己的一套内置注解，共7个。</p>
 <p>按照分类可以分成：</p>
 <h3 id="标识所有内容（代码或注解）："><a href="#标识所有内容（代码或注解）：" class="headerlink" title="标识所有内容（代码或注解）："></a>标识所有内容（代码或注解）：</h3><p>@Documented：标记这些注解是否可以生成在用户文档中（javadoc）</p>
@@ -283,54 +282,37 @@
 <p><img src="/2021/08/12/Java/Java%E6%B3%A8%E8%A7%A3/6.jpg" alt="6"></p>
 <p><code>ElementType</code>主要有：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">ElementType</span></span>&#123;</span><br><span class="line">	TYPE,					<span class="comment">// 类、接口、枚举</span></span><br><span class="line">	FIELD,					<span class="comment">// 字段、枚举常量</span></span><br><span class="line">	METHOD,					<span class="comment">// 方法</span></span><br><span class="line">	PARAMETER,				<span class="comment">// 方法参数</span></span><br><span class="line">	CONSTRUCTOR,			<span class="comment">// 构造方法</span></span><br><span class="line">	LOCAL_VARIABLE,			<span class="comment">// 局部变量</span></span><br><span class="line">	ANNOTATION_TYPE,		<span class="comment">// 注解类型</span></span><br><span class="line">	PACKAGE,				<span class="comment">// 包</span></span><br><span class="line">	TYPE_PARAMETER,			<span class="comment">// catch参数</span></span><br><span class="line">	TYPE_USE</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><code>RetentionPolicy</code>主要有：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">RetentionPolicy</span> </span>&#123;</span><br><span class="line">    SOURCE,            <span class="comment">// Annotation信息仅存在于编译器处理期间，编译器编译成class文件的时候，注解被遗弃。</span></span><br><span class="line"></span><br><span class="line">    CLASS,             <span class="comment">// 编译器将Annotation存储于类对应的.class文件中，但在jvm加载类的时候被遗弃，默认行为。 </span></span><br><span class="line"></span><br><span class="line">    RUNTIME            <span class="comment">// 编译器将Annotation存储于class文件中，并且在jvm加载类的时候，仍然存在。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><p>想要自定义注解，首先要了解注解的接口<code>Annotation</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Annotation</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">String <span class="title">toString</span><span class="params">()</span></span>;</span><br><span class="line">    Class&lt;? extends Annotation&gt; annotationType();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>这个接口的具体实现由编译器完成，编译器实现该接口提供<code>@interface</code>注解用于创建新注解。这与通常的<code>implement</code>接口不太一样。</p>
 <p>创建过程中，需要指定注解的<strong>两个组成部分</strong>：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.FIELD, ELementType.METHOD)</span>	<span class="comment">// 指定该注解的作用范围</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span>				<span class="comment">// 指定注解保存形式</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Overload&#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> &quot;func1&quot;</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>使用<code>@interface</code>定义这是一个注解，是必须的。</p>
 <p><code>@Target</code>用于指定该注解作用与哪些对象上。</p>
 <p><code>@Retention</code>用于指定注解储存方式，有默认值CLASS，可选的。</p>
 <h2 id="内置注解类"><a href="#内置注解类" class="headerlink" title="内置注解类"></a>内置注解类</h2><h3 id="Override"><a href="#Override" class="headerlink" title="@Override"></a>@Override</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.METHOD)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Override &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><code>@Override</code>注解的触发，最常用的就是标注方法为重写方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>一般建议是在有重写的地方就标上<code>@Override</code>，会有好处的！</p>
 <h3 id="Deprecated"><a href="#Deprecated" class="headerlink" title="@Deprecated"></a>@Deprecated</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(value=&#123;CONSTRUCTOR, FIELD, LOCAL_VARIABLE, METHOD, PACKAGE, MODULE, PARAMETER, TYPE&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Deprecated &#123;</span><br><span class="line">    <span class="function">String <span class="title">since</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;				<span class="comment">// 从哪个版本开始废弃</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">forRemoval</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><strong><code>@Deprecated</code>标记的方法，在被使用时会被加上删除线</strong>，可以加参数，第一个参数用来标明该对象在何时开始被弃用。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span></span>&#123;</span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="meta">@Deprecated(&quot;1.5&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h3 id="Documented"><a href="#Documented" class="headerlink" title="@Documented"></a>@Documented</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Documented &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>标记这个注解可以被javadoc处理。</p>
 <h3 id="Inherited"><a href="#Inherited" class="headerlink" title="@Inherited"></a>@Inherited</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Inherited &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>标注该注解对于子类也是可见的(存在继承关系)，子类可以通过反射来获取父类的注解类。</p>
 <h3 id="Retention"><a href="#Retention" class="headerlink" title="@Retention"></a>@Retention</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Repeatable &#123;</span><br><span class="line">    Class&lt;? extends Annotation&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h3 id="Target"><a href="#Target" class="headerlink" title="@Target"></a>@Target</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Target &#123;</span><br><span class="line">    ElementType[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h3 id="SuppressWarnings"><a href="#SuppressWarnings" class="headerlink" title="@SuppressWarnings"></a>@SuppressWarnings</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE, MODULE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.SOURCE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SuppressWarnings &#123;</span><br><span class="line">    String[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>这个注解用于忽略某些警告，有对应的可选项：参数Value可以填入：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">deprecation  -- 使用了不赞成使用的类或方法时的警告</span><br><span class="line">unchecked    -- 执行了未检查的转换时的警告，例如当使用集合时没有用泛型 (Generics) 来指定集合保存的类型。</span><br><span class="line">fallthrough  -- 当 Switch 程序块直接通往下一种情况而没有 Break 时的警告。</span><br><span class="line">path         -- 在类路径、源文件路径等中有不存在的路径时的警告。</span><br><span class="line">serial       -- 当在可序列化的类上缺少 serialVersionUID 定义时的警告。</span><br><span class="line">finally      -- 任何 finally 子句不能正常完成时的警告。</span><br><span class="line">all          -- 关于以上所有情况的警告。</span><br></pre></td></tr></table></figure>
-
 <h3 id="Repeatable"><a href="#Repeatable" class="headerlink" title="@Repeatable"></a>@Repeatable</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.ANNOTATION_TYPE)</span><br><span class="line">public @interface Repeatable &#123;</span><br><span class="line">    Class&lt;? extends Annotation&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h3 id="SafeVarargs"><a href="#SafeVarargs" class="headerlink" title="@SafeVarargs"></a>@SafeVarargs</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(&#123;ElementType.CONSTRUCTOR, ElementType.METHOD&#125;)</span><br><span class="line">public @interface SafeVarargs &#123;&#125;</span><br></pre></td></tr></table></figure>
-
 <p>在声明具有<strong>模糊类型（比如：泛型）的可变参数的构造函数或方法时</strong>，Java编译器会报unchecked警告。鉴于这些情况，如果程序员断定声明的构造函数和方法的主体不会对其varargs参数执行潜在的不安全的操作，可使用@SafeVarargs进行标记，这样的话，Java编译器就不会报unchecked警告</p>
 <p><strong>@SafeVarargs注解，对于非static或非final声明的方法，不适用，会编译不通过，对于非static或非final声明的方法，请使用@SuppressWarnings(“unchecked”)</strong></p>
 <h3 id="FunctionalInterface"><a href="#FunctionalInterface" class="headerlink" title="@FunctionalInterface"></a>@FunctionalInterface</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">public @interface FunctionalInterface &#123;&#125;</span><br></pre></td></tr></table></figure>
-
 <p>用于标注只含有一个抽象方法的函数接口</p>
 <h2 id="注解的作用"><a href="#注解的作用" class="headerlink" title="注解的作用"></a>注解的作用</h2><p>注解可以用于编译检查，帮助阅读代码（Override）、生成帮助文档等。其中最为频繁的使用方式，就是下面要介绍的这个，很多大型框架中的注解的原理就跟下面类似。</p>
 <h3 id="使用反射机制获取注解内容"><a href="#使用反射机制获取注解内容" class="headerlink" title="使用反射机制获取注解内容"></a>使用反射机制获取注解内容</h3>
@@ -439,20 +421,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -478,8 +460,8 @@
 
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -538,6 +520,8 @@
 
 
 
+
+  
 
   
 

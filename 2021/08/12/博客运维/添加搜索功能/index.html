@@ -248,18 +248,14 @@
 
       
         <h2 id="基于next-hexo-generator-searchdb的搜索功能"><a href="#基于next-hexo-generator-searchdb的搜索功能" class="headerlink" title="基于next + hexo-generator-searchdb的搜索功能"></a>基于next + hexo-generator-searchdb的搜索功能</h2><span id="more"></span>
-
 <h2 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h2><p>在博客根目录下，启动git bash，键入</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-
 <p>如果添加了淘宝源，键入</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-
 <h2 id="修改博客和主题的-config-yml"><a href="#修改博客和主题的-config-yml" class="headerlink" title="修改博客和主题的__config.yml"></a>修改博客和主题的__config.yml</h2><h3 id="博客的-config-yml"><a href="#博客的-config-yml" class="headerlink" title="博客的__config.yml"></a>博客的__config.yml</h3><p>在配置文件末尾添加：</p>
 <p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101118677.png" alt="image-20210812101118677"></p>
 <p>其中这些参数：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">path：表示搜索后生成的文件路径，可以生成xml和json两种格式；将path设置为“content.json”就可以替代第二个插件。</span><br><span class="line">field：表示搜索的范围，有“post、page和all”三种值。</span><br><span class="line">    post：所有的文章；</span><br><span class="line">    page：所有顶部导航选项的页面；</span><br><span class="line">    all：所有的文章和顶部导航选项的页面。</span><br><span class="line">content：是否包含搜索到的文章的全部内容。如果false，生成的结果只包括标题和创建时间这些信息，没有文章主体。默认情况下是true.</span><br><span class="line">format：搜索到的内容、选项的格式。</span><br><span class="line">    html(默认)：将html原文本缩略。</span><br><span class="line">    striptags：将html原文本缩略，并删除所有标记。</span><br><span class="line">    raw：记下每一篇文章或每一页的文字。</span><br></pre></td></tr></table></figure>
-
 <h3 id="主题的-config-yml"><a href="#主题的-config-yml" class="headerlink" title="主题的__config.yml"></a>主题的__config.yml</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101256981.png" alt="image-20210812101256981"></p>
 <p>当然<code>enable</code>后面的东西可以自行修改。</p>
 <h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812104330740.png" alt="image-20210812104330740"></p>
@@ -368,20 +364,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -407,8 +403,8 @@
 
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -467,6 +463,8 @@
 
 
 
+
+  
 
   
 
