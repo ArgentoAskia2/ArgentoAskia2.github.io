@@ -11,6 +11,257 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
+    <title>冒泡排序（Bubble）</title>
+    <url>/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/bubbleSort.gif" alt="bubbleSort"></p>
+<span id="more"></span>
+<h1 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>排序算法</th>
+<th>平均事件复杂度</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+<th>排序方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>冒泡排序</td>
+<td>$O(n^2)$</td>
+<td>$O(n)$</td>
+<td>$O(n^2)$</td>
+<td>$O(1)$</td>
+<td>稳定</td>
+<td>In-place</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>冒泡排序（Bubble Sort）也是一种简单直观的排序算法。</p>
+<p>它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢”浮”到数列的顶端。</p>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h3><p><img src="/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/bubbleSort.gif" alt="bubbleSort"></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> <span class="keyword">implements</span> <span class="title">IArraySort</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] sort(<span class="keyword">int</span>[] sourceArray) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 对 arr 进行拷贝，不改变参数内容</span></span><br><span class="line">        <span class="keyword">int</span>[] arr = Arrays.copyOf(sourceArray, sourceArray.length);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 外层循环是要冒泡的规模，因为每次排好一个数所以最后会剩下一个数，因此最后一趟不用排，因此总共需要循环n-1次，这也是为什么从1开始的原因</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            <span class="comment">// 设定一个标记，若为true，则表示此次循环没有进行交换，也就是待排序列已经有序，排序已经完成。</span></span><br><span class="line">            <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</span><br><span class="line">            <span class="comment">// 冒泡过程</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; arr.length - i; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                    <span class="keyword">int</span> tmp = arr[j];</span><br><span class="line">                    arr[j] = arr[j + <span class="number">1</span>];</span><br><span class="line">                    arr[j + <span class="number">1</span>] = tmp;</span><br><span class="line"></span><br><span class="line">                    flag = <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><h3 id="最好"><a href="#最好" class="headerlink" title="最好"></a>最好</h3><h3 id="最坏"><a href="#最坏" class="headerlink" title="最坏"></a>最坏</h3><h3 id="空间"><a href="#空间" class="headerlink" title="空间"></a>空间</h3>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>sort</tag>
+        <tag>Bubble</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>希尔排序（Shell）</title>
+    <url>/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/希尔排序.gif" alt="希尔排序"><br><span id="more"></span></p>
+<h1 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>平均事件复杂度</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+<th>排序方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$O(nlogn)$</td>
+<td>$O(nlog^2 n)$</td>
+<td>$O(nlog^2 n)$</td>
+<td>$O(1)$</td>
+<td>不稳定</td>
+<td>In-place</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>希尔排序(Shell’s Sort)是插入排序的一种又称“缩小增量排序”（Diminishing Increment Sort），<strong>是直接插入排序算法的一种更高效的改进版本。</strong></p>
+<blockquote>
+<p>提算法贡献者：D.L.Shell</p>
+<p>提出时间：1959 年</p>
+</blockquote>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><h4 id="基于插入排序"><a href="#基于插入排序" class="headerlink" title="基于插入排序"></a>基于插入排序</h4><p>希尔排序是基于插入排序的以下两点性质而提出改进方法的：</p>
+<ol>
+<li>插入排序在对几乎已经排好序的数据操作时，效率高，即可以达到线性排序的效率。</li>
+<li>但插入排序一般来说是低效的，因为插入排序每次只能将数据移动一位。</li>
+</ol>
+<h4 id="使用增量序列来排序（Gap-sequences）"><a href="#使用增量序列来排序（Gap-sequences）" class="headerlink" title="使用增量序列来排序（Gap sequences）"></a>使用增量序列来排序（Gap sequences）</h4><p>希尔排序的好坏<strong>与增量序列的选择有关</strong>。</p>
+<p>希尔排序中比较著名的增量序列有：</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/v2-8080ea078aed21e0cfa427df93863138_r.jpg" alt="v2-8080ea078aed21e0cfa427df93863138_r" style="zoom:200%;"></p>
+<h3 id="排序动画"><a href="#排序动画" class="headerlink" title="排序动画"></a>排序动画</h3><p>动图展示的是增量序列为：<strong>5，2，1</strong></p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/希尔排序.gif" alt="希尔排序"></p>
+<h2 id="代码设计"><a href="#代码设计" class="headerlink" title="代码设计"></a>代码设计</h2><h3 id="确定增量序列"><a href="#确定增量序列" class="headerlink" title="确定增量序列"></a>确定增量序列</h3><p>选取一个合适的增量序列，假设序列为<strong>gaps[]</strong>。（<strong>注意增量序列需要倒序处理</strong>，确保最后一个是1）</p>
+<h3 id="外层遍历增量序列"><a href="#外层遍历增量序列" class="headerlink" title="外层遍历增量序列"></a>外层遍历增量序列</h3><p>每次选取增量序列中的一个序列来进行排序</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// foreach gaps[]</span></span><br><span class="line"><span class="keyword">for</span>(gap : gaps)&#123;</span><br><span class="line">    <span class="comment">// 内层进行跨增量的插入排序</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="内层进行跨增量的插入排序"><a href="#内层进行跨增量的插入排序" class="headerlink" title="内层进行跨增量的插入排序"></a>内层进行跨增量的插入排序</h3><p><strong>首先从增量对应的数组下标开始，确定待排序数据范围</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 循环次数是数组长度减去当前增量值</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = gap; i &lt; array.length; i++)&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>然后在待排序数据范围循环内部，根据某个增量跨度，将增量跨度的元素进行排序</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 进行跨增量插排，比较当前下标的数据(array[j])和下标减掉增量的数据(array[j - gap])是否符合条件</span></span><br><span class="line"><span class="comment">// 如果最后j小于当前增量，则退出循环，i+1，继续进行插入排序</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> j = gap; j &gt;=gap &amp;&amp; less(array[j], array[j - gap]); j -=gap)</span><br><span class="line">    exch(array,j,j-gap);	<span class="comment">// 交换两个变量</span></span><br></pre></td></tr></table></figure>
+<p><strong>将所有代码拼起来就是：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shell</span><span class="params">(Comparable[] array, <span class="keyword">int</span>[] gaps)</span></span>&#123;</span><br><span class="line">	<span class="comment">// foreach gaps[]</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> gap : gaps)&#123;</span><br><span class="line">    	<span class="comment">// 内层进行跨增量的插入排序</span></span><br><span class="line">    	<span class="keyword">for</span>(<span class="keyword">int</span> i = gap; i &lt; array.length; i++)&#123;</span><br><span class="line">    		<span class="keyword">for</span>(<span class="keyword">int</span> j = gap; j &gt;=gap &amp;&amp; less(array[j], array[j - gap]); j -=gap)</span><br><span class="line">    			exch(array,j,j-gap);	<span class="comment">// 交换两个变量</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>当然上面的代码是shell排序的通用模板，实际上写方法不唯一，如对于<code>A003462</code>增量序列，可以参考下面的代码：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 序列：121,40,13,4,1 </span></span><br><span class="line"><span class="keyword">int</span> N = a.length;</span><br><span class="line"><span class="keyword">int</span> h = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> inc = <span class="number">3</span>;</span><br><span class="line"><span class="comment">// 生成序列</span></span><br><span class="line"><span class="keyword">while</span> (h &lt; N/inc)</span><br><span class="line">    h = inc * h + <span class="number">1</span>;</span><br><span class="line">	<span class="comment">// 初始化增量跨度规模，从规模（下标）h开始，，最后一次相当于插入排序</span></span><br><span class="line"><span class="keyword">while</span>(h &gt;= <span class="number">1</span>)&#123;</span><br><span class="line">	<span class="comment">// 内层是插入排序</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = h; i &lt; N; i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = i; j &gt;= h &amp;&amp; less(a[j], a[j-h]); j -= h)</span><br><span class="line">            exch(a, j, j-h);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 降低增量</span></span><br><span class="line">    h /= inc;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="排序实例"><a href="#排序实例" class="headerlink" title="排序实例"></a>排序实例</h2><p>首先确定跨度，实例采用的跨度是h=3， 2，1，先使用3的跨度，定位到相应的元素</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615222734106.png" alt="image-20210615222734106"></p>
+<p>由于当前跨度是3，因此当前定位需要比较的元素为：</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615222918460.png" alt="image-20210615222918460"></p>
+<p>当前比较符合要求，定位下走一位：</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223010617.png" alt="image-20210615223010617"></p>
+<p>当下走到32时，出现比较交换</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223136386.png" alt="image-20210615223136386"></p>
+<p>当走到88时，要进行插入比较定位的元素就是</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223310282.png" alt="image-20210615223310282"></p>
+<p>当h=3时，定位到75并处理好之后，一趟结束下来，序列应该变成这样：</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223509718.png" alt="image-20210615223509718"></p>
+<p>调整跨度h = 2，定位从32开始</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223639038.png" alt="image-20210615223639038"></p>
+<p>重复上面的步骤，h=2的最终序列就是：</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223804680.png" alt="image-20210615223804680"></p>
+<p>最后调整h=1，最终排列的结果就是：</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615224111008.png" alt="image-20210615224111008"></p>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>sort</tag>
+        <tag>Shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>插入排序（Insertion）</title>
+    <url>/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/插入排序.gif" alt="插入排序"></p>
+<span id="more"></span>
+<h1 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>排序算法</th>
+<th>平均事件复杂度</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+<th>排序方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>插入排序</td>
+<td>$O(n^2)$</td>
+<td>$O(n)$</td>
+<td>$O(n^2)$</td>
+<td>$O(1)$</td>
+<td>稳定</td>
+<td>In-place</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>插入排序，一般也被称为<strong>直接插入排序</strong>。对于<strong>少量元素的排序</strong>，它是一个有效的算法。</p>
+<p>插入排序实际上会在数组中形成两个子数组，一个为待排序的子数组，一个为已经有序的子数组，因此，如果一个<strong>数组本身就是部分有序的</strong>，插入排序也会是一个选择。</p>
+<p><strong>算法本身采用减治法思想。</strong></p>
+<h2 id="算法思想与设计"><a href="#算法思想与设计" class="headerlink" title="算法思想与设计"></a>算法思想与设计</h2><h3 id="排序动画"><a href="#排序动画" class="headerlink" title="排序动画"></a>排序动画</h3><p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/插入排序.gif" alt="插入排序"></p>
+<h3 id="代码设计"><a href="#代码设计" class="headerlink" title="代码设计"></a>代码设计</h3><p>首先插入排序讲整个大数组分成了两个关键子数组：</p>
+<ul>
+<li>已有序的数据</li>
+<li>待排序的数据</li>
+</ul>
+<p>插入排序的目标数组一定包含这两部分，<strong>剩余的便是如何讲待排序的数据插入到已有序的数据中</strong></p>
+<p><strong>因此编写插入排序代码的第一步便是确定待排序数据的规模，已确定外层排序顺序</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 从1开始是因为第一个元素单独构成了一个已有序的数据</span></span><br><span class="line"><span class="comment">// 剩下的从1开始的元素规划为待排序的数据</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; array.length; i++)&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>然后在待排序的数据中选出一个数据</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Comparable target = array[i];</span><br></pre></td></tr></table></figure>
+<p><strong>最后将target跟已有序的数据进行逐一比较确认位置下标j</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在已有序的数据中寻找符合的位置，如果target比当前位置（array[j-1]）要小，则将当前位置的数据往后移</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> j = i; j &gt; <span class="number">0</span> &amp;&amp; less(target, array[j-<span class="number">1</span>]); j--)&#123;</span><br><span class="line">	array[j] = array[j-<span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里对边界值进行解释，首先目标数据是跟前一个数相比，因此当target和 array[0]比较的时候（less函数），<code>j</code>为<code>1</code>也只能为<code>1</code>，换句话说<code>j</code>最小的情况是1，这也是为什么使用<code>j&gt;0</code>条件的原因，当<code>j</code>等于1的时候条件仍然成立，这个时候就是：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">array[<span class="number">1</span>] = array[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+<p><strong>当target比array[1-1]还要小的时候，则将有序数组下标为0的元素挪到下标为1的地方。这个时候下标为0的地方就空出来了。</strong>然后执行<code>j--</code>，<code>j</code><strong>就等于0</strong>，不合条件，退出循环。也就是说目标数据的待插入位置为0。</p>
+<p>同样当执行<code>less(target, array[j-1])</code>，注意当前<code>array[j]</code>为空位，跟前一个数比较的时候，less函数出现<code>false</code>，那么就确定<code>array[j-1]</code>要小于<code>target</code>，也就说明了插入位置为<code>j</code>。</p>
+<p>因此我们最后一步便是让<code>array[j] = target</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">array[i] = target;</span><br></pre></td></tr></table></figure>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">	<span class="comment">// 临时存储要插入的值</span></span><br><span class="line">    Comparable tmp = a[i];</span><br><span class="line">    <span class="keyword">int</span> j;</span><br><span class="line">    <span class="comment">// less():判断a[i]是否小于a[j - 1]</span></span><br><span class="line">    <span class="keyword">for</span> ( j = i; j &gt; <span class="number">0</span> &amp;&amp; less(a[i], a[j - <span class="number">1</span>]) ; j--) &#123;</span><br><span class="line">    	<span class="comment">// 如果a[i]小于a[j - 1]，则将a[j - 1]右移</span></span><br><span class="line">        a[j] = a[j - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 知道找到比a[i]小的数，那么这时候的j-1就是这个小数的下标，j就是它的前一位，也就是目标位，替换</span></span><br><span class="line">    a[j] = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>首先将第一个元素初始化为一个有序组，然后光标移向第二个有元素</p>
+<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221128408.png" alt="image-20210615221128408"></p>
+<p>然后将第二个元素进行定位</p>
+<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221502845.png" alt="image-20210615221502845"></p>
+<p>形成：</p>
+<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221552079.png" alt="image-20210615221552079"></p>
+<p>然后选取第三个元素，定位并插入到括号里面</p>
+<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221651930.png" alt="image-20210615221651930"></p>
+<p>然后选取第四个元素，重复定位并插入有序组里</p>
+<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221823595.png" alt="image-20210615221823595"></p>
+<p>重复上面的步骤，最终得到的就是有序数组</p>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>sort</tag>
+        <tag>Insertion</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>选择排序（Selection）</title>
+    <url>/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
+<span id="more"></span>
+<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>排序算法</th>
+<th>平均事件复杂度</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+<th>排序方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>选择排序</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(1)$</td>
+<td>不稳定</td>
+<td>In-place</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>选择排序（Selection sort）是一种简单直观的排序算法。选择排序是不稳定的排序方法。</p>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="排序原理步骤"><a href="#排序原理步骤" class="headerlink" title="排序原理步骤"></a>排序原理步骤</h3><ol>
+<li>遍历一遍找到最小数，记录下标</li>
+<li>将该下标的数与第一个数交换，第一个数的位置确定</li>
+<li>重复1，2步骤寻找第二个最小的数</li>
+</ol>
+<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for (int i = 0; i &lt; a.length; i++) &#123;</span><br><span class="line">    int min = i;</span><br><span class="line">    // 选择最小的数的下标</span><br><span class="line">    for (int j = i+1; j &lt; a.length; j++) &#123;</span><br><span class="line">        if(less(a[j], a[min])) min = j;</span><br><span class="line">    &#125;</span><br><span class="line">    // 交换当前位置与最小的数</span><br><span class="line">    exch(a, min, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>sort</tag>
+        <tag>Selection</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C语言隐藏结构体的实现方法</title>
     <url>/2019/11/26/C/C%E8%AF%AD%E8%A8%80%E9%9A%90%E8%97%8F%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>前些天在搞win32，被windows花里胡哨的结构弄得生不如死，脑子里莫名其妙蹦出了一个想法：能不能定义一些结构体，外部可以用它来定义变量，然而却不能改变它的成员的值, 就像C++，Java一类语言的class一样对数据进行保护。<del>好吧，其实是我还没吃饱撑着随便乱搞</del><br>参照了网上很多的说法，自己胡乱地搞了几个小时给弄出来了。</p>
@@ -967,33 +1218,6 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>JavaBean技术</title>
-    <url>/2022/01/08/JavaWeb/JavaBean%E6%8A%80%E6%9C%AF/</url>
-    <content><![CDATA[<h1 id="JavaBean技术"><a href="#JavaBean技术" class="headerlink" title="JavaBean技术"></a>JavaBean技术</h1><p>JavaBean技术最初是面向Swing等GUI而设计的,后来经过用于Web开发上.</p>
-<span id="more"></span>
-<h2 id="使用JavaBean"><a href="#使用JavaBean" class="headerlink" title="使用JavaBean"></a>使用JavaBean</h2><p>JavaBean主要设计3个JSP动作:</p>
-<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;对象名&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;类型&quot;</span> scope=<span class="string">&quot;范围[request | page | session | application]&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;* | 相关属性&quot;</span> value = <span class="string">&quot;&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">	*:自动匹配表单中的能匹配的属性名</span><br><span class="line">	相关属性: 请确保和bean类中的私有属性名一样</span><br><span class="line">	value:可选,如果省略,则自动匹配表单中同名的输入域(text input)</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:getProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;相关属性&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="1-编写JavaBean类"><a href="#1-编写JavaBean类" class="headerlink" title="1.编写JavaBean类"></a>1.编写JavaBean类</h3><p>编写JavaBean类需要注意:</p>
-<ul>
-<li>为每一个字段都设置为<code>private</code>,且提供<code>setter</code>和<code>getter</code></li>
-<li>创建默认构造方法</li>
-<li>请将javabean放在包里面,不要使用<code>defaultPackage</code></li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> bean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> width;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> length;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> area;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> perimeter;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getArea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        area = width * length;</span><br><span class="line">        <span class="keyword">return</span> area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getLength</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setArea</span><span class="params">(<span class="keyword">double</span> area)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.area = area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLength</span><span class="params">(<span class="keyword">double</span> length)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.length = length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPerimeter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        perimeter = <span class="number">2</span> * (width + length);</span><br><span class="line">        <span class="keyword">return</span> perimeter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWidth</span><span class="params">(<span class="keyword">double</span> width)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.width = width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPerimeter</span><span class="params">(<span class="keyword">double</span> perimeter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.perimeter = perimeter;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Rectangle</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="2-设计JSP页面引用JavaBean"><a href="#2-设计JSP页面引用JavaBean" class="headerlink" title="2.设计JSP页面引用JavaBean"></a>2.设计JSP页面引用JavaBean</h3><h4 id="请求端页面关键代码"><a href="#请求端页面关键代码" class="headerlink" title="请求端页面关键代码:"></a>请求端页面关键代码:</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;result.jsp&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">   长:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;length&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的length字段同名--&gt;</span></span><br><span class="line">   宽:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;width&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的width字段同名--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;计算&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="响应端页面关键代码"><a href="#响应端页面关键代码" class="headerlink" title="响应端页面关键代码:"></a>响应端页面关键代码:</h4><figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;rectangle&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;bean.Rectangle&quot;</span> scope=<span class="string">&quot;request&quot;</span>/&gt;	</span><br><span class="line">	&lt;!-- 创建一个Rectangle对象,对象名为:rectangle --&gt;</span><br><span class="line">	&lt;!-- 相当于 Rectangle rectangle = <span class="keyword">new</span> Rectangle() --&gt;</span><br><span class="line"></span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;*&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 设置rectangle对象可匹配属性值,相当于下面代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 也相当于下面的代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;width&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;length&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;!-- 获取rectangle对象属性值 --&gt;</span><br><span class="line">面积:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;area&quot;</span>/&gt;&lt;br/&gt;</span><br><span class="line">周长:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;perimeter&quot;</span>/&gt;&lt;br/&gt;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_bean</tag>
-        <tag>javaweb_jsp</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Filter过滤器</title>
     <url>/2022/01/01/JavaWeb/Filter/</url>
     <content><![CDATA[<h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
@@ -1043,6 +1267,33 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>javaweb_filter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaBean技术</title>
+    <url>/2022/01/08/JavaWeb/JavaBean%E6%8A%80%E6%9C%AF/</url>
+    <content><![CDATA[<h1 id="JavaBean技术"><a href="#JavaBean技术" class="headerlink" title="JavaBean技术"></a>JavaBean技术</h1><p>JavaBean技术最初是面向Swing等GUI而设计的,后来经过用于Web开发上.</p>
+<span id="more"></span>
+<h2 id="使用JavaBean"><a href="#使用JavaBean" class="headerlink" title="使用JavaBean"></a>使用JavaBean</h2><p>JavaBean主要设计3个JSP动作:</p>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;对象名&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;类型&quot;</span> scope=<span class="string">&quot;范围[request | page | session | application]&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;* | 相关属性&quot;</span> value = <span class="string">&quot;&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">	*:自动匹配表单中的能匹配的属性名</span><br><span class="line">	相关属性: 请确保和bean类中的私有属性名一样</span><br><span class="line">	value:可选,如果省略,则自动匹配表单中同名的输入域(text input)</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:getProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;相关属性&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="1-编写JavaBean类"><a href="#1-编写JavaBean类" class="headerlink" title="1.编写JavaBean类"></a>1.编写JavaBean类</h3><p>编写JavaBean类需要注意:</p>
+<ul>
+<li>为每一个字段都设置为<code>private</code>,且提供<code>setter</code>和<code>getter</code></li>
+<li>创建默认构造方法</li>
+<li>请将javabean放在包里面,不要使用<code>defaultPackage</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> bean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> width;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> length;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> area;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> perimeter;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getArea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        area = width * length;</span><br><span class="line">        <span class="keyword">return</span> area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getLength</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setArea</span><span class="params">(<span class="keyword">double</span> area)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.area = area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLength</span><span class="params">(<span class="keyword">double</span> length)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.length = length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPerimeter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        perimeter = <span class="number">2</span> * (width + length);</span><br><span class="line">        <span class="keyword">return</span> perimeter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWidth</span><span class="params">(<span class="keyword">double</span> width)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.width = width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPerimeter</span><span class="params">(<span class="keyword">double</span> perimeter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.perimeter = perimeter;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Rectangle</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="2-设计JSP页面引用JavaBean"><a href="#2-设计JSP页面引用JavaBean" class="headerlink" title="2.设计JSP页面引用JavaBean"></a>2.设计JSP页面引用JavaBean</h3><h4 id="请求端页面关键代码"><a href="#请求端页面关键代码" class="headerlink" title="请求端页面关键代码:"></a>请求端页面关键代码:</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;result.jsp&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">   长:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;length&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的length字段同名--&gt;</span></span><br><span class="line">   宽:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;width&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的width字段同名--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;计算&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="响应端页面关键代码"><a href="#响应端页面关键代码" class="headerlink" title="响应端页面关键代码:"></a>响应端页面关键代码:</h4><figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;rectangle&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;bean.Rectangle&quot;</span> scope=<span class="string">&quot;request&quot;</span>/&gt;	</span><br><span class="line">	&lt;!-- 创建一个Rectangle对象,对象名为:rectangle --&gt;</span><br><span class="line">	&lt;!-- 相当于 Rectangle rectangle = <span class="keyword">new</span> Rectangle() --&gt;</span><br><span class="line"></span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;*&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 设置rectangle对象可匹配属性值,相当于下面代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 也相当于下面的代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;width&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;length&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;!-- 获取rectangle对象属性值 --&gt;</span><br><span class="line">面积:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;area&quot;</span>/&gt;&lt;br/&gt;</span><br><span class="line">周长:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;perimeter&quot;</span>/&gt;&lt;br/&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_bean</tag>
+        <tag>javaweb_jsp</tag>
       </tags>
   </entry>
   <entry>
@@ -1416,6 +1667,41 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>常用正则表达式持续更新</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客支持数学公式</title>
+    <url>/2022/03/15/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
+    <content><![CDATA[<ol>
+<li><p>安装 <code>hexo-renderer-kramed</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改主题配置文件，找到<code>mathjax</code>的<code>enable</code>改成<code>true</code></p>
+</li>
+<li><p>在文章<code>font-matter</code>中加入<code>mathjax: true</code></p>
+</li>
+</ol>
+<span id="more"></span>
+<h2 id="hexo博客支持数学公式"><a href="#hexo博客支持数学公式" class="headerlink" title="hexo博客支持数学公式"></a>hexo博客支持数学公式</h2><h3 id="安装新的渲染器"><a href="#安装新的渲染器" class="headerlink" title="安装新的渲染器"></a>安装新的渲染器</h3><p>先卸载内置的<code>marked</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm uninstall hexo-renderer-marked --save</span><br></pre></td></tr></table></figure>
+<p>安装<code>kramed</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
+<h2 id="修改主题配置文件"><a href="#修改主题配置文件" class="headerlink" title="修改主题配置文件"></a>修改主题配置文件</h2><p>打开<code>theme/XXXX（主题名字）/_config.yml</code>，修改<code>enable</code>为<code>true</code>：</p>
+<p><img src="/2022/03/15/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/image-20220315202647196.png" alt="image-20220315202647196"></p>
+<h2 id="解决kramed语句冲突"><a href="#解决kramed语句冲突" class="headerlink" title="解决kramed语句冲突"></a>解决kramed语句冲突</h2><p>去<code>node_modules\kramed\lib\rules\inline.js</code>下：修改第11行代码和第20行代码：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">//</span>  <span class="string">escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span></span><br><span class="line"><span class="attr">escape</span>: <span class="string">/^\\([`*\[\]()#$+\-.!_&gt;])/</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">//</span>  <span class="string">em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></span><br><span class="line"><span class="attr">em</span>: <span class="string">/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span></span><br></pre></td></tr></table></figure>
+<h2 id="添加TodoList支持"><a href="#添加TodoList支持" class="headerlink" title="添加TodoList支持"></a>添加TodoList支持</h2><p>找到<code>node_modules\kramed\lib\renderer.js</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// Support To-Do List</span><br><span class="line">Renderer.prototype.listitem = function(text) &#123;</span><br><span class="line">  if (/^\s*\[[x ]\]\s*/.test(text)) &#123;</span><br><span class="line">    text = text.replace(/^\s*\[ \]\s*/, &#x27;&lt;input type=&quot;checkbox&quot;&gt;&lt;/input&gt; &#x27;).replace(/^\s*\[x\]\s*/, &#x27;&lt;input type=&quot;checkbox&quot; checked&gt;&lt;/input&gt; &#x27;);</span><br><span class="line">    return &#x27;&lt;li style=&quot;list-style: none&quot;&gt;&#x27; + text + &#x27;&lt;/li&gt;\n&#x27;;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return &#x27;&lt;li&gt;&#x27; + text + &#x27;&lt;/li&gt;\n&#x27;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="添加文章font-matter"><a href="#添加文章font-matter" class="headerlink" title="添加文章font-matter"></a>添加文章font-matter</h2><p>在文章<code>font-matter</code>中加入<code>mathjax: true</code></p>
+<p><img src="/2022/03/15/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/image-20220315202812735.png" alt="image-20220315202812735"></p>
+]]></content>
+      <categories>
+        <category>博客运维1a</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>features</tag>
       </tags>
   </entry>
   <entry>
@@ -1824,7 +2110,7 @@ cnpm install -g hexo-cli
    x & e & 0\\
    x & x & i\\
   \end{matrix} 
-\right| = 下三角</script><h2 id="注意点-杂项"><a href="#注意点-杂项" class="headerlink" title="注意点(杂项)"></a><strong>注意点(杂项)</strong></h2><p><strong>1.行列式中，==行列地位平等==</strong><br>(证明请看参考下篇的证明习题篇)<br><br><strong>2.一阶行列式 ==|a|=a==</strong><br><br><strong>3.代数和中每一项的正负号的决定方法：当行指标取成标准排列时，由列指标组成的排列的奇偶性确定，偶者为正，奇者为负</strong><br>见上面的$\tau(j_1j_2j_3)$</p>
+\right| = 下三角</script><h2 id="注意点-杂项"><a href="#注意点-杂项" class="headerlink" title="注意点(杂项)"></a><strong>注意点(杂项)</strong></h2><p><strong>1.行列式中，行列地位平等</strong><br>(证明请看参考下篇的证明习题篇)<br><br><strong>2.一阶行列式 |a|=a</strong><br><br><strong>3.代数和中每一项的正负号的决定方法：当行指标取成标准排列时，由列指标组成的排列的奇偶性确定，偶者为正，奇者为负</strong><br>见上面的$\tau(j_1j_2j_3)$</p>
 <h2 id="行列式性质"><a href="#行列式性质" class="headerlink" title="行列式性质"></a><strong>行列式性质</strong></h2><p><strong>1.D=D<sup>T</sup>(行列式行列互换，值不变)</strong><br><br>证明：</p>
 <script type="math/tex; mode=display">
 D=
@@ -2006,23 +2292,32 @@ k
          ... & ... &     & ...\\
    b_{n1} & b_{n2} & ... & b_{nn}\\
   \end{matrix} 
-\right|</script><h2 id="行列式按行或列展开-降阶"><a href="#行列式按行或列展开-降阶" class="headerlink" title="行列式按行或列展开(降阶)"></a><strong>行列式按行或列展开(降阶)</strong></h2><h4 id="1-余子式：去掉元素-a-ij-所在的第i行第j列的元素，留下的元素按原来位置构成的n-1阶行列式为元素-a-ij-的余子式，记：-M-ij"><a href="#1-余子式：去掉元素-a-ij-所在的第i行第j列的元素，留下的元素按原来位置构成的n-1阶行列式为元素-a-ij-的余子式，记：-M-ij" class="headerlink" title="1.余子式：去掉元素$a{ij}$所在的第i行第j列的元素，留下的元素按原来位置构成的n-1阶行列式为元素$a{ij}$的余子式，记：$M_{ij}$"></a>1.余子式：去掉元素$a<em>{ij}$所在的第i行第j列的元素，留下的元素按原来位置构成的n-1阶行列式为元素$a</em>{ij}$的余子式，记：$M_{ij}$</h4><h4 id="2-代数余子式：-A-ij-1-i-j-M-ij"><a href="#2-代数余子式：-A-ij-1-i-j-M-ij" class="headerlink" title="2.代数余子式：$A{ij} = (-1)^{i+j}M{ij}$"></a>2.代数余子式：$A<em>{ij} = (-1)^{i+j}M</em>{ij}$</h4><script type="math/tex; mode=display">D=
+\right|</script><h2 id="行列式按行或列展开-降阶"><a href="#行列式按行或列展开-降阶" class="headerlink" title="行列式按行或列展开(降阶)"></a><strong>行列式按行或列展开(降阶)</strong></h2><ol>
+<li>余子式：去掉元素$a<em>{ij}$所在的第i行第j列的元素，留下的元素按原来位置构成的n-1阶行列式为元素$a</em>{ij}$的余子式，记：$M_{ij}$</li>
+<li>代数余子式：$A<em>{ij} = (-1)^{i+j}M</em>{ij}$</li>
+</ol>
+<script type="math/tex; mode=display">
+D=
 \left|
  \begin{matrix}
    b_{11} & b_{12} &  b_{13}\\
    b_{21} & b_{22} &  b_{23}\\
    b_{31} & b_{32}& b_{33}\\
   \end{matrix} 
-\right|</script><script type="math/tex; mode=display">
-M_{32}=
+\right|
+
+=M_{32}=
 \left|
  \begin{matrix}
    b_{11}  & b_{13}\\
    b_{21}  &  b_{23}\\
   \end{matrix} 
-\right|</script><script type="math/tex; mode=display">
-A_{32} = (-1)^{3+2}M_{32}</script><script type="math/tex; mode=display">
-=(-1)^5M_{32}=-M_{32}</script><h4 id="3-n阶行列式D-a-ij-等于它的任意一行（列）的各元素与其对应的代数余子式（-A-ij-）乘积之和"><a href="#3-n阶行列式D-a-ij-等于它的任意一行（列）的各元素与其对应的代数余子式（-A-ij-）乘积之和" class="headerlink" title="3.n阶行列式D = |$a{ij}$|等于它的任意一行（列）的各元素与其对应的代数余子式（$A{ij}$）乘积之和"></a><strong>3.n阶行列式D = |$a<em>{ij}$|等于它的任意一行（列）的各元素与其对应的代数余子式（$A</em>{ij}$）乘积之和</strong></h4><p><strong>规则:利用行列式的性质，使某一行（列）尽可能地有较多的0，再按行列展开！</strong><br>例：</p>
+\right|
+
+=A_{32} = (-1)^{3+2}M_{32}
+
+=(-1)^5M_{32}=-M_{32}</script><p> 3.n阶行列式D = |$a<em>{ij}$|等于它的任意一行（列）的各元素与其对应的代数余子式（$A</em>{ij}$）乘积之和</p>
+<p><strong>规则:利用行列式的性质，使某一行（列）尽可能地有较多的0，再按行列展开！</strong>例：</p>
 <script type="math/tex; mode=display">
 D=
 \left|
@@ -2032,7 +2327,8 @@ D=
    2 & 4 & 3 & 1\\
    -1 & 1 & 2 & -2\\
   \end{matrix} 
-\right|</script><script type="math/tex; mode=display">
+\right| 
+
  = 
  \left|
  \begin{matrix}
@@ -2053,15 +2349,17 @@ D=
 <script type="math/tex; mode=display">x_1 = \frac {D_1}{D},x_2 = \frac {D_2}{D},x_3 = \frac {D_3}{D}</script><h2 id="八个基本型"><a href="#八个基本型" class="headerlink" title="八个基本型"></a>八个基本型</h2><h3 id="上三角"><a href="#上三角" class="headerlink" title="上三角:"></a>上三角:</h3><script type="math/tex; mode=display">
 \left|
  \begin{matrix}
-   b_{11} & 0 & 0 & 0\\
-    * & b_{22} & 0 & 0\\
-   * & *& b_{33} & 0\\
-      ... & ... &     & ...\\
-      *& * &*& b_{nn}\\
-    \end{matrix} 
-      \right|</script><script type="math/tex; mode=display">
-= b_{11}*b_{22}*b_{33}*...*b_{nn}</script><script type="math/tex; mode=display">
-=
+b_{11} & 0 & 0 & 0\\
+* & b_{22} & 0 & 0\\
+* & *& b_{33} & 0\\
+... & ... &     & ...\\
+*& * &*& b_{nn}\\
+\end{matrix} 
+  \right|
+
+  = b_{11}*b_{22}*b_{33}*...*b_{nn}
+
+  =
 \left|
  \begin{matrix}
    b_{11} & * & * & *\\
@@ -2079,26 +2377,31 @@ D=
    ... & ... &    .... & ...\\
    b_{n1}& * &*&*\\
   \end{matrix} 
-\right|</script><script type="math/tex; mode=display">
+\right|
+
 =
 \left|
  \begin{matrix}
    *& * & * & b_{1n}\\
     * & * & b_{2(n-1)} & 0\\
+
    * & b_{3(n-2)} & 0& 0\\\\
-      ... & ... &    .... & ...\\
-      b_{n1}& 0 &0&0\\
-    \end{matrix} 
-      \right|</script><script type="math/tex; mode=display">
- = (-1)^{\frac {n(n-1)}{2}}b_{1(n-1)}*b_{2(n-2)}*b_{3(n-3)}*...*b_{1n}</script><h3 id="组合三角"><a href="#组合三角" class="headerlink" title="组合三角:"></a>组合三角:</h3><script type="math/tex; mode=display">
+     ... & ... &    .... & ...\\
+     b_{n1}& 0 &0&0\\
+     \end{matrix} 
+  \right|
+
+  = (-1)^{\frac {n(n-1)}{2}}b_{1(n-1)}*b_{2(n-2)}*b_{3(n-3)}*...*b_{1n}</script><h3 id="组合三角"><a href="#组合三角" class="headerlink" title="组合三角:"></a>组合三角:</h3><script type="math/tex; mode=display">
 \left|
  \begin{matrix}
    b_{11} & b_{12} & 0 & 0\\
    b_{21} & b_{22} & 0 & 0\\
+
    * & *&c_{11} & c_{12}\\
-      *& * &c_{21}& c_{22}\\
-    \end{matrix} 
-      \right|</script><script type="math/tex; mode=display">
+     *& * &c_{21}& c_{22}\\
+   \end{matrix} 
+\right|
+
 =
 \left|
  \begin{matrix}
@@ -2107,7 +2410,8 @@ D=
    0 & 0& c_{11} & c_{12}\\
    0& 0 &c_{21}& c_{22}\\
   \end{matrix} 
-\right|</script><script type="math/tex; mode=display">
+\right| 
+
 = 
 \left|
  \begin{matrix}
@@ -2120,7 +2424,8 @@ D=
   c_{11} & c_{12}\\
     c_{21}& c_{22}\\
   \end{matrix} 
-\right|</script><script type="math/tex; mode=display">
+\right|
+
 \left|
  \begin{matrix}
     0 & 0&b_{11} & b_{12} \\
@@ -2128,30 +2433,35 @@ D=
    c_{11} & c_{12}&* & *\\
    c_{21}& c_{22}&*& * \\
   \end{matrix} 
-\right|</script><script type="math/tex; mode=display">
+\right| 
+
 =
 \left|
  \begin{matrix}
-    * & * &b_{11} & b_{12}\\
+
+   * & * &b_{11} & b_{12}\\
      * & *& b_{21} & b_{22}\\
-   c_{11} & c_{12}&0 & 0 \\
-   c_{21}& c_{22}&0& 0 \\
-  \end{matrix} 
-\right|</script><script type="math/tex; mode=display">
+       c_{11} & c_{12}&0 & 0 \\
+       c_{21}& c_{22}&0& 0 \\
+       \end{matrix} 
+       \right| 
+
 = (-1)^{2*2}
 \left|
  \begin{matrix}
    b_{11} & b_{12} \\
     b_{21} & b_{22} \\
   \end{matrix} 
-\right|*</script><script type="math/tex; mode=display">
+\right|*
+
 \left|
  \begin{matrix}
   c_{11} & c_{12}\\
     c_{21}& c_{22}\\
   \end{matrix} 
 \right|</script><h3 id="范德蒙行列式"><a href="#范德蒙行列式" class="headerlink" title="范德蒙行列式"></a>范德蒙行列式</h3><script type="math/tex; mode=display">
-D=(a_1,a_2,...,a_n)</script><script type="math/tex; mode=display">
+D=(a_1,a_2,...,a_n)
+
 =
 \left|
  \begin{matrix}
@@ -2161,7 +2471,8 @@ D=(a_1,a_2,...,a_n)</script><script type="math/tex; mode=display">
    ... & ... &    ... & ...\\
    a_1^{(n-1)}& a_2^{(n-1)}&... & a_n^{(n-1)}\\
   \end{matrix} 
-\right|</script><script type="math/tex; mode=display">
+\right|
+
 = 
 \prod_{1≤i<j≤n}(a_j-a_i)</script><h2 id="重要行列式解法"><a href="#重要行列式解法" class="headerlink" title="重要行列式解法"></a>重要行列式解法</h2><h3 id="type1"><a href="#type1" class="headerlink" title="type1:"></a>type1:</h3><script type="math/tex; mode=display">
 f(x)=
@@ -2174,7 +2485,8 @@ f(x)=
    a_1& a_2&a_3&... & x&1\\
    a_1& a_2&a_3&... & a_n&1\\
   \end{matrix} 
-\right|</script><script type="math/tex; mode=display">
+\right| 
+
 = 
 \left|
  \begin{matrix}
@@ -2185,7 +2497,8 @@ f(x)=
    0& 0&0&... & x-a_n&0\\
    a_1& a_2&a_3&... & a_n&1\\
   \end{matrix} 
-\right| (列展开)</script><script type="math/tex; mode=display">
+\right| (列展开)
+
 =\left|
  \begin{matrix}
   x-a_1& a_1-x&0&...&0 \\
@@ -2204,7 +2517,8 @@ f(x)=
    ... & ... &    ... & ...&    ...\\
   b&b& b&...&a  \\
   \end{matrix} 
-\right|</script><script type="math/tex; mode=display">
+\right| 
+
 = 
 \left|
  \begin{matrix}
@@ -2214,7 +2528,8 @@ f(x)=
    ... & ... &    ... & ...&    ...\\
   a+(n-1)b&b& b&...&a  \\
   \end{matrix} 
-\right| (提取a+(n-1)b)</script><script type="math/tex; mode=display">
+\right| (提取a+(n-1)b)
+
 =[a+(n-1)b]
 \left|
  \begin{matrix}
@@ -2224,7 +2539,8 @@ f(x)=
    ... & ... &    ... & ...&    ...\\
  1&b& b&...&a  \\
   \end{matrix} 
-\right|</script><script type="math/tex; mode=display">
+\right| 
+
 =[a+(n-1)b]
 \left|
  \begin{matrix}
@@ -2234,7 +2550,8 @@ f(x)=
    ... & ... &    ... & ...&    ...\\
  0&0& 0&...&a-b  \\
   \end{matrix} 
-\right|</script><script type="math/tex; mode=display">
+\right|
+
  = [a+(n-1)b](a-b)_{n-1}</script>]]></content>
       <categories>
         <category>线性代数复习知识点</category>
@@ -2244,7 +2561,7 @@ f(x)=
       </tags>
   </entry>
   <entry>
-    <title>线性代数知识点总结</title>
+    <title>线性代数知识点总结2</title>
     <url>/2019/12/11/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-2/</url>
     <content><![CDATA[<h1 id="线性代数第二章知识点总结"><a href="#线性代数第二章知识点总结" class="headerlink" title="线性代数第二章知识点总结"></a>线性代数第二章知识点总结</h1><h2 id="1-增广矩阵-amp-系数矩阵"><a href="#1-增广矩阵-amp-系数矩阵" class="headerlink" title="1. 增广矩阵&amp;系数矩阵"></a>1. 增广矩阵&amp;系数矩阵</h2><ul>
 <li><p><strong>原方程</strong>：</p>
@@ -2347,6 +2664,7 @@ a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = 0\\
 <li>特别地当 $m=n$ 时，矩阵(行列式)只有零解（唯一解） $\Leftrightarrow |a<em>{ij}|_n\not=0$, 有非零解 $\Leftrightarrow |a</em>{ij}|_n=0$</li>
 </ul>
 <h2 id="5-重要题型及解法："><a href="#5-重要题型及解法：" class="headerlink" title="5.重要题型及解法："></a>5.重要题型及解法：</h2><p><strong>参考来自P59页，线性代数 第二版 11.5教材</strong></p>
+<p>​<br>​    </p>
 ]]></content>
       <categories>
         <category>线性代数复习知识点</category>
@@ -2747,16 +3065,6 @@ int main(int argc, char *argv[])
       </tags>
   </entry>
   <entry>
-    <title>archives</title>
-    <url>/archives/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>about</title>
     <url>/about/index.html</url>
     <content><![CDATA[<p><img src="/about/index/avatar.jpg" alt="头像" style="margin: 0 auto;"></p>
@@ -2765,6 +3073,16 @@ int main(int argc, char *argv[])
 <p>同好的往这里发：CodeXUpdate@163.com</p>
 <p><del><strong>想到啥写啥，尽量周更！！</strong></del></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>archives</title>
+    <url>/archives/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>categories</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>tags</title>
