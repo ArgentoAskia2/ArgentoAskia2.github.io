@@ -2,58 +2,13 @@
 <search>
   <entry>
     <title></title>
-    <url>/2021/12/31/JavaWeb/Web%E5%AE%B9%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title></title>
     <url>/2021/12/31/JavaWeb/%E5%8A%A8%E6%80%81Servlet/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>冒泡排序（Bubble）</title>
-    <url>/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/bubbleSort.gif" alt="bubbleSort"></p>
-<span id="more"></span>
-<h1 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h1><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>排序算法</th>
-<th>平均事件复杂度</th>
-<th>最好情况</th>
-<th>最坏情况</th>
-<th>空间复杂度</th>
-<th>稳定性</th>
-<th>排序方式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>冒泡排序</td>
-<td>$O(n^2)$</td>
-<td>$O(n)$</td>
-<td>$O(n^2)$</td>
-<td>$O(1)$</td>
-<td>稳定</td>
-<td>In-place</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>冒泡排序（Bubble Sort）也是一种简单直观的排序算法。</p>
-<p>它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢”浮”到数列的顶端。</p>
-<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h3><p><img src="/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/bubbleSort.gif" alt="bubbleSort"></p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> <span class="keyword">implements</span> <span class="title">IArraySort</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] sort(<span class="keyword">int</span>[] sourceArray) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 对 arr 进行拷贝，不改变参数内容</span></span><br><span class="line">        <span class="keyword">int</span>[] arr = Arrays.copyOf(sourceArray, sourceArray.length);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 外层循环是要冒泡的规模，因为每次排好一个数所以最后会剩下一个数，因此最后一趟不用排，因此总共需要循环n-1次，这也是为什么从1开始的原因</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            <span class="comment">// 设定一个标记，若为true，则表示此次循环没有进行交换，也就是待排序列已经有序，排序已经完成。</span></span><br><span class="line">            <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</span><br><span class="line">            <span class="comment">// 冒泡过程</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; arr.length - i; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                    <span class="keyword">int</span> tmp = arr[j];</span><br><span class="line">                    arr[j] = arr[j + <span class="number">1</span>];</span><br><span class="line">                    arr[j + <span class="number">1</span>] = tmp;</span><br><span class="line"></span><br><span class="line">                    flag = <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><h3 id="最好"><a href="#最好" class="headerlink" title="最好"></a>最好</h3><h3 id="最坏"><a href="#最坏" class="headerlink" title="最坏"></a>最坏</h3><h3 id="空间"><a href="#空间" class="headerlink" title="空间"></a>空间</h3>]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>sort</tag>
-        <tag>Bubble</tag>
-      </tags>
+    <title></title>
+    <url>/2021/12/31/JavaWeb/Web%E5%AE%B9%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>希尔排序（Shell）</title>
@@ -135,6 +90,51 @@
         <tag>Algorithm</tag>
         <tag>sort</tag>
         <tag>Shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>冒泡排序（Bubble）</title>
+    <url>/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/bubbleSort.gif" alt="bubbleSort"></p>
+<span id="more"></span>
+<h1 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>排序算法</th>
+<th>平均事件复杂度</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+<th>排序方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>冒泡排序</td>
+<td>$O(n^2)$</td>
+<td>$O(n)$</td>
+<td>$O(n^2)$</td>
+<td>$O(1)$</td>
+<td>稳定</td>
+<td>In-place</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>冒泡排序（Bubble Sort）也是一种简单直观的排序算法。</p>
+<p>它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢”浮”到数列的顶端。</p>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h3><p><img src="/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/bubbleSort.gif" alt="bubbleSort"></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> <span class="keyword">implements</span> <span class="title">IArraySort</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] sort(<span class="keyword">int</span>[] sourceArray) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 对 arr 进行拷贝，不改变参数内容</span></span><br><span class="line">        <span class="keyword">int</span>[] arr = Arrays.copyOf(sourceArray, sourceArray.length);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 外层循环是要冒泡的规模，因为每次排好一个数所以最后会剩下一个数，因此最后一趟不用排，因此总共需要循环n-1次，这也是为什么从1开始的原因</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            <span class="comment">// 设定一个标记，若为true，则表示此次循环没有进行交换，也就是待排序列已经有序，排序已经完成。</span></span><br><span class="line">            <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</span><br><span class="line">            <span class="comment">// 冒泡过程</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; arr.length - i; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                    <span class="keyword">int</span> tmp = arr[j];</span><br><span class="line">                    arr[j] = arr[j + <span class="number">1</span>];</span><br><span class="line">                    arr[j + <span class="number">1</span>] = tmp;</span><br><span class="line"></span><br><span class="line">                    flag = <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><h3 id="最好"><a href="#最好" class="headerlink" title="最好"></a>最好</h3><h3 id="最坏"><a href="#最坏" class="headerlink" title="最坏"></a>最坏</h3><h3 id="空间"><a href="#空间" class="headerlink" title="空间"></a>空间</h3>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>sort</tag>
+        <tag>Bubble</tag>
       </tags>
   </entry>
   <entry>
@@ -397,45 +397,6 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>Jar文件打包</title>
-    <url>/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/</url>
-    <content><![CDATA[<p>Java归档文件，更多细节请参考：<a href="https://docs.oracle.com/javase/10/docs/specs/jar/jar.html">Oracle JAR Help</a></p>
-<span id="more"></span>
-<h2 id="JAR文件简介"><a href="#JAR文件简介" class="headerlink" title="JAR文件简介"></a>JAR文件简介</h2><p>如果你手上已经有一个自制的工具包,并且你希望你工具包能够以单独的文件的形式来被用户使用，而不是包含很多代码的一个目录结构，那么Java归档文件（JAR）就能够帮助你</p>
-<h2 id="创建JAR文件"><a href="#创建JAR文件" class="headerlink" title="创建JAR文件"></a>创建JAR文件</h2><p>如今的IDE已经非常智能，可以不用管Java的命令行具体细节就能实现打包JAR文件，但是这里还是要解释下JAR相关的命令行，既方便跨平台也可以在必要时处理打包JAR产生的错误。</p>
-<p>在<code>jdk\bin</code>目录下，有一个JAR工具（jar.exe）可以用它来创建JAR包，其语法为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">jar cvf jarFilename file1 file2 ...</span><br><span class="line">jar [options] file1 file2...-</span><br></pre></td></tr></table></figure>
-<p>对于[options]命令，可以有下选项：</p>
-<p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407210830146.png" alt="image-20210407210830146"></p>
-<h2 id="创建可执行的JAR文件"><a href="#创建可执行的JAR文件" class="headerlink" title="创建可执行的JAR文件"></a>创建可执行的JAR文件</h2><p>使用JAR命令中的e选项指定程序的入口点类（即带main方法的类）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">jar cvfe Tools.jar com.tools.mytools.MainClass ...</span><br></pre></td></tr></table></figure>
-<p>还有一种方法，可以在清单文件（下个小节会有说明）中指定程序的主类：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Main-Class: com.tools.mytools.MainClass</span><br></pre></td></tr></table></figure>
-<p><strong>注意：清单文件的最后一行必须以换行符结尾，所以上面的代码结尾的换行不是打错！否则清单文件无法被正确地读取！</strong></p>
-<p>使用上面的方法创建可执行的JAR文件，要运行该JAR包，需要执行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">java -jar Tools.jar</span><br></pre></td></tr></table></figure>
-<h2 id="清单文件"><a href="#清单文件" class="headerlink" title="清单文件"></a>清单文件</h2><p>除了类文件、图像和其他资源外，每个JAR文件还包含一个清单文件，用于描述归档文件的特殊特性。</p>
-<p>清单文件名字一般为：MANIFEST.MF，在一个特殊的META-INF子目录中。</p>
-<p>一般最小的清单文件非常简单：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Manifest-Version: 1.0</span><br></pre></td></tr></table></figure>
-<p>更多细节可以参考：<a href="https://docs.oracle.com/javase/10/docs/specs/jar/jar.html">Oracle JAR Help</a></p>
-<p>要创建包含清单文件的JAR需要运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">jar cfm Tools.jar mainfest.mf classfile1 ...</span><br></pre></td></tr></table></figure>
-<h2 id="在IDEA中创建JAR包"><a href="#在IDEA中创建JAR包" class="headerlink" title="在IDEA中创建JAR包"></a>在IDEA中创建JAR包</h2><p>IDEA中创建使用JAR操作非常简单，参考：</p>
-<h3 id="File—-gt-项目结构中："><a href="#File—-gt-项目结构中：" class="headerlink" title="File—&gt;项目结构中："></a>File—&gt;项目结构中：</h3><p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211249011.png" alt="image-20210407211249011"></p>
-<p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211432890.png" alt="image-20210407211432890"></p>
-<p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211528409.png" alt="image-20210407211528409"></p>
-<p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211611167.png" alt="image-20210407211611167"></p>
-<h3 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h3><p>如果发现<code>idea</code>按照上面的步骤做下来，还是没办法打包，请确认下工程目录里有没有<code>MANIFEST.MF</code></p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java_jar</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java IO</title>
     <url>/2021/08/12/Java/JavaIO%E6%B5%81/</url>
     <content><![CDATA[<p><em><del>Java将IO流设计得非常好用，在深入Java之后，除了Java容器（JCF）的源代码之外，最好也去看下IO流的设计。</del></em></p>
@@ -548,6 +509,45 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>java_core</tag>
         <tag>java_lib</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jar文件打包</title>
+    <url>/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/</url>
+    <content><![CDATA[<p>Java归档文件，更多细节请参考：<a href="https://docs.oracle.com/javase/10/docs/specs/jar/jar.html">Oracle JAR Help</a></p>
+<span id="more"></span>
+<h2 id="JAR文件简介"><a href="#JAR文件简介" class="headerlink" title="JAR文件简介"></a>JAR文件简介</h2><p>如果你手上已经有一个自制的工具包,并且你希望你工具包能够以单独的文件的形式来被用户使用，而不是包含很多代码的一个目录结构，那么Java归档文件（JAR）就能够帮助你</p>
+<h2 id="创建JAR文件"><a href="#创建JAR文件" class="headerlink" title="创建JAR文件"></a>创建JAR文件</h2><p>如今的IDE已经非常智能，可以不用管Java的命令行具体细节就能实现打包JAR文件，但是这里还是要解释下JAR相关的命令行，既方便跨平台也可以在必要时处理打包JAR产生的错误。</p>
+<p>在<code>jdk\bin</code>目录下，有一个JAR工具（jar.exe）可以用它来创建JAR包，其语法为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">jar cvf jarFilename file1 file2 ...</span><br><span class="line">jar [options] file1 file2...-</span><br></pre></td></tr></table></figure>
+<p>对于[options]命令，可以有下选项：</p>
+<p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407210830146.png" alt="image-20210407210830146"></p>
+<h2 id="创建可执行的JAR文件"><a href="#创建可执行的JAR文件" class="headerlink" title="创建可执行的JAR文件"></a>创建可执行的JAR文件</h2><p>使用JAR命令中的e选项指定程序的入口点类（即带main方法的类）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">jar cvfe Tools.jar com.tools.mytools.MainClass ...</span><br></pre></td></tr></table></figure>
+<p>还有一种方法，可以在清单文件（下个小节会有说明）中指定程序的主类：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Main-Class: com.tools.mytools.MainClass</span><br></pre></td></tr></table></figure>
+<p><strong>注意：清单文件的最后一行必须以换行符结尾，所以上面的代码结尾的换行不是打错！否则清单文件无法被正确地读取！</strong></p>
+<p>使用上面的方法创建可执行的JAR文件，要运行该JAR包，需要执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">java -jar Tools.jar</span><br></pre></td></tr></table></figure>
+<h2 id="清单文件"><a href="#清单文件" class="headerlink" title="清单文件"></a>清单文件</h2><p>除了类文件、图像和其他资源外，每个JAR文件还包含一个清单文件，用于描述归档文件的特殊特性。</p>
+<p>清单文件名字一般为：MANIFEST.MF，在一个特殊的META-INF子目录中。</p>
+<p>一般最小的清单文件非常简单：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Manifest-Version: 1.0</span><br></pre></td></tr></table></figure>
+<p>更多细节可以参考：<a href="https://docs.oracle.com/javase/10/docs/specs/jar/jar.html">Oracle JAR Help</a></p>
+<p>要创建包含清单文件的JAR需要运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">jar cfm Tools.jar mainfest.mf classfile1 ...</span><br></pre></td></tr></table></figure>
+<h2 id="在IDEA中创建JAR包"><a href="#在IDEA中创建JAR包" class="headerlink" title="在IDEA中创建JAR包"></a>在IDEA中创建JAR包</h2><p>IDEA中创建使用JAR操作非常简单，参考：</p>
+<h3 id="File—-gt-项目结构中："><a href="#File—-gt-项目结构中：" class="headerlink" title="File—&gt;项目结构中："></a>File—&gt;项目结构中：</h3><p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211249011.png" alt="image-20210407211249011"></p>
+<p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211432890.png" alt="image-20210407211432890"></p>
+<p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211528409.png" alt="image-20210407211528409"></p>
+<p><img src="/2021/08/12/Java/Jar%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85/image-20210407211611167.png" alt="image-20210407211611167"></p>
+<h3 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h3><p>如果发现<code>idea</code>按照上面的步骤做下来，还是没办法打包，请确认下工程目录里有没有<code>MANIFEST.MF</code></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java_jar</tag>
       </tags>
   </entry>
   <entry>
@@ -976,6 +976,42 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>Java重载VS重写</title>
+    <url>/2021/08/14/Java/Java%E9%87%8D%E8%BD%BDVS%E9%87%8D%E5%86%99/</url>
+    <content><![CDATA[<p>希望这篇文章能够帮助各位重载和重写傻傻分不清的朋友！<br><span id="more"></span></p>
+<h2 id="重写（Override）"><a href="#重写（Override）" class="headerlink" title="重写（Override）"></a>重写（Override）</h2><p>重写一般是对父类的方法进行重写，要求</p>
+<ul>
+<li><strong>返回值和形参都不能改变！</strong></li>
+<li><strong>返回值类型可以不相同，但必须是父类返回值的派生类（java 7↑）</strong></li>
+<li><strong>重写的方法能够抛出任何非强制性异常，但当父类方法本身也声明抛出的异常的时候，子类异常只能是父类异常的子类</strong></li>
+<li><strong>不能缩窄访问权限（父类方法是public，子类重写方法就不能为protected）</strong></li>
+<li><strong>声明为<code>final</code>的方法不能被重写</strong></li>
+<li><strong>声明为<code>static</code>的方法不能被重写，但是能够被再次声明</strong></li>
+<li><strong>子类和父类在同一个包中，那么子类可以重写父类所有方法，除了声明为 private 和 final 的方法。</strong></li>
+<li><strong>子类和父类不在同一个包中，那么子类只能够重写父类的声明为 public 和 protected 的非 final 方法。</strong></li>
+<li><strong>构造方法不能被重写</strong></li>
+</ul>
+<h2 id="重载（Overload）"><a href="#重载（Overload）" class="headerlink" title="重载（Overload）"></a>重载（Overload）</h2><ul>
+<li><strong>被重载的方法必须改变参数列表(参数个数或类型或顺序不一样)；</strong></li>
+<li><strong>被重载的方法可以改变返回类型；</strong></li>
+<li><strong>被重载的方法可以改变访问修饰符；</strong></li>
+<li><strong>被重载的方法可以声明新的或更广的检查异常；</strong></li>
+<li><strong>方法能够在同一个类中或者在一个子类中被重载。</strong></li>
+<li><strong>无法以返回值类型作为重载函数的区分标准。</strong></li>
+</ul>
+<h2 id="简单地讲："><a href="#简单地讲：" class="headerlink" title="简单地讲："></a>简单地讲：</h2><p>重写：<strong>返回值和参数列表都不能改变！</strong></p>
+<p>重载：<strong>参数列表必须改变</strong>！</p>
+<p><strong>参数列表相同，返回值不同既不属于重载也不属于重写</strong>！！！</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java_core</tag>
+        <tag>java_oop</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java泛型</title>
     <url>/2021/08/12/Java/Java%E6%B3%9B%E5%9E%8B/</url>
     <content><![CDATA[<p>Java泛型，<code>java</code>语言的核心知识之一，各大框架经常使用的技术。</p>
@@ -1146,78 +1182,6 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>Java运行时获取运行位置</title>
-    <url>/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>获取运行时路径的方法在jar包中和在工程中都不同，下面进行区分讲解</p>
-<span id="more"></span>
-<h2 id="获取路径"><a href="#获取路径" class="headerlink" title="获取路径"></a>获取路径</h2><p>以下介绍的方法同时适用于jar包和工程中</p>
-<p>获取运行时路径的方法很多，这里只介绍一种通用的方法</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[ClassName].class.getProtectionDomain().getCodeSource().getLocation();</span><br></pre></td></tr></table></figure>
-<p>这种方法在工程中获取的是工程项目的位置，在jar包中是获取jar包所在的位置（包括XXXX.jar）</p>
-<h2 id="加载资源"><a href="#加载资源" class="headerlink" title="加载资源"></a>加载资源</h2><h3 id="class-getResource-String-resourceFile"><a href="#class-getResource-String-resourceFile" class="headerlink" title="class.getResource(String resourceFile)"></a>class.getResource(String resourceFile)</h3><h3 id="class-getClassLoader-getResource-String-resourceFile"><a href="#class-getClassLoader-getResource-String-resourceFile" class="headerlink" title="class.getClassLoader().getResource(String resourceFile)"></a>class.getClassLoader().getResource(String resourceFile)</h3><p>上面的区别看这里：</p>
-<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-2023e3d7fdae0160e22a5dedde736368_720w.jpg" alt="img"></p>
-<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-33f6acaa7515bb06d292abf9051cb535_720w.jpg" alt="img"></p>
-<p><code>class.getResource(String resource)</code> 调用当前类路径下的资源</p>
-<p><code>class.getClassLoader().getResource(String resource)</code> 获取跟路径，调用根目录下资源</p>
-<p><strong>上面的两种方式在工程项目中有效，在jar包中无效</strong></p>
-<h3 id="class-getResourceAsStream-String-resourceFile"><a href="#class-getResourceAsStream-String-resourceFile" class="headerlink" title="class.getResourceAsStream(String resourceFile)"></a>class.getResourceAsStream(String resourceFile)</h3><p>要想在jar包中也能够读取资源文件，请使用这个方法！</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java_skill</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java重载VS重写</title>
-    <url>/2021/08/14/Java/Java%E9%87%8D%E8%BD%BDVS%E9%87%8D%E5%86%99/</url>
-    <content><![CDATA[<p>希望这篇文章能够帮助各位重载和重写傻傻分不清的朋友！<br><span id="more"></span></p>
-<h2 id="重写（Override）"><a href="#重写（Override）" class="headerlink" title="重写（Override）"></a>重写（Override）</h2><p>重写一般是对父类的方法进行重写，要求</p>
-<ul>
-<li><strong>返回值和形参都不能改变！</strong></li>
-<li><strong>返回值类型可以不相同，但必须是父类返回值的派生类（java 7↑）</strong></li>
-<li><strong>重写的方法能够抛出任何非强制性异常，但当父类方法本身也声明抛出的异常的时候，子类异常只能是父类异常的子类</strong></li>
-<li><strong>不能缩窄访问权限（父类方法是public，子类重写方法就不能为protected）</strong></li>
-<li><strong>声明为<code>final</code>的方法不能被重写</strong></li>
-<li><strong>声明为<code>static</code>的方法不能被重写，但是能够被再次声明</strong></li>
-<li><strong>子类和父类在同一个包中，那么子类可以重写父类所有方法，除了声明为 private 和 final 的方法。</strong></li>
-<li><strong>子类和父类不在同一个包中，那么子类只能够重写父类的声明为 public 和 protected 的非 final 方法。</strong></li>
-<li><strong>构造方法不能被重写</strong></li>
-</ul>
-<h2 id="重载（Overload）"><a href="#重载（Overload）" class="headerlink" title="重载（Overload）"></a>重载（Overload）</h2><ul>
-<li><strong>被重载的方法必须改变参数列表(参数个数或类型或顺序不一样)；</strong></li>
-<li><strong>被重载的方法可以改变返回类型；</strong></li>
-<li><strong>被重载的方法可以改变访问修饰符；</strong></li>
-<li><strong>被重载的方法可以声明新的或更广的检查异常；</strong></li>
-<li><strong>方法能够在同一个类中或者在一个子类中被重载。</strong></li>
-<li><strong>无法以返回值类型作为重载函数的区分标准。</strong></li>
-</ul>
-<h2 id="简单地讲："><a href="#简单地讲：" class="headerlink" title="简单地讲："></a>简单地讲：</h2><p>重写：<strong>返回值和参数列表都不能改变！</strong></p>
-<p>重载：<strong>参数列表必须改变</strong>！</p>
-<p><strong>参数列表相同，返回值不同既不属于重载也不属于重写</strong>！！！</p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java_core</tag>
-        <tag>java_oop</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>El表达式</title>
-    <url>/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<span id="more"></span>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_EL_Expression</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Filter过滤器</title>
     <url>/2022/01/01/JavaWeb/Filter/</url>
     <content><![CDATA[<h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
@@ -1294,6 +1258,65 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>javaweb_bean</tag>
         <tag>javaweb_jsp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java运行时获取运行位置</title>
+    <url>/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>获取运行时路径的方法在jar包中和在工程中都不同，下面进行区分讲解</p>
+<span id="more"></span>
+<h2 id="获取路径"><a href="#获取路径" class="headerlink" title="获取路径"></a>获取路径</h2><p>以下介绍的方法同时适用于jar包和工程中</p>
+<p>获取运行时路径的方法很多，这里只介绍一种通用的方法</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[ClassName].class.getProtectionDomain().getCodeSource().getLocation();</span><br></pre></td></tr></table></figure>
+<p>这种方法在工程中获取的是工程项目的位置，在jar包中是获取jar包所在的位置（包括XXXX.jar）</p>
+<h2 id="加载资源"><a href="#加载资源" class="headerlink" title="加载资源"></a>加载资源</h2><h3 id="class-getResource-String-resourceFile"><a href="#class-getResource-String-resourceFile" class="headerlink" title="class.getResource(String resourceFile)"></a>class.getResource(String resourceFile)</h3><h3 id="class-getClassLoader-getResource-String-resourceFile"><a href="#class-getClassLoader-getResource-String-resourceFile" class="headerlink" title="class.getClassLoader().getResource(String resourceFile)"></a>class.getClassLoader().getResource(String resourceFile)</h3><p>上面的区别看这里：</p>
+<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-2023e3d7fdae0160e22a5dedde736368_720w.jpg" alt="img"></p>
+<p><img src="/2021/08/17/Java/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E8%8E%B7%E5%8F%96%E8%BF%90%E8%A1%8C%E4%BD%8D%E7%BD%AE/v2-33f6acaa7515bb06d292abf9051cb535_720w.jpg" alt="img"></p>
+<p><code>class.getResource(String resource)</code> 调用当前类路径下的资源</p>
+<p><code>class.getClassLoader().getResource(String resource)</code> 获取跟路径，调用根目录下资源</p>
+<p><strong>上面的两种方式在工程项目中有效，在jar包中无效</strong></p>
+<h3 id="class-getResourceAsStream-String-resourceFile"><a href="#class-getResourceAsStream-String-resourceFile" class="headerlink" title="class.getResourceAsStream(String resourceFile)"></a>class.getResourceAsStream(String resourceFile)</h3><p>要想在jar包中也能够读取资源文件，请使用这个方法！</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java_skill</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ServletContext对象</title>
+    <url>/2021/12/17/JavaWeb/ServletContext/</url>
+    <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
+<p>19年黑马<code>JavaWeb</code>课程的笔记</p>
+<span id="more"></span>
+<h1 id="ServletContext对象"><a href="#ServletContext对象" class="headerlink" title="ServletContext对象"></a>ServletContext对象</h1><p>ServletContext代表整个web应用，可以和程序的容器(服务器)来通信。</p>
+<h2 id="获取"><a href="#获取" class="headerlink" title="获取"></a>获取</h2><p>通过request对象获取：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">request.getServletContext();</span><br></pre></td></tr></table></figure>
+<p>通过httpServlet获取：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">this.getServletContext();</span><br></pre></td></tr></table></figure>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><h3 id="获取MINE类型"><a href="#获取MINE类型" class="headerlink" title="获取MINE类型"></a>获取MINE类型</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getMimeType</span><span class="params">(String file)</span> </span></span><br></pre></td></tr></table></figure>
+<h3 id="获取文件的真实-服务器-路径"><a href="#获取文件的真实-服务器-路径" class="headerlink" title="获取文件的真实(服务器)路径"></a>获取文件的真实(服务器)路径</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getRealPath</span><span class="params">(String path)</span>  </span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String b = context.getRealPath(<span class="string">&quot;/b.txt&quot;</span>);<span class="comment">//web目录下资源访问</span></span><br><span class="line">String c = context.getRealPath(<span class="string">&quot;/WEB-INF/c.txt&quot;</span>);<span class="comment">//WEB-INF目录下的资源访问</span></span><br><span class="line">String a = context.getRealPath(<span class="string">&quot;/WEB-INF/classes/a.txt&quot;</span>);<span class="comment">//src目录下的资源访问</span></span><br></pre></td></tr></table></figure>
+<h3 id="共享数据"><a href="#共享数据" class="headerlink" title="共享数据"></a>共享数据</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">setAttribute(String name,Object value)</span><br><span class="line">getAttribute(String name)</span><br><span class="line">removeAttribute(String name)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_servlet - javaweb_tomcat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>El表达式</title>
+    <url>/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<span id="more"></span>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_EL_Expression</tag>
       </tags>
   </entry>
   <entry>
@@ -1451,26 +1474,36 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>ServletContext对象</title>
-    <url>/2021/12/17/JavaWeb/ServletContext/</url>
-    <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
-<p>19年黑马<code>JavaWeb</code>课程的笔记</p>
-<span id="more"></span>
-<h1 id="ServletContext对象"><a href="#ServletContext对象" class="headerlink" title="ServletContext对象"></a>ServletContext对象</h1><p>ServletContext代表整个web应用，可以和程序的容器(服务器)来通信。</p>
-<h2 id="获取"><a href="#获取" class="headerlink" title="获取"></a>获取</h2><p>通过request对象获取：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">request.getServletContext();</span><br></pre></td></tr></table></figure>
-<p>通过httpServlet获取：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">this.getServletContext();</span><br></pre></td></tr></table></figure>
-<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><h3 id="获取MINE类型"><a href="#获取MINE类型" class="headerlink" title="获取MINE类型"></a>获取MINE类型</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getMimeType</span><span class="params">(String file)</span> </span></span><br></pre></td></tr></table></figure>
-<h3 id="获取文件的真实-服务器-路径"><a href="#获取文件的真实-服务器-路径" class="headerlink" title="获取文件的真实(服务器)路径"></a>获取文件的真实(服务器)路径</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getRealPath</span><span class="params">(String path)</span>  </span></span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String b = context.getRealPath(<span class="string">&quot;/b.txt&quot;</span>);<span class="comment">//web目录下资源访问</span></span><br><span class="line">String c = context.getRealPath(<span class="string">&quot;/WEB-INF/c.txt&quot;</span>);<span class="comment">//WEB-INF目录下的资源访问</span></span><br><span class="line">String a = context.getRealPath(<span class="string">&quot;/WEB-INF/classes/a.txt&quot;</span>);<span class="comment">//src目录下的资源访问</span></span><br></pre></td></tr></table></figure>
-<h3 id="共享数据"><a href="#共享数据" class="headerlink" title="共享数据"></a>共享数据</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">setAttribute(String name,Object value)</span><br><span class="line">getAttribute(String name)</span><br><span class="line">removeAttribute(String name)</span><br></pre></td></tr></table></figure>
+    <title>Session</title>
+    <url>/2022/01/08/JavaWeb/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFSession/</url>
+    <content><![CDATA[<h1 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h1><span id="more"></span>
+<p>服务器端会话技术，在一次会话的多次请求中间共享数据，将数据保存在服务器端的对象中，<code>HttpSession</code>。（<code>request.getSession()</code>）</p>
+<p>注意：所谓的一次会话，通常指的是不同IP或者同一IP的不同客户端，比方说在同一台机器上使用360浏览器和谷歌浏览器访问百度，在百度的服务器终端会创建两个Session，甚至是同一台客户机，同一个浏览器，不同的标签页都可以算是一个新的会话。</p>
+<h2 id="共享数据"><a href="#共享数据" class="headerlink" title="共享数据"></a>共享数据</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Object getAttribute(String name);</span><br><span class="line">void setAttribute(String name, Object value);</span><br><span class="line">void removeAttribute(String name);</span><br></pre></td></tr></table></figure>
+<h2 id="Session原理"><a href="#Session原理" class="headerlink" title="Session原理"></a>Session原理</h2><p>首先Session是依赖于Cookie的。</p>
+<p>服务器是这样判断请求是属于哪个会话的！</p>
+<p><img src="/2022/01/08/JavaWeb/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFSession/image-20220108152046780.png" alt="image-20220108152046780" style="zoom:200%;"></p>
+<h2 id="Session的一些细节"><a href="#Session的一些细节" class="headerlink" title="Session的一些细节"></a>Session的一些细节</h2><h3 id="当客户端关闭后，服务器不关闭，两次获取Session是否为同一个？"><a href="#当客户端关闭后，服务器不关闭，两次获取Session是否为同一个？" class="headerlink" title="当客户端关闭后，服务器不关闭，两次获取Session是否为同一个？"></a>当客户端关闭后，服务器不关闭，两次获取Session是否为同一个？</h3><p>默认情况下，不是的，原因也很简单，因为Cookie默认情况下当浏览器关闭之后会被清空，因此JSESSIONID的cookie也会被清空，重新打开浏览器发送同一请求的时，不会有JSESSIONID头，因此都武器将重新创建一个<code>HttpSession</code></p>
+<p>如果需要保证下次请求的session相同，则需要对JSESSIONID的cookie进行持久化。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span><br><span class="line">Cookie c = <span class="keyword">new</span> Cookie(<span class="string">&quot;JSESSIONID&quot;</span>, session.getId());</span><br><span class="line">c.setMaxAge(<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>);</span><br><span class="line">response.addCookie(C);</span><br></pre></td></tr></table></figure>
+<h3 id="当服务器重启后，客户端再次获取Session是否为同一个？"><a href="#当服务器重启后，客户端再次获取Session是否为同一个？" class="headerlink" title="当服务器重启后，客户端再次获取Session是否为同一个？"></a>当服务器重启后，客户端再次获取Session是否为同一个？</h3><p>理论上不是，当服务器关闭的时候，内存中的所有Session都将会被销毁，因此不可能是同一个。</p>
+<p>但是处于安全考虑，原生的Tomcat服务器在重启的时候会将Session对象序列化到根目录的<code>Work</code>文件夹中，当重启服务器完成之后，会反序列化<code>Work</code>文件夹中的Session对象，以此来实现重启服务器后也能够获得同一个Session对象。</p>
+<p>Idea开发环境中，会对运行使用的Tomcat进行配置，再重启服务器的时候会先把<code>Work</code>文件夹删掉，然后再创建新的<code>Work</code>文件夹，因此无法实现和饥饿原生tomcat一样的安全功能。</p>
+<h3 id="Session什么时候会被销毁"><a href="#Session什么时候会被销毁" class="headerlink" title="Session什么时候会被销毁"></a>Session什么时候会被销毁</h3><ol>
+<li>服务器关闭的时候</li>
+<li>session对象调用<code>invalidate()</code></li>
+<li>session默认失效时间为30分钟，也就是说浏览器在30分钟内无任何session操作，session将失效</li>
+</ol>
+<h2 id="Session特点"><a href="#Session特点" class="headerlink" title="Session特点"></a>Session特点</h2><ol>
+<li>用于储存一次会话多次请求的数据，存在服务器中</li>
+<li>session可以存储任意类型，任意大小的数据</li>
+</ol>
 ]]></content>
       <categories>
         <category>JavaWeb程序设计</category>
       </categories>
       <tags>
-        <tag>javaweb_servlet - javaweb_tomcat</tag>
+        <tag>javaweb_session</tag>
       </tags>
   </entry>
   <entry>
@@ -1532,39 +1565,6 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>Session</title>
-    <url>/2022/01/08/JavaWeb/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFSession/</url>
-    <content><![CDATA[<h1 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h1><span id="more"></span>
-<p>服务器端会话技术，在一次会话的多次请求中间共享数据，将数据保存在服务器端的对象中，<code>HttpSession</code>。（<code>request.getSession()</code>）</p>
-<p>注意：所谓的一次会话，通常指的是不同IP或者同一IP的不同客户端，比方说在同一台机器上使用360浏览器和谷歌浏览器访问百度，在百度的服务器终端会创建两个Session，甚至是同一台客户机，同一个浏览器，不同的标签页都可以算是一个新的会话。</p>
-<h2 id="共享数据"><a href="#共享数据" class="headerlink" title="共享数据"></a>共享数据</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Object getAttribute(String name);</span><br><span class="line">void setAttribute(String name, Object value);</span><br><span class="line">void removeAttribute(String name);</span><br></pre></td></tr></table></figure>
-<h2 id="Session原理"><a href="#Session原理" class="headerlink" title="Session原理"></a>Session原理</h2><p>首先Session是依赖于Cookie的。</p>
-<p>服务器是这样判断请求是属于哪个会话的！</p>
-<p><img src="/2022/01/08/JavaWeb/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFSession/image-20220108152046780.png" alt="image-20220108152046780" style="zoom:200%;"></p>
-<h2 id="Session的一些细节"><a href="#Session的一些细节" class="headerlink" title="Session的一些细节"></a>Session的一些细节</h2><h3 id="当客户端关闭后，服务器不关闭，两次获取Session是否为同一个？"><a href="#当客户端关闭后，服务器不关闭，两次获取Session是否为同一个？" class="headerlink" title="当客户端关闭后，服务器不关闭，两次获取Session是否为同一个？"></a>当客户端关闭后，服务器不关闭，两次获取Session是否为同一个？</h3><p>默认情况下，不是的，原因也很简单，因为Cookie默认情况下当浏览器关闭之后会被清空，因此JSESSIONID的cookie也会被清空，重新打开浏览器发送同一请求的时，不会有JSESSIONID头，因此都武器将重新创建一个<code>HttpSession</code></p>
-<p>如果需要保证下次请求的session相同，则需要对JSESSIONID的cookie进行持久化。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span><br><span class="line">Cookie c = <span class="keyword">new</span> Cookie(<span class="string">&quot;JSESSIONID&quot;</span>, session.getId());</span><br><span class="line">c.setMaxAge(<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>);</span><br><span class="line">response.addCookie(C);</span><br></pre></td></tr></table></figure>
-<h3 id="当服务器重启后，客户端再次获取Session是否为同一个？"><a href="#当服务器重启后，客户端再次获取Session是否为同一个？" class="headerlink" title="当服务器重启后，客户端再次获取Session是否为同一个？"></a>当服务器重启后，客户端再次获取Session是否为同一个？</h3><p>理论上不是，当服务器关闭的时候，内存中的所有Session都将会被销毁，因此不可能是同一个。</p>
-<p>但是处于安全考虑，原生的Tomcat服务器在重启的时候会将Session对象序列化到根目录的<code>Work</code>文件夹中，当重启服务器完成之后，会反序列化<code>Work</code>文件夹中的Session对象，以此来实现重启服务器后也能够获得同一个Session对象。</p>
-<p>Idea开发环境中，会对运行使用的Tomcat进行配置，再重启服务器的时候会先把<code>Work</code>文件夹删掉，然后再创建新的<code>Work</code>文件夹，因此无法实现和饥饿原生tomcat一样的安全功能。</p>
-<h3 id="Session什么时候会被销毁"><a href="#Session什么时候会被销毁" class="headerlink" title="Session什么时候会被销毁"></a>Session什么时候会被销毁</h3><ol>
-<li>服务器关闭的时候</li>
-<li>session对象调用<code>invalidate()</code></li>
-<li>session默认失效时间为30分钟，也就是说浏览器在30分钟内无任何session操作，session将失效</li>
-</ol>
-<h2 id="Session特点"><a href="#Session特点" class="headerlink" title="Session特点"></a>Session特点</h2><ol>
-<li>用于储存一次会话多次请求的数据，存在服务器中</li>
-<li>session可以存储任意类型，任意大小的数据</li>
-</ol>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_session</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo博客支持数学公式</title>
     <url>/2022/03/15/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
     <content><![CDATA[<ol>
@@ -1597,6 +1597,58 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>hexo</tag>
         <tag>features</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>文章常用标志</title>
+    <url>/2019/11/20/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/%E6%96%87%E7%AB%A0%E5%B8%B8%E7%94%A8%E6%A0%87%E5%BF%97/</url>
+    <content><![CDATA[<h1 id="常用标识："><a href="#常用标识：" class="headerlink" title="常用标识："></a>常用标识：</h1><h2 id="title"><a href="#title" class="headerlink" title="title:"></a>title:</h2><p>文章标题</p>
+<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><p>文章标签，格式可为：<code>[XXXX,XXXX,...]</code> 或者 <code>- XXXXX\n - XXXXXX\n</code></p>
+<h2 id="date"><a href="#date" class="headerlink" title="date:"></a>date:</h2><p>生成日期<br>格式自定义</p>
+<h2 id="categories"><a href="#categories" class="headerlink" title="categories:"></a>categories:</h2><p>文章分类</p>
+<h2 id="description"><a href="#description" class="headerlink" title="description:"></a>description:</h2><p>文章描述，展示在主页的描述。 </p>
+<h2 id="image"><a href="#image" class="headerlink" title="image:"></a>image:</h2><p>待写</p>
+<h2 id="password"><a href="#password" class="headerlink" title="password:"></a>password:</h2><p>如果需要给md加密码访问，可加上这个。</p>
+<h2 id="top"><a href="#top" class="headerlink" title="top:"></a>top:</h2><p>博文置顶优先级，数值越高越靠前。</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo常用指令&amp;Front Matter</title>
+    <url>/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="Hexo常用指令-amp-Front-Matter"><a href="#Hexo常用指令-amp-Front-Matter" class="headerlink" title="Hexo常用指令&amp;Front Matter"></a>Hexo常用指令&amp;Front Matter</h1><span id="more"></span>
+<h2 id="Front-Matter"><a href="#Front-Matter" class="headerlink" title="Front Matter"></a>Front Matter</h2><p>重要的有两个：</p>
+<ul>
+<li><p>tags：标签，可以打多个</p>
+</li>
+<li><p>categories：分类，只能放一个分类</p>
+</li>
+</ul>
+<h3 id="tags"><a href="#tags" class="headerlink" title="tags"></a>tags</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">方式1：</span><br><span class="line">[java,javeweb]</span><br><span class="line">方式2：</span><br><span class="line">	- Java</span><br><span class="line">	- JavaWeb</span><br></pre></td></tr></table></figure>
+<h3 id="categories"><a href="#categories" class="headerlink" title="categories"></a>categories</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">categories: Hexo</span><br></pre></td></tr></table></figure>
+<h2 id="Hexo常用指令"><a href="#Hexo常用指令" class="headerlink" title="Hexo常用指令"></a>Hexo常用指令</h2><h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><p>希望在<code>_post</code>文件夹下创建文章：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post &quot;文章名[.md]&quot;</span><br></pre></td></tr></table></figure>
+<p>希望在<code>_post/分类</code>文件下面创建文章：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post --path &quot;[目录名]/[文章名]&quot;</span><br></pre></td></tr></table></figure>
+<p><code>[目录名]</code> <strong>不存在会自动创建</strong></p>
+<h2 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo g -d 		// 生成之后立即部署</span><br></pre></td></tr></table></figure>
+<h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo s	//本地测试</span><br></pre></td></tr></table></figure>
+<p>可以边开启服务器，边修改文章，边看效果（<strong>支持热部署</strong>）</p>
+<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d		// 部署静态页面</span><br></pre></td></tr></table></figure>
+<h2 id="一般流程"><a href="#一般流程" class="headerlink" title="一般流程"></a>一般流程</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(hexo clean)--&gt; hexo new --&gt; 写文章 --&gt; hexo g(hexo g -d) --&gt; (hexo s) --&gt; hexo d</span><br></pre></td></tr></table></figure>
+<p><code>hexo d</code>,远端没更新，一般都是<code>github</code>服务器问题，<strong>等！</strong></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Hexo指令</tag>
       </tags>
   </entry>
   <entry>
@@ -1641,6 +1693,118 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>Markdown语法</title>
+    <url>/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Markdown%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="Markdown语法"><a href="#Markdown语法" class="headerlink" title="Markdown语法"></a>Markdown语法</h1><h2 id="Markdown简介"><a href="#Markdown简介" class="headerlink" title="Markdown简介"></a>Markdown简介</h2><p>markdown就是一种轻量级标记语言。兼容HTML。可以用来写<code>HTML</code>。一般用来记笔记。</p>
+<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>有6个级别的标题</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 一级标题</span></span><br><span class="line"><span class="section">## 二级标题</span></span><br><span class="line"><span class="section">### 三级标题</span></span><br><span class="line"><span class="section">#### 四级标题</span></span><br><span class="line"><span class="section">##### 五级标题</span></span><br><span class="line"><span class="section">###### 六级标题</span></span><br></pre></td></tr></table></figure>
+<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>引用用于更新文章</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="quote">&gt; 引用内容</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>引用内容</p>
+<p>2022年5月14日更新内容：</p>
+<p>XXXXX</p>
+<p>13131231</p>
+<blockquote>
+<p>23点32分</p>
+</blockquote>
+</blockquote>
+<h2 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">~~123123~~</span><br></pre></td></tr></table></figure>
+<p><del>12313123</del></p>
+<h2 id="加粗"><a href="#加粗" class="headerlink" title="加粗"></a>加粗</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="strong">**sdasdsda**</span></span><br></pre></td></tr></table></figure>
+<p><strong>123112</strong></p>
+<h2 id="倾斜"><a href="#倾斜" class="headerlink" title="倾斜"></a>倾斜</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="emphasis">*321323*</span></span><br></pre></td></tr></table></figure>
+<p><em>2313</em></p>
+<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="code">``` 代码块</span></span><br></pre></td></tr></table></figure>
+<h2 id="内嵌代码"><a href="#内嵌代码" class="headerlink" title="内嵌代码"></a>内嵌代码</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="code">`1231332312`</span></span><br></pre></td></tr></table></figure>
+<p><code>askia</code></p>
+<h2 id="公式块"><a href="#公式块" class="headerlink" title="公式块"></a>公式块</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">$$</span><br><span class="line">mathJs公式代码</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+\alpha、\delta</script><h2 id="内嵌公式"><a href="#内嵌公式" class="headerlink" title="内嵌公式"></a>内嵌公式</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">$&#123;O(n^2)&#125;$</span><br></pre></td></tr></table></figure>
+<p>${O(n^2)}$</p>
+<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>head1</th>
+<th>head2</th>
+<th>head3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">1.</span> 123</span><br><span class="line"><span class="bullet">2.</span> 345</span><br></pre></td></tr></table></figure>
+<ol>
+<li>123</li>
+<li>456</li>
+</ol>
+<h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> 1231</span><br><span class="line"><span class="bullet">-</span> 12313</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1231</li>
+<li>4141sda</li>
+</ul>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[<span class="string">标题</span>](<span class="link">链接地址</span>)</span><br></pre></td></tr></table></figure>
+<p><a href="www.baidu.com">baidu</a></p>
+<h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---	</span><br></pre></td></tr></table></figure>
+<hr>
+<hr>
+<h2 id="内容目录"><a href="#内容目录" class="headerlink" title="内容目录"></a>内容目录</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[TOC]</span><br></pre></td></tr></table></figure>
+<p>[TOC]</p>
+<h2 id="高亮"><a href="#高亮" class="headerlink" title="高亮"></a>高亮</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">==23132==</span><br></pre></td></tr></table></figure>
+<p>==21313==</p>
+<h2 id="上标"><a href="#上标" class="headerlink" title="上标"></a>上标</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">^22^</span><br><span class="line">~11~</span><br></pre></td></tr></table></figure>
+<p>a^21^</p>
+<p>b~2~</p>
+<h2 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h2><p><img src="/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Markdown%E8%AF%AD%E6%B3%95/image-20220515000408871.png" alt="image-20220515000408871"></p>
+<h2 id="画图"><a href="#画图" class="headerlink" title="画图"></a>画图</h2><p>流程图、类图，需要插件支持。</p>
+]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+      <tags>
+        <tag>Markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo模板修改和使用</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
+<span id="more"></span>
+<p><code>hexo</code>的模板一般放在：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
+<p>有三个文件</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
+<p>对应new命令的三种创建类型！</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
+<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
+<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>features</tag>
+        <tag>reference</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo恢复搭建</title>
     <url>/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<p>写下这篇博客，主要用于记录自己搭建博客过程，以后重装系统后有一个参考的恢复方向（已经干掉重新来了好几次，每次都要找资料，猝），而且，不得不说，windows系统，C盘没100G真的用不了多久，不知道是不是只有我是这样！！😭😭😭😭</p>
@@ -1674,6 +1838,8 @@ cnpm install -g hexo-cli
  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
+<blockquote>
+</blockquote>
 <p>注意：如果你的<code>git</code>版本比较高，如笔者使用的<code>Git-2.31.1-64-bit</code>可能会报10054错误：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git</span><br><span class="line">fatal: unable to access </span><br><span class="line">&#x27;https://github.com/hexojs/hexo-starter.git/&#x27;: OpenSSL SSL_read: Connection was reset, errno 10054</span><br></pre></td></tr></table></figure>
 <p>出现这个错误先检查下是否开了多个bash，比如：一个在运行<code>hexo s</code>，一个在运行<code>hexo init</code>，特别在重建博客的时候这个问题最常见，最简单的解决方法就是关掉其他的bash。</p>
@@ -1759,29 +1925,6 @@ cnpm install -g hexo-cli
       <tags>
         <tag>hexo</tag>
         <tag>recovery</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo模板修改和使用</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
-<span id="more"></span>
-<p><code>hexo</code>的模板一般放在：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
-<p>有三个文件</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
-<p>对应new命令的三种创建类型！</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
-<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
-<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>features</tag>
-        <tag>reference</tag>
       </tags>
   </entry>
   <entry>
@@ -1876,6 +2019,23 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
+    <title>解决hexo中文乱码</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
+<p>出现中文乱码可能是因为配置文件中不是使用<code>utf-8</code>进行保存，因此</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>解决hexo标签和分类页面无法正常显示</title>
     <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/</url>
     <content><![CDATA[<h2 id="解决hexo标签和分类页面无法正常显示"><a href="#解决hexo标签和分类页面无法正常显示" class="headerlink" title="解决hexo标签和分类页面无法正常显示"></a>解决hexo标签和分类页面无法正常显示</h2><span id="more"></span>
@@ -1885,98 +2045,6 @@ cnpm install -g hexo-cli
 <p>分别添加：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type: &quot;categories&quot;</span><br><span class="line">layout: &quot;categories&quot;</span><br><span class="line"></span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">layout: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
 <p>即可解决</p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo部署到github上图片无法显示问题</title>
-    <url>/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="解决hexo部署到github上图片无法显示问题"><a href="#解决hexo部署到github上图片无法显示问题" class="headerlink" title="解决hexo部署到github上图片无法显示问题"></a>解决hexo部署到github上图片无法显示问题</h1><span id="more"></span>
-<h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>设置站点配置文件<code>_config.yml</code>中 <code>post_asset_folder:true</code></p>
-<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811190704876.png" alt="image-20210811190704876"></p>
-<p><code>Hexo</code> 提供了一种更方便管理 <code>Asset</code> 的设定：<code>post_asset_folder</code>当您设置为<code>true</code>参数后，在建立文件时，<code>Hexo</code><strong>会自动建立一个与文章同名的文件夹，您可以把与该文章相关的所有资源都放到那个文件夹。</strong></p>
-<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>在hexo的目录下执行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
-<p>完成安装后用<code>hexo</code>新建文章的时候会发现<code>_posts</code>目录下面会多出一个和文章名字一样的文件夹。图片就可以放在文件夹下面。</p>
-<p>然后进行正常的<code>hexo</code>三连就可以了</p>
-<h2 id="可能出现的问题"><a href="#可能出现的问题" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h2><p>大家按照上面的步骤完成之后，在部署或者测试的时候图片可能仍然无法正常显示，这涉及到<code>hexo-asset-image</code>插件的问题。</p>
-<p>如果在<code>hexo g</code>之后图片的加载是这样的：</p>
-<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811192905480.png" alt="image-20210811192905480"></p>
-<p>带<code>/.com//d</code>的，那你的图片百分百是没法显示的。解决这个问题也很简单：</p>
-<ol>
-<li><p>找到<code>node_modules\hexo-asset-image</code></p>
-</li>
-<li><p>打开<code>index.js</code></p>
-</li>
-<li><p>修改24行为：</p>
-</li>
-</ol>
-<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193248235.png" alt="image-20210811193248235"></p>
-<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193519193.png" alt="image-20210811193519193"></p>
-<h2 id="需要注意"><a href="#需要注意" class="headerlink" title="需要注意"></a>需要注意</h2><p>如果使用Typora来编辑Markdown的话，建议使用相对路径，而且路径中，<strong>必须使用</strong><code>/</code>，使用<code>\</code>或者<code>\\</code>都会导致渲染不正确，无法找到图片资源，<strong>还有图片资源文件名不要带空格！！！</strong></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>文章常用标志</title>
-    <url>/2019/11/20/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/%E6%96%87%E7%AB%A0%E5%B8%B8%E7%94%A8%E6%A0%87%E5%BF%97/</url>
-    <content><![CDATA[<h1 id="常用标识："><a href="#常用标识：" class="headerlink" title="常用标识："></a>常用标识：</h1><h2 id="title"><a href="#title" class="headerlink" title="title:"></a>title:</h2><p>文章标题</p>
-<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><p>文章标签，格式可为：<code>[XXXX,XXXX,...]</code> 或者 <code>- XXXXX\n - XXXXXX\n</code></p>
-<h2 id="date"><a href="#date" class="headerlink" title="date:"></a>date:</h2><p>生成日期<br>格式自定义</p>
-<h2 id="categories"><a href="#categories" class="headerlink" title="categories:"></a>categories:</h2><p>文章分类</p>
-<h2 id="description"><a href="#description" class="headerlink" title="description:"></a>description:</h2><p>文章描述，展示在主页的描述。 </p>
-<h2 id="image"><a href="#image" class="headerlink" title="image:"></a>image:</h2><p>待写</p>
-<h2 id="password"><a href="#password" class="headerlink" title="password:"></a>password:</h2><p>如果需要给md加密码访问，可加上这个。</p>
-<h2 id="top"><a href="#top" class="headerlink" title="top:"></a>top:</h2><p>博文置顶优先级，数值越高越靠前。</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo-github hexo g time out 443</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
-    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
-<span id="more"></span>
-<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-<p>如果不需要代理了，则可以运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo中文乱码</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
-    <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
-<p>出现中文乱码可能是因为配置文件中不是使用<code>utf-8</code>进行保存，因此</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
 ]]></content>
       <categories>
         <category>博客运维</category>
@@ -2671,6 +2739,62 @@ a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = 0\\
       </categories>
       <tags>
         <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo部署到github上图片无法显示问题</title>
+    <url>/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="解决hexo部署到github上图片无法显示问题"><a href="#解决hexo部署到github上图片无法显示问题" class="headerlink" title="解决hexo部署到github上图片无法显示问题"></a>解决hexo部署到github上图片无法显示问题</h1><span id="more"></span>
+<h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>设置站点配置文件<code>_config.yml</code>中 <code>post_asset_folder:true</code></p>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811190704876.png" alt="image-20210811190704876"></p>
+<p><code>Hexo</code> 提供了一种更方便管理 <code>Asset</code> 的设定：<code>post_asset_folder</code>当您设置为<code>true</code>参数后，在建立文件时，<code>Hexo</code><strong>会自动建立一个与文章同名的文件夹，您可以把与该文章相关的所有资源都放到那个文件夹。</strong></p>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>在hexo的目录下执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+<p>完成安装后用<code>hexo</code>新建文章的时候会发现<code>_posts</code>目录下面会多出一个和文章名字一样的文件夹。图片就可以放在文件夹下面。</p>
+<p>然后进行正常的<code>hexo</code>三连就可以了</p>
+<h2 id="可能出现的问题"><a href="#可能出现的问题" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h2><p>大家按照上面的步骤完成之后，在部署或者测试的时候图片可能仍然无法正常显示，这涉及到<code>hexo-asset-image</code>插件的问题。</p>
+<p>如果在<code>hexo g</code>之后图片的加载是这样的：</p>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811192905480.png" alt="image-20210811192905480"></p>
+<p>带<code>/.com//d</code>的，那你的图片百分百是没法显示的。解决这个问题也很简单：</p>
+<ol>
+<li><p>找到<code>node_modules\hexo-asset-image</code></p>
+</li>
+<li><p>打开<code>index.js</code></p>
+</li>
+<li><p>修改24行为：</p>
+</li>
+</ol>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193248235.png" alt="image-20210811193248235"></p>
+<p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193519193.png" alt="image-20210811193519193"></p>
+<h2 id="需要注意"><a href="#需要注意" class="headerlink" title="需要注意"></a>需要注意</h2><p>如果使用Typora来编辑Markdown的话，建议使用相对路径，而且路径中，<strong>必须使用</strong><code>/</code>，使用<code>\</code>或者<code>\\</code>都会导致渲染不正确，无法找到图片资源，<strong>还有图片资源文件名不要带空格！！！</strong></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo-github hexo g time out 443</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
+    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
+<span id="more"></span>
+<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+<p>如果不需要代理了，则可以运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
       </tags>
   </entry>
   <entry>
