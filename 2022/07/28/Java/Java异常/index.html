@@ -20,24 +20,25 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Java异常（Exception）什么是异常在刚刚学习Java的时候，我很难去理解这个概念。认为只要我在写代码的时候留多个心眼，做个判断，理论上不就可以避免很多不必要的问题了吗！（比如，在使用对象之前判断一次对象是不是null不就行了？），但真正上手代码之后，发现，异常可以说是必不可少的东西。 那什么是异常呢？众所周知，一个程序如果能够符合我们预期这样执行下去，至少需要满足两个条件，第一是编译通过">
+  <meta name="description" content="Java异常（Exception）Github文章分支：传送门">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Askia的学习笔记">
-<meta property="og:url" content="http://example.com/2022/07/11/Java/Java%E5%BC%82%E5%B8%B8/index.html">
+<meta property="og:title" content="Java异常（Exception）">
+<meta property="og:url" content="http://example.com/2022/07/28/Java/Java%E5%BC%82%E5%B8%B8/index.html">
 <meta property="og:site_name" content="Askia的学习笔记">
-<meta property="og:description" content="Java异常（Exception）什么是异常在刚刚学习Java的时候，我很难去理解这个概念。认为只要我在写代码的时候留多个心眼，做个判断，理论上不就可以避免很多不必要的问题了吗！（比如，在使用对象之前判断一次对象是不是null不就行了？），但真正上手代码之后，发现，异常可以说是必不可少的东西。 那什么是异常呢？众所周知，一个程序如果能够符合我们预期这样执行下去，至少需要满足两个条件，第一是编译通过">
+<meta property="og:description" content="Java异常（Exception）Github文章分支：传送门">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/07/11/Java/Java%E5%BC%82%E5%B8%B8/image-20220706135604249.png">
-<meta property="og:image" content="http://example.com/2022/07/11/Java/Java%E5%BC%82%E5%B8%B8/image-20220707181954758.png">
-<meta property="og:image" content="http://example.com/2022/07/11/Java/Java%E5%BC%82%E5%B8%B8/image-20220710205527605.png">
-<meta property="og:image" content="http://example.com/2022/07/11/Java/Java%E5%BC%82%E5%B8%B8/image-20220710213602989.png">
-<meta property="article:published_time" content="2022-07-11T05:40:34.541Z">
-<meta property="article:modified_time" content="2022-07-28T08:51:33.425Z">
+<meta property="og:image" content="http://example.com/2022/07/28/Java/Java%E5%BC%82%E5%B8%B8/image-20220706135604249.png">
+<meta property="og:image" content="http://example.com/2022/07/28/Java/Java%E5%BC%82%E5%B8%B8/image-20220707181954758.png">
+<meta property="og:image" content="http://example.com/2022/07/28/Java/Java%E5%BC%82%E5%B8%B8/image-20220710205527605.png">
+<meta property="og:image" content="http://example.com/2022/07/28/Java/Java%E5%BC%82%E5%B8%B8/image-20220710213602989.png">
+<meta property="article:published_time" content="2022-07-28T08:59:30.000Z">
+<meta property="article:modified_time" content="2022-07-28T09:03:33.729Z">
 <meta property="article:author" content="Askia">
+<meta property="article:tag" content="java_core">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/07/11/Java/Java%E5%BC%82%E5%B8%B8/image-20220706135604249.png">
+<meta name="twitter:image" content="http://example.com/2022/07/28/Java/Java%E5%BC%82%E5%B8%B8/image-20220706135604249.png">
 
-<link rel="canonical" href="http://example.com/2022/07/11/Java/Java%E5%BC%82%E5%B8%B8/">
+<link rel="canonical" href="http://example.com/2022/07/28/Java/Java%E5%BC%82%E5%B8%B8/">
 
 
 <script id="page-configurations">
@@ -50,7 +51,7 @@
   };
 </script>
 
-  <title> | Askia的学习笔记</title>
+  <title>Java异常（Exception） | Askia的学习笔记</title>
   
 
 
@@ -199,7 +200,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/11/Java/Java%E5%BC%82%E5%B8%B8/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/28/Java/Java%E5%BC%82%E5%B8%B8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -212,7 +213,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          Java异常（Exception）
         </h1>
 
         <div class="post-meta">
@@ -221,16 +222,19 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2022-07-11 13:40:34" itemprop="dateCreated datePublished" datetime="2022-07-11T13:40:34+08:00">2022-07-11</time>
+              <time title="创建时间：2022-07-28 16:59:30 / 修改时间：17:03:33" itemprop="dateCreated datePublished" datetime="2022-07-28T16:59:30+08:00">2022-07-28</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-28 16:51:33" itemprop="dateModified" datetime="2022-07-28T16:51:33+08:00">2022-07-28</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
               </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
 
           
 
@@ -243,11 +247,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Java异常（Exception）"><a href="#Java异常（Exception）" class="headerlink" title="Java异常（Exception）"></a>Java异常（Exception）</h1><h2 id="什么是异常"><a href="#什么是异常" class="headerlink" title="什么是异常"></a>什么是异常</h2><p>在刚刚学习<code>Java</code>的时候，我很难去理解这个概念。认为只要我在写代码的时候留多个心眼，做个判断，理论上不就可以避免很多不必要的问题了吗！（比如，在使用对象之前判断一次对象是不是<code>null</code>不就行了？），但真正上手代码之后，发现，异常可以说是必不可少的东西。</p>
+        <h1 id="Java异常（Exception）"><a href="#Java异常（Exception）" class="headerlink" title="Java异常（Exception）"></a>Java异常（Exception）</h1><p><code>Github</code>文章分支：<a target="_blank" rel="noopener" href="https://github.com/ArgentoAskia/JavaProject/tree/10-java-base-exception">传送门</a></p>
+<span id="more"></span>
+<h2 id="什么是异常"><a href="#什么是异常" class="headerlink" title="什么是异常"></a>什么是异常</h2><p>在刚刚学习<code>Java</code>的时候，我很难去理解这个概念。认为只要我在写代码的时候留多个心眼，做个判断，理论上不就可以避免很多不必要的问题了吗！（比如，在使用对象之前判断一次对象是不是<code>null</code>不就行了？），但真正上手代码之后，发现，异常可以说是必不可少的东西。</p>
 <p>那什么是异常呢？众所周知，一个程序如果能够符合我们预期这样执行下去，至少需要满足两个条件，<strong>第一是编译通过，第二是程序在运行过程中没有出现逻辑错误。</strong>第一层错误很好解决，编译器会告诉我们我们写的程序哪里有问题。<strong>但是第二个条件想要发现就比较困难了，形如数组越界、除数为0这一类的逻辑错误，</strong>很多时候必须要<strong>在程序跑起来的时候才能发现</strong>，并且一经发现，不得不终止程序。<strong>这就要求程序代码运行时，必须要一种保护机制，这种机制能够在遇到这一类运行逻辑错误时及时告诉用户，并终止程序运行，现在我们可以称呼这种机制叫异常。</strong></p>
 <p>那异常机制被触发的时候，要如何处理呢？这就涉及到另外一个概念，<strong>叫异常捕获</strong>。所谓异常捕获，是当程序抛出异常之后，我们将其拦截下来，并对该异常进行处理的过程（处理可以指弹出一个提示框告诉用户，也可以进行代码的修正等等）。</p>
 <p>上面两个属于异常机制的基本特性，<code>Java</code>在异常机制的基础上做了扩展，开发者可以<strong>二次抛出异常</strong>，也叫<strong>传递异常</strong>。同时<code>Java</code>语言<strong>内置了非常庞大的异常类体系</strong>，一般以<code>XXXXException</code>作为类名。</p>
-<h2 id="Java异常分类"><a href="#Java异常分类" class="headerlink" title="Java异常分类"></a>Java异常分类</h2><p><img src="/2022/07/11/Java/Java%E5%BC%82%E5%B8%B8/image-20220706135604249.png" alt="image-20220706135604249"></p>
+<h2 id="Java异常分类"><a href="#Java异常分类" class="headerlink" title="Java异常分类"></a>Java异常分类</h2><p><img src="/2022/07/28/Java/Java%E5%BC%82%E5%B8%B8/image-20220706135604249.png" alt="image-20220706135604249"></p>
 <h3 id="Throwable"><a href="#Throwable" class="headerlink" title="Throwable"></a>Throwable</h3><p>所有异常都是由<code>Throwable</code>继承而来的，可以通过继承<code>Throwable</code>来实现新的异常，但是一般不推荐这样做，下一层分为了两个分支：<code>Error</code>和<code>Exception</code></p>
 <h3 id="Error"><a href="#Error" class="headerlink" title="Error"></a>Error</h3><p><code>Error</code>类用来描述<code>Java</code>运行时<strong>系统内部引起的错误和资源消耗错误</strong>，因为是<code>Java</code>内部的错误，一旦遇到，就与<code>Java</code>底层有关，程序代码无能为力，只能重启电脑或者重新安装<code>JDK</code></p>
 <h3 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h3><p><code>Exception</code>类又可以分为<code>IOException</code>和<code>RuntimeException</code>，<strong>开发者可以根据自己的需要继承该类来自定义一种新的异常类型。</strong></p>
@@ -330,7 +336,7 @@
 <p>如果你写了类似的代码，当抛出异常之后，你的控制可能会打印下面的类似于调试信息的东西。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">java.io.IOException: 我是IOException高层异常，我带了三个其他异常，请收好~~~</span><br><span class="line">	at api.ExceptionAPI.throwIOException(ExceptionAPI.java:23)</span><br><span class="line">	at api.ExceptionAPI.main(ExceptionAPI.java:16)</span><br><span class="line">	Suppressed: java.net.BindException: bindException作为伴随异常（Suppressed）存在IOException异常里面了</span><br><span class="line">		at api.ExceptionAPI.throwBindException(ExceptionAPI.java:46)</span><br><span class="line">		at api.ExceptionAPI.throwIOException(ExceptionAPI.java:29)</span><br><span class="line">		... 1 more</span><br><span class="line">	Suppressed: java.net.ConnectException: connectException作为伴随异常（Suppressed）存在IOException异常里面了</span><br><span class="line">		at api.ExceptionAPI.throwConnectException(ExceptionAPI.java:49)</span><br><span class="line">		at api.ExceptionAPI.throwIOException(ExceptionAPI.java:33)</span><br><span class="line">		... 1 more</span><br><span class="line">Caused by: java.io.EOFException: 已经到达文件尾啦~</span><br><span class="line">	at api.ExceptionAPI.throwEOFException(ExceptionAPI.java:43)</span><br><span class="line">	at api.ExceptionAPI.throwIOException(ExceptionAPI.java:25)</span><br><span class="line">	... 1 more</span><br></pre></td></tr></table></figure>
 <p>上面的异常信息，各个部分是什么意思可以参考下面的图，现阶段，如果对异常链、<code>cause</code>异常不清楚的同学，无需担心，后面会讲，现在只需要有这样一个概念即可。</p>
-<p><img src="/2022/07/11/Java/Java%E5%BC%82%E5%B8%B8/image-20220707181954758.png" alt="image-20220707181954758"></p>
+<p><img src="/2022/07/28/Java/Java%E5%BC%82%E5%B8%B8/image-20220707181954758.png" alt="image-20220707181954758"></p>
 <p>当然我们也可以分开获取对应的异常信息。具体的也会在接下来逐一介绍。</p>
 <h3 id="获取抛出异常信息"><a href="#获取抛出异常信息" class="headerlink" title="获取抛出异常信息"></a>获取抛出异常信息</h3><p>获取异常信息主要以下面两个<code>API</code>为主：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取异常携带信息</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getMessage</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getLocalizedMessage</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
@@ -363,7 +369,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Throwable original = e.getcause();</span><br></pre></td></tr></table></figure>
 <p>便可以获取引发高层的cause</p>
 <p>对，没错，可能有同学已经猜到了，在异常信息底下的<code>cause by</code>就和现在介绍的<code>initCause()</code>有关。只不过<code>getCause()</code>帮你把它单独拿出来而已。</p>
-<p><img src="/2022/07/11/Java/Java%E5%BC%82%E5%B8%B8/image-20220710205527605.png" alt="image-20220710205527605"></p>
+<p><img src="/2022/07/28/Java/Java%E5%BC%82%E5%B8%B8/image-20220710205527605.png" alt="image-20220710205527605"></p>
 <p>异常包装还是比较厉害的，你甚至能够包装高层异常或者是两个毫无关系的异常：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">connection</span><span class="params">()</span> <span class="keyword">throws</span> ApplicationRunningException</span>&#123;</span><br><span class="line">    <span class="comment">// 针对情况3</span></span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        fun1();		<span class="comment">// 可能抛出IOException</span></span><br><span class="line">    &#125;<span class="keyword">catch</span>(IOException e)&#123;</span><br><span class="line">        ApplicationRunningException throwEx = <span class="keyword">new</span> ApplicationRunningException();</span><br><span class="line">        throwEx.initCause(e);</span><br><span class="line">        <span class="keyword">throw</span> throwEx;	 </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="异常包装链和抑制异常"><a href="#异常包装链和抑制异常" class="headerlink" title="异常包装链和抑制异常"></a>异常包装链和抑制异常</h3><p>先看一段代码：</p>
@@ -377,7 +383,7 @@
 <p>获取压制的异常，使用方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> Throwable[] getSuppressed();</span><br></pre></td></tr></table></figure>
 <p>对应下图的信息：</p>
-<p><img src="/2022/07/11/Java/Java%E5%BC%82%E5%B8%B8/image-20220710213602989.png" alt="image-20220710213602989"></p>
+<p><img src="/2022/07/28/Java/Java%E5%BC%82%E5%B8%B8/image-20220710213602989.png" alt="image-20220710213602989"></p>
 <h2 id="异常注意事项"><a href="#异常注意事项" class="headerlink" title="异常注意事项"></a>异常注意事项</h2><h3 id="在带finally的catch中使用return"><a href="#在带finally的catch中使用return" class="headerlink" title="在带finally的catch中使用return"></a>在带finally的catch中使用return</h3><p>需要注意在异常捕获语句中<strong>使用return</strong>，<strong>finally块会被执行</strong>，如下面代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    throwIOException();</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;12313&quot;</span>;</span><br><span class="line">&#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;123123123123&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="string">&quot;456456&quot;</span>;</span><br><span class="line"><span class="comment">// 执行结果：</span></span><br><span class="line"><span class="comment">// e.printStackTrace();</span></span><br><span class="line"><span class="comment">// System.out.println(&quot;123123123123&quot;);</span></span><br><span class="line"><span class="comment">// return &quot;12313&quot;;</span></span><br></pre></td></tr></table></figure>
 <p>当执行 <code>e.printStackTrace();</code>控制台打印异常信息，然后到<code>return &quot;12313&quot;;</code>当执行完这语句之后，方法<strong>实际上并没有完全返回</strong>，而是去执行<code>finally</code>代码块的内容，执行<code>System.out.println(&quot;123123123123&quot;);</code>，最后才会返回方法调用处。</p>
@@ -440,6 +446,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java-core/" rel="tag"># java_core</a>
+          </div>
 
         
 
