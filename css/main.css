@@ -1199,7 +1199,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ff9df1;
+  background: #ff8504;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2521,7 +2521,7 @@ hr {
   display: inline-block;
 }
 body {
-  background: url("/images/background.png");
+  background: url("/images/background.gif");
   background-repeat: no-repeat;
   background-attachment: fixed;
 /*不重复*/
@@ -2534,7 +2534,7 @@ body {
 .content-wrap {
   width: 1000px;
   box-shadow: 0 2px 4px 0px rgba(0,0,0,0.5), 0 4px 8px 0px rgba(0,0,0,0.1), 0 8px 16px 0px rgba(0,0,0,0.1), 0 16px 32px 0px rgba(0,0,0,0.1) !important;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.75);
 }
 /*侧边框的设置*/
 .sidebar {
