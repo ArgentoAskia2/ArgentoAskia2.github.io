@@ -2,9 +2,9 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -13,14 +13,13 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-  <meta name="description" content="GTK2.0+CodeBlock（windows）环境搭建,更新完毕">
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.17.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="GTK2.0+CodeBlock（windows）环境搭建,更新完毕">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GTK+CodeBlock（windows）环境搭建">
 <meta property="og:url" content="http://example.com/2019/11/28/C/GTK-CodeBlock%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/index.html">
@@ -42,21 +41,18 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="data:image/png;base64,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">
 
+
 <link rel="canonical" href="http://example.com/2019/11/28/C/GTK-CodeBlock%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
 
 
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
 
-  <title>GTK+CodeBlock（windows）环境搭建 | Askia's Zoom</title>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2019/11/28/C/GTK-CodeBlock%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/","path":"2019/11/28/C/GTK-CodeBlock环境搭建/","title":"GTK+CodeBlock（windows）环境搭建"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>GTK+CodeBlock（windows）环境搭建 | Askia's Zoom</title>
   
+
+
 
 
 
@@ -64,201 +60,180 @@
 
 
   <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Askia's Zoom</h1>
-      <span class="logo-line-after"><i></i></span>
+      <i class="logo-line"></i>
+      <p class="site-title">Askia's Zoom</p>
+      <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">just keep going!</p>
   </div>
 
   <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
     </div>
   </div>
 </div>
 
 
 
-
 <nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li>
   </ul>
 </nav>
 
 
 
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-B-GTK%EF%BC%88windows%EF%BC%89%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%95%99%E5%AD%A6"><span class="nav-number">1.</span> <span class="nav-text">C::B+GTK（windows）环境搭建教学</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E5%89%8D%E5%87%86%E5%A4%87"><span class="nav-number">1.2.</span> <span class="nav-text">先前准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.3.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-CodeBlock%E7%9A%84%E5%AE%89%E8%A3%85%EF%BC%9A"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. CodeBlock的安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-GTK-%E5%AE%89%E8%A3%85%EF%BC%9A"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. GTK+安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%A7%A3%E5%8E%8B%E5%8E%8B%E7%BC%A9%E5%8C%85"><span class="nav-number">1.3.3.</span> <span class="nav-text">3. 解压压缩包:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%EF%BC%9A"><span class="nav-number">1.3.4.</span> <span class="nav-text">4.设置环境变量：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%B7%BB%E5%8A%A0%E2%80%94libs%EF%BC%8C%E2%80%94cflags%E5%88%B0C-B"><span class="nav-number">1.3.5.</span> <span class="nav-text">5.添加—libs，—cflags到C::B</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%B5%8B%E8%AF%95%EF%BC%9A"><span class="nav-number">1.3.6.</span> <span class="nav-text">6.测试：</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Askia"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Askia</p>
+  <div class="site-description" itemprop="description">And you! my friend, a true hero!</div>
 </div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
 </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
 
     </div>
-  </div>
 
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+    <div class="main-inner post posts-expand">
 
 
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
+  
 
-          <div class="content post posts-expand">
-            
 
-    
+<div class="post-block">
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2019/11/28/C/GTK-CodeBlock%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Askia">
-      <meta itemprop="description" content="And you! my friend, a true hero!">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Askia's Zoom">
+      <meta itemprop="description" content="And you! my friend, a true hero!">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="GTK+CodeBlock（windows）环境搭建 | Askia's Zoom">
+      <meta itemprop="description" content="GTK2.0+CodeBlock（windows）环境搭建,更新完毕">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           GTK+CodeBlock（windows）环境搭建
         </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2019-11-28 12:18:53" itemprop="dateCreated datePublished" datetime="2019-11-28T12:18:53+08:00">2019-11-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-25 21:16:32" itemprop="dateModified" datetime="2020-12-25T21:16:32+08:00">2020-12-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/GTK-2-0/" itemprop="url" rel="index"><span itemprop="name">GTK+ 2.0</span></a>
-                </span>
-            </span>
+      <time title="创建时间：2019-11-28 12:18:53" itemprop="dateCreated datePublished" datetime="2019-11-28T12:18:53+08:00">2019-11-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2020-12-25 21:16:32" itemprop="dateModified" datetime="2020-12-25T21:16:32+08:00">2020-12-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/GTK-2-0/" itemprop="url" rel="index"><span itemprop="name">GTK+ 2.0</span></a>
+        </span>
+    </span>
 
-          
+  
+</div>
+
             <div class="post-description">GTK2.0+CodeBlock（windows）环境搭建,更新完毕</div>
-
         </div>
       </header>
 
     
     
     
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <h1 id="C-B-GTK（windows）环境搭建教学"><a href="#C-B-GTK（windows）环境搭建教学" class="headerlink" title="C::B+GTK（windows）环境搭建教学"></a>C::B+GTK（windows）环境搭建教学</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>学完C语言已经一段时间了，不想局限于控制台程序，想学做下窗口，一开始想试试MFC，然而MFC的书太厚了，上手难，于是在同学建议下试了比较容易上手的GTK+。<del>GTK+是真的爽！</del><br>本篇将<del>简单</del>介绍C::B（CodeBlock）+GTK+的搭建。</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="C-B-GTK（windows）环境搭建教学"><a href="#C-B-GTK（windows）环境搭建教学" class="headerlink" title="C::B+GTK（windows）环境搭建教学"></a>C::B+GTK（windows）环境搭建教学</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>学完C语言已经一段时间了，不想局限于控制台程序，想学做下窗口，一开始想试试MFC，然而MFC的书太厚了，上手难，于是在同学建议下试了比较容易上手的GTK+。<del>GTK+是真的爽！</del><br>本篇将<del>简单</del>介绍C::B（CodeBlock）+GTK+的搭建。</p>
 <h2 id="先前准备"><a href="#先前准备" class="headerlink" title="先前准备"></a>先前准备</h2><ol>
 <li>CodeBlock: 任意一个版本，最好带MinGW编译器！可以点击链接下载<br>传送门：<a target="_blank" rel="noopener" href="https://nchc.dl.sourceforge.net/project/codeblocks/Binaries/17.12/Windows/codeblocks-17.12mingw-setup.exe">CodeBlock 17.12mingw-setup.exe</a></li>
 <li><p>gtk+开发包：由于笔者windows下GTK+ 3安装时老是出错，所以选了旧版本的 GTK+ 2。<strong>注意：下载的GTK开发包最好是32位的，因为64位的开发包在配置好后测试代码时会报找不到库函数的错误！</strong><br>传送门：<a target="_blank" rel="noopener" href="http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+">GTK+</a><br><br>点链接进去后就可以看到下面目录了：<br><img src="data:image/png;base64,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" alt="avatar"><br>自己随便选一个版本吧！设置都一样的。</p>
@@ -290,179 +265,79 @@ int main(int argc, char *argv[])
     
     
 
-      <footer class="post-footer">
+    <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/GTK/" rel="tag"># GTK+</a>
           </div>
 
         
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2019/11/26/C/C%E8%AF%AD%E8%A8%80%E9%9A%90%E8%97%8F%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/" rel="prev" title="C语言隐藏结构体的实现方法">
-      <i class="fa fa-chevron-left"></i> C语言隐藏结构体的实现方法
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2019/12/11/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-2/" rel="next" title="线性代数知识点总结2">
-      线性代数知识点总结2 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/11/26/C/C%E8%AF%AD%E8%A8%80%E9%9A%90%E8%97%8F%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/" rel="prev" title="C语言隐藏结构体的实现方法">
+                  <i class="fa fa-chevron-left"></i> C语言隐藏结构体的实现方法
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/12/11/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-2/" rel="next" title="线性代数知识点总结2">
+                  线性代数知识点总结2 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
           </div>
-          
-    
-  <div class="comments">
-    <div id="lv-container" data-id="city" data-uid="MTAyMC80NzYwNy8yNDEwNw=="></div>
-  </div>
-  
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-B-GTK%EF%BC%88windows%EF%BC%89%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%95%99%E5%AD%A6"><span class="nav-number">1.</span> <span class="nav-text">C::B+GTK（windows）环境搭建教学</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E5%89%8D%E5%87%86%E5%A4%87"><span class="nav-number">1.2.</span> <span class="nav-text">先前准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.3.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-CodeBlock%E7%9A%84%E5%AE%89%E8%A3%85%EF%BC%9A"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. CodeBlock的安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-GTK-%E5%AE%89%E8%A3%85%EF%BC%9A"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. GTK+安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%A7%A3%E5%8E%8B%E5%8E%8B%E7%BC%A9%E5%8C%85"><span class="nav-number">1.3.3.</span> <span class="nav-text">3. 解压压缩包:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%EF%BC%9A"><span class="nav-number">1.3.4.</span> <span class="nav-text">4.设置环境变量：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%B7%BB%E5%8A%A0%E2%80%94libs%EF%BC%8C%E2%80%94cflags%E5%88%B0C-B"><span class="nav-number">1.3.5.</span> <span class="nav-text">5.添加—libs，—cflags到C::B</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%B5%8B%E8%AF%95%EF%BC%9A"><span class="nav-number">1.3.6.</span> <span class="nav-text">6.测试：</span></a></li></ol></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Askia"
-      src="/images/avatar.jpg">
-  <p class="site-author-name" itemprop="name">Askia</p>
-  <div class="site-description" itemprop="description">And you! my friend, a true hero!</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">50</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">14</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">47</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
+    </footer>
+  </article>
 </div>
 
 
 
-      </div>
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80NzYwNy8yNDEwNw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Askia</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
 
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
+  </footer>
 
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
   
-  &copy; 2021 – 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Askia</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
   </div>
 
-        
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
 
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
 
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
 
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
+  
 
 
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
 
 
 
@@ -473,41 +348,12 @@ int main(int argc, char *argv[])
 
 
   
-<script src="/js/local-search.js"></script>
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
 
 
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-
-<script>
-NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
-  window.livereOptions = {
-    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
-  };
-  (function(d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') { return; }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-  })(document, 'script');
-});
-</script>
+<script src="/js/third-party/comments/livere.js"></script>
 
 </body>
 </html>

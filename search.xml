@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>/2021/12/31/JavaWeb/Web%E5%AE%B9%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2021/12/31/JavaWeb/%E5%8A%A8%E6%80%81Servlet/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>冒泡排序（Bubble）</title>
     <url>/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/bubbleSort.gif" alt="bubbleSort"></p>
@@ -138,6 +128,55 @@
       </tags>
   </entry>
   <entry>
+    <title>选择排序（Selection）</title>
+    <url>/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
+<span id="more"></span>
+<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>排序算法</th>
+<th>平均事件复杂度</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+<th>排序方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>选择排序</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(1)$</td>
+<td>不稳定</td>
+<td>In-place</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>选择排序（Selection sort）是一种简单直观的排序算法。选择排序是不稳定的排序方法。</p>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="排序原理步骤"><a href="#排序原理步骤" class="headerlink" title="排序原理步骤"></a>排序原理步骤</h3><ol>
+<li>遍历一遍找到最小数，记录下标</li>
+<li>将该下标的数与第一个数交换，第一个数的位置确定</li>
+<li>重复1，2步骤寻找第二个最小的数</li>
+</ol>
+<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for (int i = 0; i &lt; a.length; i++) &#123;</span><br><span class="line">    int min = i;</span><br><span class="line">    // 选择最小的数的下标</span><br><span class="line">    for (int j = i+1; j &lt; a.length; j++) &#123;</span><br><span class="line">        if(less(a[j], a[min])) min = j;</span><br><span class="line">    &#125;</span><br><span class="line">    // 交换当前位置与最小的数</span><br><span class="line">    exch(a, min, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>sort</tag>
+        <tag>Selection</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>插入排序（Insertion）</title>
     <url>/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/插入排序.gif" alt="插入排序"></p>
@@ -210,55 +249,6 @@
         <tag>Algorithm</tag>
         <tag>sort</tag>
         <tag>Insertion</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>选择排序（Selection）</title>
-    <url>/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
-<span id="more"></span>
-<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>排序算法</th>
-<th>平均事件复杂度</th>
-<th>最好情况</th>
-<th>最坏情况</th>
-<th>空间复杂度</th>
-<th>稳定性</th>
-<th>排序方式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>选择排序</td>
-<td>$O(n^2)$</td>
-<td>$O(n^2)$</td>
-<td>$O(n^2)$</td>
-<td>$O(1)$</td>
-<td>不稳定</td>
-<td>In-place</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>选择排序（Selection sort）是一种简单直观的排序算法。选择排序是不稳定的排序方法。</p>
-<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="排序原理步骤"><a href="#排序原理步骤" class="headerlink" title="排序原理步骤"></a>排序原理步骤</h3><ol>
-<li>遍历一遍找到最小数，记录下标</li>
-<li>将该下标的数与第一个数交换，第一个数的位置确定</li>
-<li>重复1，2步骤寻找第二个最小的数</li>
-</ol>
-<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for (int i = 0; i &lt; a.length; i++) &#123;</span><br><span class="line">    int min = i;</span><br><span class="line">    // 选择最小的数的下标</span><br><span class="line">    for (int j = i+1; j &lt; a.length; j++) &#123;</span><br><span class="line">        if(less(a[j], a[min])) min = j;</span><br><span class="line">    &#125;</span><br><span class="line">    // 交换当前位置与最小的数</span><br><span class="line">    exch(a, min, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>sort</tag>
-        <tag>Selection</tag>
       </tags>
   </entry>
   <entry>
@@ -485,6 +475,121 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>Java IO</title>
+    <url>/2021/08/12/Java/JavaIO%E6%B5%81/</url>
+    <content><![CDATA[<p><em><del>Java将IO流设计得非常好用，在深入Java之后，除了Java容器（JCF）的源代码之外，最好也去看下IO流的设计。</del></em></p>
+<p>Java IO流，<code>java</code>语言的核心知识之一，在开发中需要用到外部资源时经常会和它打交道。</p>
+<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
+<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
+<ul>
+<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
+<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
+<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
+<li>……</li>
+</ul>
+<span id="more"></span>
+<h2 id="JavaIO读写"><a href="#JavaIO读写" class="headerlink" title="JavaIO读写"></a>JavaIO读写</h2><p>Java的IO读写分成了两类，一类是处理计算机看的字节，也叫字节流（<code>XXXXInputStream</code>和<code>XXXXOutputStream</code>），一类处理字符，也叫字符流（<code>XXXReader</code>和<code>XXXXWriter</code>）</p>
+<p>无论是处理字符的，还是处理字节的IO流，大体上可以分成三种类型：</p>
+<ul>
+<li>节点类</li>
+<li>转化类</li>
+<li>装饰类</li>
+</ul>
+<p>其中节点类是基础的IO定义，如：<code>InputStream</code>、<code>OutputStream</code>、<code>Writer</code>、<code>Reader</code>这四个。</p>
+<p>装饰类是继承这些节点类，专门负责某一个或者一块IO功能的类，如：<code>PushbackInputStream</code>、<code>FileInputStream</code>、<code>PrintWriter</code>等。</p>
+<p>转化类是字符和字节之间的转换，代表有两个：</p>
+<ul>
+<li>InputStreamReader：负责字节转为字符</li>
+<li>OutputStreamWriter：字符转为字节输出到文件中</li>
+</ul>
+<p>上面的这三类IO都会在本篇中一一介绍。</p>
+<h3 id="输入输出字节流"><a href="#输入输出字节流" class="headerlink" title="输入输出字节流"></a>输入输出字节流</h3><p>在JavaAPI中，<strong>可以从其中读入一个字节序列的对象为输入流，可以从其中写出一个字节序列的对象为输出流。</strong></p>
+<p><strong>抽象类<code>InputStream</code>和<code>OutputStream</code></strong>构成了基本的I/O结构，Java拥有一个流家族来满足不同的需求。(建议看不清的同学,把图单独放大看！)</p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/javaio.bmp" alt="javaio" style="zoom: 200%;"></p>
+<p>Java采用装饰模式设计IO流，因此可以通过组合构造器的方式来更换流处理能力：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FileInputStream fisStream = <span class="keyword">new</span> FileInputStream(<span class="string">&quot;C:\\1.txt&quot;</span>);</span><br><span class="line">StringBufferInputStream sbis = <span class="keyword">new</span> StringBufferInputStream(fisStream);	</span><br><span class="line"><span class="comment">// FileInputStream --&gt;StringBufferInputStream</span></span><br><span class="line"><span class="comment">// 从处理文件输入输出--&gt;处理字符串</span></span><br></pre></td></tr></table></figure>
+<h4 id="InputStream-amp-OutputStream节点类"><a href="#InputStream-amp-OutputStream节点类" class="headerlink" title="InputStream&amp;OutputStream节点类"></a>InputStream&amp;OutputStream节点类</h4><p>InputStream是所有输入类的抽象父类，该类定义了：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span></span>;						<span class="comment">// 读入一个字节，并返回，碰到输入流结尾返回-1，所有子类必须重写该方法。</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span>[] b)</span></span>;						<span class="comment">// 读入一个字节数组，返回实际读入的字节数</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span>[] b, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span></span>;	<span class="comment">// 读入一个字节数组，从off开始，长度len，返回实际读入的字节数</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">byte</span>[] readAllBytes();					<span class="comment">// 读入当前流中的所有字节</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">transferTo</span><span class="params">(OutputStream out)</span></span>;		<span class="comment">// 将该输入流的字节抛给输出流，返回实际抛给的字节数</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">skip</span><span class="params">(<span class="keyword">long</span> n)</span></span>;						<span class="comment">// 跳过n个字节</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">available</span><span class="params">()</span>									<span class="comment">// 返回不阻塞的情况下可获取的字节数</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">close</span><span class="params">()</span>									<span class="comment">// 关闭这个输入流</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">markSupported</span><span class="params">()</span>					<span class="comment">// 如果这个流支持打标记，则返回true</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">mark</span><span class="params">(<span class="keyword">int</span> readlimit)</span></span>;				<span class="comment">// 对当前位置readlimit打标记，如果已经读入的字节超过readlimit，则忽略标记</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span>								<span class="comment">// 返回最后一次标记的地方继续读取数据</span></span></span><br></pre></td></tr></table></figure>
+<p>其他的API都已经很明确用途了，这里只讲一个<code>available()</code></p>
+<p><code>read()</code>、<code>Write()</code>执行都会阻塞，直至字节确实被读入或者写出了。通俗点说，<strong>在操作流的时候，流是不能说访问就访问的，要等到流中确实有字节了，才可以真正访问</strong>，特别在<strong>网络套接字IO通信中，网络连接繁忙的时候</strong>，字节被放进流里面<strong>可能需要很长时间</strong>，因此程序可能会<strong>停下来等待</strong>。</p>
+<p>因此在调用<code>read()</code>、<code>Write()</code>之前使用<code>available()</code>可以避免阻塞。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> byteAvailable = in.available();			<span class="comment">// 读入可访问的字节数</span></span><br><span class="line"><span class="keyword">if</span>(byteAvailable &gt; <span class="number">0</span>)&#123;						<span class="comment">// 如果有字节，读入，没有则先不读，把控制权交还给程序</span></span><br><span class="line">	<span class="keyword">byte</span>[] d = <span class="keyword">new</span> <span class="keyword">byte</span>[byteAvailable];</span><br><span class="line">	in.read(d);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>OutputStream是所有输出类的抽象父类，该类定义了：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">int</span> n)</span>				<span class="comment">// 写出一个字节的数据。</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">byte</span>[] b)</span>	</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">byte</span>[] b, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> 	<span class="comment">// 写出全部字节或者部分字节到byte数组</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flush</span><span class="params">()</span>								<span class="comment">// 刷新输出流</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="InputStream装饰类"><a href="#InputStream装饰类" class="headerlink" title="InputStream装饰类"></a>InputStream装饰类</h4><h5 id="文件处理相关"><a href="#文件处理相关" class="headerlink" title="文件处理相关"></a>文件处理相关</h5><h5 id="字节处理相关"><a href="#字节处理相关" class="headerlink" title="字节处理相关"></a>字节处理相关</h5><h5 id="装饰类修饰相关"><a href="#装饰类修饰相关" class="headerlink" title="装饰类修饰相关"></a>装饰类修饰相关</h5><h5 id="特殊功能相关"><a href="#特殊功能相关" class="headerlink" title="特殊功能相关"></a>特殊功能相关</h5><h5 id="FileInputStream"><a href="#FileInputStream" class="headerlink" title="FileInputStream"></a>FileInputStream</h5><p>创建一个能从文件读取字节的<code>InputStream</code>类，将文件以字节的形式加载进内存，常用的构造方法有两个：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// name是文件路径</span></span><br><span class="line">FileInputStream fileStream = <span class="keyword">new</span> FileInputStream(String name);</span><br><span class="line"><span class="comment">// file文件对象</span></span><br><span class="line">FileInputStream fileStream = <span class="keyword">new</span> FileInputStream(File file)</span><br></pre></td></tr></table></figure>
+<h5 id="BufferedInputStream"><a href="#BufferedInputStream" class="headerlink" title="BufferedInputStream"></a>BufferedInputStream</h5><p>创建一个带缓冲区的流对象，流默认是不带缓冲区的，因此，对于read方法的调用，都会直接向系统申请分发字节。如果把一个数据块放在一个缓冲区中，每次读取从缓冲区中读取，这样可以减少直接访问系统而引起的中断次数，效率更高。要使用缓冲机制，需要使用类似于嵌套流的方式：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> din = <span class="keyword">new</span> DataInputStream(<span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(file)));</span><br></pre></td></tr></table></figure>
+<p>正如上文所说，Java采用一种组合流的方法，赋予一个流多种属性。如上面的是带缓冲区的二进制数据输入流。</p>
+<h5 id="PushbackInputStream"><a href="#PushbackInputStream" class="headerlink" title="PushbackInputStream"></a>PushbackInputStream</h5><p>创建一个可以回推字节的输入流。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> bin = <span class="keyword">new</span> PushbackInputStream(<span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>)));</span><br><span class="line"><span class="keyword">int</span> b = bin.read();</span><br><span class="line"><span class="keyword">if</span>(b != <span class="string">&#x27;&gt;&#x27;</span>)&#123;</span><br><span class="line">	bin.unread(b);			<span class="comment">// 回退字节到流</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="组合流"><a href="#组合流" class="headerlink" title="组合流"></a>组合流</h6><p>如果想要一个既可以推回又可以写出二进制数据的流，可参考：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">PushbackInputStream pbin;</span><br><span class="line"><span class="keyword">var</span> bin = <span class="keyword">new</span> DataInputStream(</span><br><span class="line">    pbin =  = <span class="keyword">new</span> PushbackInputStream(</span><br><span class="line">        <span class="keyword">new</span> BufferedInputStream(</span><br><span class="line">            <span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>)</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h4 id="OutputStream子类"><a href="#OutputStream子类" class="headerlink" title="OutputStream子类"></a>OutputStream子类</h4><h5 id="FileOutputStream"><a href="#FileOutputStream" class="headerlink" title="FileOutputStream"></a>FileOutputStream</h5><p>创建一个写出字节到文件的<code>outputStream</code>类</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FileOutputStream(String name)</span><br><span class="line">FileOutputStream(String name, boolean append)</span><br><span class="line">FileOutputStream(File file)</span><br><span class="line">FileOutputStream(File file, boolean append)</span><br></pre></td></tr></table></figure>
+<p>append：如果参数为true，对于任何数据都将被添加到文件尾，而且具有相同名字的已有文件不会被删除，false时删除全部具有相同名字的文件。</p>
+<h5 id="BufferedOutputStream"><a href="#BufferedOutputStream" class="headerlink" title="BufferedOutputStream"></a>BufferedOutputStream</h5><p>创建一个带缓冲区的输出流，带缓冲区的输出流在填入数据时，不必每次都访问设备，当缓冲区填满或者刷新之后<code>（flush()）</code>，数据就被写出。</p>
+<h3 id="字符串读写类"><a href="#字符串读写类" class="headerlink" title="字符串读写类"></a>字符串读写类</h3><p>Java对Unicode文本字符串读写采用的是<code>Reader</code>和<code>Writer</code>抽象类：</p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/javaReader&amp;Writer.png" alt="javaReader&amp;Writer"></p>
+<h3 id="字符串读写"><a href="#字符串读写" class="headerlink" title="字符串读写"></a>字符串读写</h3><h4 id="文本读写"><a href="#文本读写" class="headerlink" title="文本读写"></a>文本读写</h4><p>如何进行文件的读写呢？对于流来说处理的东西都是人没法直接看懂的字节流，如何将人能看懂的文本进行简单的读写，本小节来讨论。</p>
+<p>首先如何读一个文件中的文本呢？java采用相同的组合过滤器的解决方案：对于任意的流数据，可以通过<code>InputStreamReader</code>类来转换为文本的<code>Reader</code>，在转换过程中，可以指定编码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">InputStreamReader strin = <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>), StandardCharsets.UTF_8);</span><br><span class="line">InputStreamReader strin = <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>));</span><br></pre></td></tr></table></figure>
+<p>然后，如何读写文本呢？如今最常用的是使用<code>Scanner</code>类，对于早期的Java提供的一个<code>BufferedReader</code>配合<code>InputStreamReader</code>来读入文本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">InputStream inp = ...;</span><br><span class="line">try(var in = new BufferedReader(new InputStreamReader(inp,StandardCharset.UTF_8)))&#123;</span><br><span class="line">	String line;</span><br><span class="line">	while((line = in.readLine())!=null)&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于Scanner类读入文本，这里单独介绍：</p>
+<h5 id="Scanner"><a href="#Scanner" class="headerlink" title="Scanner"></a>Scanner</h5><p>作为一个处理输入的类，提供了简单的对字符串、对数字的输入处理，对于该类的构造，常用的方式如下;</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Scanner sc = new Scanner(InputStream);</span><br><span class="line">Scanner sc = new Scanner(InputStream, charset);</span><br></pre></td></tr></table></figure>
+<h6 id="对于字符串输入"><a href="#对于字符串输入" class="headerlink" title="对于字符串输入"></a>对于字符串输入</h6><p>对于字符串输入，主要有hasNext()、hasNextLine()、next()、nextLine()方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line"> </span><br><span class="line">public class ScannerDemo &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Scanner scan = new Scanner(System.in);</span><br><span class="line">        // 从键盘接收数据</span><br><span class="line"> </span><br><span class="line">        // nextLine方式接收字符串</span><br><span class="line">        System.out.println(&quot;nextLine方式接收：&quot;);</span><br><span class="line">        // 判断是否还有输入</span><br><span class="line">        if (scan.hasNextLine()) &#123;</span><br><span class="line">            String str2 = scan.nextLine();</span><br><span class="line">            System.out.println(&quot;输入的数据为：&quot; + str2);</span><br><span class="line">        &#125;</span><br><span class="line">        scan.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于next()、nextLine()区别：</p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210328200509649.png" alt="image-20210328200509649"></p>
+<h6 id="对于数字输入"><a href="#对于数字输入" class="headerlink" title="对于数字输入"></a>对于数字输入</h6><p>对于数字的输入，主要有hasNextXXX()、nextXXX()</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line"> </span><br><span class="line">public class ScannerDemo &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Scanner scan = new Scanner(System.in);</span><br><span class="line">        // 从键盘接收数据</span><br><span class="line">        int i = 0;</span><br><span class="line">        float f = 0.0f;</span><br><span class="line">        System.out.print(&quot;输入整数：&quot;);</span><br><span class="line">        if (scan.hasNextInt()) &#123;</span><br><span class="line">            // 判断输入的是否是整数</span><br><span class="line">            i = scan.nextInt();</span><br><span class="line">            // 接收整数</span><br><span class="line">            System.out.println(&quot;整数数据：&quot; + i);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 输入错误的信息</span><br><span class="line">            System.out.println(&quot;输入的不是整数！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.print(&quot;输入小数：&quot;);</span><br><span class="line">        if (scan.hasNextFloat()) &#123;</span><br><span class="line">            // 判断输入的是否是小数</span><br><span class="line">            f = scan.nextFloat();</span><br><span class="line">            // 接收小数</span><br><span class="line">            System.out.println(&quot;小数数据：&quot; + f);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 输入错误的信息</span><br><span class="line">            System.out.println(&quot;输入的不是小数！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        scan.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，对于写出文本，可以使用Writer类中的<code>PrintWriter</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PrintWriter pw = new PrintWriter(&quot;file.txt&quot;, StandardCharset.UTF_8);</span><br><span class="line">pw.print(&quot;abc&quot;);</span><br><span class="line">pw.println(&quot;abc&quot;);</span><br></pre></td></tr></table></figure>
+<p>对于<code>PrintWriter</code>常用的方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PrintWriter(Writer out)</span><br><span class="line">PrintWriter(String filepath, String charset)</span><br><span class="line">PrintWriter(File file, String charset)</span><br><span class="line">// 常用的方法</span><br><span class="line"></span><br><span class="line">print(Object obj);该方法将调用obj的toString()</span><br><span class="line">println();</span><br><span class="line">print();</span><br><span class="line">printf(String fomat, object ...args);</span><br></pre></td></tr></table></figure>
+<h4 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h4><h3 id="二进制文件读写"><a href="#二进制文件读写" class="headerlink" title="二进制文件读写"></a>二进制文件读写</h3><h3 id="文件随机访问"><a href="#文件随机访问" class="headerlink" title="文件随机访问"></a>文件随机访问</h3><h2 id="ZIP文档"><a href="#ZIP文档" class="headerlink" title="ZIP文档"></a>ZIP文档</h2><h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p>所谓序列化，<strong>即为将对象写出输出流中，在特定的时期再将其读回</strong>，序列的一种用法是将对象保存在磁盘文件中，在必要的时候，通过读入文件的方法重新加载对象，这样在服务器等内存资源比较有限的场合可以达到减轻内存负担的效果。</p>
+<h3 id="保存对象和加载对象"><a href="#保存对象和加载对象" class="headerlink" title="保存对象和加载对象"></a>保存对象和加载对象</h3><p>要保存一个对象(序列化)，需要：</p>
+<ol>
+<li>首先打开一个<code>ObjectOutputStream</code>对象：</li>
+<li>调用<code>writeObject()</code>s</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> harry = <span class="keyword">new</span> Employee();</span><br><span class="line"><span class="keyword">var</span> out = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">&quot;file.txt&quot;</span>));</span><br><span class="line">out.writeObject(harry);</span><br></pre></td></tr></table></figure>
+<p>要加载一个对象，则需要：</p>
+<ol>
+<li>打开一个ObjectInputStream</li>
+<li>调用<code>readObject()</code></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> in = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>));</span><br><span class="line"><span class="keyword">var</span> harry = (Employee)in.readObject();</span><br></pre></td></tr></table></figure>
+<p>并且，能够序列化的类都要实现标记接口<code>Serializable</code>！！！</p>
+<h4 id="对引用字段的处理"><a href="#对引用字段的处理" class="headerlink" title="对引用字段的处理"></a>对引用字段的处理</h4><h3 id="序列化文件格式"><a href="#序列化文件格式" class="headerlink" title="序列化文件格式"></a>序列化文件格式</h3><h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><h3 id="ZIP文件系统"><a href="#ZIP文件系统" class="headerlink" title="ZIP文件系统"></a>ZIP文件系统</h3><h2 id="内存映射文件"><a href="#内存映射文件" class="headerlink" title="内存映射文件"></a>内存映射文件</h2><h2 id="文件加锁"><a href="#文件加锁" class="headerlink" title="文件加锁"></a>文件加锁</h2><h2 id="关于Close方法"><a href="#关于Close方法" class="headerlink" title="关于Close方法"></a>关于Close方法</h2><p><code>javaIO</code>流家族采用装饰模式来设计，因此在调用<code>close()</code>的时候，实际上是调用被装饰对象的<code>close()</code>，因此理论上关闭的顺序没有约定！因为<code>close()</code>方法允许多次调用（当然也有特例，后面讲！），因为规定关闭先前关闭的流没有任何效果。</p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601181038674.png" alt="image-20210601181038674"></p>
+<p>然后，我们再细看<code>close()</code>方法</p>
+<p>对于<code>BufferedInoutStream</code></p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601181216077.png" alt="image-20210601181216077"></p>
+<p>DataInputStream类：</p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601181248404.png" alt="image-20210601181248404"></p>
+<p>其中<code>in</code>为装饰对象，在这里为<code>inputstream</code>，可见实际上底层还是调用顶层的<code>close()</code>，因此我们还可以直接调用<code>inputstream.close()</code>，而无需调用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dataInputStream.close();</span><br><span class="line">bufferedInputStream.close();</span><br></pre></td></tr></table></figure>
+<p>但有例外，比如以下代码会抛出异常：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">OutputStreamWriter writer = new OutputStreamWriter(System.out);</span><br><span class="line">BufferedWriter writer1 = new BufferedWriter(writer);</span><br><span class="line">PrintWriter writer2 = new PrintWriter(writer1);</span><br><span class="line">writer2.close();</span><br><span class="line">writer1.close();</span><br><span class="line">writer.close();</span><br></pre></td></tr></table></figure>
+<p>原因在于<code>BufferedWriter writer1</code>，看一下他的<code>close()</code></p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601182024659.png" alt="image-20210601182024659"></p>
+<p>其中的flushBuffer()方法：</p>
+<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601182110249.png" alt="image-20210601182110249"></p>
+<p>这里需要写空缓冲，因此抛出异常的原因知道了，当我们调用<code>writer2.close()</code>没实际上流已经关闭，但是再次调用<code>writer1.close()</code>会运行上面的<code>out.write()</code>，由于流已经关闭，因此会抛出异常。</p>
+<p>这一类情况一般发生在BufferedWriter或Writer中，因此关闭流要优先关闭这一类流。</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java_core</tag>
+        <tag>java_lib</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java代理</title>
     <url>/2021/09/09/Java/Java%E4%BB%A3%E7%90%86/</url>
     <content><![CDATA[<p>Java 代理，主要主要是指动态代理，是学习AOP的基础，该知识点非常重要，有必要好好了解！</p>
@@ -591,121 +696,6 @@ va_end(ParamList);                                                    // 释放�
 <li>代理处理器可以储存多个目标对象，在invoke内部，可以根据不同的method，使用不同的目标对象。</li>
 <li>对接口方法进行预处理（增强方法）</li>
 </ol>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java_core</tag>
-        <tag>java_lib</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java IO</title>
-    <url>/2021/08/12/Java/JavaIO%E6%B5%81/</url>
-    <content><![CDATA[<p><em><del>Java将IO流设计得非常好用，在深入Java之后，除了Java容器（JCF）的源代码之外，最好也去看下IO流的设计。</del></em></p>
-<p>Java IO流，<code>java</code>语言的核心知识之一，在开发中需要用到外部资源时经常会和它打交道。</p>
-<p>针对<code>java</code>语言，我打算出一些语言的核心知识和一些类库的使用，还有自己翻译的API，都会放在博客里面供参考。</p>
-<p>各位有需要可以在tags那里点击所有以<code>java</code>开头的标签，这些标签的意义如下：</p>
-<ul>
-<li>java_core：核心的java知识，包括反射、泛型、注解、代理……</li>
-<li>java_lib：各类java类库的使用基础，java的API，或者一些API的历史</li>
-<li>java_features：java的特性，包括java的语法糖，java各版本的更新特性等</li>
-<li>……</li>
-</ul>
-<span id="more"></span>
-<h2 id="JavaIO读写"><a href="#JavaIO读写" class="headerlink" title="JavaIO读写"></a>JavaIO读写</h2><p>Java的IO读写分成了两类，一类是处理计算机看的字节，也叫字节流（<code>XXXXInputStream</code>和<code>XXXXOutputStream</code>），一类处理字符，也叫字符流（<code>XXXReader</code>和<code>XXXXWriter</code>）</p>
-<p>无论是处理字符的，还是处理字节的IO流，大体上可以分成三种类型：</p>
-<ul>
-<li>节点类</li>
-<li>转化类</li>
-<li>装饰类</li>
-</ul>
-<p>其中节点类是基础的IO定义，如：<code>InputStream</code>、<code>OutputStream</code>、<code>Writer</code>、<code>Reader</code>这四个。</p>
-<p>装饰类是继承这些节点类，专门负责某一个或者一块IO功能的类，如：<code>PushbackInputStream</code>、<code>FileInputStream</code>、<code>PrintWriter</code>等。</p>
-<p>转化类是字符和字节之间的转换，代表有两个：</p>
-<ul>
-<li>InputStreamReader：负责字节转为字符</li>
-<li>OutputStreamWriter：字符转为字节输出到文件中</li>
-</ul>
-<p>上面的这三类IO都会在本篇中一一介绍。</p>
-<h3 id="输入输出字节流"><a href="#输入输出字节流" class="headerlink" title="输入输出字节流"></a>输入输出字节流</h3><p>在JavaAPI中，<strong>可以从其中读入一个字节序列的对象为输入流，可以从其中写出一个字节序列的对象为输出流。</strong></p>
-<p><strong>抽象类<code>InputStream</code>和<code>OutputStream</code></strong>构成了基本的I/O结构，Java拥有一个流家族来满足不同的需求。(建议看不清的同学,把图单独放大看！)</p>
-<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/javaio.bmp" alt="javaio" style="zoom: 200%;"></p>
-<p>Java采用装饰模式设计IO流，因此可以通过组合构造器的方式来更换流处理能力：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FileInputStream fisStream = <span class="keyword">new</span> FileInputStream(<span class="string">&quot;C:\\1.txt&quot;</span>);</span><br><span class="line">StringBufferInputStream sbis = <span class="keyword">new</span> StringBufferInputStream(fisStream);	</span><br><span class="line"><span class="comment">// FileInputStream --&gt;StringBufferInputStream</span></span><br><span class="line"><span class="comment">// 从处理文件输入输出--&gt;处理字符串</span></span><br></pre></td></tr></table></figure>
-<h4 id="InputStream-amp-OutputStream节点类"><a href="#InputStream-amp-OutputStream节点类" class="headerlink" title="InputStream&amp;OutputStream节点类"></a>InputStream&amp;OutputStream节点类</h4><p>InputStream是所有输入类的抽象父类，该类定义了：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span></span>;						<span class="comment">// 读入一个字节，并返回，碰到输入流结尾返回-1，所有子类必须重写该方法。</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span>[] b)</span></span>;						<span class="comment">// 读入一个字节数组，返回实际读入的字节数</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span>[] b, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span></span>;	<span class="comment">// 读入一个字节数组，从off开始，长度len，返回实际读入的字节数</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">byte</span>[] readAllBytes();					<span class="comment">// 读入当前流中的所有字节</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">transferTo</span><span class="params">(OutputStream out)</span></span>;		<span class="comment">// 将该输入流的字节抛给输出流，返回实际抛给的字节数</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">skip</span><span class="params">(<span class="keyword">long</span> n)</span></span>;						<span class="comment">// 跳过n个字节</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">available</span><span class="params">()</span>									<span class="comment">// 返回不阻塞的情况下可获取的字节数</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">close</span><span class="params">()</span>									<span class="comment">// 关闭这个输入流</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">markSupported</span><span class="params">()</span>					<span class="comment">// 如果这个流支持打标记，则返回true</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">mark</span><span class="params">(<span class="keyword">int</span> readlimit)</span></span>;				<span class="comment">// 对当前位置readlimit打标记，如果已经读入的字节超过readlimit，则忽略标记</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span>								<span class="comment">// 返回最后一次标记的地方继续读取数据</span></span></span><br></pre></td></tr></table></figure>
-<p>其他的API都已经很明确用途了，这里只讲一个<code>available()</code></p>
-<p><code>read()</code>、<code>Write()</code>执行都会阻塞，直至字节确实被读入或者写出了。通俗点说，<strong>在操作流的时候，流是不能说访问就访问的，要等到流中确实有字节了，才可以真正访问</strong>，特别在<strong>网络套接字IO通信中，网络连接繁忙的时候</strong>，字节被放进流里面<strong>可能需要很长时间</strong>，因此程序可能会<strong>停下来等待</strong>。</p>
-<p>因此在调用<code>read()</code>、<code>Write()</code>之前使用<code>available()</code>可以避免阻塞。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> byteAvailable = in.available();			<span class="comment">// 读入可访问的字节数</span></span><br><span class="line"><span class="keyword">if</span>(byteAvailable &gt; <span class="number">0</span>)&#123;						<span class="comment">// 如果有字节，读入，没有则先不读，把控制权交还给程序</span></span><br><span class="line">	<span class="keyword">byte</span>[] d = <span class="keyword">new</span> <span class="keyword">byte</span>[byteAvailable];</span><br><span class="line">	in.read(d);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>OutputStream是所有输出类的抽象父类，该类定义了：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">int</span> n)</span>				<span class="comment">// 写出一个字节的数据。</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">byte</span>[] b)</span>	</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">byte</span>[] b, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> 	<span class="comment">// 写出全部字节或者部分字节到byte数组</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flush</span><span class="params">()</span>								<span class="comment">// 刷新输出流</span></span></span><br></pre></td></tr></table></figure>
-<h4 id="InputStream装饰类"><a href="#InputStream装饰类" class="headerlink" title="InputStream装饰类"></a>InputStream装饰类</h4><h5 id="文件处理相关"><a href="#文件处理相关" class="headerlink" title="文件处理相关"></a>文件处理相关</h5><h5 id="字节处理相关"><a href="#字节处理相关" class="headerlink" title="字节处理相关"></a>字节处理相关</h5><h5 id="装饰类修饰相关"><a href="#装饰类修饰相关" class="headerlink" title="装饰类修饰相关"></a>装饰类修饰相关</h5><h5 id="特殊功能相关"><a href="#特殊功能相关" class="headerlink" title="特殊功能相关"></a>特殊功能相关</h5><h5 id="FileInputStream"><a href="#FileInputStream" class="headerlink" title="FileInputStream"></a>FileInputStream</h5><p>创建一个能从文件读取字节的<code>InputStream</code>类，将文件以字节的形式加载进内存，常用的构造方法有两个：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// name是文件路径</span></span><br><span class="line">FileInputStream fileStream = <span class="keyword">new</span> FileInputStream(String name);</span><br><span class="line"><span class="comment">// file文件对象</span></span><br><span class="line">FileInputStream fileStream = <span class="keyword">new</span> FileInputStream(File file)</span><br></pre></td></tr></table></figure>
-<h5 id="BufferedInputStream"><a href="#BufferedInputStream" class="headerlink" title="BufferedInputStream"></a>BufferedInputStream</h5><p>创建一个带缓冲区的流对象，流默认是不带缓冲区的，因此，对于read方法的调用，都会直接向系统申请分发字节。如果把一个数据块放在一个缓冲区中，每次读取从缓冲区中读取，这样可以减少直接访问系统而引起的中断次数，效率更高。要使用缓冲机制，需要使用类似于嵌套流的方式：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> din = <span class="keyword">new</span> DataInputStream(<span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(file)));</span><br></pre></td></tr></table></figure>
-<p>正如上文所说，Java采用一种组合流的方法，赋予一个流多种属性。如上面的是带缓冲区的二进制数据输入流。</p>
-<h5 id="PushbackInputStream"><a href="#PushbackInputStream" class="headerlink" title="PushbackInputStream"></a>PushbackInputStream</h5><p>创建一个可以回推字节的输入流。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> bin = <span class="keyword">new</span> PushbackInputStream(<span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>)));</span><br><span class="line"><span class="keyword">int</span> b = bin.read();</span><br><span class="line"><span class="keyword">if</span>(b != <span class="string">&#x27;&gt;&#x27;</span>)&#123;</span><br><span class="line">	bin.unread(b);			<span class="comment">// 回退字节到流</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h6 id="组合流"><a href="#组合流" class="headerlink" title="组合流"></a>组合流</h6><p>如果想要一个既可以推回又可以写出二进制数据的流，可参考：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">PushbackInputStream pbin;</span><br><span class="line"><span class="keyword">var</span> bin = <span class="keyword">new</span> DataInputStream(</span><br><span class="line">    pbin =  = <span class="keyword">new</span> PushbackInputStream(</span><br><span class="line">        <span class="keyword">new</span> BufferedInputStream(</span><br><span class="line">            <span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>)</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<h4 id="OutputStream子类"><a href="#OutputStream子类" class="headerlink" title="OutputStream子类"></a>OutputStream子类</h4><h5 id="FileOutputStream"><a href="#FileOutputStream" class="headerlink" title="FileOutputStream"></a>FileOutputStream</h5><p>创建一个写出字节到文件的<code>outputStream</code>类</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FileOutputStream(String name)</span><br><span class="line">FileOutputStream(String name, boolean append)</span><br><span class="line">FileOutputStream(File file)</span><br><span class="line">FileOutputStream(File file, boolean append)</span><br></pre></td></tr></table></figure>
-<p>append：如果参数为true，对于任何数据都将被添加到文件尾，而且具有相同名字的已有文件不会被删除，false时删除全部具有相同名字的文件。</p>
-<h5 id="BufferedOutputStream"><a href="#BufferedOutputStream" class="headerlink" title="BufferedOutputStream"></a>BufferedOutputStream</h5><p>创建一个带缓冲区的输出流，带缓冲区的输出流在填入数据时，不必每次都访问设备，当缓冲区填满或者刷新之后<code>（flush()）</code>，数据就被写出。</p>
-<h3 id="字符串读写类"><a href="#字符串读写类" class="headerlink" title="字符串读写类"></a>字符串读写类</h3><p>Java对Unicode文本字符串读写采用的是<code>Reader</code>和<code>Writer</code>抽象类：</p>
-<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/javaReader&amp;Writer.png" alt="javaReader&amp;Writer"></p>
-<h3 id="字符串读写"><a href="#字符串读写" class="headerlink" title="字符串读写"></a>字符串读写</h3><h4 id="文本读写"><a href="#文本读写" class="headerlink" title="文本读写"></a>文本读写</h4><p>如何进行文件的读写呢？对于流来说处理的东西都是人没法直接看懂的字节流，如何将人能看懂的文本进行简单的读写，本小节来讨论。</p>
-<p>首先如何读一个文件中的文本呢？java采用相同的组合过滤器的解决方案：对于任意的流数据，可以通过<code>InputStreamReader</code>类来转换为文本的<code>Reader</code>，在转换过程中，可以指定编码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">InputStreamReader strin = <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>), StandardCharsets.UTF_8);</span><br><span class="line">InputStreamReader strin = <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>));</span><br></pre></td></tr></table></figure>
-<p>然后，如何读写文本呢？如今最常用的是使用<code>Scanner</code>类，对于早期的Java提供的一个<code>BufferedReader</code>配合<code>InputStreamReader</code>来读入文本</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">InputStream inp = ...;</span><br><span class="line">try(var in = new BufferedReader(new InputStreamReader(inp,StandardCharset.UTF_8)))&#123;</span><br><span class="line">	String line;</span><br><span class="line">	while((line = in.readLine())!=null)&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对于Scanner类读入文本，这里单独介绍：</p>
-<h5 id="Scanner"><a href="#Scanner" class="headerlink" title="Scanner"></a>Scanner</h5><p>作为一个处理输入的类，提供了简单的对字符串、对数字的输入处理，对于该类的构造，常用的方式如下;</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Scanner sc = new Scanner(InputStream);</span><br><span class="line">Scanner sc = new Scanner(InputStream, charset);</span><br></pre></td></tr></table></figure>
-<h6 id="对于字符串输入"><a href="#对于字符串输入" class="headerlink" title="对于字符串输入"></a>对于字符串输入</h6><p>对于字符串输入，主要有hasNext()、hasNextLine()、next()、nextLine()方法。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line"> </span><br><span class="line">public class ScannerDemo &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Scanner scan = new Scanner(System.in);</span><br><span class="line">        // 从键盘接收数据</span><br><span class="line"> </span><br><span class="line">        // nextLine方式接收字符串</span><br><span class="line">        System.out.println(&quot;nextLine方式接收：&quot;);</span><br><span class="line">        // 判断是否还有输入</span><br><span class="line">        if (scan.hasNextLine()) &#123;</span><br><span class="line">            String str2 = scan.nextLine();</span><br><span class="line">            System.out.println(&quot;输入的数据为：&quot; + str2);</span><br><span class="line">        &#125;</span><br><span class="line">        scan.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对于next()、nextLine()区别：</p>
-<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210328200509649.png" alt="image-20210328200509649"></p>
-<h6 id="对于数字输入"><a href="#对于数字输入" class="headerlink" title="对于数字输入"></a>对于数字输入</h6><p>对于数字的输入，主要有hasNextXXX()、nextXXX()</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line"> </span><br><span class="line">public class ScannerDemo &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Scanner scan = new Scanner(System.in);</span><br><span class="line">        // 从键盘接收数据</span><br><span class="line">        int i = 0;</span><br><span class="line">        float f = 0.0f;</span><br><span class="line">        System.out.print(&quot;输入整数：&quot;);</span><br><span class="line">        if (scan.hasNextInt()) &#123;</span><br><span class="line">            // 判断输入的是否是整数</span><br><span class="line">            i = scan.nextInt();</span><br><span class="line">            // 接收整数</span><br><span class="line">            System.out.println(&quot;整数数据：&quot; + i);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 输入错误的信息</span><br><span class="line">            System.out.println(&quot;输入的不是整数！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.print(&quot;输入小数：&quot;);</span><br><span class="line">        if (scan.hasNextFloat()) &#123;</span><br><span class="line">            // 判断输入的是否是小数</span><br><span class="line">            f = scan.nextFloat();</span><br><span class="line">            // 接收小数</span><br><span class="line">            System.out.println(&quot;小数数据：&quot; + f);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 输入错误的信息</span><br><span class="line">            System.out.println(&quot;输入的不是小数！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        scan.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>最后，对于写出文本，可以使用Writer类中的<code>PrintWriter</code></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PrintWriter pw = new PrintWriter(&quot;file.txt&quot;, StandardCharset.UTF_8);</span><br><span class="line">pw.print(&quot;abc&quot;);</span><br><span class="line">pw.println(&quot;abc&quot;);</span><br></pre></td></tr></table></figure>
-<p>对于<code>PrintWriter</code>常用的方法：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PrintWriter(Writer out)</span><br><span class="line">PrintWriter(String filepath, String charset)</span><br><span class="line">PrintWriter(File file, String charset)</span><br><span class="line">// 常用的方法</span><br><span class="line"></span><br><span class="line">print(Object obj);该方法将调用obj的toString()</span><br><span class="line">println();</span><br><span class="line">print();</span><br><span class="line">printf(String fomat, object ...args);</span><br></pre></td></tr></table></figure>
-<h4 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h4><h3 id="二进制文件读写"><a href="#二进制文件读写" class="headerlink" title="二进制文件读写"></a>二进制文件读写</h3><h3 id="文件随机访问"><a href="#文件随机访问" class="headerlink" title="文件随机访问"></a>文件随机访问</h3><h2 id="ZIP文档"><a href="#ZIP文档" class="headerlink" title="ZIP文档"></a>ZIP文档</h2><h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p>所谓序列化，<strong>即为将对象写出输出流中，在特定的时期再将其读回</strong>，序列的一种用法是将对象保存在磁盘文件中，在必要的时候，通过读入文件的方法重新加载对象，这样在服务器等内存资源比较有限的场合可以达到减轻内存负担的效果。</p>
-<h3 id="保存对象和加载对象"><a href="#保存对象和加载对象" class="headerlink" title="保存对象和加载对象"></a>保存对象和加载对象</h3><p>要保存一个对象(序列化)，需要：</p>
-<ol>
-<li>首先打开一个<code>ObjectOutputStream</code>对象：</li>
-<li>调用<code>writeObject()</code>s</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> harry = <span class="keyword">new</span> Employee();</span><br><span class="line"><span class="keyword">var</span> out = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">&quot;file.txt&quot;</span>));</span><br><span class="line">out.writeObject(harry);</span><br></pre></td></tr></table></figure>
-<p>要加载一个对象，则需要：</p>
-<ol>
-<li>打开一个ObjectInputStream</li>
-<li>调用<code>readObject()</code></li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> in = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">&quot;file.txt&quot;</span>));</span><br><span class="line"><span class="keyword">var</span> harry = (Employee)in.readObject();</span><br></pre></td></tr></table></figure>
-<p>并且，能够序列化的类都要实现标记接口<code>Serializable</code>！！！</p>
-<h4 id="对引用字段的处理"><a href="#对引用字段的处理" class="headerlink" title="对引用字段的处理"></a>对引用字段的处理</h4><h3 id="序列化文件格式"><a href="#序列化文件格式" class="headerlink" title="序列化文件格式"></a>序列化文件格式</h3><h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><h3 id="ZIP文件系统"><a href="#ZIP文件系统" class="headerlink" title="ZIP文件系统"></a>ZIP文件系统</h3><h2 id="内存映射文件"><a href="#内存映射文件" class="headerlink" title="内存映射文件"></a>内存映射文件</h2><h2 id="文件加锁"><a href="#文件加锁" class="headerlink" title="文件加锁"></a>文件加锁</h2><h2 id="关于Close方法"><a href="#关于Close方法" class="headerlink" title="关于Close方法"></a>关于Close方法</h2><p><code>javaIO</code>流家族采用装饰模式来设计，因此在调用<code>close()</code>的时候，实际上是调用被装饰对象的<code>close()</code>，因此理论上关闭的顺序没有约定！因为<code>close()</code>方法允许多次调用（当然也有特例，后面讲！），因为规定关闭先前关闭的流没有任何效果。</p>
-<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601181038674.png" alt="image-20210601181038674"></p>
-<p>然后，我们再细看<code>close()</code>方法</p>
-<p>对于<code>BufferedInoutStream</code></p>
-<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601181216077.png" alt="image-20210601181216077"></p>
-<p>DataInputStream类：</p>
-<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601181248404.png" alt="image-20210601181248404"></p>
-<p>其中<code>in</code>为装饰对象，在这里为<code>inputstream</code>，可见实际上底层还是调用顶层的<code>close()</code>，因此我们还可以直接调用<code>inputstream.close()</code>，而无需调用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dataInputStream.close();</span><br><span class="line">bufferedInputStream.close();</span><br></pre></td></tr></table></figure>
-<p>但有例外，比如以下代码会抛出异常：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">OutputStreamWriter writer = new OutputStreamWriter(System.out);</span><br><span class="line">BufferedWriter writer1 = new BufferedWriter(writer);</span><br><span class="line">PrintWriter writer2 = new PrintWriter(writer1);</span><br><span class="line">writer2.close();</span><br><span class="line">writer1.close();</span><br><span class="line">writer.close();</span><br></pre></td></tr></table></figure>
-<p>原因在于<code>BufferedWriter writer1</code>，看一下他的<code>close()</code></p>
-<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601182024659.png" alt="image-20210601182024659"></p>
-<p>其中的flushBuffer()方法：</p>
-<p><img src="/2021/08/12/Java/JavaIO%E6%B5%81/image-20210601182110249.png" alt="image-20210601182110249"></p>
-<p>这里需要写空缓冲，因此抛出异常的原因知道了，当我们调用<code>writer2.close()</code>没实际上流已经关闭，但是再次调用<code>writer1.close()</code>会运行上面的<code>out.write()</code>，由于流已经关闭，因此会抛出异常。</p>
-<p>这一类情况一般发生在BufferedWriter或Writer中，因此关闭流要优先关闭这一类流。</p>
 ]]></content>
       <categories>
         <category>java</category>
@@ -1614,6 +1604,32 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>解决Windows家庭版无法远程问题</title>
+    <url>/2023/05/21/Windows/%E8%A7%A3%E5%86%B3Windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>这破Windows 10 家庭版真的让我操碎了心！Windows坏事做尽！</p>
+<span id="more"></span>
+<h2 id="解决Windows家庭版无法远程的问题"><a href="#解决Windows家庭版无法远程的问题" class="headerlink" title="解决Windows家庭版无法远程的问题"></a>解决Windows家庭版无法远程的问题</h2><p>要解决这个问题需要一个工具rdpwrap：<a href="https://github-releases.githubusercontent.com/25609086/d473b802-eb5f-11e7-8ccc-5944bc969a40?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211017%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20211017T084058Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=c63d302fc9a6d075968448d5ee3a6eb42537d44e88fda8f58768e3d4ab7686d1&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;key_id=0&amp;repo_id=25609086&amp;response-content-disposition=attachment%3B%20filename%3DRDPWrap-v1.6.2.zip&amp;response-content-type=application%2Foctet-stream">下载地址</a> | <a href="https://github.com/stascorp/rdpwrap/releases/tag/v1.6.2">Github</a></p>
+<p>下载回来之后解压，可以看到：</p>
+<p><img src="/2023/05/21/Windows/%E8%A7%A3%E5%86%B3Windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E9%97%AE%E9%A2%98/image-20211017171653109-16846775823871.png" alt="image-20211017171653109"></p>
+<p>以<strong>管理员的方式</strong>运行<strong>install.bat</strong></p>
+<p>运行里面的RDPConf.exe，<strong>看是否有红色的标志。</strong>如果有的话，就需要<strong>查看自己系统的C:\Windows\System32\termsrv.dll的版本号</strong>：</p>
+<p><img src="/2023/05/21/Windows/%E8%A7%A3%E5%86%B3Windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E9%97%AE%E9%A2%98/image-20211017172348425-16846775823872.png" alt="image-20211017172348425"></p>
+<p><a href="https://github.com/stascorp/rdpwrap/issues">到这里</a>搜索该版本号的配置文件，<strong>仔细找，应该能找到像下面的提供的ini文件</strong></p>
+<p><img src="/2023/05/21/Windows/%E8%A7%A3%E5%86%B3Windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E9%97%AE%E9%A2%98/image-20211017173132450-16846775823893.png" alt="image-20211017173132450"></p>
+<p>找到后，<strong>请先win+r运行：services.msc，停止Remote Desktop Services服务，</strong></p>
+<p><strong>将下载的ini文件覆盖到C:\Program Files\RDP Wrapper里面</strong></p>
+<p><strong>重新开启Remote Desktop Services服务，</strong></p>
+<p>运行检查程序看看是不是全绿，<strong>如果是全绿色的话，就证明现在可以使用远程了，win+r运行，输入<code>mstsc</code>打开远程桌面窗口。</strong></p>
+]]></content>
+      <categories>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>mstsc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>1.MyBatis快速入门</title>
     <url>/2022/07/01/MyBatis/mybatis%E8%B5%B7%E6%AD%A5/</url>
     <content><![CDATA[<h1 id="MyBatis快速入门"><a href="#MyBatis快速入门" class="headerlink" title="MyBatis快速入门"></a>MyBatis快速入门</h1><ol>
@@ -1727,32 +1743,6 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>Hexo</tag>
         <tag>Hexo指令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决Windows家庭版无法远程问题</title>
-    <url>/2023/05/21/Windows/%E8%A7%A3%E5%86%B3Windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>这破Windows 10 家庭版真的让我操碎了心！Windows坏事做尽！</p>
-<span id="more"></span>
-<h2 id="解决Windows家庭版无法远程的问题"><a href="#解决Windows家庭版无法远程的问题" class="headerlink" title="解决Windows家庭版无法远程的问题"></a>解决Windows家庭版无法远程的问题</h2><p>要解决这个问题需要一个工具rdpwrap：<a href="https://github-releases.githubusercontent.com/25609086/d473b802-eb5f-11e7-8ccc-5944bc969a40?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211017%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20211017T084058Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=c63d302fc9a6d075968448d5ee3a6eb42537d44e88fda8f58768e3d4ab7686d1&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;key_id=0&amp;repo_id=25609086&amp;response-content-disposition=attachment%3B%20filename%3DRDPWrap-v1.6.2.zip&amp;response-content-type=application%2Foctet-stream">下载地址</a> | <a href="https://github.com/stascorp/rdpwrap/releases/tag/v1.6.2">Github</a></p>
-<p>下载回来之后解压，可以看到：</p>
-<p><img src="/2023/05/21/Windows/%E8%A7%A3%E5%86%B3Windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E9%97%AE%E9%A2%98/image-20211017171653109-16846775823871.png" alt="image-20211017171653109"></p>
-<p>以<strong>管理员的方式</strong>运行<strong>install.bat</strong></p>
-<p>运行里面的RDPConf.exe，<strong>看是否有红色的标志。</strong>如果有的话，就需要<strong>查看自己系统的C:\Windows\System32\termsrv.dll的版本号</strong>：</p>
-<p><img src="/2023/05/21/Windows/%E8%A7%A3%E5%86%B3Windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E9%97%AE%E9%A2%98/image-20211017172348425-16846775823872.png" alt="image-20211017172348425"></p>
-<p><a href="https://github.com/stascorp/rdpwrap/issues">到这里</a>搜索该版本号的配置文件，<strong>仔细找，应该能找到像下面的提供的ini文件</strong></p>
-<p><img src="/2023/05/21/Windows/%E8%A7%A3%E5%86%B3Windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E9%97%AE%E9%A2%98/image-20211017173132450-16846775823893.png" alt="image-20211017173132450"></p>
-<p>找到后，<strong>请先win+r运行：services.msc，停止Remote Desktop Services服务，</strong></p>
-<p><strong>将下载的ini文件覆盖到C:\Program Files\RDP Wrapper里面</strong></p>
-<p><strong>重新开启Remote Desktop Services服务，</strong></p>
-<p>运行检查程序看看是不是全绿，<strong>如果是全绿色的话，就证明现在可以使用远程了，win+r运行，输入<code>mstsc</code>打开远程桌面窗口。</strong></p>
-]]></content>
-      <categories>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>windows</tag>
-        <tag>mstsc</tag>
       </tags>
   </entry>
   <entry>
@@ -2136,27 +2126,6 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
-    <title>添加评论功能</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<h2 id="基于next-来必力添加评论功能"><a href="#基于next-来必力添加评论功能" class="headerlink" title="基于next+来必力添加评论功能"></a>基于next+来必力添加评论功能</h2><span id="more"></span>
-<h2 id="注册账号"><a href="#注册账号" class="headerlink" title="注册账号"></a>注册账号</h2><p><a href="https://livere.com">来必力官网</a></p>
-<p>貌似需要科学上网，但是我在宿舍自己电脑能直接上，换成机房的电脑就不行😥😥</p>
-<h2 id="复制UID"><a href="#复制UID" class="headerlink" title="复制UID"></a>复制UID</h2><p>进入管理界面，点击代码管理，复制<code>data-uid</code>后面的<code>uid</code></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085250263.png" alt="image-20210812085250263"></p>
-<h2 id="配置-Config-yml"><a href="#配置-Config-yml" class="headerlink" title="配置_Config.yml"></a>配置_Config.yml</h2><p>配置位置位于：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085408153.png" alt="image-20210812085408153"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085535585.png" alt="image-20210812085535585"></p>
-<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812090325909.png" alt="image-20210812090325909"></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo_优化</tag>
-        <tag>hexo_添加</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>添加搜索功能</title>
     <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<h2 id="基于next-hexo-generator-searchdb的搜索功能"><a href="#基于next-hexo-generator-searchdb的搜索功能" class="headerlink" title="基于next + hexo-generator-searchdb的搜索功能"></a>基于next + hexo-generator-searchdb的搜索功能</h2><span id="more"></span>
@@ -2181,6 +2150,27 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
+    <title>添加评论功能</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h2 id="基于next-来必力添加评论功能"><a href="#基于next-来必力添加评论功能" class="headerlink" title="基于next+来必力添加评论功能"></a>基于next+来必力添加评论功能</h2><span id="more"></span>
+<h2 id="注册账号"><a href="#注册账号" class="headerlink" title="注册账号"></a>注册账号</h2><p><a href="https://livere.com">来必力官网</a></p>
+<p>貌似需要科学上网，但是我在宿舍自己电脑能直接上，换成机房的电脑就不行😥😥</p>
+<h2 id="复制UID"><a href="#复制UID" class="headerlink" title="复制UID"></a>复制UID</h2><p>进入管理界面，点击代码管理，复制<code>data-uid</code>后面的<code>uid</code></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085250263.png" alt="image-20210812085250263"></p>
+<h2 id="配置-Config-yml"><a href="#配置-Config-yml" class="headerlink" title="配置_Config.yml"></a>配置_Config.yml</h2><p>配置位置位于：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085408153.png" alt="image-20210812085408153"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085535585.png" alt="image-20210812085535585"></p>
+<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812090325909.png" alt="image-20210812090325909"></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo_优化</tag>
+        <tag>hexo_添加</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>解决hexo中文乱码</title>
     <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
     <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
@@ -2188,25 +2178,6 @@ cnpm install -g hexo-cli
 <p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
 <p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
 <p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo标签和分类页面无法正常显示</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/</url>
-    <content><![CDATA[<h2 id="解决hexo标签和分类页面无法正常显示"><a href="#解决hexo标签和分类页面无法正常显示" class="headerlink" title="解决hexo标签和分类页面无法正常显示"></a>解决hexo标签和分类页面无法正常显示</h2><span id="more"></span>
-<p>需要找到</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/image-20210812083030492.png" alt="image-20210812083030492"></p>
-<p>打开<code>index.md</code></p>
-<p>分别添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type: &quot;categories&quot;</span><br><span class="line">layout: &quot;categories&quot;</span><br><span class="line"></span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">layout: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
-<p>即可解决</p>
 ]]></content>
       <categories>
         <category>博客运维</category>
@@ -3006,6 +2977,25 @@ a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = 0\\
       </categories>
       <tags>
         <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo标签和分类页面无法正常显示</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/</url>
+    <content><![CDATA[<h2 id="解决hexo标签和分类页面无法正常显示"><a href="#解决hexo标签和分类页面无法正常显示" class="headerlink" title="解决hexo标签和分类页面无法正常显示"></a>解决hexo标签和分类页面无法正常显示</h2><span id="more"></span>
+<p>需要找到</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/image-20210812083030492.png" alt="image-20210812083030492"></p>
+<p>打开<code>index.md</code></p>
+<p>分别添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type: &quot;categories&quot;</span><br><span class="line">layout: &quot;categories&quot;</span><br><span class="line"></span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">layout: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
+<p>即可解决</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
       </tags>
   </entry>
   <entry>
