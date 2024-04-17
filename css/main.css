@@ -2538,7 +2538,7 @@ header.header {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #99de01;
+  background: #f01ad2;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2608,7 +2608,8 @@ body {
   0 4px 8px 0px rgba(0,0,0,0.1),
   0 8px 16px 0px rgba(0,0,0,0.1),
   0 16px 32px 0px rgba(0,0,0,0.1) !important; */
-  background: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.8);
+  font-weight: bolder;
 }
 /*侧边框的设置*/
 .sidebar {
