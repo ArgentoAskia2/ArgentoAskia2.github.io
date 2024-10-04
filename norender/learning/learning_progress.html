@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--响应式布局-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>学习进度</title>
+    <link rel="stylesheet" href="./layui/css/layui.css" />
+    <script src="./layui/layui.js"></script>
+    <style>
+        h1 {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        caption {
+            text-align: center;
+        }
+
+        #table_header {
+            text-align: center;
+            background-color: #FAFAFA;
+            font-weight: bold;
+        }
+
+        #header {
+            background-color: #009688;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-weight: bold;
+        }
+
+        table {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layui-container">
+        <div class="layui-row">
+            <h1 id="caption">学习进度汇报</h1>
+        </div>
+        <div class="layui-row">
+            <h2>书籍</h2>
+            <table class="layui-table" lay-skin="row">
+
+                <colgroup>
+                    <col width="30%">
+                    <col width="60%">
+                    <col width="10%">
+                </colgroup>
+                <!--Java-->
+                <tr>
+                    <th id="header">书名</th>
+                    <th id="header">当前进度</th>
+                    <th id="header">笔记链接</th>
+                </tr>
+                <tr>
+                    <th colspan="3" id="table_header">Java相关</th>
+                </tr>
+                <tr>
+                    <td>Java核心技术</td>
+                    <td>
+                        <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                            <!--进度条-->
+                            <div class="layui-progress-bar layui-bg-blue" lay-percent="90%"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-blue">传送门</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Effective Java</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-blue" lay-percent="1%"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-blue">传送门</a>
+                    </td>
+                </tr>
+
+
+                <!--Java多线程-->
+                <tr>
+                    <th colspan="3" id="table_header">Java多线程</th>
+                </tr>
+                <tr>
+                    <td>Java多线程编程核心技术</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-green" lay-percent="10%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-green">传送门</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Java并发编程实战</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-green" lay-percent="1%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-green">传送门</a>
+                    </td>
+                </tr>
+
+
+                <!--JVM-->
+                <tr>
+                    <th colspan="3" id="table_header">JVM</th>
+                </tr>
+                <tr>
+                    <td>深入理解Java虚拟机</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-cyan" lay-percent="35%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-cyan">传送门</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Java虚拟机规范</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-cyan" lay-percent="1%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-cyan">传送门</a>
+                    </td>
+                </tr>
+
+                <!--计算机网路-->
+                <tr>
+                    <th colspan="3" id="table_header">计算机网络</th>
+                </tr>
+                <tr>
+                    <td>TCP/IP协议卷一</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-black" lay-percent="20%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-black">传送门</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>TCP/IP协议卷二</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-black" lay-percent="1%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-black">传送门</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>计算机网络自顶向下</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-black" lay-percent="1%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-black">传送门</a>
+                    </td>
+                </tr>
+
+
+                <!--数据结构、算法-->
+                <tr>
+                    <th colspan="3" id="table_header">数据结构与算法</th>
+                </tr>
+
+                <tr>
+                    <td>算法设计与分析(第二版)</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-orange" lay-percent="30%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-orange">传送门</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>数据结构（C描述）</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-orange" lay-percent="70%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-orange">传送门</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>数据结构（C++描述版本）</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-orange" lay-percent="20%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-orange">传送门</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>算法（第四版）</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-orange" lay-percent="20%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-orange">传送门</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>算法导论（第三版）</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-orange" lay-percent="1%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-orange">传送门</a>
+                    </td>
+                </tr>
+
+                <!--设计模式-->
+                <tr>
+                    <th colspan="3" id="table_header">设计模式</th>
+                </tr>
+
+                <tr>
+                    <td>设计模式（GOF）</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-red" lay-percent="1%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-red">传送门</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>设计模式就该这么学</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-red" lay-percent="1%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-red">传送门</a>
+                    </td>
+                </tr>
+
+
+                <!--Spring全家桶-->
+                <tr>
+                    <th colspan="3" id="table_header">Spring全家桶</th>
+                </tr>
+
+                <tr>
+                    <td>Spring实战（第四版）</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-blue" lay-percent="30%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-blue">传送门</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Spring 5核心原理与30个类手写</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-blue" lay-percent="1%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-blue">传送门</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Spring boot实战</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-blue" lay-percent="15%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-blue">传送门</a>
+                    </td>
+                </tr>
+
+                <!--RPC框架-->
+                <tr>
+                    <th colspan="3" id="table_header">RPC框架</th>
+                </tr>
+
+                <tr>
+                    <td>Netty实战</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-green" lay-percent="40%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-green">传送门</a>
+                    </td>
+                </tr>
+
+                <!--软件职业发展-->
+                <tr>
+                    <th colspan="3" id="table_header">软件职业发展</th>
+                </tr>
+
+                <tr>
+                    <td>软技能2</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-red" lay-percent="10%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-red">传送门</a>
+                    </td>
+                </tr>
+
+                <!--MyBatis-->
+                <tr>
+                    <th colspan="3" id="table_header">MyBatis</th>
+                </tr>
+
+                <tr>
+                    <td>MyBatis从入门到精通</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-red" lay-percent="100%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-red">传送门</a>
+                    </td>
+                </tr>
+
+
+                <!--UML-->
+                <tr>
+                    <th colspan="3" id="table_header">UML建模</th>
+                </tr>
+
+                <tr>
+                    <td>UML建模语言</td>
+                    <td>
+                        <div>
+                            <!--进度条-->
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-orange" lay-percent="100%"></div>
+                           </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!--学习笔记-->
+                        <a href="#" class="layui-btn layui-btn-radius layui-bg-orange">传送门</a>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+
+    <div class="layui-container">
+        <div class="layui-row">
+            <h2>技术</h2>
+        </div>
+        <div class="layui-row">
+            <ul>
+                <li>
+                    
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        layui.use('element', function () {
+            var element = layui.element;
+        });
+    </script>
+</body>
+
+</html>
