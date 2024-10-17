@@ -19,19 +19,23 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.17.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="基于next+来必力添加评论功能">
+    <meta name="description" content="这篇文章会介绍hexo如何添加文章评论功能，会介绍hexo中几乎所有可接入的评论系统，希望能帮到您！">
 <meta property="og:type" content="article">
 <meta property="og:title" content="添加评论功能">
 <meta property="og:url" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/index.html">
 <meta property="og:site_name" content="Askia&#39;s Zoom">
-<meta property="og:description" content="基于next+来必力添加评论功能">
+<meta property="og:description" content="这篇文章会介绍hexo如何添加文章评论功能，会介绍hexo中几乎所有可接入的评论系统，希望能帮到您！">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085250263.png">
 <meta property="og:image" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085408153.png">
 <meta property="og:image" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085535585.png">
 <meta property="og:image" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812090325909.png">
+<meta property="og:image" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20241017160917743.png">
+<meta property="og:image" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20241017161047897.png">
+<meta property="og:image" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20241017161419941.png">
+<meta property="og:image" content="http://example.com/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20241017161517546.png">
 <meta property="article:published_time" content="2021-08-12T00:39:02.000Z">
-<meta property="article:modified_time" content="2024-10-17T06:16:32.226Z">
+<meta property="article:modified_time" content="2024-10-17T08:20:37.830Z">
 <meta property="article:author" content="Askia">
 <meta property="article:tag" content="hexo_优化">
 <meta property="article:tag" content="hexo_添加">
@@ -119,7 +123,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Enext-%E6%9D%A5%E5%BF%85%E5%8A%9B%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD"><span class="nav-number">1.</span> <span class="nav-text">基于next+来必力添加评论功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E8%B4%A6%E5%8F%B7"><span class="nav-number">2.</span> <span class="nav-text">注册账号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6UID"><span class="nav-number">3.</span> <span class="nav-text">复制UID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-Config-yml"><span class="nav-number">4.</span> <span class="nav-text">配置_Config.yml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E5%8A%9F%E5%91%8A%E6%88%90"><span class="nav-number">5.</span> <span class="nav-text">大功告成</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#next-%E6%9D%A5%E5%BF%85%E5%8A%9B"><span class="nav-number">1.</span> <span class="nav-text">next+来必力</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E8%B4%A6%E5%8F%B7"><span class="nav-number">1.1.</span> <span class="nav-text">注册账号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6UID"><span class="nav-number">1.2.</span> <span class="nav-text">复制UID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-Config-yml"><span class="nav-number">1.3.</span> <span class="nav-text">配置_Config.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E5%8A%9F%E5%91%8A%E6%88%90"><span class="nav-number">1.4.</span> <span class="nav-text">大功告成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#next-changyan"><span class="nav-number">2.</span> <span class="nav-text">next+changyan</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E8%B4%A6%E5%8F%B7-1"><span class="nav-number">2.1.</span> <span class="nav-text">注册账号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6APP-ID%E5%92%8CAPP-SECRET"><span class="nav-number">2.2.</span> <span class="nav-text">复制APP ID和APP SECRET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%BB%E9%A2%98-config-yml%E6%96%87%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">配置主题_config.yml文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E5%8A%9F%E5%91%8A%E6%88%90-1"><span class="nav-number">2.4.</span> <span class="nav-text">大功告成</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -208,7 +212,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-10-17 14:16:32" itemprop="dateModified" datetime="2024-10-17T14:16:32+08:00">2024-10-17</time>
+      <time title="修改时间：2024-10-17 16:20:37" itemprop="dateModified" datetime="2024-10-17T16:20:37+08:00">2024-10-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -243,15 +247,28 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="基于next-来必力添加评论功能"><a href="#基于next-来必力添加评论功能" class="headerlink" title="基于next+来必力添加评论功能"></a>基于next+来必力添加评论功能</h2><span id="more"></span>
-<h2 id="注册账号"><a href="#注册账号" class="headerlink" title="注册账号"></a>注册账号</h2><p><a target="_blank" rel="noopener" href="https://livere.com">来必力官网</a></p>
+    <div class="post-body" itemprop="articleBody"><p>这篇文章会介绍<code>hexo</code>如何添加文章评论功能，会介绍<code>hexo</code>中几乎所有可接入的评论系统，希望能帮到您！</p>
+<span id="more"></span>
+<h2 id="next-来必力"><a href="#next-来必力" class="headerlink" title="next+来必力"></a>next+来必力</h2><p>本站点早期使用的评论系统，韩国人开发，早期使用效果确实不过，无广告且接入简单快速，但是现在不太推荐，因为会插入它们当地的广告，影响观感先不说，有一次就是因为他这个广告导致我把博客部署到服务器的时候被服务商以为是打广告把整个服务器都<code>ban</code>了（无语）</p>
+<h3 id="注册账号"><a href="#注册账号" class="headerlink" title="注册账号"></a>注册账号</h3><p><a target="_blank" rel="noopener" href="https://livere.com">来必力官网</a></p>
 <p>貌似需要科学上网，但是我在宿舍自己电脑能直接上，换成机房的电脑就不行😥😥</p>
-<h2 id="复制UID"><a href="#复制UID" class="headerlink" title="复制UID"></a>复制UID</h2><p>进入管理界面，点击代码管理，复制<code>data-uid</code>后面的<code>uid</code></p>
+<h3 id="复制UID"><a href="#复制UID" class="headerlink" title="复制UID"></a>复制UID</h3><p>进入管理界面，点击代码管理，复制<code>data-uid</code>后面的<code>uid</code></p>
 <p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085250263.png" alt="image-20210812085250263"></p>
-<h2 id="配置-Config-yml"><a href="#配置-Config-yml" class="headerlink" title="配置_Config.yml"></a>配置_Config.yml</h2><p>配置位置位于：</p>
+<h3 id="配置-Config-yml"><a href="#配置-Config-yml" class="headerlink" title="配置_Config.yml"></a>配置_Config.yml</h3><p>配置位置位于：</p>
 <p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085408153.png" alt="image-20210812085408153"></p>
 <p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812085535585.png" alt="image-20210812085535585"></p>
-<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812090325909.png" alt="image-20210812090325909"></p>
+<h3 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20210812090325909.png" alt="image-20210812090325909"></p>
+<h2 id="next-changyan"><a href="#next-changyan" class="headerlink" title="next+changyan"></a>next+changyan</h2><p>本站点使用的第二个评论系统：畅言云评，目前国内最大的评论系统，接入比较简单，而且因为其<code>Lite</code>免费版本不限制功能，所以本站点选择了这个。</p>
+<h3 id="注册账号-1"><a href="#注册账号-1" class="headerlink" title="注册账号"></a>注册账号</h3><p>地址：<a target="_blank" rel="noopener" href="https://changyan.kuaizhan.com/">https://changyan.kuaizhan.com/</a></p>
+<p>注册完成之后，填写站点的基本信息：<img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20241017160917743.png" alt="image-20241017160917743">然后保存设置即可！</p>
+<h3 id="复制APP-ID和APP-SECRET"><a href="#复制APP-ID和APP-SECRET" class="headerlink" title="复制APP ID和APP SECRET"></a>复制APP ID和APP SECRET</h3><p>在后台总览处，会有对应的<strong>畅言云评密钥</strong>：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20241017161047897.png" alt="image-20241017161047897"></p>
+<p>复制这两个密钥！粘贴在主题的<code>_config.yml</code>配置文件中</p>
+<h3 id="配置主题-config-yml文件"><a href="#配置主题-config-yml文件" class="headerlink" title="配置主题_config.yml文件"></a>配置主题_config.yml文件</h3><p>打开主题<code>_config.yml</code>的配置文件，搜索<code>Changyan</code>：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20241017161419941.png" alt="image-20241017161419941"></p>
+<h3 id="大功告成-1"><a href="#大功告成-1" class="headerlink" title="大功告成"></a>大功告成</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20241017161517546.png" alt="image-20241017161517546"></p>
+<p>注意，这里的评论系统的布局我是改过样式的，因为原版评论系统的组件所在的<code>div</code>元素和我博客的文章<code>div</code>看起来<strong>很难看</strong>，所以我稍微改了一下，如果你也希望自定义这个评论组件，请善用浏览器开发者工具箱（一般是<code>F12</code>）的查看器，查看评论组件的具体所在的<code>div</code>所使用的样式进行修改即可（<code>class</code>属性或者<code>id</code>属性都<code>ok</code>）</p>
+<p>因此<code>hexo</code>内置了好几个主题，不同的主题布局不一样，修改的方法也不一样！</p>
 
     </div>
 

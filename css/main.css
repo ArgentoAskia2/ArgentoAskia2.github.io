@@ -2561,7 +2561,7 @@ header.header {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #deff7f;
+  background: #ff79ff;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2705,6 +2705,27 @@ a.menu-item-active {
 */
 .footer {
   background: rgba(255,255,255,0.6);
+}
+/*
+  评论组件，和文章块一样统一的样式
+*/
+.comments {
+  margin-top: 30px !important;
+}
+/*
+  changyan评论组件所在的div，是一个id，默认会占满整个文章所在的布局，不太好看，统一搞成和文章块一样
+*/
+#SOHU_MAIN {
+  margin-bottom: 10px !important;
+  margin-left: 5% !important;
+  margin-right: 5% !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+  width: auto !important;
+/*  底色用白色，不整鼠标进入才显示白块，否则评论可能看不清！*/
+  background: rgba(255,255,255,0.8) !important;
+  border-radius: 15px !important;
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1), 0 2px 4px 0px rgba(0,0,0,0.1);
 }
 /*
   脚部内嵌
