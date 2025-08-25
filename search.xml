@@ -203,6 +203,55 @@
       </tags>
   </entry>
   <entry>
+    <title>选择排序（Selection）</title>
+    <url>/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
+<span id="more"></span>
+<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>排序算法</th>
+<th>平均事件复杂度</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+<th>排序方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>选择排序</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(1)$</td>
+<td>不稳定</td>
+<td>In-place</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>选择排序（Selection sort）是一种简单直观的排序算法。选择排序是不稳定的排序方法。</p>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="排序原理步骤"><a href="#排序原理步骤" class="headerlink" title="排序原理步骤"></a>排序原理步骤</h3><ol>
+<li>遍历一遍找到最小数，记录下标</li>
+<li>将该下标的数与第一个数交换，第一个数的位置确定</li>
+<li>重复1，2步骤寻找第二个最小的数</li>
+</ol>
+<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for (int i = 0; i &lt; a.length; i++) &#123;</span><br><span class="line">    int min = i;</span><br><span class="line">    // 选择最小的数的下标</span><br><span class="line">    for (int j = i+1; j &lt; a.length; j++) &#123;</span><br><span class="line">        if(less(a[j], a[min])) min = j;</span><br><span class="line">    &#125;</span><br><span class="line">    // 交换当前位置与最小的数</span><br><span class="line">    exch(a, min, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>sort</tag>
+        <tag>Selection</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C语言隐藏结构体的实现方法</title>
     <url>/2019/11/26/C/C%E8%AF%AD%E8%A8%80%E9%9A%90%E8%97%8F%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>前些天在搞win32，被windows花里胡哨的结构弄得生不如死，脑子里莫名其妙蹦出了一个想法：能不能定义一些结构体，外部可以用它来定义变量，然而却不能改变它的成员的值, 就像C++，Java一类语言的class一样对数据进行保护。<del>好吧，其实是我还没吃饱撑着随便乱搞</del><br>参照了网上很多的说法，自己胡乱地搞了几个小时给弄出来了。</p>
@@ -267,55 +316,6 @@ int main()
       <tags>
         <tag>language C</tag>
         <tag>struct</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>选择排序（Selection）</title>
-    <url>/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
-<span id="more"></span>
-<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>排序算法</th>
-<th>平均事件复杂度</th>
-<th>最好情况</th>
-<th>最坏情况</th>
-<th>空间复杂度</th>
-<th>稳定性</th>
-<th>排序方式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>选择排序</td>
-<td>$O(n^2)$</td>
-<td>$O(n^2)$</td>
-<td>$O(n^2)$</td>
-<td>$O(1)$</td>
-<td>不稳定</td>
-<td>In-place</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>选择排序（Selection sort）是一种简单直观的排序算法。选择排序是不稳定的排序方法。</p>
-<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="排序原理步骤"><a href="#排序原理步骤" class="headerlink" title="排序原理步骤"></a>排序原理步骤</h3><ol>
-<li>遍历一遍找到最小数，记录下标</li>
-<li>将该下标的数与第一个数交换，第一个数的位置确定</li>
-<li>重复1，2步骤寻找第二个最小的数</li>
-</ol>
-<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for (int i = 0; i &lt; a.length; i++) &#123;</span><br><span class="line">    int min = i;</span><br><span class="line">    // 选择最小的数的下标</span><br><span class="line">    for (int j = i+1; j &lt; a.length; j++) &#123;</span><br><span class="line">        if(less(a[j], a[min])) min = j;</span><br><span class="line">    &#125;</span><br><span class="line">    // 交换当前位置与最小的数</span><br><span class="line">    exch(a, min, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>sort</tag>
-        <tag>Selection</tag>
       </tags>
   </entry>
   <entry>
@@ -387,65 +387,6 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>git代码合并</title>
-    <url>/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/</url>
-    <content><![CDATA[<p>文章主要介绍<code>Git</code>的三种代码提交合并方式：<code>merge</code>、<code>rebase</code>和<code>cherry-pick</code>。</p>
-<span id="more"></span>
-<h2 id="git代码合并"><a href="#git代码合并" class="headerlink" title="git代码合并"></a>git代码合并</h2><p><code>git</code>代码合并（分支合并）操作主要有三种：<code>merge</code>、<code>rebase</code>、<code>cherry-pick</code>，其中：</p>
-<ul>
-<li><code>merge</code>：合并操作，会将其他分支的内容合并到本分支，并且视情况可能需要填写提交信息</li>
-<li><code>rebase</code>：变基操作，将其他分支的内容搬到当前分支，变基操作能够让当前的分支保持成一条线的形式，使分支看起来很干净</li>
-<li><code>cherry-pick</code>：樱桃摘，真正的神！我们有些时候并不需要完全合并另外一个分支，可能我们仅仅需要合并其他分支的某个或者某几个提交记录，这个时候<code>merge</code>和<code>rebase</code>就不适用了，因为无论是<code>merge</code>还是<code>rebase</code>都会合并到待合并分支的最新的位置，而<code>cherry-pick</code>就能实现这种单个提交记录的合并的需求</li>
-</ul>
-<p>简单来讲，<code>merge</code>和<code>rebase</code>的功能都是将某个分支的提交记录（直到最新提交记录）合并到另外一个分支，而<code>cherry-pick</code>是将某个分支的某个或者某几个提交记录拿到当前分支。</p>
-<p>但无论是<code>merge</code>、<code>rebase</code>还是<code>cherry-pick</code>，在合并记录的过程中，都有可能会遇到一个问题：合并冲突。这些我们都会在文章后续进行介绍。</p>
-<h3 id="rebase操作"><a href="#rebase操作" class="headerlink" title="rebase操作"></a>rebase操作</h3><p>我们假定有如下的分支情况：<code>dev</code>分支在我们<code>main</code>分支的基础上更新了两个版本</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028211622283.png" alt="image-20241028211622283"></p>
-<p>此时<code>dev</code>分支是最新的，我们希望将<code>dev</code>的代码合并到<code>main</code>，由于此时我们在<code>dev</code>分支（<code>dev</code>分支的星号代表我们当前在<code>dev</code>分支）</p>
-<p>我们需要做的事情是：</p>
-<ol>
-<li>先切换到<code>main</code>分支：<code>git checkout main</code></li>
-<li>进行变基操作：<code>git rebase dev</code></li>
-</ol>
-<p>此时我们就能合并完成（这种合并我们一般称为<code>forward</code>）：</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212128641.png" alt="image-20241028212128641"></p>
-<p>这里要注意，我们希望将提交记录较为落后的<code>A</code>分支（比如上图的<code>main</code>分支）合并到提交记录较新的<code>B</code>分支（如上图的<code>dev</code>分支），我们需要先切换到提交记录相对落后的<code>A</code>分支上操作！</p>
-<p>如果你的分支记录已经差分而非连续，即是下面的这种情况：</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
-<p>则此时<code>rebase</code>的意思就不是简单的<code>forward</code>了，这时候我们在<code>main</code>分支上，我们对<code>dev</code>分支进行<code>rebase</code>，执行<code>git rebase dev</code>，将会得到下图的记录</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213152527.png" alt="image-20241028213152527"></p>
-<p>我们之前提过<code>rebase</code>会将提交记录整理成一条线，其实说的就是这种情况，并且可以看到<code>rebase</code>的过程<strong>实际上就是把C1记录之后的main分支上的所有提交搬运到dev分支的最新提交的后面</strong>，因此我们举一反三一下，目前我们的提交如下：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213308676.png" alt="image-20241028213308676"></p>
-<p>则我们进行<code>rebase</code>将会得到：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213416498.png" alt="image-20241028213416498"></p>
-<p>能理解<code>rebase</code>是怎么操作的了吗？好，这个时候我们回到这张图<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
-<p>我们<code>checkout</code>一下（<code>git checkout dev</code>），切换分支到<code>dev</code>，我们反过来，要将<code>dev</code>分支<code>rebase</code>到<code>main</code>又会是什么情况呢？没错，同样的方法，我们将<code>C1</code>之后的所有dev的提交记录搬运到<code>main</code>上（<code>git rebase main</code>）</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213806564.png" alt="image-20241028213806564"></p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213841890.png" alt="image-20241028213841890"></p>
-<p>懂了吧，这就是<code>rebase</code>哦</p>
-<h3 id="merge操作"><a href="#merge操作" class="headerlink" title="merge操作"></a>merge操作</h3><p>我们在介绍<code>rebase</code>的时候实际上分了两种情况，即：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028211622283.png" alt="image-20241028211622283">和<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
-<p>我们可以看到<code>rebase</code>对这两种情况的处理是一样但又不完全一样，在操作上，第一种情况是直接前进而第二种情况是会将一个分支的<code>C1</code>之后的所有提交变基到另外一个分支上。但就结果而言他们是一样的，因为最终的提交记录都会变成一条线的形式！</p>
-<p>然而，你可能看过一些其他的<code>git</code>的文章，很多博主都推荐使用<code>merge</code>而不是<code>rebase</code>，为什么呢？</p>
-<p>第一，<code>merge</code>操作专门设置了两种模式来专门处理这两种情况。处理第一种情况的模式叫<code>fast-forward</code>（快速前进，<code>--ff</code>参数），我们切换到<code>main</code>分支，使用<code>fast-forward</code>模式来进行<code>merge</code>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git merge dev --ff</span><br></pre></td></tr></table></figure>
-<p><code>merge</code>的结果如下，可以看到针对第一种情况，其实<code>rebase</code>和<code>merge</code>的结果并没有区别（因此实际上第一种情况使用<code>rebase</code>和<code>merge</code>都可以），这是因为<code>fast-forward</code>模式并不会发生真正的合并，只是通过移动指针造成合并的假象，即移动<code>main</code>分支的<code>HEAD</code>指针到<code>dev</code>的最新分支，来实现合并功能。</p>
-<p>然而针对第二种情况，则<code>merge</code>就展现出其和<code>rebase</code>的不同了，第二种情况使用<code>merge</code>会产生新的提交记录，这种针对第二种情况产生新纪录的merge模式被称为<code>non-fast-forward</code>（需要加上<code>-–no-ff</code>参数），我们同样切换到<code>main</code>，然后使用这种模式来处理第二种情况：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git merge dev --no-ff</span><br></pre></td></tr></table></figure>
-<p>将得到下面的结果：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028220111836.png" alt="image-20241028220111836"></p>
-<p>这也是为什么使用<code>merge</code>而不是<code>rebase</code>的情况，因为使用<code>merge</code>，则<code>dev</code>上的提交记录和<code>main</code>上的提交记录都被保留下来，并且你还能看到他们是在<code>C1</code>记录开始进行差分的，而使用<code>rebase</code>，则这些分支的差分记录都会被擦除，变成一条直线，这个时候你就看不出来到底<code>dev</code>和<code>main</code>在哪个记录开始进行差分了！<strong>这一点非常不利于后续的bug跟踪和版本跟踪！！</strong></p>
-<p>使用<code>non-fast-forward</code>，在<code>git log</code>会看到很多类似：<code>Merge branch &#39;feature001&#39; into master</code>的<code>commit</code>。（即图上的<code>C5</code>）</p>
-<p>最后，<code>merge</code>除了上面两种模式之外，其实还有第三种模式<code>-–ff-only</code>，即只使用<code>fast-forward</code>模式进行合并，如果合并失败的话则直接退出，返回失败信息！</p>
-<p><code>git merge</code>在不加参数的时候会先使用<code>fast-forward</code>来合并，如果合并失败则会自动切为使用<code>non-fast-forward</code>模式。</p>
-<p>个人使用建议，使用时先使用<code>git merge --ff-only</code>，如果合并失败才考虑是否要使用<code>--no-ff</code></p>
-<h3 id="cherry-pick"><a href="#cherry-pick" class="headerlink" title="cherry-pick"></a>cherry-pick</h3><p>// todo </p>
-]]></content>
-      <categories>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>code combine</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>开闭原则</title>
     <url>/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</url>
     <content><![CDATA[<h4 id="软件设计模式——-gt-软件设计原则——-gt-开闭原则"><a href="#软件设计模式——-gt-软件设计原则——-gt-开闭原则" class="headerlink" title="软件设计模式——&gt;软件设计原则——&gt;开闭原则"></a>软件设计模式——&gt;软件设计原则——&gt;开闭原则</h4><span id="more"></span>
@@ -492,18 +433,6 @@ va_end(ParamList);                                                    // 释放�
         <tag>Open-Closed</tag>
         <tag>Principle</tag>
         <tag>DesignPatterns</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>El表达式</title>
-    <url>/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<span id="more"></span>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_EL_Expression</tag>
       </tags>
   </entry>
   <entry>
@@ -1290,6 +1219,77 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>El表达式</title>
+    <url>/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<span id="more"></span>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_EL_Expression</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git代码合并</title>
+    <url>/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/</url>
+    <content><![CDATA[<p>文章主要介绍<code>Git</code>的三种代码提交合并方式：<code>merge</code>、<code>rebase</code>和<code>cherry-pick</code>。</p>
+<span id="more"></span>
+<h2 id="git代码合并"><a href="#git代码合并" class="headerlink" title="git代码合并"></a>git代码合并</h2><p><code>git</code>代码合并（分支合并）操作主要有三种：<code>merge</code>、<code>rebase</code>、<code>cherry-pick</code>，其中：</p>
+<ul>
+<li><code>merge</code>：合并操作，会将其他分支的内容合并到本分支，并且视情况可能需要填写提交信息</li>
+<li><code>rebase</code>：变基操作，将其他分支的内容搬到当前分支，变基操作能够让当前的分支保持成一条线的形式，使分支看起来很干净</li>
+<li><code>cherry-pick</code>：樱桃摘，真正的神！我们有些时候并不需要完全合并另外一个分支，可能我们仅仅需要合并其他分支的某个或者某几个提交记录，这个时候<code>merge</code>和<code>rebase</code>就不适用了，因为无论是<code>merge</code>还是<code>rebase</code>都会合并到待合并分支的最新的位置，而<code>cherry-pick</code>就能实现这种单个提交记录的合并的需求</li>
+</ul>
+<p>简单来讲，<code>merge</code>和<code>rebase</code>的功能都是将某个分支的提交记录（直到最新提交记录）合并到另外一个分支，而<code>cherry-pick</code>是将某个分支的某个或者某几个提交记录拿到当前分支。</p>
+<p>但无论是<code>merge</code>、<code>rebase</code>还是<code>cherry-pick</code>，在合并记录的过程中，都有可能会遇到一个问题：合并冲突。这些我们都会在文章后续进行介绍。</p>
+<h3 id="rebase操作"><a href="#rebase操作" class="headerlink" title="rebase操作"></a>rebase操作</h3><p>我们假定有如下的分支情况：<code>dev</code>分支在我们<code>main</code>分支的基础上更新了两个版本</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028211622283.png" alt="image-20241028211622283"></p>
+<p>此时<code>dev</code>分支是最新的，我们希望将<code>dev</code>的代码合并到<code>main</code>，由于此时我们在<code>dev</code>分支（<code>dev</code>分支的星号代表我们当前在<code>dev</code>分支）</p>
+<p>我们需要做的事情是：</p>
+<ol>
+<li>先切换到<code>main</code>分支：<code>git checkout main</code></li>
+<li>进行变基操作：<code>git rebase dev</code></li>
+</ol>
+<p>此时我们就能合并完成（这种合并我们一般称为<code>forward</code>）：</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212128641.png" alt="image-20241028212128641"></p>
+<p>这里要注意，我们希望将提交记录较为落后的<code>A</code>分支（比如上图的<code>main</code>分支）合并到提交记录较新的<code>B</code>分支（如上图的<code>dev</code>分支），我们需要先切换到提交记录相对落后的<code>A</code>分支上操作！</p>
+<p>如果你的分支记录已经差分而非连续，即是下面的这种情况：</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
+<p>则此时<code>rebase</code>的意思就不是简单的<code>forward</code>了，这时候我们在<code>main</code>分支上，我们对<code>dev</code>分支进行<code>rebase</code>，执行<code>git rebase dev</code>，将会得到下图的记录</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213152527.png" alt="image-20241028213152527"></p>
+<p>我们之前提过<code>rebase</code>会将提交记录整理成一条线，其实说的就是这种情况，并且可以看到<code>rebase</code>的过程<strong>实际上就是把C1记录之后的main分支上的所有提交搬运到dev分支的最新提交的后面</strong>，因此我们举一反三一下，目前我们的提交如下：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213308676.png" alt="image-20241028213308676"></p>
+<p>则我们进行<code>rebase</code>将会得到：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213416498.png" alt="image-20241028213416498"></p>
+<p>能理解<code>rebase</code>是怎么操作的了吗？好，这个时候我们回到这张图<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
+<p>我们<code>checkout</code>一下（<code>git checkout dev</code>），切换分支到<code>dev</code>，我们反过来，要将<code>dev</code>分支<code>rebase</code>到<code>main</code>又会是什么情况呢？没错，同样的方法，我们将<code>C1</code>之后的所有dev的提交记录搬运到<code>main</code>上（<code>git rebase main</code>）</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213806564.png" alt="image-20241028213806564"></p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213841890.png" alt="image-20241028213841890"></p>
+<p>懂了吧，这就是<code>rebase</code>哦</p>
+<h3 id="merge操作"><a href="#merge操作" class="headerlink" title="merge操作"></a>merge操作</h3><p>我们在介绍<code>rebase</code>的时候实际上分了两种情况，即：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028211622283.png" alt="image-20241028211622283">和<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
+<p>我们可以看到<code>rebase</code>对这两种情况的处理是一样但又不完全一样，在操作上，第一种情况是直接前进而第二种情况是会将一个分支的<code>C1</code>之后的所有提交变基到另外一个分支上。但就结果而言他们是一样的，因为最终的提交记录都会变成一条线的形式！</p>
+<p>然而，你可能看过一些其他的<code>git</code>的文章，很多博主都推荐使用<code>merge</code>而不是<code>rebase</code>，为什么呢？</p>
+<p>第一，<code>merge</code>操作专门设置了两种模式来专门处理这两种情况。处理第一种情况的模式叫<code>fast-forward</code>（快速前进，<code>--ff</code>参数），我们切换到<code>main</code>分支，使用<code>fast-forward</code>模式来进行<code>merge</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git merge dev --ff</span><br></pre></td></tr></table></figure>
+<p><code>merge</code>的结果如下，可以看到针对第一种情况，其实<code>rebase</code>和<code>merge</code>的结果并没有区别（因此实际上第一种情况使用<code>rebase</code>和<code>merge</code>都可以），这是因为<code>fast-forward</code>模式并不会发生真正的合并，只是通过移动指针造成合并的假象，即移动<code>main</code>分支的<code>HEAD</code>指针到<code>dev</code>的最新分支，来实现合并功能。</p>
+<p>然而针对第二种情况，则<code>merge</code>就展现出其和<code>rebase</code>的不同了，第二种情况使用<code>merge</code>会产生新的提交记录，这种针对第二种情况产生新纪录的merge模式被称为<code>non-fast-forward</code>（需要加上<code>-–no-ff</code>参数），我们同样切换到<code>main</code>，然后使用这种模式来处理第二种情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git merge dev --no-ff</span><br></pre></td></tr></table></figure>
+<p>将得到下面的结果：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028220111836.png" alt="image-20241028220111836"></p>
+<p>这也是为什么使用<code>merge</code>而不是<code>rebase</code>的情况，因为使用<code>merge</code>，则<code>dev</code>上的提交记录和<code>main</code>上的提交记录都被保留下来，并且你还能看到他们是在<code>C1</code>记录开始进行差分的，而使用<code>rebase</code>，则这些分支的差分记录都会被擦除，变成一条直线，这个时候你就看不出来到底<code>dev</code>和<code>main</code>在哪个记录开始进行差分了！<strong>这一点非常不利于后续的bug跟踪和版本跟踪！！</strong></p>
+<p>使用<code>non-fast-forward</code>，在<code>git log</code>会看到很多类似：<code>Merge branch &#39;feature001&#39; into master</code>的<code>commit</code>。（即图上的<code>C5</code>）</p>
+<p>最后，<code>merge</code>除了上面两种模式之外，其实还有第三种模式<code>-–ff-only</code>，即只使用<code>fast-forward</code>模式进行合并，如果合并失败的话则直接退出，返回失败信息！</p>
+<p><code>git merge</code>在不加参数的时候会先使用<code>fast-forward</code>来合并，如果合并失败则会自动切为使用<code>non-fast-forward</code>模式。</p>
+<p>个人使用建议，使用时先使用<code>git merge --ff-only</code>，如果合并失败才考虑是否要使用<code>--no-ff</code></p>
+<h3 id="cherry-pick"><a href="#cherry-pick" class="headerlink" title="cherry-pick"></a>cherry-pick</h3><p>// todo </p>
+]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>code combine</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Filter过滤器</title>
     <url>/2022/01/01/JavaWeb/Filter/</url>
     <content><![CDATA[<h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
@@ -1366,6 +1366,29 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>javaweb_bean</tag>
         <tag>javaweb_jsp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ServletContext对象</title>
+    <url>/2021/12/17/JavaWeb/ServletContext/</url>
+    <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
+<p>19年黑马<code>JavaWeb</code>课程的笔记</p>
+<span id="more"></span>
+<h1 id="ServletContext对象"><a href="#ServletContext对象" class="headerlink" title="ServletContext对象"></a>ServletContext对象</h1><p>ServletContext代表整个web应用，可以和程序的容器(服务器)来通信。</p>
+<h2 id="获取"><a href="#获取" class="headerlink" title="获取"></a>获取</h2><p>通过request对象获取：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">request.getServletContext();</span><br></pre></td></tr></table></figure>
+<p>通过httpServlet获取：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">this.getServletContext();</span><br></pre></td></tr></table></figure>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><h3 id="获取MINE类型"><a href="#获取MINE类型" class="headerlink" title="获取MINE类型"></a>获取MINE类型</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getMimeType</span><span class="params">(String file)</span> </span></span><br></pre></td></tr></table></figure>
+<h3 id="获取文件的真实-服务器-路径"><a href="#获取文件的真实-服务器-路径" class="headerlink" title="获取文件的真实(服务器)路径"></a>获取文件的真实(服务器)路径</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getRealPath</span><span class="params">(String path)</span>  </span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String b = context.getRealPath(<span class="string">&quot;/b.txt&quot;</span>);<span class="comment">//web目录下资源访问</span></span><br><span class="line">String c = context.getRealPath(<span class="string">&quot;/WEB-INF/c.txt&quot;</span>);<span class="comment">//WEB-INF目录下的资源访问</span></span><br><span class="line">String a = context.getRealPath(<span class="string">&quot;/WEB-INF/classes/a.txt&quot;</span>);<span class="comment">//src目录下的资源访问</span></span><br></pre></td></tr></table></figure>
+<h3 id="共享数据"><a href="#共享数据" class="headerlink" title="共享数据"></a>共享数据</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">setAttribute(String name,Object value)</span><br><span class="line">getAttribute(String name)</span><br><span class="line">removeAttribute(String name)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_servlet - javaweb_tomcat</tag>
       </tags>
   </entry>
   <entry>
@@ -1520,29 +1543,6 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>javaweb_servlet</tag>
         <tag>javaweb_tomcat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ServletContext对象</title>
-    <url>/2021/12/17/JavaWeb/ServletContext/</url>
-    <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
-<p>19年黑马<code>JavaWeb</code>课程的笔记</p>
-<span id="more"></span>
-<h1 id="ServletContext对象"><a href="#ServletContext对象" class="headerlink" title="ServletContext对象"></a>ServletContext对象</h1><p>ServletContext代表整个web应用，可以和程序的容器(服务器)来通信。</p>
-<h2 id="获取"><a href="#获取" class="headerlink" title="获取"></a>获取</h2><p>通过request对象获取：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">request.getServletContext();</span><br></pre></td></tr></table></figure>
-<p>通过httpServlet获取：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">this.getServletContext();</span><br></pre></td></tr></table></figure>
-<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><h3 id="获取MINE类型"><a href="#获取MINE类型" class="headerlink" title="获取MINE类型"></a>获取MINE类型</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getMimeType</span><span class="params">(String file)</span> </span></span><br></pre></td></tr></table></figure>
-<h3 id="获取文件的真实-服务器-路径"><a href="#获取文件的真实-服务器-路径" class="headerlink" title="获取文件的真实(服务器)路径"></a>获取文件的真实(服务器)路径</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">getRealPath</span><span class="params">(String path)</span>  </span></span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String b = context.getRealPath(<span class="string">&quot;/b.txt&quot;</span>);<span class="comment">//web目录下资源访问</span></span><br><span class="line">String c = context.getRealPath(<span class="string">&quot;/WEB-INF/c.txt&quot;</span>);<span class="comment">//WEB-INF目录下的资源访问</span></span><br><span class="line">String a = context.getRealPath(<span class="string">&quot;/WEB-INF/classes/a.txt&quot;</span>);<span class="comment">//src目录下的资源访问</span></span><br></pre></td></tr></table></figure>
-<h3 id="共享数据"><a href="#共享数据" class="headerlink" title="共享数据"></a>共享数据</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">setAttribute(String name,Object value)</span><br><span class="line">getAttribute(String name)</span><br><span class="line">removeAttribute(String name)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_servlet - javaweb_tomcat</tag>
       </tags>
   </entry>
   <entry>
@@ -2138,32 +2138,36 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>解决Windows家庭版无法远程问题</title>
-    <url>/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>这破Windows 10 家庭版真的让我操碎了心！Windows坏事做尽！</p>
-<span id="more"></span>
-<h2 id="解决Windows家庭版无法远程的问题"><a href="#解决Windows家庭版无法远程的问题" class="headerlink" title="解决Windows家庭版无法远程的问题"></a>解决Windows家庭版无法远程的问题</h2><p>要解决这个问题需要一个工具rdpwrap：<a href="https://github-releases.githubusercontent.com/25609086/d473b802-eb5f-11e7-8ccc-5944bc969a40?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211017%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20211017T084058Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=c63d302fc9a6d075968448d5ee3a6eb42537d44e88fda8f58768e3d4ab7686d1&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;key_id=0&amp;repo_id=25609086&amp;response-content-disposition=attachment%3B%20filename%3DRDPWrap-v1.6.2.zip&amp;response-content-type=application%2Foctet-stream">下载地址</a> | <a href="https://github.com/stascorp/rdpwrap/releases/tag/v1.6.2">Github</a></p>
-<p>下载回来之后解压，可以看到：</p>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017171653109.png" alt="image-20211017171653109"></p>
-<p>以<strong>管理员的方式</strong>运行<strong>install.bat</strong></p>
-<p>运行里面的RDPConf.exe，<strong>看是否有红色的标志。</strong>如果有的话，就需要<strong>查看自己系统的C:\Windows\System32\termsrv.dll的版本号</strong>：</p>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017172348425.png" alt="image-20211017172348425"></p>
-<p><a href="https://github.com/stascorp/rdpwrap/issues">到这里</a>搜索该版本号的配置文件，<strong>仔细找，应该能找到像下面的提供的ini文件</strong></p>
-<blockquote>
-<p>自动更新请到这里找<a href="https://github.com/sebaxakerhtc/rdpwrap.ini/">sebaxakerhtc/rdpwrap.ini: RDPWrap.ini for RDP Wrapper Library by Stas’M (github.com)</a>，下载根目录的ini即可</p>
-</blockquote>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017173132450.png" alt="image-20211017173132450"></p>
-<p>找到后，<strong>请先win+r运行：services.msc，停止Remote Desktop Services服务，</strong></p>
-<p><strong>将下载的ini文件覆盖到C:\Program Files\RDP Wrapper里面</strong></p>
-<p><strong>重新开启Remote Desktop Services服务，</strong></p>
-<p>运行检查程序看看是不是全绿，<strong>如果是全绿色的话，就证明现在可以使用远程了，win+r运行，输入<code>mstsc</code>打开远程桌面窗口。</strong></p>
+    <title>Hexo常用指令&amp;Front Matter</title>
+    <url>/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="Hexo常用指令-amp-Front-Matter"><a href="#Hexo常用指令-amp-Front-Matter" class="headerlink" title="Hexo常用指令&amp;Front Matter"></a>Hexo常用指令&amp;Front Matter</h1><span id="more"></span>
+<h2 id="Front-Matter"><a href="#Front-Matter" class="headerlink" title="Front Matter"></a>Front Matter</h2><p>重要的有两个：</p>
+<ul>
+<li><p>tags：标签，可以打多个</p>
+</li>
+<li><p>categories：分类，只能放一个分类</p>
+</li>
+</ul>
+<h3 id="tags"><a href="#tags" class="headerlink" title="tags"></a>tags</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">方式1：</span><br><span class="line">[java,javeweb]</span><br><span class="line">方式2：</span><br><span class="line">	- Java</span><br><span class="line">	- JavaWeb</span><br></pre></td></tr></table></figure>
+<h3 id="categories"><a href="#categories" class="headerlink" title="categories"></a>categories</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">categories: Hexo</span><br></pre></td></tr></table></figure>
+<h2 id="Hexo常用指令"><a href="#Hexo常用指令" class="headerlink" title="Hexo常用指令"></a>Hexo常用指令</h2><h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><p>希望在<code>_post</code>文件夹下创建文章：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post &quot;文章名[.md]&quot;</span><br></pre></td></tr></table></figure>
+<p>希望在<code>_post/分类</code>文件下面创建文章：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post --path &quot;[目录名]/[文章名]&quot;</span><br></pre></td></tr></table></figure>
+<p><code>[目录名]</code> <strong>不存在会自动创建</strong></p>
+<h2 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo g -d 		// 生成之后立即部署</span><br></pre></td></tr></table></figure>
+<h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo s	//本地测试</span><br></pre></td></tr></table></figure>
+<p>可以边开启服务器，边修改文章，边看效果（<strong>支持热部署</strong>）</p>
+<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d		// 部署静态页面</span><br></pre></td></tr></table></figure>
+<h2 id="一般流程"><a href="#一般流程" class="headerlink" title="一般流程"></a>一般流程</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(hexo clean)--&gt; hexo new --&gt; 写文章 --&gt; hexo g(hexo g -d) --&gt; (hexo s) --&gt; hexo d</span><br></pre></td></tr></table></figure>
+<p><code>hexo d</code>,远端没更新，一般都是<code>github</code>服务器问题，<strong>等！</strong></p>
 ]]></content>
       <categories>
-        <category>windows</category>
+        <category>Hexo</category>
       </categories>
       <tags>
-        <tag>windows</tag>
-        <tag>mstsc</tag>
+        <tag>Hexo</tag>
+        <tag>Hexo指令</tag>
       </tags>
   </entry>
   <entry>
@@ -2247,62 +2251,6 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>MyBatis-start</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决Windows环境变量无法使用列表展开</title>
-    <url>/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/</url>
-    <content><![CDATA[<p>这里说的问题可能会对配置Windows环境变量出错的同学有一点点帮助（<del>但不多</del>）</p>
-<span id="more"></span>
-<h2 id="如何以列表的形式展开Windows环境变量"><a href="#如何以列表的形式展开Windows环境变量" class="headerlink" title="如何以列表的形式展开Windows环境变量"></a>如何以列表的形式展开Windows环境变量</h2><ol>
-<li><p>首先如何你的环境变量是以引用其他环境变量开头的话，<code>Windows</code>是不会以列表的形式来显示所有环境变量的，而是以一个文本框的形式：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003623666.png" alt="image-20241004003623666"></p>
-</li>
-<li><p>如果希望以列表的形式来打开环境变量的话，需要指定第一个变量值必须以盘符开始，比如下面的配置：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003834186.png" alt="image-20241004003834186"></p>
-</li>
-<li><p>添加上以盘符为开始的变量值之后点击多次确定让环境变量生效，然后下次打开就变成列表形式啦~在列表形式下，比较好判断自己是否写错了环境变量了<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004004001406.png" alt="image-20241004004001406"></p>
-</li>
-</ol>
-<p>参考：<a href="https://blog.csdn.net/weixin_46070150/article/details/121021035#:~:text=%E5%8F%98%E9%87%8F%E5%80%BC%E4%BB%A5%%E5%BC%80%E5%A4%B4%EF%BC%8C">Windows10系统的环境变量（path）怎么进行列表显示？_win10 环境变量 path 怎么是个字符串-CSDN博客</a></p>
-]]></content>
-      <categories>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>windows</tag>
-        <tag>variables</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo常用指令&amp;Front Matter</title>
-    <url>/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="Hexo常用指令-amp-Front-Matter"><a href="#Hexo常用指令-amp-Front-Matter" class="headerlink" title="Hexo常用指令&amp;Front Matter"></a>Hexo常用指令&amp;Front Matter</h1><span id="more"></span>
-<h2 id="Front-Matter"><a href="#Front-Matter" class="headerlink" title="Front Matter"></a>Front Matter</h2><p>重要的有两个：</p>
-<ul>
-<li><p>tags：标签，可以打多个</p>
-</li>
-<li><p>categories：分类，只能放一个分类</p>
-</li>
-</ul>
-<h3 id="tags"><a href="#tags" class="headerlink" title="tags"></a>tags</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">方式1：</span><br><span class="line">[java,javeweb]</span><br><span class="line">方式2：</span><br><span class="line">	- Java</span><br><span class="line">	- JavaWeb</span><br></pre></td></tr></table></figure>
-<h3 id="categories"><a href="#categories" class="headerlink" title="categories"></a>categories</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">categories: Hexo</span><br></pre></td></tr></table></figure>
-<h2 id="Hexo常用指令"><a href="#Hexo常用指令" class="headerlink" title="Hexo常用指令"></a>Hexo常用指令</h2><h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><p>希望在<code>_post</code>文件夹下创建文章：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post &quot;文章名[.md]&quot;</span><br></pre></td></tr></table></figure>
-<p>希望在<code>_post/分类</code>文件下面创建文章：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post --path &quot;[目录名]/[文章名]&quot;</span><br></pre></td></tr></table></figure>
-<p><code>[目录名]</code> <strong>不存在会自动创建</strong></p>
-<h2 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo g -d 		// 生成之后立即部署</span><br></pre></td></tr></table></figure>
-<h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo s	//本地测试</span><br></pre></td></tr></table></figure>
-<p>可以边开启服务器，边修改文章，边看效果（<strong>支持热部署</strong>）</p>
-<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d		// 部署静态页面</span><br></pre></td></tr></table></figure>
-<h2 id="一般流程"><a href="#一般流程" class="headerlink" title="一般流程"></a>一般流程</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(hexo clean)--&gt; hexo new --&gt; 写文章 --&gt; hexo g(hexo g -d) --&gt; (hexo s) --&gt; hexo d</span><br></pre></td></tr></table></figure>
-<p><code>hexo d</code>,远端没更新，一般都是<code>github</code>服务器问题，<strong>等！</strong></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Hexo指令</tag>
       </tags>
   </entry>
   <entry>
@@ -2418,6 +2366,58 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>解决Windows家庭版无法远程问题</title>
+    <url>/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>这破Windows 10 家庭版真的让我操碎了心！Windows坏事做尽！</p>
+<span id="more"></span>
+<h2 id="解决Windows家庭版无法远程的问题"><a href="#解决Windows家庭版无法远程的问题" class="headerlink" title="解决Windows家庭版无法远程的问题"></a>解决Windows家庭版无法远程的问题</h2><p>要解决这个问题需要一个工具rdpwrap：<a href="https://github-releases.githubusercontent.com/25609086/d473b802-eb5f-11e7-8ccc-5944bc969a40?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211017%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20211017T084058Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=c63d302fc9a6d075968448d5ee3a6eb42537d44e88fda8f58768e3d4ab7686d1&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;key_id=0&amp;repo_id=25609086&amp;response-content-disposition=attachment%3B%20filename%3DRDPWrap-v1.6.2.zip&amp;response-content-type=application%2Foctet-stream">下载地址</a> | <a href="https://github.com/stascorp/rdpwrap/releases/tag/v1.6.2">Github</a></p>
+<p>下载回来之后解压，可以看到：</p>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017171653109.png" alt="image-20211017171653109"></p>
+<p>以<strong>管理员的方式</strong>运行<strong>install.bat</strong></p>
+<p>运行里面的RDPConf.exe，<strong>看是否有红色的标志。</strong>如果有的话，就需要<strong>查看自己系统的C:\Windows\System32\termsrv.dll的版本号</strong>：</p>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017172348425.png" alt="image-20211017172348425"></p>
+<p><a href="https://github.com/stascorp/rdpwrap/issues">到这里</a>搜索该版本号的配置文件，<strong>仔细找，应该能找到像下面的提供的ini文件</strong></p>
+<blockquote>
+<p>自动更新请到这里找<a href="https://github.com/sebaxakerhtc/rdpwrap.ini/">sebaxakerhtc/rdpwrap.ini: RDPWrap.ini for RDP Wrapper Library by Stas’M (github.com)</a>，下载根目录的ini即可</p>
+</blockquote>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017173132450.png" alt="image-20211017173132450"></p>
+<p>找到后，<strong>请先win+r运行：services.msc，停止Remote Desktop Services服务，</strong></p>
+<p><strong>将下载的ini文件覆盖到C:\Program Files\RDP Wrapper里面</strong></p>
+<p><strong>重新开启Remote Desktop Services服务，</strong></p>
+<p>运行检查程序看看是不是全绿，<strong>如果是全绿色的话，就证明现在可以使用远程了，win+r运行，输入<code>mstsc</code>打开远程桌面窗口。</strong></p>
+]]></content>
+      <categories>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>mstsc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决Windows环境变量无法使用列表展开</title>
+    <url>/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/</url>
+    <content><![CDATA[<p>这里说的问题可能会对配置Windows环境变量出错的同学有一点点帮助（<del>但不多</del>）</p>
+<span id="more"></span>
+<h2 id="如何以列表的形式展开Windows环境变量"><a href="#如何以列表的形式展开Windows环境变量" class="headerlink" title="如何以列表的形式展开Windows环境变量"></a>如何以列表的形式展开Windows环境变量</h2><ol>
+<li><p>首先如何你的环境变量是以引用其他环境变量开头的话，<code>Windows</code>是不会以列表的形式来显示所有环境变量的，而是以一个文本框的形式：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003623666.png" alt="image-20241004003623666"></p>
+</li>
+<li><p>如果希望以列表的形式来打开环境变量的话，需要指定第一个变量值必须以盘符开始，比如下面的配置：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003834186.png" alt="image-20241004003834186"></p>
+</li>
+<li><p>添加上以盘符为开始的变量值之后点击多次确定让环境变量生效，然后下次打开就变成列表形式啦~在列表形式下，比较好判断自己是否写错了环境变量了<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004004001406.png" alt="image-20241004004001406"></p>
+</li>
+</ol>
+<p>参考：<a href="https://blog.csdn.net/weixin_46070150/article/details/121021035#:~:text=%E5%8F%98%E9%87%8F%E5%80%BC%E4%BB%A5%%E5%BC%80%E5%A4%B4%EF%BC%8C">Windows10系统的环境变量（path）怎么进行列表显示？_win10 环境变量 path 怎么是个字符串-CSDN博客</a></p>
+]]></content>
+      <categories>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>variables</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo博客支持数学公式</title>
     <url>/2022/03/15/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
     <content><![CDATA[<ol>
@@ -2450,92 +2450,6 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>hexo</tag>
         <tag>features</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常用正则表达式</title>
-    <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
-<h2 id="常用表达式举例"><a href="#常用表达式举例" class="headerlink" title="常用表达式举例"></a>常用表达式举例</h2><span id="more"></span>
-<h3 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h3><h5 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
-<h5 id="n位数字（n为具体数字）"><a href="#n位数字（n为具体数字）" class="headerlink" title="n位数字（n为具体数字）"></a>n位数字（n为具体数字）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="至少n位的数字"><a href="#至少n位的数字" class="headerlink" title="至少n位的数字"></a>至少n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n,&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="m-n位的数字"><a href="#m-n位的数字" class="headerlink" title="m-n位的数字"></a>m-n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;m,n&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="零和非零开头的数字"><a href="#零和非零开头的数字" class="headerlink" title="零和非零开头的数字"></a>零和非零开头的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$</span><br></pre></td></tr></table></figure>
-<h5 id="非零开头的最多带两位小数的数字"><a href="#非零开头的最多带两位小数的数字" class="headerlink" title="非零开头的最多带两位小数的数字"></a>非零开头的最多带两位小数的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)+(\.[0-9]&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
-<h5 id="带1-2位小数的正数或负数"><a href="#带1-2位小数的正数或负数" class="headerlink" title="带1-2位小数的正数或负数"></a>带1-2位小数的正数或负数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-)?\d+(\.\d&#123;1,2&#125;)$</span><br></pre></td></tr></table></figure>
-<h5 id="正数、负数、和小数"><a href="#正数、负数、和小数" class="headerlink" title="正数、负数、和小数"></a>正数、负数、和小数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-|\+)?\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
-<h5 id="有两位小数的正实数"><a href="#有两位小数的正实数" class="headerlink" title="有两位小数的正实数"></a>有两位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;2&#125;)?$</span><br></pre></td></tr></table></figure>
-<h5 id="有1-3位小数的正实数"><a href="#有1-3位小数的正实数" class="headerlink" title="有1~3位小数的正实数"></a>有1~3位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;1,3&#125;)?$</span><br></pre></td></tr></table></figure>
-<h5 id="非零的正整数"><a href="#非零的正整数" class="headerlink" title="非零的正整数"></a>非零的正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)&#123;1,3&#125;$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\+?[1-9][0-9]*$</span><br></pre></td></tr></table></figure>
-<h5 id="非零的负整数"><a href="#非零的负整数" class="headerlink" title="非零的负整数"></a>非零的负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\-[1-9][]0-9&quot;*$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*$</span><br></pre></td></tr></table></figure>
-<h5 id="非负整数"><a href="#非负整数" class="headerlink" title="非负整数"></a>非负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
-<h5 id="非正整数"><a href="#非正整数" class="headerlink" title="非正整数"></a>非正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+)|(0+))$</span><br></pre></td></tr></table></figure>
-<h5 id="非负浮点数"><a href="#非负浮点数" class="headerlink" title="非负浮点数"></a>非负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span><br></pre></td></tr></table></figure>
-<h5 id="非正浮点数"><a href="#非正浮点数" class="headerlink" title="非正浮点数"></a>非正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+(\.\d+)?)|(0+(\.0+)?))$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span><br></pre></td></tr></table></figure>
-<h5 id="正浮点数"><a href="#正浮点数" class="headerlink" title="正浮点数"></a>正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</span><br></pre></td></tr></table></figure>
-<h5 id="负浮点数"><a href="#负浮点数" class="headerlink" title="负浮点数"></a>负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</span><br></pre></td></tr></table></figure>
-<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-?\d+)(\.\d+)?$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span><br></pre></td></tr></table></figure>
-<h3 id="校验字符的表达式"><a href="#校验字符的表达式" class="headerlink" title="校验字符的表达式"></a>校验字符的表达式</h3><h5 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;0,&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="英文和数字"><a href="#英文和数字" class="headerlink" title="英文和数字"></a>英文和数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;4,40&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="长度为3-20的所有字符"><a href="#长度为3-20的所有字符" class="headerlink" title="长度为3-20的所有字符"></a>长度为3-20的所有字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^.&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="由26个英文字母组成的字符串"><a href="#由26个英文字母组成的字符串" class="headerlink" title="由26个英文字母组成的字符串"></a>由26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由26个大写英文字母组成的字符串"><a href="#由26个大写英文字母组成的字符串" class="headerlink" title="由26个大写英文字母组成的字符串"></a>由26个大写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Z]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由26个小写英文字母组成的字符串"><a href="#由26个小写英文字母组成的字符串" class="headerlink" title="由26个小写英文字母组成的字符串"></a>由26个小写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-z]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由数字和26个英文字母组成的字符串"><a href="#由数字和26个英文字母组成的字符串" class="headerlink" title="由数字和26个英文字母组成的字符串"></a>由数字和26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由数字、26个英文字母或者下划线组成的字符串"><a href="#由数字、26个英文字母或者下划线组成的字符串" class="headerlink" title="由数字、26个英文字母或者下划线组成的字符串"></a>由数字、26个英文字母或者下划线组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+$ 或 ^\w&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="中文、英文、数字包括下划线"><a href="#中文、英文、数字包括下划线" class="headerlink" title="中文、英文、数字包括下划线"></a>中文、英文、数字包括下划线</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9_]+$</span><br></pre></td></tr></table></figure>
-<h5 id="中文、英文、数字但不包括下划线等符号"><a href="#中文、英文、数字但不包括下划线等符号" class="headerlink" title="中文、英文、数字但不包括下划线等符号"></a>中文、英文、数字但不包括下划线等符号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]&#123;2,20&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="可以输入含有-amp-’-”等字符"><a href="#可以输入含有-amp-’-”等字符" class="headerlink" title="可以输入含有^%&amp;’,;=?$\”等字符"></a>可以输入含有^%&amp;’,;=?$\”等字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^%&amp;&#x27;,;=?$\x22]+</span><br></pre></td></tr></table></figure>
-<h5 id="禁止输入含有-的字符"><a href="#禁止输入含有-的字符" class="headerlink" title="禁止输入含有~的字符"></a>禁止输入含有~的字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^~\x22]+</span><br></pre></td></tr></table></figure>
-<h3 id="特殊需求表达式"><a href="#特殊需求表达式" class="headerlink" title="特殊需求表达式"></a>特殊需求表达式</h3><h5 id="Email地址"><a href="#Email地址" class="headerlink" title="Email地址"></a>Email地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br></pre></td></tr></table></figure>
-<h5 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(\.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+\.?</span><br></pre></td></tr></table></figure>
-<h5 id="InternetURL"><a href="#InternetURL" class="headerlink" title="InternetURL"></a>InternetURL</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-z]+://[^\s]*</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</span><br></pre></td></tr></table></figure>
-<h5 id="手机号码"><a href="#手机号码" class="headerlink" title="手机号码"></a>手机号码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX"><a href="#电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX" class="headerlink" title="电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)"></a>电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="国内电话号码-0511-4405222、021-87888822"><a href="#国内电话号码-0511-4405222、021-87888822" class="headerlink" title="国内电话号码(0511-4405222、021-87888822)"></a>国内电话号码(0511-4405222、021-87888822)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><a href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）" class="headerlink" title="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"></a>电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((\d&#123;11&#125;)|^((\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;)|(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;))$)</span><br></pre></td></tr></table></figure>
-<h5 id="身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X"><a href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X" class="headerlink" title="身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X"></a>身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)</span><br></pre></td></tr></table></figure>
-<h5 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线"><a href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线" class="headerlink" title="帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)"></a>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线"><a href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线" class="headerlink" title="密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)"></a>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z]\w&#123;5,17&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间"><a href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)"></a>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"><a href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)"></a>强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="日期格式"><a href="#日期格式" class="headerlink" title="日期格式"></a>日期格式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="一年的12个月-01～09和1～12"><a href="#一年的12个月-01～09和1～12" class="headerlink" title="一年的12个月(01～09和1～12)"></a>一年的12个月(01～09和1～12)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0?[1-9]|1[0-2])$</span><br></pre></td></tr></table></figure>
-<h5 id="一个月的31天-01～09和1～31"><a href="#一个月的31天-01～09和1～31" class="headerlink" title="一个月的31天(01～09和1～31)"></a>一个月的31天(01～09和1～31)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((0?[1-9])|((1|2)[0-9])|30|31)$</span><br></pre></td></tr></table></figure>
-<h5 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</span><br></pre></td></tr></table></figure>
-<h5 id="中国邮政编码"><a href="#中国邮政编码" class="headerlink" title="中国邮政编码"></a>中国邮政编码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9]\d&#123;5&#125;(?!\d) </span><br></pre></td></tr></table></figure>
-<h5 id="腾讯QQ号"><a href="#腾讯QQ号" class="headerlink" title="腾讯QQ号"></a>腾讯QQ号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9][0-9]&#123;4,&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="IPv4地址"><a href="#IPv4地址" class="headerlink" title="IPv4地址"></a>IPv4地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;)(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;))&#123;3&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="字符过滤类"><a href="#字符过滤类" class="headerlink" title="字符过滤类"></a>字符过滤类</h3><h5 id="中文字符的正则表达式"><a href="#中文字符的正则表达式" class="headerlink" title="中文字符的正则表达式"></a>中文字符的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[\u4e00-\u9fa5]</span><br></pre></td></tr></table></figure>
-<h5 id="双字节字符"><a href="#双字节字符" class="headerlink" title="双字节字符"></a>双字节字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\x00-\xff] </span><br></pre></td></tr></table></figure>
-<p>(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</p>
-<h5 id="空白行的正则表达式"><a href="#空白行的正则表达式" class="headerlink" title="空白行的正则表达式"></a>空白行的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\n\s*\r</span><br></pre></td></tr></table></figure>
-<p>(可以用来删除空白行)</p>
-<h5 id="HTML标记的正则表达式"><a href="#HTML标记的正则表达式" class="headerlink" title="HTML标记的正则表达式"></a>HTML标记的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt;</span><br></pre></td></tr></table></figure>
-<p> <strong>( 首尾空白字符的正则表达式：<code>^\s\*|\s\*$</code>或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</strong></p>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>匹配字符中不出现某些特殊字符可以这样:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]		// 不匹配带有\/*:?&quot;&lt;&gt;|的字符串</span><br></pre></td></tr></table></figure>
-<p>匹配目录是否合法(windows)</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[C-Z]:\\([^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]+\\)*$</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>正则表达式</category>
-      </categories>
-      <tags>
-        <tag>常用正则表达式持续更新</tag>
       </tags>
   </entry>
   <entry>
@@ -2909,27 +2823,6 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
-    <title>解决hexo-github hexo g time out 443</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
-    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
-<span id="more"></span>
-<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-<p>如果不需要代理了，则可以运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>记录一次hexo上传大文件失败产生的问题</title>
     <url>/2023/05/21/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1hexo%E4%B8%8A%E4%BC%A0%E5%A4%A7%E6%96%87%E4%BB%B6%E5%A4%B1%E8%B4%A5%E4%BA%A7%E7%94%9F%E7%9A%84%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<p>最近想搞动态背景，使用了了一张比较大的gif（2K画质，60帧），大小在146MB！</p>
@@ -2965,116 +2858,24 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
-    <title>线性代数知识点总结2</title>
-    <url>/2019/12/11/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-2/</url>
-    <content><![CDATA[<h1 id="线性代数第二章知识点总结"><a href="#线性代数第二章知识点总结" class="headerlink" title="线性代数第二章知识点总结"></a>线性代数第二章知识点总结</h1><h2 id="1-增广矩阵-amp-系数矩阵"><a href="#1-增广矩阵-amp-系数矩阵" class="headerlink" title="1. 增广矩阵&amp;系数矩阵"></a>1. 增广矩阵&amp;系数矩阵</h2><ul>
-<li><p><strong>原方程</strong>：</p>
-<script type="math/tex; mode=display">
-\begin{cases} 
--x_1+2x_2+x_3 = 2\\ 
-3x_1+18x_2+x_3 = 12\\ 
-4x_2+12x_3=2\\ 
-\end{cases}</script></li>
-<li><p><strong>增广矩阵 $\overline{A}$</strong>：</p>
-<script type="math/tex; mode=display">
-\left[\begin{array}{lcr|r}
-  -1 & 2 & 1 & 2\\
-  3 & 18 & 1 & 12\\
-  0 & 4 & 12 & 2
-\end{array}\right]</script></li>
-<li><p><strong>系数矩阵 $A$</strong>：</p>
-<script type="math/tex; mode=display">
-\left[ 
-\begin{matrix}
-  -1 & 2 & 1 \\
-  3 & 18 & 1 \\
-  0 & 4 & 12 
-\end{matrix} 
-\right]</script></li>
-</ul>
-<h2 id="2-阶梯型矩阵"><a href="#2-阶梯型矩阵" class="headerlink" title="2. 阶梯型矩阵"></a>2. 阶梯型矩阵</h2><ul>
-<li><strong>阶梯型矩阵</strong>：<br>前r（r&lt;=n）行不全为0，其余行皆为0的矩阵，且矩阵第k行第一个非零元素$a_{kj_k}$（阶梯头）满足<script type="math/tex; mode=display">
-j_1<j_2<j_3<...<j_n</script>例如：<script type="math/tex; mode=display">
-\left[
-\begin{matrix}
-  -1 & 0 & 12 & 5 \\
-  0 & 18 & 5 & 1\\
-  0 & 0 & 12 & 1\\
-  0 & 0 & 0 & 0
-\end{matrix} 
-\right]</script></li>
-<li><strong>约化阶梯型矩阵</strong>：<br>阶梯型矩阵每行第一个非零元素为1，且阶梯头所在列的其他元素全为0。<br><br>例如：<script type="math/tex; mode=display">
-\left[
-\begin{matrix}
-  1 & 0 & 0 & 0 \\
-  0 & 1 & 0 & 0\\
-  0 & 0 & 1 & 0\\
-  0 & 0 & 0 & 0
-\end{matrix} 
-\right]</script></li>
-</ul>
-<h2 id="3-矩阵的秩：R"><a href="#3-矩阵的秩：R" class="headerlink" title="3. 矩阵的秩：R"></a>3. 矩阵的秩：R</h2><ul>
-<li><p><strong>阶梯型矩阵的秩等于其不为零的行的行数</strong></p>
-</li>
-<li><p><strong>初等行（列）变换不改变矩阵的秩</strong>，可用此性质将一般的行列式转化为阶梯型行列式来求秩！</p>
-</li>
-<li><p>设 <strong>A</strong>=[$a_{ij}$]是n*n的矩阵，则有：</p>
-<ul>
-<li>R(A)=n的充分必要条件是|$a_{ij}$|$\neq$0（满秩矩阵）</li>
-<li>R(a)$\lt$n的充分必要条件是|$a_{ij}$|=0</li>
-</ul>
-</li>
-</ul>
-<h2 id="4-解线性方程组"><a href="#4-解线性方程组" class="headerlink" title="4. 解线性方程组"></a>4. 解线性方程组</h2><h3 id="1-一般方程组："><a href="#1-一般方程组：" class="headerlink" title="1. 一般方程组："></a>1. 一般方程组：</h3><script type="math/tex; mode=display">
-\begin{cases} 
-a_{11}x_1+a_{12}x_2+...+a_{1n}x_n = b_1\\ 
-a_{21}x_1+a_{22}x_2+...+a_{2n}x_n = b_2\\
-.........\\
-a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = b_m\\
-\end{cases}</script><script type="math/tex; mode=display">
-A = 
-\left[
-\begin{matrix}
- a_{11}      &  a_{12}       & \cdots &  a_{1n}       \\
- a_{21}      & a_{22}     & \cdots &  a_{2n}     \\
- \vdots & \vdots & \ddots & \vdots \\
-  a_{n1}      &  a_{n2}     & \cdots &  a_{nn}     \\
-\end{matrix}
-\right]</script><script type="math/tex; mode=display">
-\overline{A} = 
-\left[\begin{array}{cccc|r}
- a_{11}&  a_{12}& \cdots &a_{1n} &b_1\\
-  a_{21}      & a_{22}     & \cdots &  a_{2n}   &b_2  \\
- \vdots & \vdots & \ddots & \vdots & \vdots\\
-  a_{n1}      &  a_{n2}     & \cdots &  a_{nn}  &b_n   \\
-\end{array}\right]</script><ul>
-<li>有解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$     <ul>
-<li>有唯一解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$ $= r = n(未知量个数)$</li>
-<li>有无穷多个解 $\Leftrightarrow R(\overline{A}) = R(A) = r &lt; n(未知量个数)$，此时有 $n-r$ 个自由未知量</li>
-<li>特别地当m=n时，矩阵(行列式)有唯一解 $\Leftrightarrow |a_{ij}|_n\not=0$(  克拉默法则？)</li>
-</ul>
-</li>
-</ul>
-<h3 id="2-齐次方程组："><a href="#2-齐次方程组：" class="headerlink" title="2. 齐次方程组："></a>2. 齐次方程组：</h3><script type="math/tex; mode=display">
-\begin{cases} 
-a_{11}x_1+a_{12}x_2+...+a_{1n}x_n = 0\\ 
-a_{21}x_1+a_{22}x_2+...+a_{2n}x_n = 0\\
-.........\\
-a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = 0\\
-\end{cases}</script><ul>
-<li>即 $b_1=b_2=b_3=b_4=…=b_n=0$ 的特例我们称为齐次方程组，注意到其<strong>必有解，且为0解</strong>！！！</li>
-<li>只有零解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$ $= r = n(未知量个数)$</li>
-<li>有非零解 $\Leftrightarrow R(\overline{A}) = R(A) = r &lt; n(未知量个数)$，此时有 $n-r$ 个自由未知量</li>
-<li>特别地当 $m=n$ 时，矩阵(行列式)只有零解（唯一解） $\Leftrightarrow |a<em>{ij}|_n\not=0$, 有非零解 $\Leftrightarrow |a</em>{ij}|_n=0$</li>
-</ul>
-<h2 id="5-重要题型及解法："><a href="#5-重要题型及解法：" class="headerlink" title="5.重要题型及解法："></a>5.重要题型及解法：</h2><p><strong>参考来自P59页，线性代数 第二版 11.5教材</strong></p>
-<p>​<br>​    </p>
+    <title>解决hexo-github hexo g time out 443</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
+    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
+<span id="more"></span>
+<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+<p>如果不需要代理了，则可以运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>线性代数复习知识点</category>
+        <category>博客运维</category>
       </categories>
       <tags>
-        <tag>线性代数</tag>
+        <tag>hexo</tag>
+        <tag>fix</tag>
       </tags>
   </entry>
   <entry>
@@ -3580,6 +3381,205 @@ f(x)=
       </tags>
   </entry>
   <entry>
+    <title>常用正则表达式</title>
+    <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
+<h2 id="常用表达式举例"><a href="#常用表达式举例" class="headerlink" title="常用表达式举例"></a>常用表达式举例</h2><span id="more"></span>
+<h3 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h3><h5 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
+<h5 id="n位数字（n为具体数字）"><a href="#n位数字（n为具体数字）" class="headerlink" title="n位数字（n为具体数字）"></a>n位数字（n为具体数字）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="至少n位的数字"><a href="#至少n位的数字" class="headerlink" title="至少n位的数字"></a>至少n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n,&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="m-n位的数字"><a href="#m-n位的数字" class="headerlink" title="m-n位的数字"></a>m-n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;m,n&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="零和非零开头的数字"><a href="#零和非零开头的数字" class="headerlink" title="零和非零开头的数字"></a>零和非零开头的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$</span><br></pre></td></tr></table></figure>
+<h5 id="非零开头的最多带两位小数的数字"><a href="#非零开头的最多带两位小数的数字" class="headerlink" title="非零开头的最多带两位小数的数字"></a>非零开头的最多带两位小数的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)+(\.[0-9]&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
+<h5 id="带1-2位小数的正数或负数"><a href="#带1-2位小数的正数或负数" class="headerlink" title="带1-2位小数的正数或负数"></a>带1-2位小数的正数或负数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-)?\d+(\.\d&#123;1,2&#125;)$</span><br></pre></td></tr></table></figure>
+<h5 id="正数、负数、和小数"><a href="#正数、负数、和小数" class="headerlink" title="正数、负数、和小数"></a>正数、负数、和小数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-|\+)?\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
+<h5 id="有两位小数的正实数"><a href="#有两位小数的正实数" class="headerlink" title="有两位小数的正实数"></a>有两位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;2&#125;)?$</span><br></pre></td></tr></table></figure>
+<h5 id="有1-3位小数的正实数"><a href="#有1-3位小数的正实数" class="headerlink" title="有1~3位小数的正实数"></a>有1~3位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;1,3&#125;)?$</span><br></pre></td></tr></table></figure>
+<h5 id="非零的正整数"><a href="#非零的正整数" class="headerlink" title="非零的正整数"></a>非零的正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)&#123;1,3&#125;$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\+?[1-9][0-9]*$</span><br></pre></td></tr></table></figure>
+<h5 id="非零的负整数"><a href="#非零的负整数" class="headerlink" title="非零的负整数"></a>非零的负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\-[1-9][]0-9&quot;*$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*$</span><br></pre></td></tr></table></figure>
+<h5 id="非负整数"><a href="#非负整数" class="headerlink" title="非负整数"></a>非负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
+<h5 id="非正整数"><a href="#非正整数" class="headerlink" title="非正整数"></a>非正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+)|(0+))$</span><br></pre></td></tr></table></figure>
+<h5 id="非负浮点数"><a href="#非负浮点数" class="headerlink" title="非负浮点数"></a>非负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+<h5 id="非正浮点数"><a href="#非正浮点数" class="headerlink" title="非正浮点数"></a>非正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+(\.\d+)?)|(0+(\.0+)?))$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+<h5 id="正浮点数"><a href="#正浮点数" class="headerlink" title="正浮点数"></a>正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</span><br></pre></td></tr></table></figure>
+<h5 id="负浮点数"><a href="#负浮点数" class="headerlink" title="负浮点数"></a>负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</span><br></pre></td></tr></table></figure>
+<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-?\d+)(\.\d+)?$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span><br></pre></td></tr></table></figure>
+<h3 id="校验字符的表达式"><a href="#校验字符的表达式" class="headerlink" title="校验字符的表达式"></a>校验字符的表达式</h3><h5 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;0,&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="英文和数字"><a href="#英文和数字" class="headerlink" title="英文和数字"></a>英文和数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;4,40&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="长度为3-20的所有字符"><a href="#长度为3-20的所有字符" class="headerlink" title="长度为3-20的所有字符"></a>长度为3-20的所有字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^.&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="由26个英文字母组成的字符串"><a href="#由26个英文字母组成的字符串" class="headerlink" title="由26个英文字母组成的字符串"></a>由26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由26个大写英文字母组成的字符串"><a href="#由26个大写英文字母组成的字符串" class="headerlink" title="由26个大写英文字母组成的字符串"></a>由26个大写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Z]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由26个小写英文字母组成的字符串"><a href="#由26个小写英文字母组成的字符串" class="headerlink" title="由26个小写英文字母组成的字符串"></a>由26个小写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-z]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由数字和26个英文字母组成的字符串"><a href="#由数字和26个英文字母组成的字符串" class="headerlink" title="由数字和26个英文字母组成的字符串"></a>由数字和26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由数字、26个英文字母或者下划线组成的字符串"><a href="#由数字、26个英文字母或者下划线组成的字符串" class="headerlink" title="由数字、26个英文字母或者下划线组成的字符串"></a>由数字、26个英文字母或者下划线组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+$ 或 ^\w&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="中文、英文、数字包括下划线"><a href="#中文、英文、数字包括下划线" class="headerlink" title="中文、英文、数字包括下划线"></a>中文、英文、数字包括下划线</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9_]+$</span><br></pre></td></tr></table></figure>
+<h5 id="中文、英文、数字但不包括下划线等符号"><a href="#中文、英文、数字但不包括下划线等符号" class="headerlink" title="中文、英文、数字但不包括下划线等符号"></a>中文、英文、数字但不包括下划线等符号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]&#123;2,20&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="可以输入含有-amp-’-”等字符"><a href="#可以输入含有-amp-’-”等字符" class="headerlink" title="可以输入含有^%&amp;’,;=?$\”等字符"></a>可以输入含有^%&amp;’,;=?$\”等字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^%&amp;&#x27;,;=?$\x22]+</span><br></pre></td></tr></table></figure>
+<h5 id="禁止输入含有-的字符"><a href="#禁止输入含有-的字符" class="headerlink" title="禁止输入含有~的字符"></a>禁止输入含有~的字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^~\x22]+</span><br></pre></td></tr></table></figure>
+<h3 id="特殊需求表达式"><a href="#特殊需求表达式" class="headerlink" title="特殊需求表达式"></a>特殊需求表达式</h3><h5 id="Email地址"><a href="#Email地址" class="headerlink" title="Email地址"></a>Email地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br></pre></td></tr></table></figure>
+<h5 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(\.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+\.?</span><br></pre></td></tr></table></figure>
+<h5 id="InternetURL"><a href="#InternetURL" class="headerlink" title="InternetURL"></a>InternetURL</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-z]+://[^\s]*</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</span><br></pre></td></tr></table></figure>
+<h5 id="手机号码"><a href="#手机号码" class="headerlink" title="手机号码"></a>手机号码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX"><a href="#电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX" class="headerlink" title="电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)"></a>电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="国内电话号码-0511-4405222、021-87888822"><a href="#国内电话号码-0511-4405222、021-87888822" class="headerlink" title="国内电话号码(0511-4405222、021-87888822)"></a>国内电话号码(0511-4405222、021-87888822)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><a href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）" class="headerlink" title="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"></a>电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((\d&#123;11&#125;)|^((\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;)|(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;))$)</span><br></pre></td></tr></table></figure>
+<h5 id="身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X"><a href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X" class="headerlink" title="身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X"></a>身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)</span><br></pre></td></tr></table></figure>
+<h5 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线"><a href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线" class="headerlink" title="帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)"></a>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线"><a href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线" class="headerlink" title="密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)"></a>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z]\w&#123;5,17&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间"><a href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)"></a>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"><a href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)"></a>强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="日期格式"><a href="#日期格式" class="headerlink" title="日期格式"></a>日期格式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="一年的12个月-01～09和1～12"><a href="#一年的12个月-01～09和1～12" class="headerlink" title="一年的12个月(01～09和1～12)"></a>一年的12个月(01～09和1～12)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0?[1-9]|1[0-2])$</span><br></pre></td></tr></table></figure>
+<h5 id="一个月的31天-01～09和1～31"><a href="#一个月的31天-01～09和1～31" class="headerlink" title="一个月的31天(01～09和1～31)"></a>一个月的31天(01～09和1～31)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((0?[1-9])|((1|2)[0-9])|30|31)$</span><br></pre></td></tr></table></figure>
+<h5 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</span><br></pre></td></tr></table></figure>
+<h5 id="中国邮政编码"><a href="#中国邮政编码" class="headerlink" title="中国邮政编码"></a>中国邮政编码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9]\d&#123;5&#125;(?!\d) </span><br></pre></td></tr></table></figure>
+<h5 id="腾讯QQ号"><a href="#腾讯QQ号" class="headerlink" title="腾讯QQ号"></a>腾讯QQ号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9][0-9]&#123;4,&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="IPv4地址"><a href="#IPv4地址" class="headerlink" title="IPv4地址"></a>IPv4地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;)(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;))&#123;3&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="字符过滤类"><a href="#字符过滤类" class="headerlink" title="字符过滤类"></a>字符过滤类</h3><h5 id="中文字符的正则表达式"><a href="#中文字符的正则表达式" class="headerlink" title="中文字符的正则表达式"></a>中文字符的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[\u4e00-\u9fa5]</span><br></pre></td></tr></table></figure>
+<h5 id="双字节字符"><a href="#双字节字符" class="headerlink" title="双字节字符"></a>双字节字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\x00-\xff] </span><br></pre></td></tr></table></figure>
+<p>(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</p>
+<h5 id="空白行的正则表达式"><a href="#空白行的正则表达式" class="headerlink" title="空白行的正则表达式"></a>空白行的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\n\s*\r</span><br></pre></td></tr></table></figure>
+<p>(可以用来删除空白行)</p>
+<h5 id="HTML标记的正则表达式"><a href="#HTML标记的正则表达式" class="headerlink" title="HTML标记的正则表达式"></a>HTML标记的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt;</span><br></pre></td></tr></table></figure>
+<p> <strong>( 首尾空白字符的正则表达式：<code>^\s\*|\s\*$</code>或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</strong></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>匹配字符中不出现某些特殊字符可以这样:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]		// 不匹配带有\/*:?&quot;&lt;&gt;|的字符串</span><br></pre></td></tr></table></figure>
+<p>匹配目录是否合法(windows)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[C-Z]:\\([^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]+\\)*$</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>正则表达式</category>
+      </categories>
+      <tags>
+        <tag>常用正则表达式持续更新</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>线性代数知识点总结2</title>
+    <url>/2019/12/11/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-2/</url>
+    <content><![CDATA[<h1 id="线性代数第二章知识点总结"><a href="#线性代数第二章知识点总结" class="headerlink" title="线性代数第二章知识点总结"></a>线性代数第二章知识点总结</h1><h2 id="1-增广矩阵-amp-系数矩阵"><a href="#1-增广矩阵-amp-系数矩阵" class="headerlink" title="1. 增广矩阵&amp;系数矩阵"></a>1. 增广矩阵&amp;系数矩阵</h2><ul>
+<li><p><strong>原方程</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{cases} 
+-x_1+2x_2+x_3 = 2\\ 
+3x_1+18x_2+x_3 = 12\\ 
+4x_2+12x_3=2\\ 
+\end{cases}</script></li>
+<li><p><strong>增广矩阵 $\overline{A}$</strong>：</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{lcr|r}
+  -1 & 2 & 1 & 2\\
+  3 & 18 & 1 & 12\\
+  0 & 4 & 12 & 2
+\end{array}\right]</script></li>
+<li><p><strong>系数矩阵 $A$</strong>：</p>
+<script type="math/tex; mode=display">
+\left[ 
+\begin{matrix}
+  -1 & 2 & 1 \\
+  3 & 18 & 1 \\
+  0 & 4 & 12 
+\end{matrix} 
+\right]</script></li>
+</ul>
+<h2 id="2-阶梯型矩阵"><a href="#2-阶梯型矩阵" class="headerlink" title="2. 阶梯型矩阵"></a>2. 阶梯型矩阵</h2><ul>
+<li><strong>阶梯型矩阵</strong>：<br>前r（r&lt;=n）行不全为0，其余行皆为0的矩阵，且矩阵第k行第一个非零元素$a_{kj_k}$（阶梯头）满足<script type="math/tex; mode=display">
+j_1<j_2<j_3<...<j_n</script>例如：<script type="math/tex; mode=display">
+\left[
+\begin{matrix}
+  -1 & 0 & 12 & 5 \\
+  0 & 18 & 5 & 1\\
+  0 & 0 & 12 & 1\\
+  0 & 0 & 0 & 0
+\end{matrix} 
+\right]</script></li>
+<li><strong>约化阶梯型矩阵</strong>：<br>阶梯型矩阵每行第一个非零元素为1，且阶梯头所在列的其他元素全为0。<br><br>例如：<script type="math/tex; mode=display">
+\left[
+\begin{matrix}
+  1 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0\\
+  0 & 0 & 1 & 0\\
+  0 & 0 & 0 & 0
+\end{matrix} 
+\right]</script></li>
+</ul>
+<h2 id="3-矩阵的秩：R"><a href="#3-矩阵的秩：R" class="headerlink" title="3. 矩阵的秩：R"></a>3. 矩阵的秩：R</h2><ul>
+<li><p><strong>阶梯型矩阵的秩等于其不为零的行的行数</strong></p>
+</li>
+<li><p><strong>初等行（列）变换不改变矩阵的秩</strong>，可用此性质将一般的行列式转化为阶梯型行列式来求秩！</p>
+</li>
+<li><p>设 <strong>A</strong>=[$a_{ij}$]是n*n的矩阵，则有：</p>
+<ul>
+<li>R(A)=n的充分必要条件是|$a_{ij}$|$\neq$0（满秩矩阵）</li>
+<li>R(a)$\lt$n的充分必要条件是|$a_{ij}$|=0</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-解线性方程组"><a href="#4-解线性方程组" class="headerlink" title="4. 解线性方程组"></a>4. 解线性方程组</h2><h3 id="1-一般方程组："><a href="#1-一般方程组：" class="headerlink" title="1. 一般方程组："></a>1. 一般方程组：</h3><script type="math/tex; mode=display">
+\begin{cases} 
+a_{11}x_1+a_{12}x_2+...+a_{1n}x_n = b_1\\ 
+a_{21}x_1+a_{22}x_2+...+a_{2n}x_n = b_2\\
+.........\\
+a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = b_m\\
+\end{cases}</script><script type="math/tex; mode=display">
+A = 
+\left[
+\begin{matrix}
+ a_{11}      &  a_{12}       & \cdots &  a_{1n}       \\
+ a_{21}      & a_{22}     & \cdots &  a_{2n}     \\
+ \vdots & \vdots & \ddots & \vdots \\
+  a_{n1}      &  a_{n2}     & \cdots &  a_{nn}     \\
+\end{matrix}
+\right]</script><script type="math/tex; mode=display">
+\overline{A} = 
+\left[\begin{array}{cccc|r}
+ a_{11}&  a_{12}& \cdots &a_{1n} &b_1\\
+  a_{21}      & a_{22}     & \cdots &  a_{2n}   &b_2  \\
+ \vdots & \vdots & \ddots & \vdots & \vdots\\
+  a_{n1}      &  a_{n2}     & \cdots &  a_{nn}  &b_n   \\
+\end{array}\right]</script><ul>
+<li>有解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$     <ul>
+<li>有唯一解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$ $= r = n(未知量个数)$</li>
+<li>有无穷多个解 $\Leftrightarrow R(\overline{A}) = R(A) = r &lt; n(未知量个数)$，此时有 $n-r$ 个自由未知量</li>
+<li>特别地当m=n时，矩阵(行列式)有唯一解 $\Leftrightarrow |a_{ij}|_n\not=0$(  克拉默法则？)</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-齐次方程组："><a href="#2-齐次方程组：" class="headerlink" title="2. 齐次方程组："></a>2. 齐次方程组：</h3><script type="math/tex; mode=display">
+\begin{cases} 
+a_{11}x_1+a_{12}x_2+...+a_{1n}x_n = 0\\ 
+a_{21}x_1+a_{22}x_2+...+a_{2n}x_n = 0\\
+.........\\
+a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = 0\\
+\end{cases}</script><ul>
+<li>即 $b_1=b_2=b_3=b_4=…=b_n=0$ 的特例我们称为齐次方程组，注意到其<strong>必有解，且为0解</strong>！！！</li>
+<li>只有零解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$ $= r = n(未知量个数)$</li>
+<li>有非零解 $\Leftrightarrow R(\overline{A}) = R(A) = r &lt; n(未知量个数)$，此时有 $n-r$ 个自由未知量</li>
+<li>特别地当 $m=n$ 时，矩阵(行列式)只有零解（唯一解） $\Leftrightarrow |a<em>{ij}|_n\not=0$, 有非零解 $\Leftrightarrow |a</em>{ij}|_n=0$</li>
+</ul>
+<h2 id="5-重要题型及解法："><a href="#5-重要题型及解法：" class="headerlink" title="5.重要题型及解法："></a>5.重要题型及解法：</h2><p><strong>参考来自P59页，线性代数 第二版 11.5教材</strong></p>
+<p>​<br>​    </p>
+]]></content>
+      <categories>
+        <category>线性代数复习知识点</category>
+      </categories>
+      <tags>
+        <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>GTK+CodeBlock（windows）环境搭建</title>
     <url>/2019/11/28/C/GTK-CodeBlock%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<h1 id="C-B-GTK（windows）环境搭建教学"><a href="#C-B-GTK（windows）环境搭建教学" class="headerlink" title="C::B+GTK（windows）环境搭建教学"></a>C::B+GTK（windows）环境搭建教学</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>学完C语言已经一段时间了，不想局限于控制台程序，想学做下窗口，一开始想试试MFC，然而MFC的书太厚了，上手难，于是在同学建议下试了比较容易上手的GTK+。<del>GTK+是真的爽！</del><br>本篇将<del>简单</del>介绍C::B（CodeBlock）+GTK+的搭建。</p>
@@ -3616,111 +3616,17 @@ int main(int argc, char *argv[])
       </tags>
   </entry>
   <entry>
+    <title>archives</title>
+    <url>/archives/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>about</title>
     <url>/about/index.html</url>
     <content><![CDATA[<ul>
 <li>前信息技术老师</li>
 <li>前实训老师</li>
 <li><code>Java</code>开发者</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>archives</title>
-    <url>/archives/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>游戏</title>
-    <url>/games/index.html</url>
-    <content><![CDATA[<p>此处整理了部分游戏游玩过程时的心得和体会，包括相关资源的下载和整理，出这一个版面的原由，是因为在玩战双的时候老是会忘记角色技能怎么放？</p>
-<p>因此就顺带开这一个版面来记录自己的游戏旅程吧。</p>
-<p>今年也是25岁了，渐渐开始感觉到玩不动游戏了，所有的能力也都在下滑，唉~</p>
-<ul>
-<li><a href="./PGR.html">战双</a></li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title>tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>古诗鉴赏</title>
-    <url>/yposts/index.html</url>
-    <content><![CDATA[<p>由于个人喜好，开了本诗词鉴赏专栏，会收集一些古诗词放在此处以供参考，默认按照作者进行分类：</p>
-<blockquote>
-<p>龚自珍：</p>
-</blockquote>
-<p>龚自珍（<code>1792</code>年<code>8</code>月<code>22</code>日-<code>1841</code>年<code>9</code>月<code>26</code>日），字璱（<code>sè</code>）人，号定庵（<code>ān</code>）。汉族，浙江仁和（今杭州）人。晚年居住昆山羽琌山馆，又号羽琌山民。清代思想家、诗人、文学家和改良主义的先驱者。著有《定盦文集》，留存文章<code>300</code>余篇，诗词近<code>800</code>首，今人辑为《龚自珍全集》。著名诗作《己亥杂诗》共<code>315</code>首。多咏怀和讽喻之作。</p>
-<ul>
-<li><a href="./己亥杂诗.html">己亥杂诗</a>：九州生气恃风雷，万马齐喑究可哀。（形容社会死气沉沉，人们不敢讲话，到处是一种令人窒息的沉闷气氛）</li>
-<li><a href="./漫感.html">漫感</a>：一箫一剑平生意，负尽狂名十五年。</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/yposts/%E5%B7%B1%E4%BA%A5%E6%9D%82%E8%AF%97.html</url>
-    <content><![CDATA[<h2 id="己亥杂诗"><a href="#己亥杂诗" class="headerlink" title="己亥杂诗"></a>己亥杂诗</h2><div style="background-color: #EFEFEF;margin: 0 auto;text-align: center;font-size: 25px;line-height:40px"><b>己亥杂诗</b><br><span style="text-align:right;font-size:15px;">龚自珍</span><br>九州生气<ruby>恃<rp><rt>shì</rt></rp></ruby>风雷，万马齐<ruby>喑<rp><rt>yīn</rt></rp></ruby>究可哀。<br>我劝天公重抖擞，不拘一格降人材。</div>
-
-<h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><h5 id="初翻（方面记忆）"><a href="#初翻（方面记忆）" class="headerlink" title="初翻（方面记忆）"></a>初翻（方面记忆）</h5><p>九州生气勃勃的局面要依靠风雷，万马都沉默终究可哀。我奉劝天公重新抖擞，不拘一格地降下人才。</p>
-<h5 id="润色"><a href="#润色" class="headerlink" title="润色"></a>润色</h5><p>只有依靠风雷激荡般的巨大力量才能使中国大地焕发勃勃生机，然而社会政局毫无生气终究是一种悲哀。<br>我奉劝上天要重新振作精神，不要拘泥一定规格以降下更多的人才。</p>
-<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
-<li>九州：中国的别称之一。分别是：冀州、兖州、青州、徐州、扬州、荆州、梁州、雍州和豫州。</li>
-<li>生气：生气勃勃的局面。</li>
-<li>恃（<code>shì</code>）：依靠。</li>
-<li>万马齐喑：所有的马都沉寂无声。比喻社会政局毫无生气。</li>
-<li>喑（<code>yīn</code>），沉默，不说话。</li>
-<li>天公：造物主。</li>
-<li>抖擞：振作，奋发。</li>
-<li>降：降生，降临。</li>
-</ul>
-<h4 id="鉴赏"><a href="#鉴赏" class="headerlink" title="鉴赏"></a>鉴赏</h4><p>这是一首出色的政治诗。全诗层次清晰，共分三个层次：</p>
-<ol>
-<li>写了万马齐喑，朝野噤声的死气沉沉的现实社会。“万马齐喑”，比喻在清朝统治下，人们不敢讲话，到处是一种令人窒息的沉闷气氛。</li>
-<li>作者指出了要改变这种沉闷，腐朽的现状，就必须依靠风雷激荡般的巨大力量。暗喻必须经历波澜壮阔的社会变革才能使中国变得生机勃勃。</li>
-<li>作者认为这样的力量来源于人材，而朝廷所应该做的就是破格荐用人材，只有这样，中国才有希望。</li>
-</ol>
-<p>在这首诗中，诗人对死气沉沉、缺乏生机的社会现状，深表痛心，急切地希望巨大的社会变革迅速到来。全诗以一种热情洋溢的战斗姿态，对清朝当政者以讽荐，表达了作者心中对国家未来命途的关切，和希望当政者能够广纳人才的渴望，具有很深刻的历史背景和很强的现实意义。</p>
-<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><p>前两句可以引用在于昏暗的社会环境中，而后两句可以在重视贤士、人才等场合中使用。</p>
-<p>参考：<a href="https://www.gushiwen.cn/shiwenv_838d9b401572.aspx">己亥杂诗原文、翻译及赏析、拼音版及朗读<em>龚自珍古诗</em>古诗文网 (gushiwen.cn)</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/yposts/%E6%BC%AB%E6%84%9F.html</url>
-    <content><![CDATA[<h2 id="漫感"><a href="#漫感" class="headerlink" title="漫感"></a>漫感</h2><div style="background-color: #EFEFEF;margin: 0 auto;text-align: center;font-size: 25px;line-height:40px"><b>漫感</b><br><span style="text-align:right;font-size:15px;">龚自珍</span><br>绝域从军计<ruby>惘<rp><rt>wǎng</rt></rp></ruby>然，东南幽恨满词<ruby>笺<rp><rt>jiān</rt></rp></ruby>。<br>一箫一剑平生意，负尽狂名十五年。</div>
-
-<h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><h5 id="初翻（方面记忆）"><a href="#初翻（方面记忆）" class="headerlink" title="初翻（方面记忆）"></a>初翻（方面记忆）</h5><p>在绝域中从军的思考已经很惘然，对东南的幽恨写满了词笺。一箫一剑是平生的意愿，负尽了狂士的名声十五年。</p>
-<h5 id="润色"><a href="#润色" class="headerlink" title="润色"></a>润色</h5><p>从军疆场的壮志难酬令人怅惘，只能将对东南形势的忧虑情怀注满诗行。<br>赋诗抒怀和仗剑抗敌是我平生志愿，而如今十五年过去了，却白白辜负了”狂士”的名声</p>
-<p>（最后一句的狂士应该指代著名诗人”王昙”，这里龚自珍可能想表达的意思是辜负了”<br>王昙”对自己的期望的意思？见注释”十五年”的解释）。</p>
-<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
-<li>绝域：隔绝的地域，言其远。此指我国边疆。</li>
-<li>计：思考</li>
-<li>惘（<code>wǎng</code>）然：失志的样子。指从军的愿望未能实现。</li>
-<li>东南：指我国东南沿海一带。当时英、美、葡等国已开始在东南沿海一带的广州、漳州(今属厦门)、宁波进行经济掠夺。</li>
-<li>幽恨：深沉的忧愤。</li>
-<li>词笺：书写诗词的纸，亦可作“诗词。这里指表达忧愤的诗词。笺，古代小幅而极精致的纸。</li>
-<li>一箫一剑：代指作者的诗才武略。箫，泛指音乐；剑，比喻武功。</li>
-<li>平生意：一生的志愿。</li>
-<li>负：辜负。</li>
-<li>十五年：诗人于嘉庆十四年（1809）十八岁时成人立志，在北京与被目为“狂士”的著名诗人王昙订为忘年交，当时已在社会上小有名气，从那时到此时，前后正好十五年。</li>
-</ul>
-<h4 id="鉴赏"><a href="#鉴赏" class="headerlink" title="鉴赏"></a>鉴赏</h4><p>这是一首充满强烈爱国主义激情的诗篇，抒发了忧心国事，尤其是对东南沿海地区遭遇列强侵凌的深重忧患，表达了不畏宵小之徒的嘲笑，愿以文才武略报效国家的爱国情怀。</p>
-<p>该诗前两句写诗人建议加强西北边防的计划落空，为报国志愿失落而惆怅；后二句以“箫剑”精神概括平生意志，是他的自我写照，也是其在抑郁中发出的抗议。 </p>
-<h4 id="创作背景"><a href="#创作背景" class="headerlink" title="创作背景"></a>创作背景</h4><p>该诗作于道光三年（<code>1823</code>年），作者三十二岁。当时，西北边疆分裂祖国的叛乱虽然暂时平息，但在外国侵略势力支持下，正酝酿着更大规模的叛乱。东南沿海，英国派船只向中国大量走私鸦片，进行经济侵略，清政府屡禁不绝。面对内忧外患日益严重的国势，忧心如焚。</p>
-<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><p>别想了，你没有龚自珍的成就建议不要随便套用这首诗！！</p>
-<p>前面两句的引用其实可以套用在不得志，但又不甘心的场景！后面两句算了！</p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx">https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx</a></li>
-<li><a href="https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346">https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346</a></li>
 </ul>
 ]]></content>
   </entry>
@@ -3839,6 +3745,101 @@ int main(int argc, char *argv[])
 <h2 id="platform"><a href="#platform" class="headerlink" title="platform"></a>platform</h2><ul>
 <li><code>Apifox</code>：</li>
 <li><code>JMetter</code>：</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>categories</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>古诗鉴赏</title>
+    <url>/yposts/index.html</url>
+    <content><![CDATA[<p>由于个人喜好，开了本诗词鉴赏专栏，会收集一些古诗词放在此处以供参考，默认按照作者进行分类：</p>
+<blockquote>
+<p>龚自珍：</p>
+</blockquote>
+<p>龚自珍（<code>1792</code>年<code>8</code>月<code>22</code>日-<code>1841</code>年<code>9</code>月<code>26</code>日），字璱（<code>sè</code>）人，号定庵（<code>ān</code>）。汉族，浙江仁和（今杭州）人。晚年居住昆山羽琌山馆，又号羽琌山民。清代思想家、诗人、文学家和改良主义的先驱者。著有《定盦文集》，留存文章<code>300</code>余篇，诗词近<code>800</code>首，今人辑为《龚自珍全集》。著名诗作《己亥杂诗》共<code>315</code>首。多咏怀和讽喻之作。</p>
+<ul>
+<li><a href="./己亥杂诗.html">己亥杂诗</a>：九州生气恃风雷，万马齐喑究可哀。（形容社会死气沉沉，人们不敢讲话，到处是一种令人窒息的沉闷气氛）</li>
+<li><a href="./漫感.html">漫感</a>：一箫一剑平生意，负尽狂名十五年。</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>游戏</title>
+    <url>/games/index.html</url>
+    <content><![CDATA[<p>此处整理了部分游戏游玩过程时的心得和体会，包括相关资源的下载和整理，出这一个版面的原由，是因为在玩战双的时候老是会忘记角色技能怎么放？</p>
+<p><img src="/games/index/e1ccc03c269759ee6b004bdef4fb43166d22df0f.jpg" alt="e1ccc03c269759ee6b004bdef4fb43166d22df0f"></p>
+<p>因此就顺带开这一个版面来记录自己的游戏旅程吧。</p>
+<p>今年也是25岁了，渐渐开始感觉到玩不动游戏了，所有的能力也都在下滑，唉~</p>
+<ul>
+<li><a href="./PGR.html">战双</a></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/yposts/%E5%B7%B1%E4%BA%A5%E6%9D%82%E8%AF%97.html</url>
+    <content><![CDATA[<h2 id="己亥杂诗"><a href="#己亥杂诗" class="headerlink" title="己亥杂诗"></a>己亥杂诗</h2><div style="background-color: #EFEFEF;margin: 0 auto;text-align: center;font-size: 25px;line-height:40px"><b>己亥杂诗</b><br><span style="text-align:right;font-size:15px;">龚自珍</span><br>九州生气<ruby>恃<rp><rt>shì</rt></rp></ruby>风雷，万马齐<ruby>喑<rp><rt>yīn</rt></rp></ruby>究可哀。<br>我劝天公重抖擞，不拘一格降人材。</div>
+
+<h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><h5 id="初翻（方面记忆）"><a href="#初翻（方面记忆）" class="headerlink" title="初翻（方面记忆）"></a>初翻（方面记忆）</h5><p>九州生气勃勃的局面要依靠风雷，万马都沉默终究可哀。我奉劝天公重新抖擞，不拘一格地降下人才。</p>
+<h5 id="润色"><a href="#润色" class="headerlink" title="润色"></a>润色</h5><p>只有依靠风雷激荡般的巨大力量才能使中国大地焕发勃勃生机，然而社会政局毫无生气终究是一种悲哀。<br>我奉劝上天要重新振作精神，不要拘泥一定规格以降下更多的人才。</p>
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
+<li>九州：中国的别称之一。分别是：冀州、兖州、青州、徐州、扬州、荆州、梁州、雍州和豫州。</li>
+<li>生气：生气勃勃的局面。</li>
+<li>恃（<code>shì</code>）：依靠。</li>
+<li>万马齐喑：所有的马都沉寂无声。比喻社会政局毫无生气。</li>
+<li>喑（<code>yīn</code>），沉默，不说话。</li>
+<li>天公：造物主。</li>
+<li>抖擞：振作，奋发。</li>
+<li>降：降生，降临。</li>
+</ul>
+<h4 id="鉴赏"><a href="#鉴赏" class="headerlink" title="鉴赏"></a>鉴赏</h4><p>这是一首出色的政治诗。全诗层次清晰，共分三个层次：</p>
+<ol>
+<li>写了万马齐喑，朝野噤声的死气沉沉的现实社会。“万马齐喑”，比喻在清朝统治下，人们不敢讲话，到处是一种令人窒息的沉闷气氛。</li>
+<li>作者指出了要改变这种沉闷，腐朽的现状，就必须依靠风雷激荡般的巨大力量。暗喻必须经历波澜壮阔的社会变革才能使中国变得生机勃勃。</li>
+<li>作者认为这样的力量来源于人材，而朝廷所应该做的就是破格荐用人材，只有这样，中国才有希望。</li>
+</ol>
+<p>在这首诗中，诗人对死气沉沉、缺乏生机的社会现状，深表痛心，急切地希望巨大的社会变革迅速到来。全诗以一种热情洋溢的战斗姿态，对清朝当政者以讽荐，表达了作者心中对国家未来命途的关切，和希望当政者能够广纳人才的渴望，具有很深刻的历史背景和很强的现实意义。</p>
+<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><p>前两句可以引用在于昏暗的社会环境中，而后两句可以在重视贤士、人才等场合中使用。</p>
+<p>参考：<a href="https://www.gushiwen.cn/shiwenv_838d9b401572.aspx">己亥杂诗原文、翻译及赏析、拼音版及朗读<em>龚自珍古诗</em>古诗文网 (gushiwen.cn)</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/yposts/%E6%BC%AB%E6%84%9F.html</url>
+    <content><![CDATA[<h2 id="漫感"><a href="#漫感" class="headerlink" title="漫感"></a>漫感</h2><div style="background-color: #EFEFEF;margin: 0 auto;text-align: center;font-size: 25px;line-height:40px"><b>漫感</b><br><span style="text-align:right;font-size:15px;">龚自珍</span><br>绝域从军计<ruby>惘<rp><rt>wǎng</rt></rp></ruby>然，东南幽恨满词<ruby>笺<rp><rt>jiān</rt></rp></ruby>。<br>一箫一剑平生意，负尽狂名十五年。</div>
+
+<h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><h5 id="初翻（方面记忆）"><a href="#初翻（方面记忆）" class="headerlink" title="初翻（方面记忆）"></a>初翻（方面记忆）</h5><p>在绝域中从军的思考已经很惘然，对东南的幽恨写满了词笺。一箫一剑是平生的意愿，负尽了狂士的名声十五年。</p>
+<h5 id="润色"><a href="#润色" class="headerlink" title="润色"></a>润色</h5><p>从军疆场的壮志难酬令人怅惘，只能将对东南形势的忧虑情怀注满诗行。<br>赋诗抒怀和仗剑抗敌是我平生志愿，而如今十五年过去了，却白白辜负了”狂士”的名声</p>
+<p>（最后一句的狂士应该指代著名诗人”王昙”，这里龚自珍可能想表达的意思是辜负了”<br>王昙”对自己的期望的意思？见注释”十五年”的解释）。</p>
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
+<li>绝域：隔绝的地域，言其远。此指我国边疆。</li>
+<li>计：思考</li>
+<li>惘（<code>wǎng</code>）然：失志的样子。指从军的愿望未能实现。</li>
+<li>东南：指我国东南沿海一带。当时英、美、葡等国已开始在东南沿海一带的广州、漳州(今属厦门)、宁波进行经济掠夺。</li>
+<li>幽恨：深沉的忧愤。</li>
+<li>词笺：书写诗词的纸，亦可作“诗词。这里指表达忧愤的诗词。笺，古代小幅而极精致的纸。</li>
+<li>一箫一剑：代指作者的诗才武略。箫，泛指音乐；剑，比喻武功。</li>
+<li>平生意：一生的志愿。</li>
+<li>负：辜负。</li>
+<li>十五年：诗人于嘉庆十四年（1809）十八岁时成人立志，在北京与被目为“狂士”的著名诗人王昙订为忘年交，当时已在社会上小有名气，从那时到此时，前后正好十五年。</li>
+</ul>
+<h4 id="鉴赏"><a href="#鉴赏" class="headerlink" title="鉴赏"></a>鉴赏</h4><p>这是一首充满强烈爱国主义激情的诗篇，抒发了忧心国事，尤其是对东南沿海地区遭遇列强侵凌的深重忧患，表达了不畏宵小之徒的嘲笑，愿以文才武略报效国家的爱国情怀。</p>
+<p>该诗前两句写诗人建议加强西北边防的计划落空，为报国志愿失落而惆怅；后二句以“箫剑”精神概括平生意志，是他的自我写照，也是其在抑郁中发出的抗议。 </p>
+<h4 id="创作背景"><a href="#创作背景" class="headerlink" title="创作背景"></a>创作背景</h4><p>该诗作于道光三年（<code>1823</code>年），作者三十二岁。当时，西北边疆分裂祖国的叛乱虽然暂时平息，但在外国侵略势力支持下，正酝酿着更大规模的叛乱。东南沿海，英国派船只向中国大量走私鸦片，进行经济侵略，清政府屡禁不绝。面对内忧外患日益严重的国势，忧心如焚。</p>
+<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><p>别想了，你没有龚自珍的成就建议不要随便套用这首诗！！</p>
+<p>前面两句的引用其实可以套用在不得志，但又不甘心的场景！后面两句算了！</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx">https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx</a></li>
+<li><a href="https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346">https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346</a></li>
 </ul>
 ]]></content>
   </entry>
