@@ -179,7 +179,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/" class="post-title-link" itemprop="url">未命名</a>
+          <a href="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/" class="post-title-link" itemprop="url">22端口抽风</a>
         </h2>
 
         <div class="post-meta-container">
@@ -189,8 +189,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2025-08-27 13:02:43" itemprop="dateCreated datePublished" datetime="2025-08-27T13:02:43+08:00">2025-08-27</time>
+      <time title="创建时间：2025-08-27 16:53:53 / 修改时间：16:54:57" itemprop="dateCreated datePublished" datetime="2025-08-27T16:53:53+08:00">2025-08-27</time>
     </span>
 
   
@@ -202,7 +203,7 @@
       </span>
       <span class="post-meta-item-text">Changyan：</span>
     
-    <a title="" href="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/#SOHUCS" itemprop="discussionUrl">
+    <a title="22端口抽风" href="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/#SOHUCS" itemprop="discussionUrl">
       <span id="sourceId::b021639538413bb5c5d709c601f7a378" class="cy_cmt_count" itemprop="commentCount"></span>
     </a>
   </span>
@@ -217,21 +218,16 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="记录一次github-22端口抽风日常"><a href="#记录一次github-22端口抽风日常" class="headerlink" title="记录一次github 22端口抽风日常"></a>记录一次github 22端口抽风日常</h2><p>前一天还能push，今天一push，就报：</p>
+          <p>前一天还能push，今天一push，就报：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
-<p>出现 <code>ssh: connect to host github.com port 22: Connection timed out</code> 错误，通常是由于网络或配置问题导致无法通过默认的SSH端口22连接到GitHub。以下是解决方法：</p>
-<h3 id="临时测试连接"><a href="#临时测试连接" class="headerlink" title="临时测试连接"></a>临时测试连接</h3><p>在命令行中运行以下命令来测试连接：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T -p 443 git@ssh.github.com</span><br></pre></td></tr></table></figure>
-<p>如果显示类似 <code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code> 的信息，则表明通过443端口成功进行了身份验证。</p>
-<h3 id="修改SSH配置文件"><a href="#修改SSH配置文件" class="headerlink" title="修改SSH配置文件"></a>修改SSH配置文件</h3><p>修改 <code>~/.ssh/config</code> 文件，添加以下内容：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 443</span><br></pre></td></tr></table></figure>
-<p>保存文件后，再次运行以下命令测试连接：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-<p>如果连接成功，显示<code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>，之后就可以正常进行git操作了。</p>
-<p>如果此时还不能正常操作，或者提示<code>permission deny</code>，则你需要去到<code>.ssh</code>文件夹下（一般位于），删除<code>known_hosts</code>让<code>git</code>重新生成指纹</p>
-<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>出现这个问题很大概率是<code>Github</code>的主域名<code>github.com</code>，被墙了或者维护了，你<code>ping</code>不上去，此时可以尝试使用<code>ssh.github.com</code>，因此上面的解决方法相当于将<code>github.com</code>的主机名映射到<code>ssh.github.com</code>去！</p>
-<p><img src="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/image-20250827125841944.png" alt="image-20250827125841944"></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
