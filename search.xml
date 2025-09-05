@@ -203,104 +203,6 @@
       </tags>
   </entry>
   <entry>
-    <title>选择排序（Selection）</title>
-    <url>/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
-<span id="more"></span>
-<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>排序算法</th>
-<th>平均事件复杂度</th>
-<th>最好情况</th>
-<th>最坏情况</th>
-<th>空间复杂度</th>
-<th>稳定性</th>
-<th>排序方式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>选择排序</td>
-<td>$O(n^2)$</td>
-<td>$O(n^2)$</td>
-<td>$O(n^2)$</td>
-<td>$O(1)$</td>
-<td>不稳定</td>
-<td>In-place</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>选择排序（Selection sort）是一种简单直观的排序算法。选择排序是不稳定的排序方法。</p>
-<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="排序原理步骤"><a href="#排序原理步骤" class="headerlink" title="排序原理步骤"></a>排序原理步骤</h3><ol>
-<li>遍历一遍找到最小数，记录下标</li>
-<li>将该下标的数与第一个数交换，第一个数的位置确定</li>
-<li>重复1，2步骤寻找第二个最小的数</li>
-</ol>
-<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for (int i = 0; i &lt; a.length; i++) &#123;</span><br><span class="line">    int min = i;</span><br><span class="line">    // 选择最小的数的下标</span><br><span class="line">    for (int j = i+1; j &lt; a.length; j++) &#123;</span><br><span class="line">        if(less(a[j], a[min])) min = j;</span><br><span class="line">    &#125;</span><br><span class="line">    // 交换当前位置与最小的数</span><br><span class="line">    exch(a, min, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>sort</tag>
-        <tag>Selection</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>开闭原则</title>
-    <url>/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</url>
-    <content><![CDATA[<h4 id="软件设计模式——-gt-软件设计原则——-gt-开闭原则"><a href="#软件设计模式——-gt-软件设计原则——-gt-开闭原则" class="headerlink" title="软件设计模式——&gt;软件设计原则——&gt;开闭原则"></a>软件设计模式——&gt;软件设计原则——&gt;开闭原则</h4><span id="more"></span>
-<h1 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h1><h2 id="何为开闭原则"><a href="#何为开闭原则" class="headerlink" title="何为开闭原则"></a>何为开闭原则</h2><p>开闭原则（<code>Open Closed Principle</code>），<strong>意思是对扩展开放，对修改关闭</strong>。旨在程序需要进行扩展的时候，不能去修改原有的代码，实现一个热拔插的效果。使程序的扩展性好，易于维护和升级。</p>
-<p>通过扩展新的实现类的方式来进行修是开闭原则实现的一种方法，在更加高阶的应用中，如热替换、热部署等，常常需要接口、配置文件等形式来完成。</p>
-<h2 id="开闭原则逐步求精"><a href="#开闭原则逐步求精" class="headerlink" title="开闭原则逐步求精"></a>开闭原则逐步求精</h2><h3 id="基础版本"><a href="#基础版本" class="headerlink" title="基础版本"></a>基础版本</h3><p>举搜狗皮肤的案例，搜狗上有很多皮肤，当我们下载某款皮肤的时候可以进行一个皮肤的热替换，具体这个是怎么实现的呢？</p>
-<p>首先我们一种实现方式，工程目录如下：</p>
-<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708100725873.png" alt="image-20220708100725873"></p>
-<p>其中<code>XXXXSkin</code>代表各类皮肤代码，代码如下示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AskiaSkin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;AskiaSkin皮肤&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>SkinTestClient</code>代表搜狗输入法客户端。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsSkinDisplay</span><span class="params">(WindowsSkin windowsSkin)</span></span>&#123;</span><br><span class="line">        windowsSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">askiaSkinDisplay</span><span class="params">(AskiaSkin askiaSkin)</span></span>&#123;</span><br><span class="line">        askiaSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsReSkinDisplay</span><span class="params">(WindowsReSkin windowsReSkin)</span></span>&#123;</span><br><span class="line">        windowsReSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsSkin windowsSkin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">            windowsSkinDisplay(windowsSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            AskiaSkin askiaSkin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">            askiaSkinDisplay(askiaSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsReSkin windowsReSkin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">            windowsReSkinDisplay(windowsReSkin);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当我们需要新增一个新的皮肤的时候，比方说我们在<code>java</code>文件夹里面新增一个<code>RedJudgeSkin</code>这一个新增并不会修改已有的皮肤类代码，因此新增一个皮肤符合开闭原则，但是当我们把目光看向<code>SkinTestClient</code>的时候，他的代码问题就比较大了，大概可以分为两部分，第一部分问题出在这里：<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101406986.png" alt="image-20220708101406986"></p>
-<p>我们在客户端<strong>为每一个皮肤都写了一个换肤的方法</strong>（接口），然后通过方法</p>
-<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101933670.png" alt="image-20220708101933670"></p>
-<p>做皮肤的换肤判断，然后客户端的运行过程中，只要像这样，就能达到换肤的效果。<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708102027266.png" alt="image-20220708102027266"></p>
-<p>这种实现，<strong>问题比较大</strong>，创建新皮肤的时候符合开闭原则没毛病，但是客户端的代码就是重灾区了<strong>，因为现在扩展一个皮肤，你都需要额外编写一个换肤接口，同时你还需要在changeSkin()中，新增一个if分支！一旦你的皮肤越来越多，会造成SkinTestClient类代码臃肿，同时会留下非常多形式相同的代码，后期难以维护</strong></p>
-<h3 id="一次求精：去除客户端换肤接口"><a href="#一次求精：去除客户端换肤接口" class="headerlink" title="一次求精：去除客户端换肤接口"></a>一次求精：去除客户端换肤接口</h3><p>为了改进上面的代码，我么引入了<code>Java</code>中的接口，现在我们让所有皮肤类都实现顶层皮肤接口<code>Skin</code>，工程目录如下：</p>
-<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708103823374.png" alt="image-20220708103823374"></p>
-<p>其中<code>Skin</code>接口有一个抽象的换肤方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Skin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其他皮肤类都需要实现这个接口。</p>
-<p>// 图片继承图</p>
-<p>在客户端代码中：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        Skin skin = <span class="keyword">new</span> DefaultSkin();</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">           skin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">        &#125;</span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsReSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>有了这个<code>Skin</code>接口，我们现在就<strong>不需要每次新增一个皮肤都在客户端中写一个皮肤接口方法了</strong>（之前代码的<code>windowsReSkinDisplay(WindowsReSkin windowsReSkin)</code>、<code>askiaSkinDisplay(AskiaSkin askiaSkin)</code>都不用写啦）。现在当我们需要扩展皮肤，时，只需要实现<code>Skin</code>接口，然后在<code>changeSkin()</code>中添加一个<code>if</code>分支，就可以了。</p>
-<p>需要注意，本次的改进虽然让我们<strong>避免了在客户端中去写皮肤接口方法</strong>，减少了客户端代码的修改量，<strong>但客户端代码仍然不符合开闭原则，问题出在changeSkin()在每次添加新皮肤的时候，都需要添加一个if分支</strong>。这就涉及到接下来的第三次代码改进。</p>
-<h3 id="二次求精：统一changeSkin"><a href="#二次求精：统一changeSkin" class="headerlink" title="二次求精：统一changeSkin()"></a>二次求精：统一changeSkin()</h3><p>既然问题出在<code>changeSkin()</code>的分支上，那这个分支有什么作用呢？<strong>他主要是用来判别参数传递过来的皮肤名，通过皮肤名来做判断，然后创建相应的对象</strong>，讲到这里，所有的<code>if</code>都直接或者间接和皮肤名有关，也就是说和参数有关，这个方法参数会随时变化，我们写<code>if</code>也是为了判断是哪一类变化，然后根据这个变化<strong>来创建相应的皮肤对象</strong>。</p>
-<p>既然如此，<strong>如果传递过来的参数能够通过某个自己的内置的方法直接创建皮肤对象</strong>呢？如果能够做到这一点的话<code>if</code>语句不就可以省略了嘛。那么在<code>Java</code>中哪项技术可以做到在程序运行时创建对象——反射<code>API</code>。因此，我们把方法参数数改成<code>Class</code>类型即可，具体的代码参考下面的改进：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">    <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">    Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">    <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">    <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">            !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">        skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">    Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">    <span class="comment">// 显示皮肤</span></span><br><span class="line">    skinDisplay(skin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那现在<code>SkinTestClient</code>类代码变成了：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">        Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">        <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">        <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">                !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">            skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">        Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">        <span class="comment">// 显示皮肤</span></span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 模拟在皮肤更换窗口中点击按钮更换皮肤的过程</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin2(AskiaSkin.class);</span><br><span class="line">        skinTestClient.changeSkin2(DefaultSkin.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>现在我们代码每个模块基本上都符合开闭原则了。当我们现在重新新增一个皮肤，比如新增一个<code>RedJudgeSkin</code>，我们只需要让<code>RedJudgeSkin</code>实现接口<code>Skin</code>即可，<strong>不需要更改任何已有的代码</strong>。需要注意，<code>main</code>方法里面的代码属于模拟窗口点击的，不属于具体的工程，只用于测试用。</p>
-<h3 id="二次求精另外一套思路：引入配置文件"><a href="#二次求精另外一套思路：引入配置文件" class="headerlink" title="二次求精另外一套思路：引入配置文件"></a>二次求精另外一套思路：引入配置文件</h3><p>二次求精的代码已经符合开闭原则的要求了，已经是完美的最简单的版本了，但是在这里还有一种能达到和二次求精一样效果的方法，并且该方法甚至能完全统一客户端代码（包括不属于客户端的，用于测试的<code>main</code>方法），这种方法就是使用配置文件。</p>
-<p>使用配置文件有一个好处就是能够分担代码重量，让一些工作能够在代码之外的地方完成，同时，配置文件不需要编译，能够做到即时修改即时生效。</p>
-<p>但使用配置文件缺点也很明显，使用配置文件意味着<strong>代码中需要有专门处理配置文件的部分</strong>，这一部分的代码并不简单，因此这种思路更加复杂，实现也比较困难。</p>
-<p>使用配置文件，设计到外部文件监听服务（<code>WatchService</code>类）具体代码结构和类继承图如下：</p>
-<p>// 图片继承图</p>
-]]></content>
-      <categories>
-        <category>DesignPatterns</category>
-      </categories>
-      <tags>
-        <tag>Open-Closed</tag>
-        <tag>Principle</tag>
-        <tag>DesignPatterns</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C语言隐藏结构体的实现方法</title>
     <url>/2019/11/26/C/C%E8%AF%AD%E8%A8%80%E9%9A%90%E8%97%8F%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>前些天在搞win32，被windows花里胡哨的结构弄得生不如死，脑子里莫名其妙蹦出了一个想法：能不能定义一些结构体，外部可以用它来定义变量，然而却不能改变它的成员的值, 就像C++，Java一类语言的class一样对数据进行保护。<del>好吧，其实是我还没吃饱撑着随便乱搞</del><br>参照了网上很多的说法，自己胡乱地搞了几个小时给弄出来了。</p>
@@ -368,62 +270,52 @@ int main()
       </tags>
   </entry>
   <entry>
-    <title>git代码合并</title>
-    <url>/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/</url>
-    <content><![CDATA[<p>文章主要介绍<code>Git</code>的三种代码提交合并方式：<code>merge</code>、<code>rebase</code>和<code>cherry-pick</code>。</p>
+    <title>选择排序（Selection）</title>
+    <url>/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
 <span id="more"></span>
-<h2 id="git代码合并"><a href="#git代码合并" class="headerlink" title="git代码合并"></a>git代码合并</h2><p><code>git</code>代码合并（分支合并）操作主要有三种：<code>merge</code>、<code>rebase</code>、<code>cherry-pick</code>，其中：</p>
-<ul>
-<li><code>merge</code>：合并操作，会将其他分支的内容合并到本分支，并且视情况可能需要填写提交信息</li>
-<li><code>rebase</code>：变基操作，将其他分支的内容搬到当前分支，变基操作能够让当前的分支保持成一条线的形式，使分支看起来很干净</li>
-<li><code>cherry-pick</code>：樱桃摘，真正的神！我们有些时候并不需要完全合并另外一个分支，可能我们仅仅需要合并其他分支的某个或者某几个提交记录，这个时候<code>merge</code>和<code>rebase</code>就不适用了，因为无论是<code>merge</code>还是<code>rebase</code>都会合并到待合并分支的最新的位置，而<code>cherry-pick</code>就能实现这种单个提交记录的合并的需求</li>
-</ul>
-<p>简单来讲，<code>merge</code>和<code>rebase</code>的功能都是将某个分支的提交记录（直到最新提交记录）合并到另外一个分支，而<code>cherry-pick</code>是将某个分支的某个或者某几个提交记录拿到当前分支。</p>
-<p>但无论是<code>merge</code>、<code>rebase</code>还是<code>cherry-pick</code>，在合并记录的过程中，都有可能会遇到一个问题：合并冲突。这些我们都会在文章后续进行介绍。</p>
-<h3 id="rebase操作"><a href="#rebase操作" class="headerlink" title="rebase操作"></a>rebase操作</h3><p>我们假定有如下的分支情况：<code>dev</code>分支在我们<code>main</code>分支的基础上更新了两个版本</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028211622283.png" alt="image-20241028211622283"></p>
-<p>此时<code>dev</code>分支是最新的，我们希望将<code>dev</code>的代码合并到<code>main</code>，由于此时我们在<code>dev</code>分支（<code>dev</code>分支的星号代表我们当前在<code>dev</code>分支）</p>
-<p>我们需要做的事情是：</p>
-<ol>
-<li>先切换到<code>main</code>分支：<code>git checkout main</code></li>
-<li>进行变基操作：<code>git rebase dev</code></li>
+<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>排序算法</th>
+<th>平均事件复杂度</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+<th>排序方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>选择排序</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(1)$</td>
+<td>不稳定</td>
+<td>In-place</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>选择排序（Selection sort）是一种简单直观的排序算法。选择排序是不稳定的排序方法。</p>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="排序原理步骤"><a href="#排序原理步骤" class="headerlink" title="排序原理步骤"></a>排序原理步骤</h3><ol>
+<li>遍历一遍找到最小数，记录下标</li>
+<li>将该下标的数与第一个数交换，第一个数的位置确定</li>
+<li>重复1，2步骤寻找第二个最小的数</li>
 </ol>
-<p>此时我们就能合并完成（这种合并我们一般称为<code>forward</code>）：</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212128641.png" alt="image-20241028212128641"></p>
-<p>这里要注意，我们希望将提交记录较为落后的<code>A</code>分支（比如上图的<code>main</code>分支）合并到提交记录较新的<code>B</code>分支（如上图的<code>dev</code>分支），我们需要先切换到提交记录相对落后的<code>A</code>分支上操作！</p>
-<p>如果你的分支记录已经差分而非连续，即是下面的这种情况：</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
-<p>则此时<code>rebase</code>的意思就不是简单的<code>forward</code>了，这时候我们在<code>main</code>分支上，我们对<code>dev</code>分支进行<code>rebase</code>，执行<code>git rebase dev</code>，将会得到下图的记录</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213152527.png" alt="image-20241028213152527"></p>
-<p>我们之前提过<code>rebase</code>会将提交记录整理成一条线，其实说的就是这种情况，并且可以看到<code>rebase</code>的过程<strong>实际上就是把C1记录之后的main分支上的所有提交搬运到dev分支的最新提交的后面</strong>，因此我们举一反三一下，目前我们的提交如下：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213308676.png" alt="image-20241028213308676"></p>
-<p>则我们进行<code>rebase</code>将会得到：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213416498.png" alt="image-20241028213416498"></p>
-<p>能理解<code>rebase</code>是怎么操作的了吗？好，这个时候我们回到这张图<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
-<p>我们<code>checkout</code>一下（<code>git checkout dev</code>），切换分支到<code>dev</code>，我们反过来，要将<code>dev</code>分支<code>rebase</code>到<code>main</code>又会是什么情况呢？没错，同样的方法，我们将<code>C1</code>之后的所有dev的提交记录搬运到<code>main</code>上（<code>git rebase main</code>）</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213806564.png" alt="image-20241028213806564"></p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213841890.png" alt="image-20241028213841890"></p>
-<p>懂了吧，这就是<code>rebase</code>哦</p>
-<h3 id="merge操作"><a href="#merge操作" class="headerlink" title="merge操作"></a>merge操作</h3><p>我们在介绍<code>rebase</code>的时候实际上分了两种情况，即：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028211622283.png" alt="image-20241028211622283">和<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
-<p>我们可以看到<code>rebase</code>对这两种情况的处理是一样但又不完全一样，在操作上，第一种情况是直接前进而第二种情况是会将一个分支的<code>C1</code>之后的所有提交变基到另外一个分支上。但就结果而言他们是一样的，因为最终的提交记录都会变成一条线的形式！</p>
-<p>然而，你可能看过一些其他的<code>git</code>的文章，很多博主都推荐使用<code>merge</code>而不是<code>rebase</code>，为什么呢？</p>
-<p>第一，<code>merge</code>操作专门设置了两种模式来专门处理这两种情况。处理第一种情况的模式叫<code>fast-forward</code>（快速前进，<code>--ff</code>参数），我们切换到<code>main</code>分支，使用<code>fast-forward</code>模式来进行<code>merge</code>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git merge dev --ff</span><br></pre></td></tr></table></figure>
-<p><code>merge</code>的结果如下，可以看到针对第一种情况，其实<code>rebase</code>和<code>merge</code>的结果并没有区别（因此实际上第一种情况使用<code>rebase</code>和<code>merge</code>都可以），这是因为<code>fast-forward</code>模式并不会发生真正的合并，只是通过移动指针造成合并的假象，即移动<code>main</code>分支的<code>HEAD</code>指针到<code>dev</code>的最新分支，来实现合并功能。</p>
-<p>然而针对第二种情况，则<code>merge</code>就展现出其和<code>rebase</code>的不同了，第二种情况使用<code>merge</code>会产生新的提交记录，这种针对第二种情况产生新纪录的merge模式被称为<code>non-fast-forward</code>（需要加上<code>-–no-ff</code>参数），我们同样切换到<code>main</code>，然后使用这种模式来处理第二种情况：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git merge dev --no-ff</span><br></pre></td></tr></table></figure>
-<p>将得到下面的结果：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028220111836.png" alt="image-20241028220111836"></p>
-<p>这也是为什么使用<code>merge</code>而不是<code>rebase</code>的情况，因为使用<code>merge</code>，则<code>dev</code>上的提交记录和<code>main</code>上的提交记录都被保留下来，并且你还能看到他们是在<code>C1</code>记录开始进行差分的，而使用<code>rebase</code>，则这些分支的差分记录都会被擦除，变成一条直线，这个时候你就看不出来到底<code>dev</code>和<code>main</code>在哪个记录开始进行差分了！<strong>这一点非常不利于后续的bug跟踪和版本跟踪！！</strong></p>
-<p>使用<code>non-fast-forward</code>，在<code>git log</code>会看到很多类似：<code>Merge branch &#39;feature001&#39; into master</code>的<code>commit</code>。（即图上的<code>C5</code>）</p>
-<p>最后，<code>merge</code>除了上面两种模式之外，其实还有第三种模式<code>-–ff-only</code>，即只使用<code>fast-forward</code>模式进行合并，如果合并失败的话则直接退出，返回失败信息！</p>
-<p><code>git merge</code>在不加参数的时候会先使用<code>fast-forward</code>来合并，如果合并失败则会自动切为使用<code>non-fast-forward</code>模式。</p>
-<p>个人使用建议，使用时先使用<code>git merge --ff-only</code>，如果合并失败才考虑是否要使用<code>--no-ff</code></p>
-<h3 id="cherry-pick"><a href="#cherry-pick" class="headerlink" title="cherry-pick"></a>cherry-pick</h3><p>// todo </p>
-]]></content>
+<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for (int i = 0; i &lt; a.length; i++) &#123;</span><br><span class="line">    int min = i;</span><br><span class="line">    // 选择最小的数的下标</span><br><span class="line">    for (int j = i+1; j &lt; a.length; j++) &#123;</span><br><span class="line">        if(less(a[j], a[min])) min = j;</span><br><span class="line">    &#125;</span><br><span class="line">    // 交换当前位置与最小的数</span><br><span class="line">    exch(a, min, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
       <categories>
-        <category>Git</category>
+        <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>git</tag>
-        <tag>code combine</tag>
+        <tag>Algorithm</tag>
+        <tag>sort</tag>
+        <tag>Selection</tag>
       </tags>
   </entry>
   <entry>
@@ -495,55 +387,111 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>解决Windows家庭版无法远程问题</title>
-    <url>/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>这破Windows 10 家庭版真的让我操碎了心！Windows坏事做尽！</p>
-<span id="more"></span>
-<h2 id="解决Windows家庭版无法远程的问题"><a href="#解决Windows家庭版无法远程的问题" class="headerlink" title="解决Windows家庭版无法远程的问题"></a>解决Windows家庭版无法远程的问题</h2><p>要解决这个问题需要一个工具rdpwrap：<a href="https://github-releases.githubusercontent.com/25609086/d473b802-eb5f-11e7-8ccc-5944bc969a40?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211017%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20211017T084058Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=c63d302fc9a6d075968448d5ee3a6eb42537d44e88fda8f58768e3d4ab7686d1&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;key_id=0&amp;repo_id=25609086&amp;response-content-disposition=attachment%3B%20filename%3DRDPWrap-v1.6.2.zip&amp;response-content-type=application%2Foctet-stream">下载地址</a> | <a href="https://github.com/stascorp/rdpwrap/releases/tag/v1.6.2">Github</a></p>
-<p>下载回来之后解压，可以看到：</p>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017171653109.png" alt="image-20211017171653109"></p>
-<p>以<strong>管理员的方式</strong>运行<strong>install.bat</strong></p>
-<p>运行里面的RDPConf.exe，<strong>看是否有红色的标志。</strong>如果有的话，就需要<strong>查看自己系统的C:\Windows\System32\termsrv.dll的版本号</strong>：</p>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017172348425.png" alt="image-20211017172348425"></p>
-<p><a href="https://github.com/stascorp/rdpwrap/issues">到这里</a>搜索该版本号的配置文件，<strong>仔细找，应该能找到像下面的提供的ini文件</strong></p>
-<blockquote>
-<p>自动更新请到这里找<a href="https://github.com/sebaxakerhtc/rdpwrap.ini/">sebaxakerhtc/rdpwrap.ini: RDPWrap.ini for RDP Wrapper Library by Stas’M (github.com)</a>，下载根目录的ini即可</p>
-</blockquote>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017173132450.png" alt="image-20211017173132450"></p>
-<p>找到后，<strong>请先win+r运行：services.msc，停止Remote Desktop Services服务，</strong></p>
-<p><strong>将下载的ini文件覆盖到C:\Program Files\RDP Wrapper里面</strong></p>
-<p><strong>重新开启Remote Desktop Services服务，</strong></p>
-<p>运行检查程序看看是不是全绿，<strong>如果是全绿色的话，就证明现在可以使用远程了，win+r运行，输入<code>mstsc</code>打开远程桌面窗口。</strong></p>
+    <title>开闭原则</title>
+    <url>/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</url>
+    <content><![CDATA[<h4 id="软件设计模式——-gt-软件设计原则——-gt-开闭原则"><a href="#软件设计模式——-gt-软件设计原则——-gt-开闭原则" class="headerlink" title="软件设计模式——&gt;软件设计原则——&gt;开闭原则"></a>软件设计模式——&gt;软件设计原则——&gt;开闭原则</h4><span id="more"></span>
+<h1 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h1><h2 id="何为开闭原则"><a href="#何为开闭原则" class="headerlink" title="何为开闭原则"></a>何为开闭原则</h2><p>开闭原则（<code>Open Closed Principle</code>），<strong>意思是对扩展开放，对修改关闭</strong>。旨在程序需要进行扩展的时候，不能去修改原有的代码，实现一个热拔插的效果。使程序的扩展性好，易于维护和升级。</p>
+<p>通过扩展新的实现类的方式来进行修是开闭原则实现的一种方法，在更加高阶的应用中，如热替换、热部署等，常常需要接口、配置文件等形式来完成。</p>
+<h2 id="开闭原则逐步求精"><a href="#开闭原则逐步求精" class="headerlink" title="开闭原则逐步求精"></a>开闭原则逐步求精</h2><h3 id="基础版本"><a href="#基础版本" class="headerlink" title="基础版本"></a>基础版本</h3><p>举搜狗皮肤的案例，搜狗上有很多皮肤，当我们下载某款皮肤的时候可以进行一个皮肤的热替换，具体这个是怎么实现的呢？</p>
+<p>首先我们一种实现方式，工程目录如下：</p>
+<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708100725873.png" alt="image-20220708100725873"></p>
+<p>其中<code>XXXXSkin</code>代表各类皮肤代码，代码如下示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AskiaSkin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;AskiaSkin皮肤&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>SkinTestClient</code>代表搜狗输入法客户端。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsSkinDisplay</span><span class="params">(WindowsSkin windowsSkin)</span></span>&#123;</span><br><span class="line">        windowsSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">askiaSkinDisplay</span><span class="params">(AskiaSkin askiaSkin)</span></span>&#123;</span><br><span class="line">        askiaSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsReSkinDisplay</span><span class="params">(WindowsReSkin windowsReSkin)</span></span>&#123;</span><br><span class="line">        windowsReSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsSkin windowsSkin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">            windowsSkinDisplay(windowsSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            AskiaSkin askiaSkin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">            askiaSkinDisplay(askiaSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsReSkin windowsReSkin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">            windowsReSkinDisplay(windowsReSkin);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们需要新增一个新的皮肤的时候，比方说我们在<code>java</code>文件夹里面新增一个<code>RedJudgeSkin</code>这一个新增并不会修改已有的皮肤类代码，因此新增一个皮肤符合开闭原则，但是当我们把目光看向<code>SkinTestClient</code>的时候，他的代码问题就比较大了，大概可以分为两部分，第一部分问题出在这里：<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101406986.png" alt="image-20220708101406986"></p>
+<p>我们在客户端<strong>为每一个皮肤都写了一个换肤的方法</strong>（接口），然后通过方法</p>
+<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101933670.png" alt="image-20220708101933670"></p>
+<p>做皮肤的换肤判断，然后客户端的运行过程中，只要像这样，就能达到换肤的效果。<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708102027266.png" alt="image-20220708102027266"></p>
+<p>这种实现，<strong>问题比较大</strong>，创建新皮肤的时候符合开闭原则没毛病，但是客户端的代码就是重灾区了<strong>，因为现在扩展一个皮肤，你都需要额外编写一个换肤接口，同时你还需要在changeSkin()中，新增一个if分支！一旦你的皮肤越来越多，会造成SkinTestClient类代码臃肿，同时会留下非常多形式相同的代码，后期难以维护</strong></p>
+<h3 id="一次求精：去除客户端换肤接口"><a href="#一次求精：去除客户端换肤接口" class="headerlink" title="一次求精：去除客户端换肤接口"></a>一次求精：去除客户端换肤接口</h3><p>为了改进上面的代码，我么引入了<code>Java</code>中的接口，现在我们让所有皮肤类都实现顶层皮肤接口<code>Skin</code>，工程目录如下：</p>
+<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708103823374.png" alt="image-20220708103823374"></p>
+<p>其中<code>Skin</code>接口有一个抽象的换肤方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Skin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其他皮肤类都需要实现这个接口。</p>
+<p>// 图片继承图</p>
+<p>在客户端代码中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        Skin skin = <span class="keyword">new</span> DefaultSkin();</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">           skin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">        &#125;</span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsReSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有了这个<code>Skin</code>接口，我们现在就<strong>不需要每次新增一个皮肤都在客户端中写一个皮肤接口方法了</strong>（之前代码的<code>windowsReSkinDisplay(WindowsReSkin windowsReSkin)</code>、<code>askiaSkinDisplay(AskiaSkin askiaSkin)</code>都不用写啦）。现在当我们需要扩展皮肤，时，只需要实现<code>Skin</code>接口，然后在<code>changeSkin()</code>中添加一个<code>if</code>分支，就可以了。</p>
+<p>需要注意，本次的改进虽然让我们<strong>避免了在客户端中去写皮肤接口方法</strong>，减少了客户端代码的修改量，<strong>但客户端代码仍然不符合开闭原则，问题出在changeSkin()在每次添加新皮肤的时候，都需要添加一个if分支</strong>。这就涉及到接下来的第三次代码改进。</p>
+<h3 id="二次求精：统一changeSkin"><a href="#二次求精：统一changeSkin" class="headerlink" title="二次求精：统一changeSkin()"></a>二次求精：统一changeSkin()</h3><p>既然问题出在<code>changeSkin()</code>的分支上，那这个分支有什么作用呢？<strong>他主要是用来判别参数传递过来的皮肤名，通过皮肤名来做判断，然后创建相应的对象</strong>，讲到这里，所有的<code>if</code>都直接或者间接和皮肤名有关，也就是说和参数有关，这个方法参数会随时变化，我们写<code>if</code>也是为了判断是哪一类变化，然后根据这个变化<strong>来创建相应的皮肤对象</strong>。</p>
+<p>既然如此，<strong>如果传递过来的参数能够通过某个自己的内置的方法直接创建皮肤对象</strong>呢？如果能够做到这一点的话<code>if</code>语句不就可以省略了嘛。那么在<code>Java</code>中哪项技术可以做到在程序运行时创建对象——反射<code>API</code>。因此，我们把方法参数数改成<code>Class</code>类型即可，具体的代码参考下面的改进：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">    <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">    Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">    <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">    <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">            !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">        skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">    Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">    <span class="comment">// 显示皮肤</span></span><br><span class="line">    skinDisplay(skin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那现在<code>SkinTestClient</code>类代码变成了：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">        Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">        <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">        <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">                !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">            skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">        Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">        <span class="comment">// 显示皮肤</span></span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 模拟在皮肤更换窗口中点击按钮更换皮肤的过程</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin2(AskiaSkin.class);</span><br><span class="line">        skinTestClient.changeSkin2(DefaultSkin.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>现在我们代码每个模块基本上都符合开闭原则了。当我们现在重新新增一个皮肤，比如新增一个<code>RedJudgeSkin</code>，我们只需要让<code>RedJudgeSkin</code>实现接口<code>Skin</code>即可，<strong>不需要更改任何已有的代码</strong>。需要注意，<code>main</code>方法里面的代码属于模拟窗口点击的，不属于具体的工程，只用于测试用。</p>
+<h3 id="二次求精另外一套思路：引入配置文件"><a href="#二次求精另外一套思路：引入配置文件" class="headerlink" title="二次求精另外一套思路：引入配置文件"></a>二次求精另外一套思路：引入配置文件</h3><p>二次求精的代码已经符合开闭原则的要求了，已经是完美的最简单的版本了，但是在这里还有一种能达到和二次求精一样效果的方法，并且该方法甚至能完全统一客户端代码（包括不属于客户端的，用于测试的<code>main</code>方法），这种方法就是使用配置文件。</p>
+<p>使用配置文件有一个好处就是能够分担代码重量，让一些工作能够在代码之外的地方完成，同时，配置文件不需要编译，能够做到即时修改即时生效。</p>
+<p>但使用配置文件缺点也很明显，使用配置文件意味着<strong>代码中需要有专门处理配置文件的部分</strong>，这一部分的代码并不简单，因此这种思路更加复杂，实现也比较困难。</p>
+<p>使用配置文件，设计到外部文件监听服务（<code>WatchService</code>类）具体代码结构和类继承图如下：</p>
+<p>// 图片继承图</p>
 ]]></content>
       <categories>
-        <category>windows</category>
+        <category>DesignPatterns</category>
       </categories>
       <tags>
-        <tag>windows</tag>
-        <tag>mstsc</tag>
+        <tag>Open-Closed</tag>
+        <tag>Principle</tag>
+        <tag>DesignPatterns</tag>
       </tags>
   </entry>
   <entry>
-    <title>解决Windows环境变量无法使用列表展开</title>
-    <url>/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/</url>
-    <content><![CDATA[<p>这里说的问题可能会对配置Windows环境变量出错的同学有一点点帮助（<del>但不多</del>）</p>
+    <title>git代码合并</title>
+    <url>/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/</url>
+    <content><![CDATA[<p>文章主要介绍<code>Git</code>的三种代码提交合并方式：<code>merge</code>、<code>rebase</code>和<code>cherry-pick</code>。</p>
 <span id="more"></span>
-<h2 id="如何以列表的形式展开Windows环境变量"><a href="#如何以列表的形式展开Windows环境变量" class="headerlink" title="如何以列表的形式展开Windows环境变量"></a>如何以列表的形式展开Windows环境变量</h2><ol>
-<li><p>首先如何你的环境变量是以引用其他环境变量开头的话，<code>Windows</code>是不会以列表的形式来显示所有环境变量的，而是以一个文本框的形式：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003623666.png" alt="image-20241004003623666"></p>
-</li>
-<li><p>如果希望以列表的形式来打开环境变量的话，需要指定第一个变量值必须以盘符开始，比如下面的配置：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003834186.png" alt="image-20241004003834186"></p>
-</li>
-<li><p>添加上以盘符为开始的变量值之后点击多次确定让环境变量生效，然后下次打开就变成列表形式啦~在列表形式下，比较好判断自己是否写错了环境变量了<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004004001406.png" alt="image-20241004004001406"></p>
-</li>
+<h2 id="git代码合并"><a href="#git代码合并" class="headerlink" title="git代码合并"></a>git代码合并</h2><p><code>git</code>代码合并（分支合并）操作主要有三种：<code>merge</code>、<code>rebase</code>、<code>cherry-pick</code>，其中：</p>
+<ul>
+<li><code>merge</code>：合并操作，会将其他分支的内容合并到本分支，并且视情况可能需要填写提交信息</li>
+<li><code>rebase</code>：变基操作，将其他分支的内容搬到当前分支，变基操作能够让当前的分支保持成一条线的形式，使分支看起来很干净</li>
+<li><code>cherry-pick</code>：樱桃摘，真正的神！我们有些时候并不需要完全合并另外一个分支，可能我们仅仅需要合并其他分支的某个或者某几个提交记录，这个时候<code>merge</code>和<code>rebase</code>就不适用了，因为无论是<code>merge</code>还是<code>rebase</code>都会合并到待合并分支的最新的位置，而<code>cherry-pick</code>就能实现这种单个提交记录的合并的需求</li>
+</ul>
+<p>简单来讲，<code>merge</code>和<code>rebase</code>的功能都是将某个分支的提交记录（直到最新提交记录）合并到另外一个分支，而<code>cherry-pick</code>是将某个分支的某个或者某几个提交记录拿到当前分支。</p>
+<p>但无论是<code>merge</code>、<code>rebase</code>还是<code>cherry-pick</code>，在合并记录的过程中，都有可能会遇到一个问题：合并冲突。这些我们都会在文章后续进行介绍。</p>
+<h3 id="rebase操作"><a href="#rebase操作" class="headerlink" title="rebase操作"></a>rebase操作</h3><p>我们假定有如下的分支情况：<code>dev</code>分支在我们<code>main</code>分支的基础上更新了两个版本</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028211622283.png" alt="image-20241028211622283"></p>
+<p>此时<code>dev</code>分支是最新的，我们希望将<code>dev</code>的代码合并到<code>main</code>，由于此时我们在<code>dev</code>分支（<code>dev</code>分支的星号代表我们当前在<code>dev</code>分支）</p>
+<p>我们需要做的事情是：</p>
+<ol>
+<li>先切换到<code>main</code>分支：<code>git checkout main</code></li>
+<li>进行变基操作：<code>git rebase dev</code></li>
 </ol>
-<p>参考：<a href="https://blog.csdn.net/weixin_46070150/article/details/121021035#:~:text=%E5%8F%98%E9%87%8F%E5%80%BC%E4%BB%A5%%E5%BC%80%E5%A4%B4%EF%BC%8C">Windows10系统的环境变量（path）怎么进行列表显示？_win10 环境变量 path 怎么是个字符串-CSDN博客</a></p>
+<p>此时我们就能合并完成（这种合并我们一般称为<code>forward</code>）：</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212128641.png" alt="image-20241028212128641"></p>
+<p>这里要注意，我们希望将提交记录较为落后的<code>A</code>分支（比如上图的<code>main</code>分支）合并到提交记录较新的<code>B</code>分支（如上图的<code>dev</code>分支），我们需要先切换到提交记录相对落后的<code>A</code>分支上操作！</p>
+<p>如果你的分支记录已经差分而非连续，即是下面的这种情况：</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
+<p>则此时<code>rebase</code>的意思就不是简单的<code>forward</code>了，这时候我们在<code>main</code>分支上，我们对<code>dev</code>分支进行<code>rebase</code>，执行<code>git rebase dev</code>，将会得到下图的记录</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213152527.png" alt="image-20241028213152527"></p>
+<p>我们之前提过<code>rebase</code>会将提交记录整理成一条线，其实说的就是这种情况，并且可以看到<code>rebase</code>的过程<strong>实际上就是把C1记录之后的main分支上的所有提交搬运到dev分支的最新提交的后面</strong>，因此我们举一反三一下，目前我们的提交如下：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213308676.png" alt="image-20241028213308676"></p>
+<p>则我们进行<code>rebase</code>将会得到：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213416498.png" alt="image-20241028213416498"></p>
+<p>能理解<code>rebase</code>是怎么操作的了吗？好，这个时候我们回到这张图<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
+<p>我们<code>checkout</code>一下（<code>git checkout dev</code>），切换分支到<code>dev</code>，我们反过来，要将<code>dev</code>分支<code>rebase</code>到<code>main</code>又会是什么情况呢？没错，同样的方法，我们将<code>C1</code>之后的所有dev的提交记录搬运到<code>main</code>上（<code>git rebase main</code>）</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213806564.png" alt="image-20241028213806564"></p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213841890.png" alt="image-20241028213841890"></p>
+<p>懂了吧，这就是<code>rebase</code>哦</p>
+<h3 id="merge操作"><a href="#merge操作" class="headerlink" title="merge操作"></a>merge操作</h3><p>我们在介绍<code>rebase</code>的时候实际上分了两种情况，即：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028211622283.png" alt="image-20241028211622283">和<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
+<p>我们可以看到<code>rebase</code>对这两种情况的处理是一样但又不完全一样，在操作上，第一种情况是直接前进而第二种情况是会将一个分支的<code>C1</code>之后的所有提交变基到另外一个分支上。但就结果而言他们是一样的，因为最终的提交记录都会变成一条线的形式！</p>
+<p>然而，你可能看过一些其他的<code>git</code>的文章，很多博主都推荐使用<code>merge</code>而不是<code>rebase</code>，为什么呢？</p>
+<p>第一，<code>merge</code>操作专门设置了两种模式来专门处理这两种情况。处理第一种情况的模式叫<code>fast-forward</code>（快速前进，<code>--ff</code>参数），我们切换到<code>main</code>分支，使用<code>fast-forward</code>模式来进行<code>merge</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git merge dev --ff</span><br></pre></td></tr></table></figure>
+<p><code>merge</code>的结果如下，可以看到针对第一种情况，其实<code>rebase</code>和<code>merge</code>的结果并没有区别（因此实际上第一种情况使用<code>rebase</code>和<code>merge</code>都可以），这是因为<code>fast-forward</code>模式并不会发生真正的合并，只是通过移动指针造成合并的假象，即移动<code>main</code>分支的<code>HEAD</code>指针到<code>dev</code>的最新分支，来实现合并功能。</p>
+<p>然而针对第二种情况，则<code>merge</code>就展现出其和<code>rebase</code>的不同了，第二种情况使用<code>merge</code>会产生新的提交记录，这种针对第二种情况产生新纪录的merge模式被称为<code>non-fast-forward</code>（需要加上<code>-–no-ff</code>参数），我们同样切换到<code>main</code>，然后使用这种模式来处理第二种情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git merge dev --no-ff</span><br></pre></td></tr></table></figure>
+<p>将得到下面的结果：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028220111836.png" alt="image-20241028220111836"></p>
+<p>这也是为什么使用<code>merge</code>而不是<code>rebase</code>的情况，因为使用<code>merge</code>，则<code>dev</code>上的提交记录和<code>main</code>上的提交记录都被保留下来，并且你还能看到他们是在<code>C1</code>记录开始进行差分的，而使用<code>rebase</code>，则这些分支的差分记录都会被擦除，变成一条直线，这个时候你就看不出来到底<code>dev</code>和<code>main</code>在哪个记录开始进行差分了！<strong>这一点非常不利于后续的bug跟踪和版本跟踪！！</strong></p>
+<p>使用<code>non-fast-forward</code>，在<code>git log</code>会看到很多类似：<code>Merge branch &#39;feature001&#39; into master</code>的<code>commit</code>。（即图上的<code>C5</code>）</p>
+<p>最后，<code>merge</code>除了上面两种模式之外，其实还有第三种模式<code>-–ff-only</code>，即只使用<code>fast-forward</code>模式进行合并，如果合并失败的话则直接退出，返回失败信息！</p>
+<p><code>git merge</code>在不加参数的时候会先使用<code>fast-forward</code>来合并，如果合并失败则会自动切为使用<code>non-fast-forward</code>模式。</p>
+<p>个人使用建议，使用时先使用<code>git merge --ff-only</code>，如果合并失败才考虑是否要使用<code>--no-ff</code></p>
+<h3 id="cherry-pick"><a href="#cherry-pick" class="headerlink" title="cherry-pick"></a>cherry-pick</h3><p>// todo </p>
 ]]></content>
       <categories>
-        <category>windows</category>
+        <category>Git</category>
       </categories>
       <tags>
-        <tag>windows</tag>
-        <tag>variables</tag>
+        <tag>git</tag>
+        <tag>code combine</tag>
       </tags>
   </entry>
   <entry>
@@ -556,6 +504,58 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>javaweb_EL_Expression</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Filter过滤器</title>
+    <url>/2022/01/01/JavaWeb/Filter/</url>
+    <content><![CDATA[<h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
+<h2 id="所谓Filter"><a href="#所谓Filter" class="headerlink" title="所谓Filter"></a>所谓Filter</h2><p>当一个请求在到达服务器软件之后，服务器软件响应请求时会找到相关的资源，如<strong>一个Html页面，一个JSP页面，一个servlet</strong>，Filter所做的事情，就是拦截这些请求，然后对它进行预处理。</p>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000319755.png" alt="image-20211230000319755" style="zoom:200%;"></p>
+<p><strong>要注意，Filter不仅仅能够截拦Servlet，对于任意的URL（这个URL可以指向一个html，也可以指向一个jsp），如：<a href="http://www.argentoaskia.tech/resource.html，也是可以拦截的。">http://www.argentoaskia.tech/resource.html，也是可以拦截的。</a></strong></p>
+<h2 id="配置编写Filter"><a href="#配置编写Filter" class="headerlink" title="配置编写Filter"></a>配置编写Filter</h2><p>编写Filter的步骤应如下：</p>
+<ol>
+<li>新建Filter的Java类</li>
+<li>让该类实现Filter接口</li>
+<li>在doFilter()方法中进行求情拦截</li>
+<li>给该类添加@WebFilter注解，并指定要拦截的URL，或者在Web.xml中添加Filter配置，如：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>FittlerDemo1.ABCFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">       &lt;servlet-name&gt;demo1&lt;/servlet-name&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">urlPattern</span>&gt;</span>/result<span class="tag">&lt;/<span class="name">urlPattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>完整的Filter可以参考：</p>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000952257.png" alt="image-20211230000952257"></p>
+<h2 id="过滤器执行流程"><a href="#过滤器执行流程" class="headerlink" title="过滤器执行流程"></a>过滤器执行流程</h2><p>对于一个过滤器他的执行流程是双向的，也就是说它实际上遵循下面的流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[客户端请求] --&gt;|被截拦| B[过滤器1]</span><br><span class="line">B[过滤器1] --&gt;|过滤器1执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器1调用filterChain.doFilter方法到| C[过滤器2]</span><br><span class="line">C[过滤器2] --&gt;|过滤器2执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器2调用filterChain.doFilter方法到| E[过滤器3]</span><br><span class="line">E[过滤器3] --&gt;|过滤器3执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器3调用filterChain.doFilter方法到| F[过滤器4]</span><br><span class="line">F[过滤器4] --&gt;|过滤器4执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|没有其他过滤器 将会调用请求资源| G[Servlet或者JSP或者HTML]</span><br><span class="line">G[Servlet或者JSP或者HTML] --&gt;|执行完成 回到过滤器4|H[过滤器4]</span><br><span class="line">H[过滤器4] --&gt;|执行filterChain.doFilter方法之后的代码| I[过滤器3]</span><br><span class="line">I[过滤器3] --&gt;|执行filterChain.doFilter方法之后的代码| J[过滤器2]</span><br><span class="line">J[过滤器2] --&gt;|执行filterChain.doFilter方法之后的代码| K[过滤器1]</span><br></pre></td></tr></table></figure>
+<h2 id="过滤器生命周期"><a href="#过滤器生命周期" class="headerlink" title="过滤器生命周期"></a>过滤器生命周期</h2><p>Filter的生命周期主要有三个：</p>
+<ul>
+<li>init()</li>
+<li>doFilter()</li>
+<li>destroy()</li>
+</ul>
+<h2 id="过滤器配置"><a href="#过滤器配置" class="headerlink" title="过滤器配置"></a>过滤器配置</h2><p>@WebFilter源代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WebFilter &#123;</span><br><span class="line">    <span class="function">String <span class="title">description</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 该filter的描述</span></span><br><span class="line">    <span class="function">String <span class="title">displayName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 过滤器的显示名称</span></span><br><span class="line">    WebInitParam[] initParams() <span class="keyword">default</span> &#123;&#125;;	<span class="comment">// 初始化参数</span></span><br><span class="line">    <span class="function">String <span class="title">filterName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// 过滤器名称</span></span><br><span class="line">    <span class="function">String <span class="title">smallIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The small-icon of the filter</span></span><br><span class="line">    <span class="function">String <span class="title">largeIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The large-icon of the filter</span></span><br><span class="line">    String[] servletNames() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The names of the servlets to which the filter applies.</span></span><br><span class="line">    String[] value() <span class="keyword">default</span> &#123;&#125;;			<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    String[] urlPatterns() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    <span class="comment">// The dispatcher types to which the filter applies</span></span><br><span class="line">    DispatcherType[] dispatcherTypes() <span class="keyword">default</span> &#123;DispatcherType.REQUEST&#125;;</span><br><span class="line">    <span class="comment">// Declares whether the filter supports asynchronous operation mode.</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">asyncSupported</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230010247571.png" alt="image-20211230010247571"></p>
+<h3 id="配置方式拦截"><a href="#配置方式拦截" class="headerlink" title="配置方式拦截"></a>配置方式拦截</h3><p>配置方式拦截主要涉及到DispatcherType的指定，有五种方式：</p>
+<ul>
+<li>FORWARD、INCLUDE用于当使用RequestDispatcher的forward()、include()时应用该Filter</li>
+<li>ERROR用于当请求的URL会404时，应用该Filter</li>
+<li>REQUEST默认选项，当发送请求的时候应用该Filter</li>
+<li>ASYNC异步拦截，用于Ajax</li>
+</ul>
+<h3 id="配置路径拦截"><a href="#配置路径拦截" class="headerlink" title="配置路径拦截"></a>配置路径拦截</h3><ol>
+<li>具体资源路径：<code>/index.jsp</code></li>
+<li>拦截目录：<code>/user/*</code>：拦截某个目录下的资源</li>
+<li>后缀名拦截：<code>*.jsp</code>：拦截所有的<code>jsp</code>文件</li>
+<li>拦截所有资源：<code>/*</code></li>
+</ol>
+<h2 id="多个Filter作用顺序-过滤器链"><a href="#多个Filter作用顺序-过滤器链" class="headerlink" title="多个Filter作用顺序(过滤器链)"></a>多个Filter作用顺序(过滤器链)</h2><p>一个Servlet中配置多个Filter的执行顺序是一件很有意思的事情，如果一个项目配置了多个Filter，这些Filter里面包括使用urlPatterns来指定拦截的，使用servletNames来指定拦截Servlet的，有在Web.xml中定义的，也有使用@WebFilter定义的。</p>
+<p>无论有多少，<strong>首先都会执行配置了urlPatterns属性的Filters</strong>，在这些配置了urlPatterns属性的Filters里面，<strong>又优先执行Web.xml中定义的Filters，根据Web.xml中的Filters的上下文排列顺序来执行</strong>，<strong>然后才执行使用@WebFilter的Filter，执行@WebFilter的Filter，根据类名来判断执行顺序，不区分大小写。</strong></p>
+<p><strong>然后才会执行配置了servlet-name属性的Filters</strong>，执行顺序同配置了urlPatterns属性的Filters一样。</p>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_filter</tag>
       </tags>
   </entry>
   <entry>
@@ -1342,58 +1342,6 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>Filter过滤器</title>
-    <url>/2022/01/01/JavaWeb/Filter/</url>
-    <content><![CDATA[<h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
-<h2 id="所谓Filter"><a href="#所谓Filter" class="headerlink" title="所谓Filter"></a>所谓Filter</h2><p>当一个请求在到达服务器软件之后，服务器软件响应请求时会找到相关的资源，如<strong>一个Html页面，一个JSP页面，一个servlet</strong>，Filter所做的事情，就是拦截这些请求，然后对它进行预处理。</p>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000319755.png" alt="image-20211230000319755" style="zoom:200%;"></p>
-<p><strong>要注意，Filter不仅仅能够截拦Servlet，对于任意的URL（这个URL可以指向一个html，也可以指向一个jsp），如：<a href="http://www.argentoaskia.tech/resource.html，也是可以拦截的。">http://www.argentoaskia.tech/resource.html，也是可以拦截的。</a></strong></p>
-<h2 id="配置编写Filter"><a href="#配置编写Filter" class="headerlink" title="配置编写Filter"></a>配置编写Filter</h2><p>编写Filter的步骤应如下：</p>
-<ol>
-<li>新建Filter的Java类</li>
-<li>让该类实现Filter接口</li>
-<li>在doFilter()方法中进行求情拦截</li>
-<li>给该类添加@WebFilter注解，并指定要拦截的URL，或者在Web.xml中添加Filter配置，如：</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>FittlerDemo1.ABCFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">       &lt;servlet-name&gt;demo1&lt;/servlet-name&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">urlPattern</span>&gt;</span>/result<span class="tag">&lt;/<span class="name">urlPattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>完整的Filter可以参考：</p>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000952257.png" alt="image-20211230000952257"></p>
-<h2 id="过滤器执行流程"><a href="#过滤器执行流程" class="headerlink" title="过滤器执行流程"></a>过滤器执行流程</h2><p>对于一个过滤器他的执行流程是双向的，也就是说它实际上遵循下面的流程：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[客户端请求] --&gt;|被截拦| B[过滤器1]</span><br><span class="line">B[过滤器1] --&gt;|过滤器1执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器1调用filterChain.doFilter方法到| C[过滤器2]</span><br><span class="line">C[过滤器2] --&gt;|过滤器2执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器2调用filterChain.doFilter方法到| E[过滤器3]</span><br><span class="line">E[过滤器3] --&gt;|过滤器3执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器3调用filterChain.doFilter方法到| F[过滤器4]</span><br><span class="line">F[过滤器4] --&gt;|过滤器4执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|没有其他过滤器 将会调用请求资源| G[Servlet或者JSP或者HTML]</span><br><span class="line">G[Servlet或者JSP或者HTML] --&gt;|执行完成 回到过滤器4|H[过滤器4]</span><br><span class="line">H[过滤器4] --&gt;|执行filterChain.doFilter方法之后的代码| I[过滤器3]</span><br><span class="line">I[过滤器3] --&gt;|执行filterChain.doFilter方法之后的代码| J[过滤器2]</span><br><span class="line">J[过滤器2] --&gt;|执行filterChain.doFilter方法之后的代码| K[过滤器1]</span><br></pre></td></tr></table></figure>
-<h2 id="过滤器生命周期"><a href="#过滤器生命周期" class="headerlink" title="过滤器生命周期"></a>过滤器生命周期</h2><p>Filter的生命周期主要有三个：</p>
-<ul>
-<li>init()</li>
-<li>doFilter()</li>
-<li>destroy()</li>
-</ul>
-<h2 id="过滤器配置"><a href="#过滤器配置" class="headerlink" title="过滤器配置"></a>过滤器配置</h2><p>@WebFilter源代码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WebFilter &#123;</span><br><span class="line">    <span class="function">String <span class="title">description</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 该filter的描述</span></span><br><span class="line">    <span class="function">String <span class="title">displayName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 过滤器的显示名称</span></span><br><span class="line">    WebInitParam[] initParams() <span class="keyword">default</span> &#123;&#125;;	<span class="comment">// 初始化参数</span></span><br><span class="line">    <span class="function">String <span class="title">filterName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// 过滤器名称</span></span><br><span class="line">    <span class="function">String <span class="title">smallIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The small-icon of the filter</span></span><br><span class="line">    <span class="function">String <span class="title">largeIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The large-icon of the filter</span></span><br><span class="line">    String[] servletNames() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The names of the servlets to which the filter applies.</span></span><br><span class="line">    String[] value() <span class="keyword">default</span> &#123;&#125;;			<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    String[] urlPatterns() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    <span class="comment">// The dispatcher types to which the filter applies</span></span><br><span class="line">    DispatcherType[] dispatcherTypes() <span class="keyword">default</span> &#123;DispatcherType.REQUEST&#125;;</span><br><span class="line">    <span class="comment">// Declares whether the filter supports asynchronous operation mode.</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">asyncSupported</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230010247571.png" alt="image-20211230010247571"></p>
-<h3 id="配置方式拦截"><a href="#配置方式拦截" class="headerlink" title="配置方式拦截"></a>配置方式拦截</h3><p>配置方式拦截主要涉及到DispatcherType的指定，有五种方式：</p>
-<ul>
-<li>FORWARD、INCLUDE用于当使用RequestDispatcher的forward()、include()时应用该Filter</li>
-<li>ERROR用于当请求的URL会404时，应用该Filter</li>
-<li>REQUEST默认选项，当发送请求的时候应用该Filter</li>
-<li>ASYNC异步拦截，用于Ajax</li>
-</ul>
-<h3 id="配置路径拦截"><a href="#配置路径拦截" class="headerlink" title="配置路径拦截"></a>配置路径拦截</h3><ol>
-<li>具体资源路径：<code>/index.jsp</code></li>
-<li>拦截目录：<code>/user/*</code>：拦截某个目录下的资源</li>
-<li>后缀名拦截：<code>*.jsp</code>：拦截所有的<code>jsp</code>文件</li>
-<li>拦截所有资源：<code>/*</code></li>
-</ol>
-<h2 id="多个Filter作用顺序-过滤器链"><a href="#多个Filter作用顺序-过滤器链" class="headerlink" title="多个Filter作用顺序(过滤器链)"></a>多个Filter作用顺序(过滤器链)</h2><p>一个Servlet中配置多个Filter的执行顺序是一件很有意思的事情，如果一个项目配置了多个Filter，这些Filter里面包括使用urlPatterns来指定拦截的，使用servletNames来指定拦截Servlet的，有在Web.xml中定义的，也有使用@WebFilter定义的。</p>
-<p>无论有多少，<strong>首先都会执行配置了urlPatterns属性的Filters</strong>，在这些配置了urlPatterns属性的Filters里面，<strong>又优先执行Web.xml中定义的Filters，根据Web.xml中的Filters的上下文排列顺序来执行</strong>，<strong>然后才执行使用@WebFilter的Filter，执行@WebFilter的Filter，根据类名来判断执行顺序，不区分大小写。</strong></p>
-<p><strong>然后才会执行配置了servlet-name属性的Filters</strong>，执行顺序同配置了urlPatterns属性的Filters一样。</p>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_filter</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JavaBean技术</title>
     <url>/2022/01/08/JavaWeb/JavaBean%E6%8A%80%E6%9C%AF/</url>
     <content><![CDATA[<h1 id="JavaBean技术"><a href="#JavaBean技术" class="headerlink" title="JavaBean技术"></a>JavaBean技术</h1><p>JavaBean技术最初是面向Swing等GUI而设计的,后来经过用于Web开发上.</p>
@@ -1915,28 +1863,6 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>22端口抽风</title>
-    <url>/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/</url>
-    <content><![CDATA[<p>前一天还能push，今天一push，就报：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="记录一次github-22端口抽风日常"><a href="#记录一次github-22端口抽风日常" class="headerlink" title="记录一次github 22端口抽风日常"></a>记录一次github 22端口抽风日常</h2><p>前一天还能push，今天一push，就报：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
-<p>出现 <code>ssh: connect to host github.com port 22: Connection timed out</code> 错误，通常是由于网络或配置问题导致无法通过默认的SSH端口22连接到GitHub。以下是解决方法：</p>
-<h3 id="临时测试连接"><a href="#临时测试连接" class="headerlink" title="临时测试连接"></a>临时测试连接</h3><p>在命令行中运行以下命令来测试连接：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T -p 443 git@ssh.github.com</span><br></pre></td></tr></table></figure>
-<p>如果显示类似 <code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code> 的信息，则表明通过443端口成功进行了身份验证。</p>
-<h3 id="修改SSH配置文件"><a href="#修改SSH配置文件" class="headerlink" title="修改SSH配置文件"></a>修改SSH配置文件</h3><p>修改 <code>~/.ssh/config</code> 文件，添加以下内容：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 443</span><br></pre></td></tr></table></figure>
-<p>保存文件后，再次运行以下命令测试连接：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-<p>如果连接成功，显示<code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>，之后就可以正常进行git操作了。</p>
-<p>如果此时还不能正常操作，或者提示<code>permission deny</code>，则你需要去到<code>.ssh</code>文件夹下（一般位于），删除<code>known_hosts</code>让<code>git</code>重新生成指纹</p>
-<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>出现这个问题很大概率是<code>Github</code>的主域名<code>github.com</code>，被墙了或者维护了，你<code>ping</code>不上去，此时可以尝试使用<code>ssh.github.com</code>，因此上面的解决方法相当于将<code>github.com</code>的主机名映射到<code>ssh.github.com</code>去！</p>
-<p><img src="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/image-20250827125841944.png" alt="image-20250827125841944"></p>
-]]></content>
-  </entry>
-  <entry>
     <title>1.MyBatis快速入门</title>
     <url>/2022/07/01/MyBatis/mybatis%E8%B5%B7%E6%AD%A5/</url>
     <content><![CDATA[<h1 id="MyBatis快速入门"><a href="#MyBatis快速入门" class="headerlink" title="MyBatis快速入门"></a>MyBatis快速入门</h1><ol>
@@ -2017,130 +1943,6 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>MyBatis-start</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo常用指令&amp;Front Matter</title>
-    <url>/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="Hexo常用指令-amp-Front-Matter"><a href="#Hexo常用指令-amp-Front-Matter" class="headerlink" title="Hexo常用指令&amp;Front Matter"></a>Hexo常用指令&amp;Front Matter</h1><span id="more"></span>
-<h2 id="Front-Matter"><a href="#Front-Matter" class="headerlink" title="Front Matter"></a>Front Matter</h2><p>重要的有两个：</p>
-<ul>
-<li><p>tags：标签，可以打多个</p>
-</li>
-<li><p>categories：分类，只能放一个分类</p>
-</li>
-</ul>
-<h3 id="tags"><a href="#tags" class="headerlink" title="tags"></a>tags</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">方式1：</span><br><span class="line">[java,javeweb]</span><br><span class="line">方式2：</span><br><span class="line">	- Java</span><br><span class="line">	- JavaWeb</span><br></pre></td></tr></table></figure>
-<h3 id="categories"><a href="#categories" class="headerlink" title="categories"></a>categories</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">categories: Hexo</span><br></pre></td></tr></table></figure>
-<h2 id="Hexo常用指令"><a href="#Hexo常用指令" class="headerlink" title="Hexo常用指令"></a>Hexo常用指令</h2><h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><p>希望在<code>_post</code>文件夹下创建文章：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post &quot;文章名[.md]&quot;</span><br></pre></td></tr></table></figure>
-<p>希望在<code>_post/分类</code>文件下面创建文章：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post --path &quot;[目录名]/[文章名]&quot;</span><br></pre></td></tr></table></figure>
-<p><code>[目录名]</code> <strong>不存在会自动创建</strong></p>
-<h2 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo g -d 		// 生成之后立即部署</span><br></pre></td></tr></table></figure>
-<h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo s	//本地测试</span><br></pre></td></tr></table></figure>
-<p>可以边开启服务器，边修改文章，边看效果（<strong>支持热部署</strong>）</p>
-<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d		// 部署静态页面</span><br></pre></td></tr></table></figure>
-<h2 id="一般流程"><a href="#一般流程" class="headerlink" title="一般流程"></a>一般流程</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(hexo clean)--&gt; hexo new --&gt; 写文章 --&gt; hexo g(hexo g -d) --&gt; (hexo s) --&gt; hexo d</span><br></pre></td></tr></table></figure>
-<p><code>hexo d</code>,远端没更新，一般都是<code>github</code>服务器问题，<strong>等！</strong></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Hexo指令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Markdown语法</title>
-    <url>/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Markdown%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<p>Markdown语法</p>
-<span id="more"></span>
-<h1 id="Markdown语法"><a href="#Markdown语法" class="headerlink" title="Markdown语法"></a>Markdown语法</h1><h2 id="Markdown简介"><a href="#Markdown简介" class="headerlink" title="Markdown简介"></a>Markdown简介</h2><p>markdown就是一种轻量级标记语言。兼容HTML。可以用来写<code>HTML</code>。一般用来记笔记。</p>
-<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>有6个级别的标题</p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 一级标题</span></span><br><span class="line"><span class="section">## 二级标题</span></span><br><span class="line"><span class="section">### 三级标题</span></span><br><span class="line"><span class="section">#### 四级标题</span></span><br><span class="line"><span class="section">##### 五级标题</span></span><br><span class="line"><span class="section">###### 六级标题</span></span><br></pre></td></tr></table></figure>
-<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>引用用于更新文章</p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="quote">&gt; 引用内容</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>引用内容</p>
-<p>2022年5月14日更新内容：</p>
-<p>XXXXX</p>
-<p>13131231</p>
-<blockquote>
-<p>23点32分</p>
-</blockquote>
-</blockquote>
-<h2 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">~~123123~~</span><br></pre></td></tr></table></figure>
-<p><del>12313123</del></p>
-<h2 id="加粗"><a href="#加粗" class="headerlink" title="加粗"></a>加粗</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="strong">**sdasdsda**</span></span><br></pre></td></tr></table></figure>
-<p><strong>123112</strong></p>
-<h2 id="倾斜"><a href="#倾斜" class="headerlink" title="倾斜"></a>倾斜</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="emphasis">*321323*</span></span><br></pre></td></tr></table></figure>
-<p><em>2313</em></p>
-<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="code">``` 代码块</span></span><br></pre></td></tr></table></figure>
-<h2 id="内嵌代码"><a href="#内嵌代码" class="headerlink" title="内嵌代码"></a>内嵌代码</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="code">`1231332312`</span></span><br></pre></td></tr></table></figure>
-<p><code>askia</code></p>
-<h2 id="公式块"><a href="#公式块" class="headerlink" title="公式块"></a>公式块</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">$$</span><br><span class="line">mathJs公式代码</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
-<script type="math/tex; mode=display">
-\alpha、\delta</script><h2 id="内嵌公式"><a href="#内嵌公式" class="headerlink" title="内嵌公式"></a>内嵌公式</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">$&#123;O(n^2)&#125;$</span><br></pre></td></tr></table></figure>
-<p>${O(n^2)}$</p>
-<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>head1</th>
-<th>head2</th>
-<th>head3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">1.</span> 123</span><br><span class="line"><span class="bullet">2.</span> 345</span><br></pre></td></tr></table></figure>
-<ol>
-<li>123</li>
-<li>456</li>
-</ol>
-<h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> 1231</span><br><span class="line"><span class="bullet">-</span> 12313</span><br></pre></td></tr></table></figure>
-<ul>
-<li>1231</li>
-<li>4141sda</li>
-</ul>
-<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[<span class="string">标题</span>](<span class="link">链接地址</span>)</span><br></pre></td></tr></table></figure>
-<p><a href="www.baidu.com">baidu</a></p>
-<h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---	</span><br></pre></td></tr></table></figure>
-<hr>
-<hr>
-<h2 id="内容目录"><a href="#内容目录" class="headerlink" title="内容目录"></a>内容目录</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[TOC]</span><br></pre></td></tr></table></figure>
-<p>[TOC]</p>
-<h2 id="高亮"><a href="#高亮" class="headerlink" title="高亮"></a>高亮</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">==23132==</span><br></pre></td></tr></table></figure>
-<p>==21313==</p>
-<h2 id="上标"><a href="#上标" class="headerlink" title="上标"></a>上标</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">^22^</span><br><span class="line">~11~</span><br></pre></td></tr></table></figure>
-<p>a^21^</p>
-<p>b~2~</p>
-<h2 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h2><p><img src="/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Markdown%E8%AF%AD%E6%B3%95/image-20220515000408871.png" alt="image-20220515000408871"></p>
-<h2 id="画图"><a href="#画图" class="headerlink" title="画图"></a>画图</h2><p>流程图、类图，需要插件支持。</p>
-]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-      <tags>
-        <tag>Markdown</tag>
       </tags>
   </entry>
   <entry>
@@ -2419,6 +2221,204 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>解决Windows家庭版无法远程问题</title>
+    <url>/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>这破Windows 10 家庭版真的让我操碎了心！Windows坏事做尽！</p>
+<span id="more"></span>
+<h2 id="解决Windows家庭版无法远程的问题"><a href="#解决Windows家庭版无法远程的问题" class="headerlink" title="解决Windows家庭版无法远程的问题"></a>解决Windows家庭版无法远程的问题</h2><p>要解决这个问题需要一个工具rdpwrap：<a href="https://github-releases.githubusercontent.com/25609086/d473b802-eb5f-11e7-8ccc-5944bc969a40?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211017%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20211017T084058Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=c63d302fc9a6d075968448d5ee3a6eb42537d44e88fda8f58768e3d4ab7686d1&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;key_id=0&amp;repo_id=25609086&amp;response-content-disposition=attachment%3B%20filename%3DRDPWrap-v1.6.2.zip&amp;response-content-type=application%2Foctet-stream">下载地址</a> | <a href="https://github.com/stascorp/rdpwrap/releases/tag/v1.6.2">Github</a></p>
+<p>下载回来之后解压，可以看到：</p>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017171653109.png" alt="image-20211017171653109"></p>
+<p>以<strong>管理员的方式</strong>运行<strong>install.bat</strong></p>
+<p>运行里面的RDPConf.exe，<strong>看是否有红色的标志。</strong>如果有的话，就需要<strong>查看自己系统的C:\Windows\System32\termsrv.dll的版本号</strong>：</p>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017172348425.png" alt="image-20211017172348425"></p>
+<p><a href="https://github.com/stascorp/rdpwrap/issues">到这里</a>搜索该版本号的配置文件，<strong>仔细找，应该能找到像下面的提供的ini文件</strong></p>
+<blockquote>
+<p>自动更新请到这里找<a href="https://github.com/sebaxakerhtc/rdpwrap.ini/">sebaxakerhtc/rdpwrap.ini: RDPWrap.ini for RDP Wrapper Library by Stas’M (github.com)</a>，下载根目录的ini即可</p>
+</blockquote>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017173132450.png" alt="image-20211017173132450"></p>
+<p>找到后，<strong>请先win+r运行：services.msc，停止Remote Desktop Services服务，</strong></p>
+<p><strong>将下载的ini文件覆盖到C:\Program Files\RDP Wrapper里面</strong></p>
+<p><strong>重新开启Remote Desktop Services服务，</strong></p>
+<p>运行检查程序看看是不是全绿，<strong>如果是全绿色的话，就证明现在可以使用远程了，win+r运行，输入<code>mstsc</code>打开远程桌面窗口。</strong></p>
+]]></content>
+      <categories>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>mstsc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>22端口抽风</title>
+    <url>/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/</url>
+    <content><![CDATA[<p>前一天还能push，今天一push，就报：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="记录一次github-22端口抽风日常"><a href="#记录一次github-22端口抽风日常" class="headerlink" title="记录一次github 22端口抽风日常"></a>记录一次github 22端口抽风日常</h2><p>前一天还能push，今天一push，就报：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
+<p>出现 <code>ssh: connect to host github.com port 22: Connection timed out</code> 错误，通常是由于网络或配置问题导致无法通过默认的SSH端口22连接到GitHub。以下是解决方法：</p>
+<h3 id="临时测试连接"><a href="#临时测试连接" class="headerlink" title="临时测试连接"></a>临时测试连接</h3><p>在命令行中运行以下命令来测试连接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T -p 443 git@ssh.github.com</span><br></pre></td></tr></table></figure>
+<p>如果显示类似 <code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code> 的信息，则表明通过443端口成功进行了身份验证。</p>
+<h3 id="修改SSH配置文件"><a href="#修改SSH配置文件" class="headerlink" title="修改SSH配置文件"></a>修改SSH配置文件</h3><p>修改 <code>~/.ssh/config</code> 文件，添加以下内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 443</span><br></pre></td></tr></table></figure>
+<p>保存文件后，再次运行以下命令测试连接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>如果连接成功，显示<code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>，之后就可以正常进行git操作了。</p>
+<p>如果此时还不能正常操作，或者提示<code>permission deny</code>，则你需要去到<code>.ssh</code>文件夹下（一般位于），删除<code>known_hosts</code>让<code>git</code>重新生成指纹</p>
+<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>出现这个问题很大概率是<code>Github</code>的主域名<code>github.com</code>，被墙了或者维护了，你<code>ping</code>不上去，此时可以尝试使用<code>ssh.github.com</code>，因此上面的解决方法相当于将<code>github.com</code>的主机名映射到<code>ssh.github.com</code>去！</p>
+<p><img src="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/image-20250827125841944.png" alt="image-20250827125841944"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hexo常用指令&amp;Front Matter</title>
+    <url>/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="Hexo常用指令-amp-Front-Matter"><a href="#Hexo常用指令-amp-Front-Matter" class="headerlink" title="Hexo常用指令&amp;Front Matter"></a>Hexo常用指令&amp;Front Matter</h1><span id="more"></span>
+<h2 id="Front-Matter"><a href="#Front-Matter" class="headerlink" title="Front Matter"></a>Front Matter</h2><p>重要的有两个：</p>
+<ul>
+<li><p>tags：标签，可以打多个</p>
+</li>
+<li><p>categories：分类，只能放一个分类</p>
+</li>
+</ul>
+<h3 id="tags"><a href="#tags" class="headerlink" title="tags"></a>tags</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">方式1：</span><br><span class="line">[java,javeweb]</span><br><span class="line">方式2：</span><br><span class="line">	- Java</span><br><span class="line">	- JavaWeb</span><br></pre></td></tr></table></figure>
+<h3 id="categories"><a href="#categories" class="headerlink" title="categories"></a>categories</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">categories: Hexo</span><br></pre></td></tr></table></figure>
+<h2 id="Hexo常用指令"><a href="#Hexo常用指令" class="headerlink" title="Hexo常用指令"></a>Hexo常用指令</h2><h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><p>希望在<code>_post</code>文件夹下创建文章：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post &quot;文章名[.md]&quot;</span><br></pre></td></tr></table></figure>
+<p>希望在<code>_post/分类</code>文件下面创建文章：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post --path &quot;[目录名]/[文章名]&quot;</span><br></pre></td></tr></table></figure>
+<p><code>[目录名]</code> <strong>不存在会自动创建</strong></p>
+<h2 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo g -d 		// 生成之后立即部署</span><br></pre></td></tr></table></figure>
+<h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo s	//本地测试</span><br></pre></td></tr></table></figure>
+<p>可以边开启服务器，边修改文章，边看效果（<strong>支持热部署</strong>）</p>
+<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d		// 部署静态页面</span><br></pre></td></tr></table></figure>
+<h2 id="一般流程"><a href="#一般流程" class="headerlink" title="一般流程"></a>一般流程</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(hexo clean)--&gt; hexo new --&gt; 写文章 --&gt; hexo g(hexo g -d) --&gt; (hexo s) --&gt; hexo d</span><br></pre></td></tr></table></figure>
+<p><code>hexo d</code>,远端没更新，一般都是<code>github</code>服务器问题，<strong>等！</strong></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Hexo指令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决Windows环境变量无法使用列表展开</title>
+    <url>/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/</url>
+    <content><![CDATA[<p>这里说的问题可能会对配置Windows环境变量出错的同学有一点点帮助（<del>但不多</del>）</p>
+<span id="more"></span>
+<h2 id="如何以列表的形式展开Windows环境变量"><a href="#如何以列表的形式展开Windows环境变量" class="headerlink" title="如何以列表的形式展开Windows环境变量"></a>如何以列表的形式展开Windows环境变量</h2><ol>
+<li><p>首先如何你的环境变量是以引用其他环境变量开头的话，<code>Windows</code>是不会以列表的形式来显示所有环境变量的，而是以一个文本框的形式：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003623666.png" alt="image-20241004003623666"></p>
+</li>
+<li><p>如果希望以列表的形式来打开环境变量的话，需要指定第一个变量值必须以盘符开始，比如下面的配置：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003834186.png" alt="image-20241004003834186"></p>
+</li>
+<li><p>添加上以盘符为开始的变量值之后点击多次确定让环境变量生效，然后下次打开就变成列表形式啦~在列表形式下，比较好判断自己是否写错了环境变量了<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004004001406.png" alt="image-20241004004001406"></p>
+</li>
+</ol>
+<p>参考：<a href="https://blog.csdn.net/weixin_46070150/article/details/121021035#:~:text=%E5%8F%98%E9%87%8F%E5%80%BC%E4%BB%A5%%E5%BC%80%E5%A4%B4%EF%BC%8C">Windows10系统的环境变量（path）怎么进行列表显示？_win10 环境变量 path 怎么是个字符串-CSDN博客</a></p>
+]]></content>
+      <categories>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>variables</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Markdown语法</title>
+    <url>/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Markdown%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<p>Markdown语法</p>
+<span id="more"></span>
+<h1 id="Markdown语法"><a href="#Markdown语法" class="headerlink" title="Markdown语法"></a>Markdown语法</h1><h2 id="Markdown简介"><a href="#Markdown简介" class="headerlink" title="Markdown简介"></a>Markdown简介</h2><p>markdown就是一种轻量级标记语言。兼容HTML。可以用来写<code>HTML</code>。一般用来记笔记。</p>
+<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>有6个级别的标题</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 一级标题</span></span><br><span class="line"><span class="section">## 二级标题</span></span><br><span class="line"><span class="section">### 三级标题</span></span><br><span class="line"><span class="section">#### 四级标题</span></span><br><span class="line"><span class="section">##### 五级标题</span></span><br><span class="line"><span class="section">###### 六级标题</span></span><br></pre></td></tr></table></figure>
+<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>引用用于更新文章</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="quote">&gt; 引用内容</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>引用内容</p>
+<p>2022年5月14日更新内容：</p>
+<p>XXXXX</p>
+<p>13131231</p>
+<blockquote>
+<p>23点32分</p>
+</blockquote>
+</blockquote>
+<h2 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">~~123123~~</span><br></pre></td></tr></table></figure>
+<p><del>12313123</del></p>
+<h2 id="加粗"><a href="#加粗" class="headerlink" title="加粗"></a>加粗</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="strong">**sdasdsda**</span></span><br></pre></td></tr></table></figure>
+<p><strong>123112</strong></p>
+<h2 id="倾斜"><a href="#倾斜" class="headerlink" title="倾斜"></a>倾斜</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="emphasis">*321323*</span></span><br></pre></td></tr></table></figure>
+<p><em>2313</em></p>
+<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="code">``` 代码块</span></span><br></pre></td></tr></table></figure>
+<h2 id="内嵌代码"><a href="#内嵌代码" class="headerlink" title="内嵌代码"></a>内嵌代码</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="code">`1231332312`</span></span><br></pre></td></tr></table></figure>
+<p><code>askia</code></p>
+<h2 id="公式块"><a href="#公式块" class="headerlink" title="公式块"></a>公式块</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">$$</span><br><span class="line">mathJs公式代码</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+\alpha、\delta</script><h2 id="内嵌公式"><a href="#内嵌公式" class="headerlink" title="内嵌公式"></a>内嵌公式</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">$&#123;O(n^2)&#125;$</span><br></pre></td></tr></table></figure>
+<p>${O(n^2)}$</p>
+<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>head1</th>
+<th>head2</th>
+<th>head3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">1.</span> 123</span><br><span class="line"><span class="bullet">2.</span> 345</span><br></pre></td></tr></table></figure>
+<ol>
+<li>123</li>
+<li>456</li>
+</ol>
+<h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> 1231</span><br><span class="line"><span class="bullet">-</span> 12313</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1231</li>
+<li>4141sda</li>
+</ul>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[<span class="string">标题</span>](<span class="link">链接地址</span>)</span><br></pre></td></tr></table></figure>
+<p><a href="www.baidu.com">baidu</a></p>
+<h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---	</span><br></pre></td></tr></table></figure>
+<hr>
+<hr>
+<h2 id="内容目录"><a href="#内容目录" class="headerlink" title="内容目录"></a>内容目录</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[TOC]</span><br></pre></td></tr></table></figure>
+<p>[TOC]</p>
+<h2 id="高亮"><a href="#高亮" class="headerlink" title="高亮"></a>高亮</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">==23132==</span><br></pre></td></tr></table></figure>
+<p>==21313==</p>
+<h2 id="上标"><a href="#上标" class="headerlink" title="上标"></a>上标</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">^22^</span><br><span class="line">~11~</span><br></pre></td></tr></table></figure>
+<p>a^21^</p>
+<p>b~2~</p>
+<h2 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h2><p><img src="/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Markdown%E8%AF%AD%E6%B3%95/image-20220515000408871.png" alt="image-20220515000408871"></p>
+<h2 id="画图"><a href="#画图" class="headerlink" title="画图"></a>画图</h2><p>流程图、类图，需要插件支持。</p>
+]]></content>
+      <categories>
+        <category>Markdown</category>
+      </categories>
+      <tags>
+        <tag>Markdown</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>文章常用标志</title>
     <url>/2019/11/20/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/%E6%96%87%E7%AB%A0%E5%B8%B8%E7%94%A8%E6%A0%87%E5%BF%97/</url>
     <content><![CDATA[<p>hexo常用标志</p>
@@ -2513,29 +2513,6 @@ va_end(ParamList);                                                    // 释放�
         <tag>hexo</tag>
         <tag>recovery</tag>
         <tag>domain</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo模板修改和使用</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
-<span id="more"></span>
-<p><code>hexo</code>的模板一般放在：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
-<p>有三个文件</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
-<p>对应new命令的三种创建类型！</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
-<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
-<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>features</tag>
-        <tag>reference</tag>
       </tags>
   </entry>
   <entry>
@@ -2670,6 +2647,29 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
+    <title>hexo模板修改和使用</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
+<span id="more"></span>
+<p><code>hexo</code>的模板一般放在：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
+<p>有三个文件</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
+<p>对应new命令的三种创建类型！</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
+<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
+<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>features</tag>
+        <tag>reference</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关于hexoGenerate</title>
     <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/</url>
     <content><![CDATA[<p>本次讲解<code>hexo</code>博客常用的命令：<code>hexo g</code></p>
@@ -2716,30 +2716,6 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
-    <title>添加搜索功能</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<h2 id="基于next-hexo-generator-searchdb的搜索功能"><a href="#基于next-hexo-generator-searchdb的搜索功能" class="headerlink" title="基于next + hexo-generator-searchdb的搜索功能"></a>基于next + hexo-generator-searchdb的搜索功能</h2><span id="more"></span>
-<h2 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h2><p>在博客根目录下，启动git bash，键入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-<p>如果添加了淘宝源，键入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-<h2 id="修改博客和主题的-config-yml"><a href="#修改博客和主题的-config-yml" class="headerlink" title="修改博客和主题的__config.yml"></a>修改博客和主题的__config.yml</h2><h3 id="博客的-config-yml"><a href="#博客的-config-yml" class="headerlink" title="博客的__config.yml"></a>博客的__config.yml</h3><p>在配置文件末尾添加：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101118677.png" alt="image-20210812101118677"></p>
-<p>其中这些参数：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">path：表示搜索后生成的文件路径，可以生成xml和json两种格式；将path设置为“content.json”就可以替代第二个插件。</span><br><span class="line">field：表示搜索的范围，有“post、page和all”三种值。</span><br><span class="line">    post：所有的文章；</span><br><span class="line">    page：所有顶部导航选项的页面；</span><br><span class="line">    all：所有的文章和顶部导航选项的页面。</span><br><span class="line">content：是否包含搜索到的文章的全部内容。如果false，生成的结果只包括标题和创建时间这些信息，没有文章主体。默认情况下是true.</span><br><span class="line">format：搜索到的内容、选项的格式。</span><br><span class="line">    html(默认)：将html原文本缩略。</span><br><span class="line">    striptags：将html原文本缩略，并删除所有标记。</span><br><span class="line">    raw：记下每一篇文章或每一页的文字。</span><br></pre></td></tr></table></figure>
-<h3 id="主题的-config-yml"><a href="#主题的-config-yml" class="headerlink" title="主题的__config.yml"></a>主题的__config.yml</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101256981.png" alt="image-20210812101256981"></p>
-<p>当然<code>enable</code>后面的东西可以自行修改。</p>
-<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812104330740.png" alt="image-20210812104330740"></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo_优化</tag>
-        <tag>hexo_添加</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>添加评论功能</title>
     <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<p>这篇文章会介绍<code>hexo</code>如何添加文章评论功能，会介绍<code>hexo</code>中几乎所有可接入的评论系统，希望能帮到您！</p>
@@ -2764,6 +2740,30 @@ cnpm install -g hexo-cli
 <h3 id="大功告成-1"><a href="#大功告成-1" class="headerlink" title="大功告成"></a>大功告成</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20241017161517546.png" alt="image-20241017161517546"></p>
 <p>注意，这里的评论系统的布局我是改过样式的，因为原版评论系统的组件所在的<code>div</code>元素和我博客的文章<code>div</code>看起来<strong>很难看</strong>，所以我稍微改了一下，如果你也希望自定义这个评论组件，请善用浏览器开发者工具箱（一般是<code>F12</code>）的查看器，查看评论组件的具体所在的<code>div</code>所使用的样式进行修改即可（<code>class</code>属性或者<code>id</code>属性都<code>ok</code>）</p>
 <p>因此<code>hexo</code>内置了好几个主题，不同的主题布局不一样，修改的方法也不一样！</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo_优化</tag>
+        <tag>hexo_添加</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>添加搜索功能</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h2 id="基于next-hexo-generator-searchdb的搜索功能"><a href="#基于next-hexo-generator-searchdb的搜索功能" class="headerlink" title="基于next + hexo-generator-searchdb的搜索功能"></a>基于next + hexo-generator-searchdb的搜索功能</h2><span id="more"></span>
+<h2 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h2><p>在博客根目录下，启动git bash，键入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+<p>如果添加了淘宝源，键入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+<h2 id="修改博客和主题的-config-yml"><a href="#修改博客和主题的-config-yml" class="headerlink" title="修改博客和主题的__config.yml"></a>修改博客和主题的__config.yml</h2><h3 id="博客的-config-yml"><a href="#博客的-config-yml" class="headerlink" title="博客的__config.yml"></a>博客的__config.yml</h3><p>在配置文件末尾添加：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101118677.png" alt="image-20210812101118677"></p>
+<p>其中这些参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">path：表示搜索后生成的文件路径，可以生成xml和json两种格式；将path设置为“content.json”就可以替代第二个插件。</span><br><span class="line">field：表示搜索的范围，有“post、page和all”三种值。</span><br><span class="line">    post：所有的文章；</span><br><span class="line">    page：所有顶部导航选项的页面；</span><br><span class="line">    all：所有的文章和顶部导航选项的页面。</span><br><span class="line">content：是否包含搜索到的文章的全部内容。如果false，生成的结果只包括标题和创建时间这些信息，没有文章主体。默认情况下是true.</span><br><span class="line">format：搜索到的内容、选项的格式。</span><br><span class="line">    html(默认)：将html原文本缩略。</span><br><span class="line">    striptags：将html原文本缩略，并删除所有标记。</span><br><span class="line">    raw：记下每一篇文章或每一页的文字。</span><br></pre></td></tr></table></figure>
+<h3 id="主题的-config-yml"><a href="#主题的-config-yml" class="headerlink" title="主题的__config.yml"></a>主题的__config.yml</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101256981.png" alt="image-20210812101256981"></p>
+<p>当然<code>enable</code>后面的东西可以自行修改。</p>
+<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812104330740.png" alt="image-20210812104330740"></p>
 ]]></content>
       <categories>
         <category>博客运维</category>
@@ -3638,11 +3638,6 @@ int main(int argc, char *argv[])
       </tags>
   </entry>
   <entry>
-    <title>archives</title>
-    <url>/archives/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>about</title>
     <url>/about/index.html</url>
     <content><![CDATA[<ul>
@@ -3653,8 +3648,8 @@ int main(int argc, char *argv[])
 ]]></content>
   </entry>
   <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
+    <title>archives</title>
+    <url>/archives/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -3670,8 +3665,8 @@ int main(int argc, char *argv[])
 ]]></content>
   </entry>
   <entry>
-    <title>tags</title>
-    <url>/tags/index.html</url>
+    <title>categories</title>
+    <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -3791,6 +3786,11 @@ int main(int argc, char *argv[])
 <li><code>JMetter</code>：</li>
 </ul>
 ]]></content>
+  </entry>
+  <entry>
+    <title>tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>古诗鉴赏</title>
