@@ -203,6 +203,55 @@
       </tags>
   </entry>
   <entry>
+    <title>选择排序（Selection）</title>
+    <url>/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
+<span id="more"></span>
+<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>排序算法</th>
+<th>平均事件复杂度</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+<th>排序方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>选择排序</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(1)$</td>
+<td>不稳定</td>
+<td>In-place</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>选择排序（Selection sort）是一种简单直观的排序算法。选择排序是不稳定的排序方法。</p>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="排序原理步骤"><a href="#排序原理步骤" class="headerlink" title="排序原理步骤"></a>排序原理步骤</h3><ol>
+<li>遍历一遍找到最小数，记录下标</li>
+<li>将该下标的数与第一个数交换，第一个数的位置确定</li>
+<li>重复1，2步骤寻找第二个最小的数</li>
+</ol>
+<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for (int i = 0; i &lt; a.length; i++) &#123;</span><br><span class="line">    int min = i;</span><br><span class="line">    // 选择最小的数的下标</span><br><span class="line">    for (int j = i+1; j &lt; a.length; j++) &#123;</span><br><span class="line">        if(less(a[j], a[min])) min = j;</span><br><span class="line">    &#125;</span><br><span class="line">    // 交换当前位置与最小的数</span><br><span class="line">    exch(a, min, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>sort</tag>
+        <tag>Selection</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>各类数据库环境安装</title>
     <url>/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/</url>
     <content><![CDATA[<p>本篇集中介绍市面上常见数据库安装、包括<code>Windows</code>、<code>Linux</code>、<code>Docker</code>等多环境、安装的数据库包括但不仅限于<code>MySQL</code>、<code>Oracle</code>、<code>PostgreSQL</code>、<code>MS Server</code>、<code>DB2</code>等主流数据库！</p>
@@ -265,7 +314,7 @@
 <h5 id="MSI安装器"><a href="#MSI安装器" class="headerlink" title="MSI安装器"></a>MSI安装器</h5><p>自从<code>MySQL 8.0</code>以后，<code>MySQL Installer</code>不再发布，即<code>8.1</code>及以上版本<code>msi</code>安装器只会安装当前版本而不是能够实现安装全版本：<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250501182003072.png" alt="image-20250501182003072"></p>
 <p>我们仍然能在<a href="https://dev.mysql.com/downloads/windows/installer/8.0.html">这个地方</a>找到<code>MySQL 8.0</code>的全版本安装器，在<a href="https://downloads.mysql.com/archives/installer/">这个地方</a>找到归档的所有安装器，只不过这个安装器已经无法安装<code>MySQL 8.1</code>及以上版本了。</p>
 <p><code>MSI</code>版本的安装视频参考</p>
-<video src="./MySQL安装视频/1.mysql的安装（消音版本）.mp4" type="video/mp4" autoplay="true" controls="controls" width="800" height="600"></video>
+<video src="./1.数据库安装和启动/1.mysql的安装（消音版本）.mp4" type="video/mp4" autoplay="true" controls="controls" width="800" height="600"></video>
 
 <p>我们先介绍<code>MySQL 8.0</code>以下的<code>MySQL Installer</code>的安装：</p>
 <ol>
@@ -457,52 +506,142 @@
       </tags>
   </entry>
   <entry>
-    <title>选择排序（Selection）</title>
-    <url>/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
+    <title>git代码合并</title>
+    <url>/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/</url>
+    <content><![CDATA[<p>文章主要介绍<code>Git</code>的三种代码提交合并方式：<code>merge</code>、<code>rebase</code>和<code>cherry-pick</code>。</p>
 <span id="more"></span>
-<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>排序算法</th>
-<th>平均事件复杂度</th>
-<th>最好情况</th>
-<th>最坏情况</th>
-<th>空间复杂度</th>
-<th>稳定性</th>
-<th>排序方式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>选择排序</td>
-<td>$O(n^2)$</td>
-<td>$O(n^2)$</td>
-<td>$O(n^2)$</td>
-<td>$O(1)$</td>
-<td>不稳定</td>
-<td>In-place</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>选择排序（Selection sort）是一种简单直观的排序算法。选择排序是不稳定的排序方法。</p>
-<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="排序原理步骤"><a href="#排序原理步骤" class="headerlink" title="排序原理步骤"></a>排序原理步骤</h3><ol>
-<li>遍历一遍找到最小数，记录下标</li>
-<li>将该下标的数与第一个数交换，第一个数的位置确定</li>
-<li>重复1，2步骤寻找第二个最小的数</li>
+<h2 id="git代码合并"><a href="#git代码合并" class="headerlink" title="git代码合并"></a>git代码合并</h2><p><code>git</code>代码合并（分支合并）操作主要有三种：<code>merge</code>、<code>rebase</code>、<code>cherry-pick</code>，其中：</p>
+<ul>
+<li><code>merge</code>：合并操作，会将其他分支的内容合并到本分支，并且视情况可能需要填写提交信息</li>
+<li><code>rebase</code>：变基操作，将其他分支的内容搬到当前分支，变基操作能够让当前的分支保持成一条线的形式，使分支看起来很干净</li>
+<li><code>cherry-pick</code>：樱桃摘，真正的神！我们有些时候并不需要完全合并另外一个分支，可能我们仅仅需要合并其他分支的某个或者某几个提交记录，这个时候<code>merge</code>和<code>rebase</code>就不适用了，因为无论是<code>merge</code>还是<code>rebase</code>都会合并到待合并分支的最新的位置，而<code>cherry-pick</code>就能实现这种单个提交记录的合并的需求</li>
+</ul>
+<p>简单来讲，<code>merge</code>和<code>rebase</code>的功能都是将某个分支的提交记录（直到最新提交记录）合并到另外一个分支，而<code>cherry-pick</code>是将某个分支的某个或者某几个提交记录拿到当前分支。</p>
+<p>但无论是<code>merge</code>、<code>rebase</code>还是<code>cherry-pick</code>，在合并记录的过程中，都有可能会遇到一个问题：合并冲突。这些我们都会在文章后续进行介绍。</p>
+<h3 id="rebase操作"><a href="#rebase操作" class="headerlink" title="rebase操作"></a>rebase操作</h3><p>我们假定有如下的分支情况：<code>dev</code>分支在我们<code>main</code>分支的基础上更新了两个版本</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028211622283.png" alt="image-20241028211622283"></p>
+<p>此时<code>dev</code>分支是最新的，我们希望将<code>dev</code>的代码合并到<code>main</code>，由于此时我们在<code>dev</code>分支（<code>dev</code>分支的星号代表我们当前在<code>dev</code>分支）</p>
+<p>我们需要做的事情是：</p>
+<ol>
+<li>先切换到<code>main</code>分支：<code>git checkout main</code></li>
+<li>进行变基操作：<code>git rebase dev</code></li>
 </ol>
-<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for (int i = 0; i &lt; a.length; i++) &#123;</span><br><span class="line">    int min = i;</span><br><span class="line">    // 选择最小的数的下标</span><br><span class="line">    for (int j = i+1; j &lt; a.length; j++) &#123;</span><br><span class="line">        if(less(a[j], a[min])) min = j;</span><br><span class="line">    &#125;</span><br><span class="line">    // 交换当前位置与最小的数</span><br><span class="line">    exch(a, min, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
+<p>此时我们就能合并完成（这种合并我们一般称为<code>forward</code>）：</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212128641.png" alt="image-20241028212128641"></p>
+<p>这里要注意，我们希望将提交记录较为落后的<code>A</code>分支（比如上图的<code>main</code>分支）合并到提交记录较新的<code>B</code>分支（如上图的<code>dev</code>分支），我们需要先切换到提交记录相对落后的<code>A</code>分支上操作！</p>
+<p>如果你的分支记录已经差分而非连续，即是下面的这种情况：</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
+<p>则此时<code>rebase</code>的意思就不是简单的<code>forward</code>了，这时候我们在<code>main</code>分支上，我们对<code>dev</code>分支进行<code>rebase</code>，执行<code>git rebase dev</code>，将会得到下图的记录</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213152527.png" alt="image-20241028213152527"></p>
+<p>我们之前提过<code>rebase</code>会将提交记录整理成一条线，其实说的就是这种情况，并且可以看到<code>rebase</code>的过程<strong>实际上就是把C1记录之后的main分支上的所有提交搬运到dev分支的最新提交的后面</strong>，因此我们举一反三一下，目前我们的提交如下：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213308676.png" alt="image-20241028213308676"></p>
+<p>则我们进行<code>rebase</code>将会得到：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213416498.png" alt="image-20241028213416498"></p>
+<p>能理解<code>rebase</code>是怎么操作的了吗？好，这个时候我们回到这张图<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
+<p>我们<code>checkout</code>一下（<code>git checkout dev</code>），切换分支到<code>dev</code>，我们反过来，要将<code>dev</code>分支<code>rebase</code>到<code>main</code>又会是什么情况呢？没错，同样的方法，我们将<code>C1</code>之后的所有dev的提交记录搬运到<code>main</code>上（<code>git rebase main</code>）</p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213806564.png" alt="image-20241028213806564"></p>
+<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213841890.png" alt="image-20241028213841890"></p>
+<p>懂了吧，这就是<code>rebase</code>哦</p>
+<h3 id="merge操作"><a href="#merge操作" class="headerlink" title="merge操作"></a>merge操作</h3><p>我们在介绍<code>rebase</code>的时候实际上分了两种情况，即：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028211622283.png" alt="image-20241028211622283">和<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
+<p>我们可以看到<code>rebase</code>对这两种情况的处理是一样但又不完全一样，在操作上，第一种情况是直接前进而第二种情况是会将一个分支的<code>C1</code>之后的所有提交变基到另外一个分支上。但就结果而言他们是一样的，因为最终的提交记录都会变成一条线的形式！</p>
+<p>然而，你可能看过一些其他的<code>git</code>的文章，很多博主都推荐使用<code>merge</code>而不是<code>rebase</code>，为什么呢？</p>
+<p>第一，<code>merge</code>操作专门设置了两种模式来专门处理这两种情况。处理第一种情况的模式叫<code>fast-forward</code>（快速前进，<code>--ff</code>参数），我们切换到<code>main</code>分支，使用<code>fast-forward</code>模式来进行<code>merge</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git merge dev --ff</span><br></pre></td></tr></table></figure>
+<p><code>merge</code>的结果如下，可以看到针对第一种情况，其实<code>rebase</code>和<code>merge</code>的结果并没有区别（因此实际上第一种情况使用<code>rebase</code>和<code>merge</code>都可以），这是因为<code>fast-forward</code>模式并不会发生真正的合并，只是通过移动指针造成合并的假象，即移动<code>main</code>分支的<code>HEAD</code>指针到<code>dev</code>的最新分支，来实现合并功能。</p>
+<p>然而针对第二种情况，则<code>merge</code>就展现出其和<code>rebase</code>的不同了，第二种情况使用<code>merge</code>会产生新的提交记录，这种针对第二种情况产生新纪录的merge模式被称为<code>non-fast-forward</code>（需要加上<code>-–no-ff</code>参数），我们同样切换到<code>main</code>，然后使用这种模式来处理第二种情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git merge dev --no-ff</span><br></pre></td></tr></table></figure>
+<p>将得到下面的结果：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028220111836.png" alt="image-20241028220111836"></p>
+<p>这也是为什么使用<code>merge</code>而不是<code>rebase</code>的情况，因为使用<code>merge</code>，则<code>dev</code>上的提交记录和<code>main</code>上的提交记录都被保留下来，并且你还能看到他们是在<code>C1</code>记录开始进行差分的，而使用<code>rebase</code>，则这些分支的差分记录都会被擦除，变成一条直线，这个时候你就看不出来到底<code>dev</code>和<code>main</code>在哪个记录开始进行差分了！<strong>这一点非常不利于后续的bug跟踪和版本跟踪！！</strong></p>
+<p>使用<code>non-fast-forward</code>，在<code>git log</code>会看到很多类似：<code>Merge branch &#39;feature001&#39; into master</code>的<code>commit</code>。（即图上的<code>C5</code>）</p>
+<p>最后，<code>merge</code>除了上面两种模式之外，其实还有第三种模式<code>-–ff-only</code>，即只使用<code>fast-forward</code>模式进行合并，如果合并失败的话则直接退出，返回失败信息！</p>
+<p><code>git merge</code>在不加参数的时候会先使用<code>fast-forward</code>来合并，如果合并失败则会自动切为使用<code>non-fast-forward</code>模式。</p>
+<p>个人使用建议，使用时先使用<code>git merge --ff-only</code>，如果合并失败才考虑是否要使用<code>--no-ff</code></p>
+<h3 id="cherry-pick"><a href="#cherry-pick" class="headerlink" title="cherry-pick"></a>cherry-pick</h3><p>// todo </p>
+]]></content>
       <categories>
-        <category>Algorithm</category>
+        <category>Git</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
-        <tag>sort</tag>
-        <tag>Selection</tag>
+        <tag>git</tag>
+        <tag>code combine</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git提交时显示其他用户名和邮箱</title>
+    <url>/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/</url>
+    <content><![CDATA[<p>介绍在配置了全局user.name和<code>user.email</code>的情况下，如何使用其他的名用户名和email提交代码</p>
+<span id="more"></span>
+<p>默认情况下只要配置了全局user.name和user.email，你的所有提交都会使用这个user.name和user.email作为提交作者，可以使用下面的指令来查看：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --list</span><br><span class="line"><span class="comment">## 或者单独查看</span></span><br><span class="line">git config --global user.name</span><br><span class="line">git config --global user.email</span><br></pre></td></tr></table></figure>
+<p><img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121001373.png" alt="image-20250908121001373"></p>
+<p>这两个值一般使用下面的指令设置：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&#x27;张三&#x27;</span></span><br><span class="line">git config --global user.email <span class="string">&#x27;zs@gmail.com&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>你可以看到我当前的设置为：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">user.name</span>=<span class="string">ArgentoAskia</span></span><br><span class="line"><span class="meta">user.email</span>=<span class="string">askiaxiaoming@outlook.com</span></span><br></pre></td></tr></table></figure>
+<p>所以但我提交代码的时候，提交人信息一栏会使用这两个信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121640943.png" alt="image-20250908121640943" style="zoom:200%;"></p>
+<p>当你将内容<code>Push</code>到<code>Github</code>的时候，Github也会收到相关提交人的信息，<code>Github</code>优先会根据邮箱来判断，判断该邮箱是否注册过<code>Github</code>账号，如果注册过则会直接显示该用户的<code>Github</code>头像和相关信息，例如我的账户是Askiaxiaoming@outlook.com<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121915033.png" alt="image-20250908121915033"></p>
+<p>则此时你会看到提交信息上，就是我的相关<code>Github</code>信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122021677.png" alt="image-20250908122021677"></p>
+<p>如果发现这个邮箱没有注册过<code>Github</code>，则此时<code>Github</code>会使用您提交的用户名作为显示，头像会显示默认头像：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122218037.png" alt="image-20250908122218037"></p>
+<p>那么问题来了，这个信息是根据<code>Git</code>全局配置获取的，当我在新项目中不希望使用这个全局设置，而是使用其他的用户名和<code>Email</code>该怎么办？</p>
+<p>在每个项目的根目录下都有一个<code>.git</code>文件夹，该文件夹是隐藏状态，先将其显示，然后打开里面的<code>config</code>文件，一般位于这里：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122640512.png" alt="image-20250908122640512"></p>
+<p>在末尾添加一条配置信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">    name =  compay_yourname</span><br><span class="line">    email = youremail@compay.cn</span><br></pre></td></tr></table></figure>
+<p>这样设置后，你在该项目下提交的信息即为你设置的信息。唯一的缺点是他是只能配置该项目，如果有多个项目，需要分别配置下。但这样也有好处，就是你无需改动全局配置，当你不需要分别设置的时候你就不需要做任何其他的配置。</p>
+]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>git username</tag>
+        <tag>git email</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>开闭原则</title>
+    <url>/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</url>
+    <content><![CDATA[<h4 id="软件设计模式——-gt-软件设计原则——-gt-开闭原则"><a href="#软件设计模式——-gt-软件设计原则——-gt-开闭原则" class="headerlink" title="软件设计模式——&gt;软件设计原则——&gt;开闭原则"></a>软件设计模式——&gt;软件设计原则——&gt;开闭原则</h4><span id="more"></span>
+<h1 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h1><h2 id="何为开闭原则"><a href="#何为开闭原则" class="headerlink" title="何为开闭原则"></a>何为开闭原则</h2><p>开闭原则（<code>Open Closed Principle</code>），<strong>意思是对扩展开放，对修改关闭</strong>。旨在程序需要进行扩展的时候，不能去修改原有的代码，实现一个热拔插的效果。使程序的扩展性好，易于维护和升级。</p>
+<p>通过扩展新的实现类的方式来进行修是开闭原则实现的一种方法，在更加高阶的应用中，如热替换、热部署等，常常需要接口、配置文件等形式来完成。</p>
+<h2 id="开闭原则逐步求精"><a href="#开闭原则逐步求精" class="headerlink" title="开闭原则逐步求精"></a>开闭原则逐步求精</h2><h3 id="基础版本"><a href="#基础版本" class="headerlink" title="基础版本"></a>基础版本</h3><p>举搜狗皮肤的案例，搜狗上有很多皮肤，当我们下载某款皮肤的时候可以进行一个皮肤的热替换，具体这个是怎么实现的呢？</p>
+<p>首先我们一种实现方式，工程目录如下：</p>
+<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708100725873.png" alt="image-20220708100725873"></p>
+<p>其中<code>XXXXSkin</code>代表各类皮肤代码，代码如下示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AskiaSkin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;AskiaSkin皮肤&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>SkinTestClient</code>代表搜狗输入法客户端。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsSkinDisplay</span><span class="params">(WindowsSkin windowsSkin)</span></span>&#123;</span><br><span class="line">        windowsSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">askiaSkinDisplay</span><span class="params">(AskiaSkin askiaSkin)</span></span>&#123;</span><br><span class="line">        askiaSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsReSkinDisplay</span><span class="params">(WindowsReSkin windowsReSkin)</span></span>&#123;</span><br><span class="line">        windowsReSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsSkin windowsSkin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">            windowsSkinDisplay(windowsSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            AskiaSkin askiaSkin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">            askiaSkinDisplay(askiaSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsReSkin windowsReSkin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">            windowsReSkinDisplay(windowsReSkin);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们需要新增一个新的皮肤的时候，比方说我们在<code>java</code>文件夹里面新增一个<code>RedJudgeSkin</code>这一个新增并不会修改已有的皮肤类代码，因此新增一个皮肤符合开闭原则，但是当我们把目光看向<code>SkinTestClient</code>的时候，他的代码问题就比较大了，大概可以分为两部分，第一部分问题出在这里：<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101406986.png" alt="image-20220708101406986"></p>
+<p>我们在客户端<strong>为每一个皮肤都写了一个换肤的方法</strong>（接口），然后通过方法</p>
+<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101933670.png" alt="image-20220708101933670"></p>
+<p>做皮肤的换肤判断，然后客户端的运行过程中，只要像这样，就能达到换肤的效果。<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708102027266.png" alt="image-20220708102027266"></p>
+<p>这种实现，<strong>问题比较大</strong>，创建新皮肤的时候符合开闭原则没毛病，但是客户端的代码就是重灾区了<strong>，因为现在扩展一个皮肤，你都需要额外编写一个换肤接口，同时你还需要在changeSkin()中，新增一个if分支！一旦你的皮肤越来越多，会造成SkinTestClient类代码臃肿，同时会留下非常多形式相同的代码，后期难以维护</strong></p>
+<h3 id="一次求精：去除客户端换肤接口"><a href="#一次求精：去除客户端换肤接口" class="headerlink" title="一次求精：去除客户端换肤接口"></a>一次求精：去除客户端换肤接口</h3><p>为了改进上面的代码，我么引入了<code>Java</code>中的接口，现在我们让所有皮肤类都实现顶层皮肤接口<code>Skin</code>，工程目录如下：</p>
+<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708103823374.png" alt="image-20220708103823374"></p>
+<p>其中<code>Skin</code>接口有一个抽象的换肤方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Skin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其他皮肤类都需要实现这个接口。</p>
+<p>// 图片继承图</p>
+<p>在客户端代码中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        Skin skin = <span class="keyword">new</span> DefaultSkin();</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">           skin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">        &#125;</span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsReSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有了这个<code>Skin</code>接口，我们现在就<strong>不需要每次新增一个皮肤都在客户端中写一个皮肤接口方法了</strong>（之前代码的<code>windowsReSkinDisplay(WindowsReSkin windowsReSkin)</code>、<code>askiaSkinDisplay(AskiaSkin askiaSkin)</code>都不用写啦）。现在当我们需要扩展皮肤，时，只需要实现<code>Skin</code>接口，然后在<code>changeSkin()</code>中添加一个<code>if</code>分支，就可以了。</p>
+<p>需要注意，本次的改进虽然让我们<strong>避免了在客户端中去写皮肤接口方法</strong>，减少了客户端代码的修改量，<strong>但客户端代码仍然不符合开闭原则，问题出在changeSkin()在每次添加新皮肤的时候，都需要添加一个if分支</strong>。这就涉及到接下来的第三次代码改进。</p>
+<h3 id="二次求精：统一changeSkin"><a href="#二次求精：统一changeSkin" class="headerlink" title="二次求精：统一changeSkin()"></a>二次求精：统一changeSkin()</h3><p>既然问题出在<code>changeSkin()</code>的分支上，那这个分支有什么作用呢？<strong>他主要是用来判别参数传递过来的皮肤名，通过皮肤名来做判断，然后创建相应的对象</strong>，讲到这里，所有的<code>if</code>都直接或者间接和皮肤名有关，也就是说和参数有关，这个方法参数会随时变化，我们写<code>if</code>也是为了判断是哪一类变化，然后根据这个变化<strong>来创建相应的皮肤对象</strong>。</p>
+<p>既然如此，<strong>如果传递过来的参数能够通过某个自己的内置的方法直接创建皮肤对象</strong>呢？如果能够做到这一点的话<code>if</code>语句不就可以省略了嘛。那么在<code>Java</code>中哪项技术可以做到在程序运行时创建对象——反射<code>API</code>。因此，我们把方法参数数改成<code>Class</code>类型即可，具体的代码参考下面的改进：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">    <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">    Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">    <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">    <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">            !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">        skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">    Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">    <span class="comment">// 显示皮肤</span></span><br><span class="line">    skinDisplay(skin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那现在<code>SkinTestClient</code>类代码变成了：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">        Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">        <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">        <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">                !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">            skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">        Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">        <span class="comment">// 显示皮肤</span></span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 模拟在皮肤更换窗口中点击按钮更换皮肤的过程</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin2(AskiaSkin.class);</span><br><span class="line">        skinTestClient.changeSkin2(DefaultSkin.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>现在我们代码每个模块基本上都符合开闭原则了。当我们现在重新新增一个皮肤，比如新增一个<code>RedJudgeSkin</code>，我们只需要让<code>RedJudgeSkin</code>实现接口<code>Skin</code>即可，<strong>不需要更改任何已有的代码</strong>。需要注意，<code>main</code>方法里面的代码属于模拟窗口点击的，不属于具体的工程，只用于测试用。</p>
+<h3 id="二次求精另外一套思路：引入配置文件"><a href="#二次求精另外一套思路：引入配置文件" class="headerlink" title="二次求精另外一套思路：引入配置文件"></a>二次求精另外一套思路：引入配置文件</h3><p>二次求精的代码已经符合开闭原则的要求了，已经是完美的最简单的版本了，但是在这里还有一种能达到和二次求精一样效果的方法，并且该方法甚至能完全统一客户端代码（包括不属于客户端的，用于测试的<code>main</code>方法），这种方法就是使用配置文件。</p>
+<p>使用配置文件有一个好处就是能够分担代码重量，让一些工作能够在代码之外的地方完成，同时，配置文件不需要编译，能够做到即时修改即时生效。</p>
+<p>但使用配置文件缺点也很明显，使用配置文件意味着<strong>代码中需要有专门处理配置文件的部分</strong>，这一部分的代码并不简单，因此这种思路更加复杂，实现也比较困难。</p>
+<p>使用配置文件，设计到外部文件监听服务（<code>WatchService</code>类）具体代码结构和类继承图如下：</p>
+<p>// 图片继承图</p>
+]]></content>
+      <categories>
+        <category>DesignPatterns</category>
+      </categories>
+      <tags>
+        <tag>Open-Closed</tag>
+        <tag>Principle</tag>
+        <tag>DesignPatterns</tag>
       </tags>
   </entry>
   <entry>
@@ -641,142 +780,15 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>开闭原则</title>
-    <url>/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</url>
-    <content><![CDATA[<h4 id="软件设计模式——-gt-软件设计原则——-gt-开闭原则"><a href="#软件设计模式——-gt-软件设计原则——-gt-开闭原则" class="headerlink" title="软件设计模式——&gt;软件设计原则——&gt;开闭原则"></a>软件设计模式——&gt;软件设计原则——&gt;开闭原则</h4><span id="more"></span>
-<h1 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h1><h2 id="何为开闭原则"><a href="#何为开闭原则" class="headerlink" title="何为开闭原则"></a>何为开闭原则</h2><p>开闭原则（<code>Open Closed Principle</code>），<strong>意思是对扩展开放，对修改关闭</strong>。旨在程序需要进行扩展的时候，不能去修改原有的代码，实现一个热拔插的效果。使程序的扩展性好，易于维护和升级。</p>
-<p>通过扩展新的实现类的方式来进行修是开闭原则实现的一种方法，在更加高阶的应用中，如热替换、热部署等，常常需要接口、配置文件等形式来完成。</p>
-<h2 id="开闭原则逐步求精"><a href="#开闭原则逐步求精" class="headerlink" title="开闭原则逐步求精"></a>开闭原则逐步求精</h2><h3 id="基础版本"><a href="#基础版本" class="headerlink" title="基础版本"></a>基础版本</h3><p>举搜狗皮肤的案例，搜狗上有很多皮肤，当我们下载某款皮肤的时候可以进行一个皮肤的热替换，具体这个是怎么实现的呢？</p>
-<p>首先我们一种实现方式，工程目录如下：</p>
-<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708100725873.png" alt="image-20220708100725873"></p>
-<p>其中<code>XXXXSkin</code>代表各类皮肤代码，代码如下示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AskiaSkin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;AskiaSkin皮肤&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>SkinTestClient</code>代表搜狗输入法客户端。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsSkinDisplay</span><span class="params">(WindowsSkin windowsSkin)</span></span>&#123;</span><br><span class="line">        windowsSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">askiaSkinDisplay</span><span class="params">(AskiaSkin askiaSkin)</span></span>&#123;</span><br><span class="line">        askiaSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsReSkinDisplay</span><span class="params">(WindowsReSkin windowsReSkin)</span></span>&#123;</span><br><span class="line">        windowsReSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsSkin windowsSkin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">            windowsSkinDisplay(windowsSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            AskiaSkin askiaSkin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">            askiaSkinDisplay(askiaSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsReSkin windowsReSkin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">            windowsReSkinDisplay(windowsReSkin);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当我们需要新增一个新的皮肤的时候，比方说我们在<code>java</code>文件夹里面新增一个<code>RedJudgeSkin</code>这一个新增并不会修改已有的皮肤类代码，因此新增一个皮肤符合开闭原则，但是当我们把目光看向<code>SkinTestClient</code>的时候，他的代码问题就比较大了，大概可以分为两部分，第一部分问题出在这里：<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101406986.png" alt="image-20220708101406986"></p>
-<p>我们在客户端<strong>为每一个皮肤都写了一个换肤的方法</strong>（接口），然后通过方法</p>
-<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101933670.png" alt="image-20220708101933670"></p>
-<p>做皮肤的换肤判断，然后客户端的运行过程中，只要像这样，就能达到换肤的效果。<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708102027266.png" alt="image-20220708102027266"></p>
-<p>这种实现，<strong>问题比较大</strong>，创建新皮肤的时候符合开闭原则没毛病，但是客户端的代码就是重灾区了<strong>，因为现在扩展一个皮肤，你都需要额外编写一个换肤接口，同时你还需要在changeSkin()中，新增一个if分支！一旦你的皮肤越来越多，会造成SkinTestClient类代码臃肿，同时会留下非常多形式相同的代码，后期难以维护</strong></p>
-<h3 id="一次求精：去除客户端换肤接口"><a href="#一次求精：去除客户端换肤接口" class="headerlink" title="一次求精：去除客户端换肤接口"></a>一次求精：去除客户端换肤接口</h3><p>为了改进上面的代码，我么引入了<code>Java</code>中的接口，现在我们让所有皮肤类都实现顶层皮肤接口<code>Skin</code>，工程目录如下：</p>
-<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708103823374.png" alt="image-20220708103823374"></p>
-<p>其中<code>Skin</code>接口有一个抽象的换肤方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Skin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其他皮肤类都需要实现这个接口。</p>
-<p>// 图片继承图</p>
-<p>在客户端代码中：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        Skin skin = <span class="keyword">new</span> DefaultSkin();</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">           skin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">        &#125;</span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsReSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>有了这个<code>Skin</code>接口，我们现在就<strong>不需要每次新增一个皮肤都在客户端中写一个皮肤接口方法了</strong>（之前代码的<code>windowsReSkinDisplay(WindowsReSkin windowsReSkin)</code>、<code>askiaSkinDisplay(AskiaSkin askiaSkin)</code>都不用写啦）。现在当我们需要扩展皮肤，时，只需要实现<code>Skin</code>接口，然后在<code>changeSkin()</code>中添加一个<code>if</code>分支，就可以了。</p>
-<p>需要注意，本次的改进虽然让我们<strong>避免了在客户端中去写皮肤接口方法</strong>，减少了客户端代码的修改量，<strong>但客户端代码仍然不符合开闭原则，问题出在changeSkin()在每次添加新皮肤的时候，都需要添加一个if分支</strong>。这就涉及到接下来的第三次代码改进。</p>
-<h3 id="二次求精：统一changeSkin"><a href="#二次求精：统一changeSkin" class="headerlink" title="二次求精：统一changeSkin()"></a>二次求精：统一changeSkin()</h3><p>既然问题出在<code>changeSkin()</code>的分支上，那这个分支有什么作用呢？<strong>他主要是用来判别参数传递过来的皮肤名，通过皮肤名来做判断，然后创建相应的对象</strong>，讲到这里，所有的<code>if</code>都直接或者间接和皮肤名有关，也就是说和参数有关，这个方法参数会随时变化，我们写<code>if</code>也是为了判断是哪一类变化，然后根据这个变化<strong>来创建相应的皮肤对象</strong>。</p>
-<p>既然如此，<strong>如果传递过来的参数能够通过某个自己的内置的方法直接创建皮肤对象</strong>呢？如果能够做到这一点的话<code>if</code>语句不就可以省略了嘛。那么在<code>Java</code>中哪项技术可以做到在程序运行时创建对象——反射<code>API</code>。因此，我们把方法参数数改成<code>Class</code>类型即可，具体的代码参考下面的改进：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">    <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">    Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">    <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">    <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">            !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">        skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">    Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">    <span class="comment">// 显示皮肤</span></span><br><span class="line">    skinDisplay(skin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那现在<code>SkinTestClient</code>类代码变成了：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">        Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">        <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">        <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">                !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">            skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">        Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">        <span class="comment">// 显示皮肤</span></span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 模拟在皮肤更换窗口中点击按钮更换皮肤的过程</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin2(AskiaSkin.class);</span><br><span class="line">        skinTestClient.changeSkin2(DefaultSkin.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>现在我们代码每个模块基本上都符合开闭原则了。当我们现在重新新增一个皮肤，比如新增一个<code>RedJudgeSkin</code>，我们只需要让<code>RedJudgeSkin</code>实现接口<code>Skin</code>即可，<strong>不需要更改任何已有的代码</strong>。需要注意，<code>main</code>方法里面的代码属于模拟窗口点击的，不属于具体的工程，只用于测试用。</p>
-<h3 id="二次求精另外一套思路：引入配置文件"><a href="#二次求精另外一套思路：引入配置文件" class="headerlink" title="二次求精另外一套思路：引入配置文件"></a>二次求精另外一套思路：引入配置文件</h3><p>二次求精的代码已经符合开闭原则的要求了，已经是完美的最简单的版本了，但是在这里还有一种能达到和二次求精一样效果的方法，并且该方法甚至能完全统一客户端代码（包括不属于客户端的，用于测试的<code>main</code>方法），这种方法就是使用配置文件。</p>
-<p>使用配置文件有一个好处就是能够分担代码重量，让一些工作能够在代码之外的地方完成，同时，配置文件不需要编译，能够做到即时修改即时生效。</p>
-<p>但使用配置文件缺点也很明显，使用配置文件意味着<strong>代码中需要有专门处理配置文件的部分</strong>，这一部分的代码并不简单，因此这种思路更加复杂，实现也比较困难。</p>
-<p>使用配置文件，设计到外部文件监听服务（<code>WatchService</code>类）具体代码结构和类继承图如下：</p>
-<p>// 图片继承图</p>
+    <title>El表达式</title>
+    <url>/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<span id="more"></span>
 ]]></content>
       <categories>
-        <category>DesignPatterns</category>
+        <category>JavaWeb程序设计</category>
       </categories>
       <tags>
-        <tag>Open-Closed</tag>
-        <tag>Principle</tag>
-        <tag>DesignPatterns</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git提交时显示其他用户名和邮箱</title>
-    <url>/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/</url>
-    <content><![CDATA[<p>介绍在配置了全局user.name和<code>user.email</code>的情况下，如何使用其他的名用户名和email提交代码</p>
-<span id="more"></span>
-<p>默认情况下只要配置了全局user.name和user.email，你的所有提交都会使用这个user.name和user.email作为提交作者，可以使用下面的指令来查看：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --list</span><br><span class="line"><span class="comment">## 或者单独查看</span></span><br><span class="line">git config --global user.name</span><br><span class="line">git config --global user.email</span><br></pre></td></tr></table></figure>
-<p><img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121001373.png" alt="image-20250908121001373"></p>
-<p>这两个值一般使用下面的指令设置：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&#x27;张三&#x27;</span></span><br><span class="line">git config --global user.email <span class="string">&#x27;zs@gmail.com&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>你可以看到我当前的设置为：</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">user.name</span>=<span class="string">ArgentoAskia</span></span><br><span class="line"><span class="meta">user.email</span>=<span class="string">askiaxiaoming@outlook.com</span></span><br></pre></td></tr></table></figure>
-<p>所以但我提交代码的时候，提交人信息一栏会使用这两个信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121640943.png" alt="image-20250908121640943" style="zoom:200%;"></p>
-<p>当你将内容<code>Push</code>到<code>Github</code>的时候，Github也会收到相关提交人的信息，<code>Github</code>优先会根据邮箱来判断，判断该邮箱是否注册过<code>Github</code>账号，如果注册过则会直接显示该用户的<code>Github</code>头像和相关信息，例如我的账户是Askiaxiaoming@outlook.com<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121915033.png" alt="image-20250908121915033"></p>
-<p>则此时你会看到提交信息上，就是我的相关<code>Github</code>信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122021677.png" alt="image-20250908122021677"></p>
-<p>如果发现这个邮箱没有注册过<code>Github</code>，则此时<code>Github</code>会使用您提交的用户名作为显示，头像会显示默认头像：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122218037.png" alt="image-20250908122218037"></p>
-<p>那么问题来了，这个信息是根据<code>Git</code>全局配置获取的，当我在新项目中不希望使用这个全局设置，而是使用其他的用户名和<code>Email</code>该怎么办？</p>
-<p>在每个项目的根目录下都有一个<code>.git</code>文件夹，该文件夹是隐藏状态，先将其显示，然后打开里面的<code>config</code>文件，一般位于这里：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122640512.png" alt="image-20250908122640512"></p>
-<p>在末尾添加一条配置信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">    name =  compay_yourname</span><br><span class="line">    email = youremail@compay.cn</span><br></pre></td></tr></table></figure>
-<p>这样设置后，你在该项目下提交的信息即为你设置的信息。唯一的缺点是他是只能配置该项目，如果有多个项目，需要分别配置下。但这样也有好处，就是你无需改动全局配置，当你不需要分别设置的时候你就不需要做任何其他的配置。</p>
-]]></content>
-      <categories>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>git username</tag>
-        <tag>git email</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git代码合并</title>
-    <url>/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/</url>
-    <content><![CDATA[<p>文章主要介绍<code>Git</code>的三种代码提交合并方式：<code>merge</code>、<code>rebase</code>和<code>cherry-pick</code>。</p>
-<span id="more"></span>
-<h2 id="git代码合并"><a href="#git代码合并" class="headerlink" title="git代码合并"></a>git代码合并</h2><p><code>git</code>代码合并（分支合并）操作主要有三种：<code>merge</code>、<code>rebase</code>、<code>cherry-pick</code>，其中：</p>
-<ul>
-<li><code>merge</code>：合并操作，会将其他分支的内容合并到本分支，并且视情况可能需要填写提交信息</li>
-<li><code>rebase</code>：变基操作，将其他分支的内容搬到当前分支，变基操作能够让当前的分支保持成一条线的形式，使分支看起来很干净</li>
-<li><code>cherry-pick</code>：樱桃摘，真正的神！我们有些时候并不需要完全合并另外一个分支，可能我们仅仅需要合并其他分支的某个或者某几个提交记录，这个时候<code>merge</code>和<code>rebase</code>就不适用了，因为无论是<code>merge</code>还是<code>rebase</code>都会合并到待合并分支的最新的位置，而<code>cherry-pick</code>就能实现这种单个提交记录的合并的需求</li>
-</ul>
-<p>简单来讲，<code>merge</code>和<code>rebase</code>的功能都是将某个分支的提交记录（直到最新提交记录）合并到另外一个分支，而<code>cherry-pick</code>是将某个分支的某个或者某几个提交记录拿到当前分支。</p>
-<p>但无论是<code>merge</code>、<code>rebase</code>还是<code>cherry-pick</code>，在合并记录的过程中，都有可能会遇到一个问题：合并冲突。这些我们都会在文章后续进行介绍。</p>
-<h3 id="rebase操作"><a href="#rebase操作" class="headerlink" title="rebase操作"></a>rebase操作</h3><p>我们假定有如下的分支情况：<code>dev</code>分支在我们<code>main</code>分支的基础上更新了两个版本</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028211622283.png" alt="image-20241028211622283"></p>
-<p>此时<code>dev</code>分支是最新的，我们希望将<code>dev</code>的代码合并到<code>main</code>，由于此时我们在<code>dev</code>分支（<code>dev</code>分支的星号代表我们当前在<code>dev</code>分支）</p>
-<p>我们需要做的事情是：</p>
-<ol>
-<li>先切换到<code>main</code>分支：<code>git checkout main</code></li>
-<li>进行变基操作：<code>git rebase dev</code></li>
-</ol>
-<p>此时我们就能合并完成（这种合并我们一般称为<code>forward</code>）：</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212128641.png" alt="image-20241028212128641"></p>
-<p>这里要注意，我们希望将提交记录较为落后的<code>A</code>分支（比如上图的<code>main</code>分支）合并到提交记录较新的<code>B</code>分支（如上图的<code>dev</code>分支），我们需要先切换到提交记录相对落后的<code>A</code>分支上操作！</p>
-<p>如果你的分支记录已经差分而非连续，即是下面的这种情况：</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
-<p>则此时<code>rebase</code>的意思就不是简单的<code>forward</code>了，这时候我们在<code>main</code>分支上，我们对<code>dev</code>分支进行<code>rebase</code>，执行<code>git rebase dev</code>，将会得到下图的记录</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213152527.png" alt="image-20241028213152527"></p>
-<p>我们之前提过<code>rebase</code>会将提交记录整理成一条线，其实说的就是这种情况，并且可以看到<code>rebase</code>的过程<strong>实际上就是把C1记录之后的main分支上的所有提交搬运到dev分支的最新提交的后面</strong>，因此我们举一反三一下，目前我们的提交如下：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213308676.png" alt="image-20241028213308676"></p>
-<p>则我们进行<code>rebase</code>将会得到：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213416498.png" alt="image-20241028213416498"></p>
-<p>能理解<code>rebase</code>是怎么操作的了吗？好，这个时候我们回到这张图<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
-<p>我们<code>checkout</code>一下（<code>git checkout dev</code>），切换分支到<code>dev</code>，我们反过来，要将<code>dev</code>分支<code>rebase</code>到<code>main</code>又会是什么情况呢？没错，同样的方法，我们将<code>C1</code>之后的所有dev的提交记录搬运到<code>main</code>上（<code>git rebase main</code>）</p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213806564.png" alt="image-20241028213806564"></p>
-<p><img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028213841890.png" alt="image-20241028213841890"></p>
-<p>懂了吧，这就是<code>rebase</code>哦</p>
-<h3 id="merge操作"><a href="#merge操作" class="headerlink" title="merge操作"></a>merge操作</h3><p>我们在介绍<code>rebase</code>的时候实际上分了两种情况，即：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028211622283.png" alt="image-20241028211622283">和<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028212533651.png" alt="image-20241028212533651"></p>
-<p>我们可以看到<code>rebase</code>对这两种情况的处理是一样但又不完全一样，在操作上，第一种情况是直接前进而第二种情况是会将一个分支的<code>C1</code>之后的所有提交变基到另外一个分支上。但就结果而言他们是一样的，因为最终的提交记录都会变成一条线的形式！</p>
-<p>然而，你可能看过一些其他的<code>git</code>的文章，很多博主都推荐使用<code>merge</code>而不是<code>rebase</code>，为什么呢？</p>
-<p>第一，<code>merge</code>操作专门设置了两种模式来专门处理这两种情况。处理第一种情况的模式叫<code>fast-forward</code>（快速前进，<code>--ff</code>参数），我们切换到<code>main</code>分支，使用<code>fast-forward</code>模式来进行<code>merge</code>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git merge dev --ff</span><br></pre></td></tr></table></figure>
-<p><code>merge</code>的结果如下，可以看到针对第一种情况，其实<code>rebase</code>和<code>merge</code>的结果并没有区别（因此实际上第一种情况使用<code>rebase</code>和<code>merge</code>都可以），这是因为<code>fast-forward</code>模式并不会发生真正的合并，只是通过移动指针造成合并的假象，即移动<code>main</code>分支的<code>HEAD</code>指针到<code>dev</code>的最新分支，来实现合并功能。</p>
-<p>然而针对第二种情况，则<code>merge</code>就展现出其和<code>rebase</code>的不同了，第二种情况使用<code>merge</code>会产生新的提交记录，这种针对第二种情况产生新纪录的merge模式被称为<code>non-fast-forward</code>（需要加上<code>-–no-ff</code>参数），我们同样切换到<code>main</code>，然后使用这种模式来处理第二种情况：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git merge dev --no-ff</span><br></pre></td></tr></table></figure>
-<p>将得到下面的结果：<img src="/2024/10/28/Git/git%E5%88%86%E6%94%AF%E4%BB%A3%E7%A0%81%E5%90%88%E5%B9%B6/image-20241028220111836.png" alt="image-20241028220111836"></p>
-<p>这也是为什么使用<code>merge</code>而不是<code>rebase</code>的情况，因为使用<code>merge</code>，则<code>dev</code>上的提交记录和<code>main</code>上的提交记录都被保留下来，并且你还能看到他们是在<code>C1</code>记录开始进行差分的，而使用<code>rebase</code>，则这些分支的差分记录都会被擦除，变成一条直线，这个时候你就看不出来到底<code>dev</code>和<code>main</code>在哪个记录开始进行差分了！<strong>这一点非常不利于后续的bug跟踪和版本跟踪！！</strong></p>
-<p>使用<code>non-fast-forward</code>，在<code>git log</code>会看到很多类似：<code>Merge branch &#39;feature001&#39; into master</code>的<code>commit</code>。（即图上的<code>C5</code>）</p>
-<p>最后，<code>merge</code>除了上面两种模式之外，其实还有第三种模式<code>-–ff-only</code>，即只使用<code>fast-forward</code>模式进行合并，如果合并失败的话则直接退出，返回失败信息！</p>
-<p><code>git merge</code>在不加参数的时候会先使用<code>fast-forward</code>来合并，如果合并失败则会自动切为使用<code>non-fast-forward</code>模式。</p>
-<p>个人使用建议，使用时先使用<code>git merge --ff-only</code>，如果合并失败才考虑是否要使用<code>--no-ff</code></p>
-<h3 id="cherry-pick"><a href="#cherry-pick" class="headerlink" title="cherry-pick"></a>cherry-pick</h3><p>// todo </p>
-]]></content>
-      <categories>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>code combine</tag>
+        <tag>javaweb_EL_Expression</tag>
       </tags>
   </entry>
   <entry>
@@ -802,15 +814,82 @@ va_end(ParamList);                                                    // 释放�
 ]]></content>
   </entry>
   <entry>
-    <title>El表达式</title>
-    <url>/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<span id="more"></span>
+    <title>Filter过滤器</title>
+    <url>/2022/01/01/JavaWeb/Filter/</url>
+    <content><![CDATA[<h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
+<h2 id="所谓Filter"><a href="#所谓Filter" class="headerlink" title="所谓Filter"></a>所谓Filter</h2><p>当一个请求在到达服务器软件之后，服务器软件响应请求时会找到相关的资源，如<strong>一个Html页面，一个JSP页面，一个servlet</strong>，Filter所做的事情，就是拦截这些请求，然后对它进行预处理。</p>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000319755.png" alt="image-20211230000319755" style="zoom:200%;"></p>
+<p><strong>要注意，Filter不仅仅能够截拦Servlet，对于任意的URL（这个URL可以指向一个html，也可以指向一个jsp），如：<a href="http://www.argentoaskia.tech/resource.html，也是可以拦截的。">http://www.argentoaskia.tech/resource.html，也是可以拦截的。</a></strong></p>
+<h2 id="配置编写Filter"><a href="#配置编写Filter" class="headerlink" title="配置编写Filter"></a>配置编写Filter</h2><p>编写Filter的步骤应如下：</p>
+<ol>
+<li>新建Filter的Java类</li>
+<li>让该类实现Filter接口</li>
+<li>在doFilter()方法中进行求情拦截</li>
+<li>给该类添加@WebFilter注解，并指定要拦截的URL，或者在Web.xml中添加Filter配置，如：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>FittlerDemo1.ABCFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">       &lt;servlet-name&gt;demo1&lt;/servlet-name&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">urlPattern</span>&gt;</span>/result<span class="tag">&lt;/<span class="name">urlPattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>完整的Filter可以参考：</p>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000952257.png" alt="image-20211230000952257"></p>
+<h2 id="过滤器执行流程"><a href="#过滤器执行流程" class="headerlink" title="过滤器执行流程"></a>过滤器执行流程</h2><p>对于一个过滤器他的执行流程是双向的，也就是说它实际上遵循下面的流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[客户端请求] --&gt;|被截拦| B[过滤器1]</span><br><span class="line">B[过滤器1] --&gt;|过滤器1执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器1调用filterChain.doFilter方法到| C[过滤器2]</span><br><span class="line">C[过滤器2] --&gt;|过滤器2执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器2调用filterChain.doFilter方法到| E[过滤器3]</span><br><span class="line">E[过滤器3] --&gt;|过滤器3执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器3调用filterChain.doFilter方法到| F[过滤器4]</span><br><span class="line">F[过滤器4] --&gt;|过滤器4执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|没有其他过滤器 将会调用请求资源| G[Servlet或者JSP或者HTML]</span><br><span class="line">G[Servlet或者JSP或者HTML] --&gt;|执行完成 回到过滤器4|H[过滤器4]</span><br><span class="line">H[过滤器4] --&gt;|执行filterChain.doFilter方法之后的代码| I[过滤器3]</span><br><span class="line">I[过滤器3] --&gt;|执行filterChain.doFilter方法之后的代码| J[过滤器2]</span><br><span class="line">J[过滤器2] --&gt;|执行filterChain.doFilter方法之后的代码| K[过滤器1]</span><br></pre></td></tr></table></figure>
+<h2 id="过滤器生命周期"><a href="#过滤器生命周期" class="headerlink" title="过滤器生命周期"></a>过滤器生命周期</h2><p>Filter的生命周期主要有三个：</p>
+<ul>
+<li>init()</li>
+<li>doFilter()</li>
+<li>destroy()</li>
+</ul>
+<h2 id="过滤器配置"><a href="#过滤器配置" class="headerlink" title="过滤器配置"></a>过滤器配置</h2><p>@WebFilter源代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WebFilter &#123;</span><br><span class="line">    <span class="function">String <span class="title">description</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 该filter的描述</span></span><br><span class="line">    <span class="function">String <span class="title">displayName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 过滤器的显示名称</span></span><br><span class="line">    WebInitParam[] initParams() <span class="keyword">default</span> &#123;&#125;;	<span class="comment">// 初始化参数</span></span><br><span class="line">    <span class="function">String <span class="title">filterName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// 过滤器名称</span></span><br><span class="line">    <span class="function">String <span class="title">smallIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The small-icon of the filter</span></span><br><span class="line">    <span class="function">String <span class="title">largeIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The large-icon of the filter</span></span><br><span class="line">    String[] servletNames() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The names of the servlets to which the filter applies.</span></span><br><span class="line">    String[] value() <span class="keyword">default</span> &#123;&#125;;			<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    String[] urlPatterns() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    <span class="comment">// The dispatcher types to which the filter applies</span></span><br><span class="line">    DispatcherType[] dispatcherTypes() <span class="keyword">default</span> &#123;DispatcherType.REQUEST&#125;;</span><br><span class="line">    <span class="comment">// Declares whether the filter supports asynchronous operation mode.</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">asyncSupported</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230010247571.png" alt="image-20211230010247571"></p>
+<h3 id="配置方式拦截"><a href="#配置方式拦截" class="headerlink" title="配置方式拦截"></a>配置方式拦截</h3><p>配置方式拦截主要涉及到DispatcherType的指定，有五种方式：</p>
+<ul>
+<li>FORWARD、INCLUDE用于当使用RequestDispatcher的forward()、include()时应用该Filter</li>
+<li>ERROR用于当请求的URL会404时，应用该Filter</li>
+<li>REQUEST默认选项，当发送请求的时候应用该Filter</li>
+<li>ASYNC异步拦截，用于Ajax</li>
+</ul>
+<h3 id="配置路径拦截"><a href="#配置路径拦截" class="headerlink" title="配置路径拦截"></a>配置路径拦截</h3><ol>
+<li>具体资源路径：<code>/index.jsp</code></li>
+<li>拦截目录：<code>/user/*</code>：拦截某个目录下的资源</li>
+<li>后缀名拦截：<code>*.jsp</code>：拦截所有的<code>jsp</code>文件</li>
+<li>拦截所有资源：<code>/*</code></li>
+</ol>
+<h2 id="多个Filter作用顺序-过滤器链"><a href="#多个Filter作用顺序-过滤器链" class="headerlink" title="多个Filter作用顺序(过滤器链)"></a>多个Filter作用顺序(过滤器链)</h2><p>一个Servlet中配置多个Filter的执行顺序是一件很有意思的事情，如果一个项目配置了多个Filter，这些Filter里面包括使用urlPatterns来指定拦截的，使用servletNames来指定拦截Servlet的，有在Web.xml中定义的，也有使用@WebFilter定义的。</p>
+<p>无论有多少，<strong>首先都会执行配置了urlPatterns属性的Filters</strong>，在这些配置了urlPatterns属性的Filters里面，<strong>又优先执行Web.xml中定义的Filters，根据Web.xml中的Filters的上下文排列顺序来执行</strong>，<strong>然后才执行使用@WebFilter的Filter，执行@WebFilter的Filter，根据类名来判断执行顺序，不区分大小写。</strong></p>
+<p><strong>然后才会执行配置了servlet-name属性的Filters</strong>，执行顺序同配置了urlPatterns属性的Filters一样。</p>
 ]]></content>
       <categories>
         <category>JavaWeb程序设计</category>
       </categories>
       <tags>
-        <tag>javaweb_EL_Expression</tag>
+        <tag>javaweb_filter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaBean技术</title>
+    <url>/2022/01/08/JavaWeb/JavaBean%E6%8A%80%E6%9C%AF/</url>
+    <content><![CDATA[<h1 id="JavaBean技术"><a href="#JavaBean技术" class="headerlink" title="JavaBean技术"></a>JavaBean技术</h1><p>JavaBean技术最初是面向Swing等GUI而设计的,后来经过用于Web开发上.</p>
+<span id="more"></span>
+<h2 id="使用JavaBean"><a href="#使用JavaBean" class="headerlink" title="使用JavaBean"></a>使用JavaBean</h2><p>JavaBean主要设计3个JSP动作:</p>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;对象名&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;类型&quot;</span> scope=<span class="string">&quot;范围[request | page | session | application]&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;* | 相关属性&quot;</span> value = <span class="string">&quot;&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">	*:自动匹配表单中的能匹配的属性名</span><br><span class="line">	相关属性: 请确保和bean类中的私有属性名一样</span><br><span class="line">	value:可选,如果省略,则自动匹配表单中同名的输入域(text input)</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:getProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;相关属性&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="1-编写JavaBean类"><a href="#1-编写JavaBean类" class="headerlink" title="1.编写JavaBean类"></a>1.编写JavaBean类</h3><p>编写JavaBean类需要注意:</p>
+<ul>
+<li>为每一个字段都设置为<code>private</code>,且提供<code>setter</code>和<code>getter</code></li>
+<li>创建默认构造方法</li>
+<li>请将javabean放在包里面,不要使用<code>defaultPackage</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> bean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> width;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> length;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> area;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> perimeter;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getArea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        area = width * length;</span><br><span class="line">        <span class="keyword">return</span> area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getLength</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setArea</span><span class="params">(<span class="keyword">double</span> area)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.area = area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLength</span><span class="params">(<span class="keyword">double</span> length)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.length = length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPerimeter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        perimeter = <span class="number">2</span> * (width + length);</span><br><span class="line">        <span class="keyword">return</span> perimeter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWidth</span><span class="params">(<span class="keyword">double</span> width)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.width = width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPerimeter</span><span class="params">(<span class="keyword">double</span> perimeter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.perimeter = perimeter;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Rectangle</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="2-设计JSP页面引用JavaBean"><a href="#2-设计JSP页面引用JavaBean" class="headerlink" title="2.设计JSP页面引用JavaBean"></a>2.设计JSP页面引用JavaBean</h3><h4 id="请求端页面关键代码"><a href="#请求端页面关键代码" class="headerlink" title="请求端页面关键代码:"></a>请求端页面关键代码:</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;result.jsp&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">   长:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;length&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的length字段同名--&gt;</span></span><br><span class="line">   宽:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;width&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的width字段同名--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;计算&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="响应端页面关键代码"><a href="#响应端页面关键代码" class="headerlink" title="响应端页面关键代码:"></a>响应端页面关键代码:</h4><figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;rectangle&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;bean.Rectangle&quot;</span> scope=<span class="string">&quot;request&quot;</span>/&gt;	</span><br><span class="line">	&lt;!-- 创建一个Rectangle对象,对象名为:rectangle --&gt;</span><br><span class="line">	&lt;!-- 相当于 Rectangle rectangle = <span class="keyword">new</span> Rectangle() --&gt;</span><br><span class="line"></span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;*&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 设置rectangle对象可匹配属性值,相当于下面代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 也相当于下面的代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;width&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;length&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;!-- 获取rectangle对象属性值 --&gt;</span><br><span class="line">面积:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;area&quot;</span>/&gt;&lt;br/&gt;</span><br><span class="line">周长:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;perimeter&quot;</span>/&gt;&lt;br/&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_bean</tag>
+        <tag>javaweb_jsp</tag>
       </tags>
   </entry>
   <entry>
@@ -1597,82 +1676,157 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>Filter过滤器</title>
-    <url>/2022/01/01/JavaWeb/Filter/</url>
-    <content><![CDATA[<h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
-<h2 id="所谓Filter"><a href="#所谓Filter" class="headerlink" title="所谓Filter"></a>所谓Filter</h2><p>当一个请求在到达服务器软件之后，服务器软件响应请求时会找到相关的资源，如<strong>一个Html页面，一个JSP页面，一个servlet</strong>，Filter所做的事情，就是拦截这些请求，然后对它进行预处理。</p>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000319755.png" alt="image-20211230000319755" style="zoom:200%;"></p>
-<p><strong>要注意，Filter不仅仅能够截拦Servlet，对于任意的URL（这个URL可以指向一个html，也可以指向一个jsp），如：<a href="http://www.argentoaskia.tech/resource.html，也是可以拦截的。">http://www.argentoaskia.tech/resource.html，也是可以拦截的。</a></strong></p>
-<h2 id="配置编写Filter"><a href="#配置编写Filter" class="headerlink" title="配置编写Filter"></a>配置编写Filter</h2><p>编写Filter的步骤应如下：</p>
-<ol>
-<li>新建Filter的Java类</li>
-<li>让该类实现Filter接口</li>
-<li>在doFilter()方法中进行求情拦截</li>
-<li>给该类添加@WebFilter注解，并指定要拦截的URL，或者在Web.xml中添加Filter配置，如：</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>FittlerDemo1.ABCFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">       &lt;servlet-name&gt;demo1&lt;/servlet-name&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">urlPattern</span>&gt;</span>/result<span class="tag">&lt;/<span class="name">urlPattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>完整的Filter可以参考：</p>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000952257.png" alt="image-20211230000952257"></p>
-<h2 id="过滤器执行流程"><a href="#过滤器执行流程" class="headerlink" title="过滤器执行流程"></a>过滤器执行流程</h2><p>对于一个过滤器他的执行流程是双向的，也就是说它实际上遵循下面的流程：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[客户端请求] --&gt;|被截拦| B[过滤器1]</span><br><span class="line">B[过滤器1] --&gt;|过滤器1执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器1调用filterChain.doFilter方法到| C[过滤器2]</span><br><span class="line">C[过滤器2] --&gt;|过滤器2执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器2调用filterChain.doFilter方法到| E[过滤器3]</span><br><span class="line">E[过滤器3] --&gt;|过滤器3执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器3调用filterChain.doFilter方法到| F[过滤器4]</span><br><span class="line">F[过滤器4] --&gt;|过滤器4执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|没有其他过滤器 将会调用请求资源| G[Servlet或者JSP或者HTML]</span><br><span class="line">G[Servlet或者JSP或者HTML] --&gt;|执行完成 回到过滤器4|H[过滤器4]</span><br><span class="line">H[过滤器4] --&gt;|执行filterChain.doFilter方法之后的代码| I[过滤器3]</span><br><span class="line">I[过滤器3] --&gt;|执行filterChain.doFilter方法之后的代码| J[过滤器2]</span><br><span class="line">J[过滤器2] --&gt;|执行filterChain.doFilter方法之后的代码| K[过滤器1]</span><br></pre></td></tr></table></figure>
-<h2 id="过滤器生命周期"><a href="#过滤器生命周期" class="headerlink" title="过滤器生命周期"></a>过滤器生命周期</h2><p>Filter的生命周期主要有三个：</p>
-<ul>
-<li>init()</li>
-<li>doFilter()</li>
-<li>destroy()</li>
-</ul>
-<h2 id="过滤器配置"><a href="#过滤器配置" class="headerlink" title="过滤器配置"></a>过滤器配置</h2><p>@WebFilter源代码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WebFilter &#123;</span><br><span class="line">    <span class="function">String <span class="title">description</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 该filter的描述</span></span><br><span class="line">    <span class="function">String <span class="title">displayName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 过滤器的显示名称</span></span><br><span class="line">    WebInitParam[] initParams() <span class="keyword">default</span> &#123;&#125;;	<span class="comment">// 初始化参数</span></span><br><span class="line">    <span class="function">String <span class="title">filterName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// 过滤器名称</span></span><br><span class="line">    <span class="function">String <span class="title">smallIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The small-icon of the filter</span></span><br><span class="line">    <span class="function">String <span class="title">largeIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The large-icon of the filter</span></span><br><span class="line">    String[] servletNames() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The names of the servlets to which the filter applies.</span></span><br><span class="line">    String[] value() <span class="keyword">default</span> &#123;&#125;;			<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    String[] urlPatterns() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    <span class="comment">// The dispatcher types to which the filter applies</span></span><br><span class="line">    DispatcherType[] dispatcherTypes() <span class="keyword">default</span> &#123;DispatcherType.REQUEST&#125;;</span><br><span class="line">    <span class="comment">// Declares whether the filter supports asynchronous operation mode.</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">asyncSupported</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230010247571.png" alt="image-20211230010247571"></p>
-<h3 id="配置方式拦截"><a href="#配置方式拦截" class="headerlink" title="配置方式拦截"></a>配置方式拦截</h3><p>配置方式拦截主要涉及到DispatcherType的指定，有五种方式：</p>
-<ul>
-<li>FORWARD、INCLUDE用于当使用RequestDispatcher的forward()、include()时应用该Filter</li>
-<li>ERROR用于当请求的URL会404时，应用该Filter</li>
-<li>REQUEST默认选项，当发送请求的时候应用该Filter</li>
-<li>ASYNC异步拦截，用于Ajax</li>
-</ul>
-<h3 id="配置路径拦截"><a href="#配置路径拦截" class="headerlink" title="配置路径拦截"></a>配置路径拦截</h3><ol>
-<li>具体资源路径：<code>/index.jsp</code></li>
-<li>拦截目录：<code>/user/*</code>：拦截某个目录下的资源</li>
-<li>后缀名拦截：<code>*.jsp</code>：拦截所有的<code>jsp</code>文件</li>
-<li>拦截所有资源：<code>/*</code></li>
-</ol>
-<h2 id="多个Filter作用顺序-过滤器链"><a href="#多个Filter作用顺序-过滤器链" class="headerlink" title="多个Filter作用顺序(过滤器链)"></a>多个Filter作用顺序(过滤器链)</h2><p>一个Servlet中配置多个Filter的执行顺序是一件很有意思的事情，如果一个项目配置了多个Filter，这些Filter里面包括使用urlPatterns来指定拦截的，使用servletNames来指定拦截Servlet的，有在Web.xml中定义的，也有使用@WebFilter定义的。</p>
-<p>无论有多少，<strong>首先都会执行配置了urlPatterns属性的Filters</strong>，在这些配置了urlPatterns属性的Filters里面，<strong>又优先执行Web.xml中定义的Filters，根据Web.xml中的Filters的上下文排列顺序来执行</strong>，<strong>然后才执行使用@WebFilter的Filter，执行@WebFilter的Filter，根据类名来判断执行顺序，不区分大小写。</strong></p>
-<p><strong>然后才会执行配置了servlet-name属性的Filters</strong>，执行顺序同配置了urlPatterns属性的Filters一样。</p>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_filter</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JavaBean技术</title>
-    <url>/2022/01/08/JavaWeb/JavaBean%E6%8A%80%E6%9C%AF/</url>
-    <content><![CDATA[<h1 id="JavaBean技术"><a href="#JavaBean技术" class="headerlink" title="JavaBean技术"></a>JavaBean技术</h1><p>JavaBean技术最初是面向Swing等GUI而设计的,后来经过用于Web开发上.</p>
+    <title>Response对象</title>
+    <url>/2021/12/17/JavaWeb/Response/</url>
+    <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
+<p>19年黑马<code>JavaWeb</code>课程的笔记</p>
 <span id="more"></span>
-<h2 id="使用JavaBean"><a href="#使用JavaBean" class="headerlink" title="使用JavaBean"></a>使用JavaBean</h2><p>JavaBean主要设计3个JSP动作:</p>
-<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;对象名&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;类型&quot;</span> scope=<span class="string">&quot;范围[request | page | session | application]&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;* | 相关属性&quot;</span> value = <span class="string">&quot;&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">	*:自动匹配表单中的能匹配的属性名</span><br><span class="line">	相关属性: 请确保和bean类中的私有属性名一样</span><br><span class="line">	value:可选,如果省略,则自动匹配表单中同名的输入域(text input)</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:getProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;相关属性&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="1-编写JavaBean类"><a href="#1-编写JavaBean类" class="headerlink" title="1.编写JavaBean类"></a>1.编写JavaBean类</h3><p>编写JavaBean类需要注意:</p>
-<ul>
-<li>为每一个字段都设置为<code>private</code>,且提供<code>setter</code>和<code>getter</code></li>
-<li>创建默认构造方法</li>
-<li>请将javabean放在包里面,不要使用<code>defaultPackage</code></li>
+<h1 id="Response对象"><a href="#Response对象" class="headerlink" title="Response对象"></a>Response对象</h1><h2 id="HTTP响应消息数据格式"><a href="#HTTP响应消息数据格式" class="headerlink" title="HTTP响应消息数据格式"></a>HTTP响应消息数据格式</h2><p>HTTP请求消息是客户端发送给服务器端的数据，HTTP响应消息是服务器端发送给客户端的数据。</p>
+<p>一般响应消息的格式如下：</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/html;charset=UTF-8</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>101</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Wed, 06 Jun 2018 07:08:42 GMT</span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>$Title$<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml">		hello , response</span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>正如HTTP请求消息一样，HTTP响应消息也有<strong>响应行、响应头、响应空行和响应体</strong>！</p>
+<h3 id="响应行"><a href="#响应行" class="headerlink" title="响应行"></a>响应行</h3><p>响应行数据就是HTTP响应数据的第一行，响应行数据格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">协议/版本 响应状态码 状态码描述</span><br></pre></td></tr></table></figure>
+<p>如：</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br></pre></td></tr></table></figure>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">协议/版本：HTTP/1.1</span><br><span class="line">响应状态码：200</span><br><span class="line">状态码描述：OK</span><br></pre></td></tr></table></figure>
+<h4 id="响应状态码"><a href="#响应状态码" class="headerlink" title="响应状态码"></a>响应状态码</h4><p>响应状态码是服务器告诉客户端浏览器本次请求和响应的一个状态。状态码都是3位数字，可以分为：</p>
+<ol>
+<li><code>1xx</code>：服务器就收客户端消息，但没有接受完成，等待一段时间后，发送<code>1xx</code>多状态码</li>
+<li><code>2xx</code>：成功。代表：<code>200</code>（成功）</li>
+<li><code>3xx</code>：重定向。代表：302（重定向），304（访问缓存）</li>
+<li><code>4xx</code>：客户端错误。代表：<code>404</code>（请求路径没有对应的资源） ，<code>405</code>：请求方式没有对应的<code>doXxx()</code></li>
+<li><code>5xx</code>：服务器端错误。代表：500（服务器内部出现异常）</li>
+</ol>
+<p>其中常见的状态码（响应信息）：</p>
+<h5 id="1XX："><a href="#1XX：" class="headerlink" title="1XX："></a>1XX：</h5><ul>
+<li><code>100（Continue）</code>：服务器就饿瘦客户端消息，但没有接收完成，应该让客户端继续其请求，等待一段时间之后，发送100多状态码询问客户端是否还有数据。</li>
+<li><code>101（Switching Protocols）</code>：切换协议，服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> bean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> width;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> length;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> area;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> perimeter;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getArea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        area = width * length;</span><br><span class="line">        <span class="keyword">return</span> area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getLength</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setArea</span><span class="params">(<span class="keyword">double</span> area)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.area = area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLength</span><span class="params">(<span class="keyword">double</span> length)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.length = length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPerimeter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        perimeter = <span class="number">2</span> * (width + length);</span><br><span class="line">        <span class="keyword">return</span> perimeter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWidth</span><span class="params">(<span class="keyword">double</span> width)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.width = width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPerimeter</span><span class="params">(<span class="keyword">double</span> perimeter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.perimeter = perimeter;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Rectangle</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="2-设计JSP页面引用JavaBean"><a href="#2-设计JSP页面引用JavaBean" class="headerlink" title="2.设计JSP页面引用JavaBean"></a>2.设计JSP页面引用JavaBean</h3><h4 id="请求端页面关键代码"><a href="#请求端页面关键代码" class="headerlink" title="请求端页面关键代码:"></a>请求端页面关键代码:</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;result.jsp&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">   长:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;length&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的length字段同名--&gt;</span></span><br><span class="line">   宽:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;width&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的width字段同名--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;计算&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="响应端页面关键代码"><a href="#响应端页面关键代码" class="headerlink" title="响应端页面关键代码:"></a>响应端页面关键代码:</h4><figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;rectangle&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;bean.Rectangle&quot;</span> scope=<span class="string">&quot;request&quot;</span>/&gt;	</span><br><span class="line">	&lt;!-- 创建一个Rectangle对象,对象名为:rectangle --&gt;</span><br><span class="line">	&lt;!-- 相当于 Rectangle rectangle = <span class="keyword">new</span> Rectangle() --&gt;</span><br><span class="line"></span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;*&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 设置rectangle对象可匹配属性值,相当于下面代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 也相当于下面的代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;width&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;length&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;!-- 获取rectangle对象属性值 --&gt;</span><br><span class="line">面积:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;area&quot;</span>/&gt;&lt;br/&gt;</span><br><span class="line">周长:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;perimeter&quot;</span>/&gt;&lt;br/&gt;</span><br></pre></td></tr></table></figure>
-]]></content>
+<h5 id="2XX："><a href="#2XX：" class="headerlink" title="2XX："></a>2XX：</h5><ul>
+<li><code>200（OK）</code>：请求成功。一般用于GET与POST请求</li>
+<li><code>201（Created）</code>：已创建。成功请求并创建了新的资源</li>
+<li><code>202（Accepted）</code>： 已接受。已经接受请求，但未处理完成</li>
+<li><code>203（Non-Authoritative Information）</code>：非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本</li>
+<li><code>204（No Content）</code>：无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</li>
+<li><code>205（Reset Content）</code>：重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域</li>
+<li><code>206（Partial Content）</code>：部分内容。服务器成功处理了部分GET请求</li>
+</ul>
+<h5 id="3XX："><a href="#3XX：" class="headerlink" title="3XX："></a>3XX：</h5><ul>
+<li><code>300（Multiple Choices）</code>：多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择</li>
+<li><p><code>301（Moved Permanently）</code>：永久重定向。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</p>
+</li>
+<li><p><code>302（Found）</code>：临时重定向。与301类似。但资源只是临时被移动。客户端应继续使用（显示）原有URI</p>
+</li>
+<li><code>303（See Other）</code>：查看其它地址。与301类似。使用GET和POST请求查看</li>
+<li><code>304（Not Modified）</code>：未修改。客户端通常会缓存访问过的资源，服务器返回此状态码时，说明所请求的资源未修改，不会返回任何新的资源。客户端接收到该状态码时将会从缓存下来的所有访问过的资源中寻找特定资源。</li>
+<li><code>305（Use Proxy）</code>：使用代理。所请求的资源必须通过代理访问</li>
+<li><code>307（ Temporary Redirect）</code>：临时重定向。与302类似。使用GET请求重定向</li>
+</ul>
+<h5 id="4XX："><a href="#4XX：" class="headerlink" title="4XX："></a>4XX：</h5><ul>
+<li><code>400（Bad Request）</code>： 客户端请求的语法错误，服务器无法理解</li>
+<li><code>401（Unauthorized）</code>：请求要求用户的身份认证</li>
+<li><code>402（Payment Required）</code>：保留，将来使用</li>
+<li><code>403（Forbidden）</code>： 服务器理解请求客户端的请求，但是拒绝执行此请求</li>
+<li><code>404（Not Found）</code>：服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置”您所请求的资源无法找到”的个性页面</li>
+<li><code>405（Method Not Allowed）</code>：客户端请求中的方法被禁止</li>
+<li><code>406（Not Acceptable）</code>：服务器无法根据客户端请求的内容特性完成请求</li>
+<li><code>407（Proxy Authentication Required）</code>：请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权</li>
+<li><code>408（Request Time-out）</code>：服务器等待客户端发送的请求时间过长，超时</li>
+<li><code>409（Conflict）</code>：服务器完成客户端的 PUT 请求时可能返回此代码，服务器处理请求时发生了冲突</li>
+<li><code>410（Gone）</code>：客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置</li>
+<li><code>411（Length Required）</code>： 服务器无法处理客户端发送的不带Content-Length的请求信息</li>
+<li><code>412（Precondition Failed）</code>：客户端请求信息的先决条件错误</li>
+<li><code>413（Request Entity Too Large）</code>：由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息</li>
+<li><code>414（Request-URI Too Large）</code>：请求的URI过长（URI通常为网址），服务器无法处理</li>
+<li><code>415（Unsupported Media Type）</code>：服务器无法处理请求附带的媒体格式</li>
+<li><code>416（Requested range not satisfiable）</code>：客户端请求的范围无效</li>
+<li><code>417（Expectation Failed）</code>：服务器无法满足Expect的请求头信息</li>
+</ul>
+<h5 id="5XX："><a href="#5XX：" class="headerlink" title="5XX："></a>5XX：</h5><ul>
+<li><code>500（Internal Server Error）</code>：服务器内部错误，无法完成请求</li>
+<li><code>501（Not Implemented）</code>：服务器不支持请求的功能，无法完成请求</li>
+<li><code>502（Bad Gateway）</code>：作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应</li>
+<li><code>503（Service Unavailable）</code>：由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中</li>
+<li><code>504（Gateway Time-out）</code>：充当网关或代理的服务器，未及时从远端服务器获取请求</li>
+<li><code>505（HTTP Version not supported）</code>：服务器不支持请求的HTTP协议的版本，无法完成处理</li>
+</ul>
+<h3 id="响应头"><a href="#响应头" class="headerlink" title="响应头"></a>响应头</h3><p>响应头的格式一般如下：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">Content-Type</span>: <span class="string">text/html;charset=UTF-8</span></span><br><span class="line"><span class="meta">Content-Length</span>: <span class="string">101</span></span><br><span class="line"><span class="attr">Date</span>: <span class="string">Wed, 06 Jun 2018 07:08:42 GMT</span></span><br></pre></td></tr></table></figure>
+<p>一般以键值的形式存在，其中有几个常见的：</p>
+<ul>
+<li><code>Content-Type</code>：服务器告诉客户端本次响应体数据格式以及编码格式，如：<code>text/html;charset=utf-8</code></li>
+<li><code>Content-disposition</code>：服务器告诉客户端以什么格式打开响应体数据，有两个可选值：<ul>
+<li><code>in-line</code>:默认值,在当前页面内打开</li>
+<li><code>attachment;filename=xxx</code>：以附件形式打开响应体。文件下载</li>
+</ul>
+</li>
+<li><code>Content-Length</code>：响应体数据的长度</li>
+<li><code>Date</code>：响应时间</li>
+</ul>
+<h3 id="响应空行"><a href="#响应空行" class="headerlink" title="响应空行"></a>响应空行</h3><p>在响应头和响应体之间有一行空行，用于分割响应头和响应体</p>
+<h3 id="响应体"><a href="#响应体" class="headerlink" title="响应体"></a>响应体</h3><p>响应体为传输给客户端的数据，如：网页源代码，图片资源，下载的文件等等，上面的</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>$Title$<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		hello , response</span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>就是响应体。</p>
+<p>客户端在收到响应消息的时候，会获取该信息并进行缓存，如当请求：<code>localhost/day15/helloResponse.html</code>的时候，服务器会发出一个响应，该响应中的响应体信息正如下：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>$Title$<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		hello , response</span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>客户端收到这个信息的时候，会缓存成一个<code>helloResponse.html</code>，当再次请求的时候，如果网页没有改变，优先在使用本地的<code>helloResponse.html</code>文件。</p>
+<h2 id="Response对象对HTTP响应消息的处理"><a href="#Response对象对HTTP响应消息的处理" class="headerlink" title="Response对象对HTTP响应消息的处理"></a>Response对象对HTTP响应消息的处理</h2><h3 id="响应行-1"><a href="#响应行-1" class="headerlink" title="响应行"></a>响应行</h3><p>获取状态码：<code>getStatus()</code></p>
+<p>设置状态码：<code>setStatus()</code></p>
+<h3 id="响应头-1"><a href="#响应头-1" class="headerlink" title="响应头"></a>响应头</h3><p>设置响应头：<code>setHeader(String name, String value)</code> </p>
+<p>获取响应头：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">Collection&lt;String&gt; <span class="title">getHeaders</span><span class="params">(String headName)</span></span>;</span><br><span class="line"><span class="function">String <span class="title">getHeader</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">Collection&lt;String&gt; <span class="title">getHeaderNames</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="响应体-1"><a href="#响应体-1" class="headerlink" title="响应体"></a>响应体</h3><p>如何写数据给响应体呢？一般按照如下步骤</p>
+<h4 id="获取输出流"><a href="#获取输出流" class="headerlink" title="获取输出流"></a>获取输出流</h4><p>输出流有两种：</p>
+<ul>
+<li>字符输出流：<code>PrintWriter getWriter()</code></li>
+<li>字节输出流：<code>ServletOutputStream getOutputStream()</code></li>
+</ul>
+<h4 id="使用输出流"><a href="#使用输出流" class="headerlink" title="使用输出流"></a>使用输出流</h4><p>就像使用Java的IO流一样使用输出流</p>
+<h3 id="Respons使用"><a href="#Respons使用" class="headerlink" title="Respons使用"></a>Respons使用</h3><h4 id="实现重定向"><a href="#实现重定向" class="headerlink" title="实现重定向"></a>实现重定向</h4><p>首先需要先明确，<strong>客户端（浏览器）会自动响应Response对象中的设置</strong>，什么意思？比如当我们需要实现重定向的时候， 我们可以这样实现：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.setStatus(<span class="number">302</span>);</span><br><span class="line">response.setHeader(<span class="string">&quot;location&quot;</span>,<span class="string">&quot;/day15/responseDemo&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>当我们这样设置<code>response</code>对象的的时候，浏览器做响应之前，会解析response中的状态码，解析到302的时候会去找location响应头，然后进行解析重定向。</p>
+<p><strong>所以当我们需要客户端做一些动作的时候，我们可以通过设置响应头和响应状态码来实现。</strong></p>
+<p>实际上想要实现重定向还有一个简单的方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.sendRedirect(<span class="string">&quot;/day15/responseDemo&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>该方法本质上也是调用上面的两个方法。<code>tomcat</code>的<code>API</code>对它进行了简化。</p>
+<h4 id="响应体数据乱码问题"><a href="#响应体数据乱码问题" class="headerlink" title="响应体数据乱码问题"></a>响应体数据乱码问题</h4><p>上文所说，当我们需要往响应体中写数据时，可以使用这两个方法获取流：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">PrintWriter <span class="title">getWriter</span><span class="params">()</span></span></span><br><span class="line"><span class="function">ServletOutputStream <span class="title">getOutputStream</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>但是在客户端进行解析的时候，由于<code>PrintWriter pw = response.getWriter();</code>获取的流的默认编码是<code>ISO-8859-1</code>，所以你懂的，乱码问题在所难免。</p>
+<p>解决的方法也很简单，设置响应头：<code>ContentType</code>，设置编码，是在获取流之前设置。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.setContentType(<span class="string">&quot;text/html;charset=utf-8&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="重定向和请求转发的区别"><a href="#重定向和请求转发的区别" class="headerlink" title="重定向和请求转发的区别"></a>重定向和请求转发的区别</h1><h2 id="重定向的特点-redirect"><a href="#重定向的特点-redirect" class="headerlink" title="重定向的特点:redirect"></a>重定向的特点:redirect</h2><pre><code> 1. 地址栏发生变化
+ 2. 重定向可以访问其他站点(服务器)的资源
+ 3. 重定向是两次请求。不能使用request对象来共享数据
+</code></pre><h2 id="转发的特点：forward"><a href="#转发的特点：forward" class="headerlink" title="转发的特点：forward"></a>转发的特点：forward</h2><pre><code> 1. 转发地址栏路径不变
+ 2. 转发只能访问当前服务器下的资源
+ 3. 转发是一次请求，可以使用request对象来共享数据
+</code></pre><h1 id="路径写法"><a href="#路径写法" class="headerlink" title="路径写法"></a>路径写法</h1><p>路径写法：</p>
+<pre><code>        1. 路径分类
+            1. 相对路径：通过相对路径不可以确定唯一资源
+                * 如：./index.html
+                * 不以/开头，以.开头路径
+
+                * 规则：找到当前资源和目标资源之间的相对位置关系
+                    * ./：当前目录
+                    * ../:后退一级目录
+            2. 绝对路径：通过绝对路径可以确定唯一资源
+                * 如：http://localhost/day15/responseDemo2        /day15/responseDemo2
+                * 以/开头的路径
+
+                * 规则：判断定义的路径是给谁用的？判断请求将来从哪儿发出
+                    * 给客户端浏览器使用：需要加虚拟目录(项目的访问路径)
+                        * 建议虚拟目录动态获取：request.getContextPath()
+                        * &lt;a&gt; , &lt;form&gt; 重定向...
+                    * 给服务器使用：不需要加虚拟目录
+                        * 转发路径
+</code></pre>]]></content>
       <categories>
         <category>JavaWeb程序设计</category>
       </categories>
       <tags>
-        <tag>javaweb_bean</tag>
-        <tag>javaweb_jsp</tag>
+        <tag>javaweb_servlet</tag>
+        <tag>javaweb_tomcat</tag>
       </tags>
   </entry>
   <entry>
@@ -1916,160 +2070,6 @@ va_end(ParamList);                                                    // 释放�
 <p>结合<strong>请求转发</strong>来使用，可以实现多个Servlet之间的数据共享！</p>
 <h4 id="获取ServletContext（Web-xml上的内容）"><a href="#获取ServletContext（Web-xml上的内容）" class="headerlink" title="获取ServletContext（Web.xml上的内容）"></a>获取ServletContext（Web.xml上的内容）</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">ServletContext <span class="title">getServletContext</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
 ]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_servlet</tag>
-        <tag>javaweb_tomcat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Response对象</title>
-    <url>/2021/12/17/JavaWeb/Response/</url>
-    <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
-<p>19年黑马<code>JavaWeb</code>课程的笔记</p>
-<span id="more"></span>
-<h1 id="Response对象"><a href="#Response对象" class="headerlink" title="Response对象"></a>Response对象</h1><h2 id="HTTP响应消息数据格式"><a href="#HTTP响应消息数据格式" class="headerlink" title="HTTP响应消息数据格式"></a>HTTP响应消息数据格式</h2><p>HTTP请求消息是客户端发送给服务器端的数据，HTTP响应消息是服务器端发送给客户端的数据。</p>
-<p>一般响应消息的格式如下：</p>
-<figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/html;charset=UTF-8</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>101</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Wed, 06 Jun 2018 07:08:42 GMT</span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>$Title$<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml">		hello , response</span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>正如HTTP请求消息一样，HTTP响应消息也有<strong>响应行、响应头、响应空行和响应体</strong>！</p>
-<h3 id="响应行"><a href="#响应行" class="headerlink" title="响应行"></a>响应行</h3><p>响应行数据就是HTTP响应数据的第一行，响应行数据格式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">协议/版本 响应状态码 状态码描述</span><br></pre></td></tr></table></figure>
-<p>如：</p>
-<figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br></pre></td></tr></table></figure>
-<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">协议/版本：HTTP/1.1</span><br><span class="line">响应状态码：200</span><br><span class="line">状态码描述：OK</span><br></pre></td></tr></table></figure>
-<h4 id="响应状态码"><a href="#响应状态码" class="headerlink" title="响应状态码"></a>响应状态码</h4><p>响应状态码是服务器告诉客户端浏览器本次请求和响应的一个状态。状态码都是3位数字，可以分为：</p>
-<ol>
-<li><code>1xx</code>：服务器就收客户端消息，但没有接受完成，等待一段时间后，发送<code>1xx</code>多状态码</li>
-<li><code>2xx</code>：成功。代表：<code>200</code>（成功）</li>
-<li><code>3xx</code>：重定向。代表：302（重定向），304（访问缓存）</li>
-<li><code>4xx</code>：客户端错误。代表：<code>404</code>（请求路径没有对应的资源） ，<code>405</code>：请求方式没有对应的<code>doXxx()</code></li>
-<li><code>5xx</code>：服务器端错误。代表：500（服务器内部出现异常）</li>
-</ol>
-<p>其中常见的状态码（响应信息）：</p>
-<h5 id="1XX："><a href="#1XX：" class="headerlink" title="1XX："></a>1XX：</h5><ul>
-<li><code>100（Continue）</code>：服务器就饿瘦客户端消息，但没有接收完成，应该让客户端继续其请求，等待一段时间之后，发送100多状态码询问客户端是否还有数据。</li>
-<li><code>101（Switching Protocols）</code>：切换协议，服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</li>
-</ul>
-<h5 id="2XX："><a href="#2XX：" class="headerlink" title="2XX："></a>2XX：</h5><ul>
-<li><code>200（OK）</code>：请求成功。一般用于GET与POST请求</li>
-<li><code>201（Created）</code>：已创建。成功请求并创建了新的资源</li>
-<li><code>202（Accepted）</code>： 已接受。已经接受请求，但未处理完成</li>
-<li><code>203（Non-Authoritative Information）</code>：非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本</li>
-<li><code>204（No Content）</code>：无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</li>
-<li><code>205（Reset Content）</code>：重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域</li>
-<li><code>206（Partial Content）</code>：部分内容。服务器成功处理了部分GET请求</li>
-</ul>
-<h5 id="3XX："><a href="#3XX：" class="headerlink" title="3XX："></a>3XX：</h5><ul>
-<li><code>300（Multiple Choices）</code>：多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择</li>
-<li><p><code>301（Moved Permanently）</code>：永久重定向。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</p>
-</li>
-<li><p><code>302（Found）</code>：临时重定向。与301类似。但资源只是临时被移动。客户端应继续使用（显示）原有URI</p>
-</li>
-<li><code>303（See Other）</code>：查看其它地址。与301类似。使用GET和POST请求查看</li>
-<li><code>304（Not Modified）</code>：未修改。客户端通常会缓存访问过的资源，服务器返回此状态码时，说明所请求的资源未修改，不会返回任何新的资源。客户端接收到该状态码时将会从缓存下来的所有访问过的资源中寻找特定资源。</li>
-<li><code>305（Use Proxy）</code>：使用代理。所请求的资源必须通过代理访问</li>
-<li><code>307（ Temporary Redirect）</code>：临时重定向。与302类似。使用GET请求重定向</li>
-</ul>
-<h5 id="4XX："><a href="#4XX：" class="headerlink" title="4XX："></a>4XX：</h5><ul>
-<li><code>400（Bad Request）</code>： 客户端请求的语法错误，服务器无法理解</li>
-<li><code>401（Unauthorized）</code>：请求要求用户的身份认证</li>
-<li><code>402（Payment Required）</code>：保留，将来使用</li>
-<li><code>403（Forbidden）</code>： 服务器理解请求客户端的请求，但是拒绝执行此请求</li>
-<li><code>404（Not Found）</code>：服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置”您所请求的资源无法找到”的个性页面</li>
-<li><code>405（Method Not Allowed）</code>：客户端请求中的方法被禁止</li>
-<li><code>406（Not Acceptable）</code>：服务器无法根据客户端请求的内容特性完成请求</li>
-<li><code>407（Proxy Authentication Required）</code>：请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权</li>
-<li><code>408（Request Time-out）</code>：服务器等待客户端发送的请求时间过长，超时</li>
-<li><code>409（Conflict）</code>：服务器完成客户端的 PUT 请求时可能返回此代码，服务器处理请求时发生了冲突</li>
-<li><code>410（Gone）</code>：客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置</li>
-<li><code>411（Length Required）</code>： 服务器无法处理客户端发送的不带Content-Length的请求信息</li>
-<li><code>412（Precondition Failed）</code>：客户端请求信息的先决条件错误</li>
-<li><code>413（Request Entity Too Large）</code>：由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息</li>
-<li><code>414（Request-URI Too Large）</code>：请求的URI过长（URI通常为网址），服务器无法处理</li>
-<li><code>415（Unsupported Media Type）</code>：服务器无法处理请求附带的媒体格式</li>
-<li><code>416（Requested range not satisfiable）</code>：客户端请求的范围无效</li>
-<li><code>417（Expectation Failed）</code>：服务器无法满足Expect的请求头信息</li>
-</ul>
-<h5 id="5XX："><a href="#5XX：" class="headerlink" title="5XX："></a>5XX：</h5><ul>
-<li><code>500（Internal Server Error）</code>：服务器内部错误，无法完成请求</li>
-<li><code>501（Not Implemented）</code>：服务器不支持请求的功能，无法完成请求</li>
-<li><code>502（Bad Gateway）</code>：作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应</li>
-<li><code>503（Service Unavailable）</code>：由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中</li>
-<li><code>504（Gateway Time-out）</code>：充当网关或代理的服务器，未及时从远端服务器获取请求</li>
-<li><code>505（HTTP Version not supported）</code>：服务器不支持请求的HTTP协议的版本，无法完成处理</li>
-</ul>
-<h3 id="响应头"><a href="#响应头" class="headerlink" title="响应头"></a>响应头</h3><p>响应头的格式一般如下：</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">Content-Type</span>: <span class="string">text/html;charset=UTF-8</span></span><br><span class="line"><span class="meta">Content-Length</span>: <span class="string">101</span></span><br><span class="line"><span class="attr">Date</span>: <span class="string">Wed, 06 Jun 2018 07:08:42 GMT</span></span><br></pre></td></tr></table></figure>
-<p>一般以键值的形式存在，其中有几个常见的：</p>
-<ul>
-<li><code>Content-Type</code>：服务器告诉客户端本次响应体数据格式以及编码格式，如：<code>text/html;charset=utf-8</code></li>
-<li><code>Content-disposition</code>：服务器告诉客户端以什么格式打开响应体数据，有两个可选值：<ul>
-<li><code>in-line</code>:默认值,在当前页面内打开</li>
-<li><code>attachment;filename=xxx</code>：以附件形式打开响应体。文件下载</li>
-</ul>
-</li>
-<li><code>Content-Length</code>：响应体数据的长度</li>
-<li><code>Date</code>：响应时间</li>
-</ul>
-<h3 id="响应空行"><a href="#响应空行" class="headerlink" title="响应空行"></a>响应空行</h3><p>在响应头和响应体之间有一行空行，用于分割响应头和响应体</p>
-<h3 id="响应体"><a href="#响应体" class="headerlink" title="响应体"></a>响应体</h3><p>响应体为传输给客户端的数据，如：网页源代码，图片资源，下载的文件等等，上面的</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>$Title$<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		hello , response</span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>就是响应体。</p>
-<p>客户端在收到响应消息的时候，会获取该信息并进行缓存，如当请求：<code>localhost/day15/helloResponse.html</code>的时候，服务器会发出一个响应，该响应中的响应体信息正如下：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>$Title$<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		hello , response</span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>客户端收到这个信息的时候，会缓存成一个<code>helloResponse.html</code>，当再次请求的时候，如果网页没有改变，优先在使用本地的<code>helloResponse.html</code>文件。</p>
-<h2 id="Response对象对HTTP响应消息的处理"><a href="#Response对象对HTTP响应消息的处理" class="headerlink" title="Response对象对HTTP响应消息的处理"></a>Response对象对HTTP响应消息的处理</h2><h3 id="响应行-1"><a href="#响应行-1" class="headerlink" title="响应行"></a>响应行</h3><p>获取状态码：<code>getStatus()</code></p>
-<p>设置状态码：<code>setStatus()</code></p>
-<h3 id="响应头-1"><a href="#响应头-1" class="headerlink" title="响应头"></a>响应头</h3><p>设置响应头：<code>setHeader(String name, String value)</code> </p>
-<p>获取响应头：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">Collection&lt;String&gt; <span class="title">getHeaders</span><span class="params">(String headName)</span></span>;</span><br><span class="line"><span class="function">String <span class="title">getHeader</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">Collection&lt;String&gt; <span class="title">getHeaderNames</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-<h3 id="响应体-1"><a href="#响应体-1" class="headerlink" title="响应体"></a>响应体</h3><p>如何写数据给响应体呢？一般按照如下步骤</p>
-<h4 id="获取输出流"><a href="#获取输出流" class="headerlink" title="获取输出流"></a>获取输出流</h4><p>输出流有两种：</p>
-<ul>
-<li>字符输出流：<code>PrintWriter getWriter()</code></li>
-<li>字节输出流：<code>ServletOutputStream getOutputStream()</code></li>
-</ul>
-<h4 id="使用输出流"><a href="#使用输出流" class="headerlink" title="使用输出流"></a>使用输出流</h4><p>就像使用Java的IO流一样使用输出流</p>
-<h3 id="Respons使用"><a href="#Respons使用" class="headerlink" title="Respons使用"></a>Respons使用</h3><h4 id="实现重定向"><a href="#实现重定向" class="headerlink" title="实现重定向"></a>实现重定向</h4><p>首先需要先明确，<strong>客户端（浏览器）会自动响应Response对象中的设置</strong>，什么意思？比如当我们需要实现重定向的时候， 我们可以这样实现：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.setStatus(<span class="number">302</span>);</span><br><span class="line">response.setHeader(<span class="string">&quot;location&quot;</span>,<span class="string">&quot;/day15/responseDemo&quot;</span>);</span><br></pre></td></tr></table></figure>
-<p>当我们这样设置<code>response</code>对象的的时候，浏览器做响应之前，会解析response中的状态码，解析到302的时候会去找location响应头，然后进行解析重定向。</p>
-<p><strong>所以当我们需要客户端做一些动作的时候，我们可以通过设置响应头和响应状态码来实现。</strong></p>
-<p>实际上想要实现重定向还有一个简单的方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.sendRedirect(<span class="string">&quot;/day15/responseDemo&quot;</span>);</span><br></pre></td></tr></table></figure>
-<p>该方法本质上也是调用上面的两个方法。<code>tomcat</code>的<code>API</code>对它进行了简化。</p>
-<h4 id="响应体数据乱码问题"><a href="#响应体数据乱码问题" class="headerlink" title="响应体数据乱码问题"></a>响应体数据乱码问题</h4><p>上文所说，当我们需要往响应体中写数据时，可以使用这两个方法获取流：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">PrintWriter <span class="title">getWriter</span><span class="params">()</span></span></span><br><span class="line"><span class="function">ServletOutputStream <span class="title">getOutputStream</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
-<p>但是在客户端进行解析的时候，由于<code>PrintWriter pw = response.getWriter();</code>获取的流的默认编码是<code>ISO-8859-1</code>，所以你懂的，乱码问题在所难免。</p>
-<p>解决的方法也很简单，设置响应头：<code>ContentType</code>，设置编码，是在获取流之前设置。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.setContentType(<span class="string">&quot;text/html;charset=utf-8&quot;</span>);</span><br></pre></td></tr></table></figure>
-<h1 id="重定向和请求转发的区别"><a href="#重定向和请求转发的区别" class="headerlink" title="重定向和请求转发的区别"></a>重定向和请求转发的区别</h1><h2 id="重定向的特点-redirect"><a href="#重定向的特点-redirect" class="headerlink" title="重定向的特点:redirect"></a>重定向的特点:redirect</h2><pre><code> 1. 地址栏发生变化
- 2. 重定向可以访问其他站点(服务器)的资源
- 3. 重定向是两次请求。不能使用request对象来共享数据
-</code></pre><h2 id="转发的特点：forward"><a href="#转发的特点：forward" class="headerlink" title="转发的特点：forward"></a>转发的特点：forward</h2><pre><code> 1. 转发地址栏路径不变
- 2. 转发只能访问当前服务器下的资源
- 3. 转发是一次请求，可以使用request对象来共享数据
-</code></pre><h1 id="路径写法"><a href="#路径写法" class="headerlink" title="路径写法"></a>路径写法</h1><p>路径写法：</p>
-<pre><code>        1. 路径分类
-            1. 相对路径：通过相对路径不可以确定唯一资源
-                * 如：./index.html
-                * 不以/开头，以.开头路径
-
-                * 规则：找到当前资源和目标资源之间的相对位置关系
-                    * ./：当前目录
-                    * ../:后退一级目录
-            2. 绝对路径：通过绝对路径可以确定唯一资源
-                * 如：http://localhost/day15/responseDemo2        /day15/responseDemo2
-                * 以/开头的路径
-
-                * 规则：判断定义的路径是给谁用的？判断请求将来从哪儿发出
-                    * 给客户端浏览器使用：需要加虚拟目录(项目的访问路径)
-                        * 建议虚拟目录动态获取：request.getContextPath()
-                        * &lt;a&gt; , &lt;form&gt; 重定向...
-                    * 给服务器使用：不需要加虚拟目录
-                        * 转发路径
-</code></pre>]]></content>
       <categories>
         <category>JavaWeb程序设计</category>
       </categories>
@@ -2445,35 +2445,6 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>解决Windows家庭版无法远程问题</title>
-    <url>/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>这破Windows 10 家庭版真的让我操碎了心！Windows坏事做尽！</p>
-<span id="more"></span>
-<h2 id="解决Windows家庭版无法远程的问题"><a href="#解决Windows家庭版无法远程的问题" class="headerlink" title="解决Windows家庭版无法远程的问题"></a>解决Windows家庭版无法远程的问题</h2><p>要解决这个问题需要一个工具rdpwrap：<a href="https://github-releases.githubusercontent.com/25609086/d473b802-eb5f-11e7-8ccc-5944bc969a40?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211017%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20211017T084058Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=c63d302fc9a6d075968448d5ee3a6eb42537d44e88fda8f58768e3d4ab7686d1&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;key_id=0&amp;repo_id=25609086&amp;response-content-disposition=attachment%3B%20filename%3DRDPWrap-v1.6.2.zip&amp;response-content-type=application%2Foctet-stream">下载地址</a> | <a href="https://github.com/stascorp/rdpwrap/releases/tag/v1.6.2">Github</a></p>
-<p>下载回来之后解压，可以看到：</p>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017171653109.png" alt="image-20211017171653109"></p>
-<p>以<strong>管理员的方式</strong>运行<strong>install.bat</strong></p>
-<p>运行里面的RDPConf.exe，<strong>看是否有红色的标志。</strong>如果有的话，就需要<strong>查看自己系统的C:\Windows\System32\termsrv.dll的版本号</strong>：</p>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017172348425.png" alt="image-20211017172348425"></p>
-<p><a href="https://github.com/stascorp/rdpwrap/issues">到这里</a>搜索该版本号的配置文件，<strong>仔细找，应该能找到像下面的提供的ini文件</strong></p>
-<blockquote>
-<p>自动更新请到这里找<a href="https://github.com/sebaxakerhtc/rdpwrap.ini/">sebaxakerhtc/rdpwrap.ini: RDPWrap.ini for RDP Wrapper Library by Stas’M (github.com)</a>，下载根目录的ini即可</p>
-</blockquote>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017173132450.png" alt="image-20211017173132450"></p>
-<p>找到后，<strong>请先win+r运行：services.msc，停止Remote Desktop Services服务，</strong></p>
-<p><strong>将下载的ini文件覆盖到C:\Program Files\RDP Wrapper里面</strong></p>
-<p><strong>重新开启Remote Desktop Services服务，</strong></p>
-<p>运行检查程序看看是不是全绿，<strong>如果是全绿色的话，就证明现在可以使用远程了，win+r运行，输入<code>mstsc</code>打开远程桌面窗口。</strong></p>
-]]></content>
-      <categories>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>windows</tag>
-        <tag>mstsc</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>1.MyBatis快速入门</title>
     <url>/2022/07/01/MyBatis/mybatis%E8%B5%B7%E6%AD%A5/</url>
     <content><![CDATA[<h1 id="MyBatis快速入门"><a href="#MyBatis快速入门" class="headerlink" title="MyBatis快速入门"></a>MyBatis快速入门</h1><ol>
@@ -2554,6 +2525,35 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>MyBatis-start</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决Windows家庭版无法远程问题</title>
+    <url>/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>这破Windows 10 家庭版真的让我操碎了心！Windows坏事做尽！</p>
+<span id="more"></span>
+<h2 id="解决Windows家庭版无法远程的问题"><a href="#解决Windows家庭版无法远程的问题" class="headerlink" title="解决Windows家庭版无法远程的问题"></a>解决Windows家庭版无法远程的问题</h2><p>要解决这个问题需要一个工具rdpwrap：<a href="https://github-releases.githubusercontent.com/25609086/d473b802-eb5f-11e7-8ccc-5944bc969a40?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211017%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20211017T084058Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=c63d302fc9a6d075968448d5ee3a6eb42537d44e88fda8f58768e3d4ab7686d1&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;key_id=0&amp;repo_id=25609086&amp;response-content-disposition=attachment%3B%20filename%3DRDPWrap-v1.6.2.zip&amp;response-content-type=application%2Foctet-stream">下载地址</a> | <a href="https://github.com/stascorp/rdpwrap/releases/tag/v1.6.2">Github</a></p>
+<p>下载回来之后解压，可以看到：</p>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017171653109.png" alt="image-20211017171653109"></p>
+<p>以<strong>管理员的方式</strong>运行<strong>install.bat</strong></p>
+<p>运行里面的RDPConf.exe，<strong>看是否有红色的标志。</strong>如果有的话，就需要<strong>查看自己系统的C:\Windows\System32\termsrv.dll的版本号</strong>：</p>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017172348425.png" alt="image-20211017172348425"></p>
+<p><a href="https://github.com/stascorp/rdpwrap/issues">到这里</a>搜索该版本号的配置文件，<strong>仔细找，应该能找到像下面的提供的ini文件</strong></p>
+<blockquote>
+<p>自动更新请到这里找<a href="https://github.com/sebaxakerhtc/rdpwrap.ini/">sebaxakerhtc/rdpwrap.ini: RDPWrap.ini for RDP Wrapper Library by Stas’M (github.com)</a>，下载根目录的ini即可</p>
+</blockquote>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017173132450.png" alt="image-20211017173132450"></p>
+<p>找到后，<strong>请先win+r运行：services.msc，停止Remote Desktop Services服务，</strong></p>
+<p><strong>将下载的ini文件覆盖到C:\Program Files\RDP Wrapper里面</strong></p>
+<p><strong>重新开启Remote Desktop Services服务，</strong></p>
+<p>运行检查程序看看是不是全绿，<strong>如果是全绿色的话，就证明现在可以使用远程了，win+r运行，输入<code>mstsc</code>打开远程桌面窗口。</strong></p>
+]]></content>
+      <categories>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>mstsc</tag>
       </tags>
   </entry>
   <entry>
@@ -2653,6 +2653,29 @@ va_end(ParamList);                                                    // 释放�
         <tag>hexo</tag>
         <tag>recovery</tag>
         <tag>domain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo模板修改和使用</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
+<span id="more"></span>
+<p><code>hexo</code>的模板一般放在：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
+<p>有三个文件</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
+<p>对应new命令的三种创建类型！</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
+<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
+<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>features</tag>
+        <tag>reference</tag>
       </tags>
   </entry>
   <entry>
@@ -2784,29 +2807,6 @@ cnpm install -g hexo-cli
       <tags>
         <tag>hexo</tag>
         <tag>recovery</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo模板修改和使用</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
-<span id="more"></span>
-<p><code>hexo</code>的模板一般放在：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
-<p>有三个文件</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
-<p>对应new命令的三种创建类型！</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
-<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
-<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>features</tag>
-        <tag>reference</tag>
       </tags>
   </entry>
   <entry>
@@ -2950,6 +2950,27 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
+    <title>解决hexo-github hexo g time out 443</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
+    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
+<span id="more"></span>
+<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+<p>如果不需要代理了，则可以运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>解决hexo部署到github上图片无法显示问题</title>
     <url>/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h1 id="解决hexo部署到github上图片无法显示问题"><a href="#解决hexo部署到github上图片无法显示问题" class="headerlink" title="解决hexo部署到github上图片无法显示问题"></a>解决hexo部署到github上图片无法显示问题</h1><span id="more"></span>
@@ -2975,27 +2996,6 @@ cnpm install -g hexo-cli
 <p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193248235.png" alt="image-20210811193248235"></p>
 <p><img src="/2021/08/11/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%88%B0github%E4%B8%8A%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/image-20210811193519193.png" alt="image-20210811193519193"></p>
 <h2 id="需要注意"><a href="#需要注意" class="headerlink" title="需要注意"></a>需要注意</h2><p>如果使用Typora来编辑Markdown的话，建议使用相对路径，而且路径中，<strong>必须使用</strong><code>/</code>，使用<code>\</code>或者<code>\\</code>都会导致渲染不正确，无法找到图片资源，<strong>还有图片资源文件名不要带空格！！！</strong></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo-github hexo g time out 443</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
-    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
-<span id="more"></span>
-<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-<p>如果不需要代理了，则可以运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>博客运维</category>
@@ -3938,28 +3938,6 @@ int main(int argc, char *argv[])
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>游戏</title>
-    <url>/games/index.html</url>
-    <content><![CDATA[<p>此处整理了部分游戏游玩过程时的心得和体会，包括相关资源的下载和整理，出这一个版面的原由，是因为在玩战双的时候老是会忘记角色技能怎么放？</p>
-<p><img src="/games/index/e1ccc03c269759ee6b004bdef4fb43166d22df0f.jpg" alt="e1ccc03c269759ee6b004bdef4fb43166d22df0f"></p>
-<p>因此就顺带开这一个版面来记录自己的游戏旅程吧。</p>
-<p>今年也是25岁了，渐渐开始感觉到玩不动游戏了，所有的能力也都在下滑，唉~</p>
-<ul>
-<li><a href="./PGR.html">战双</a></li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>schedule</title>
     <url>/schedule/index.html</url>
     <content><![CDATA[<p>这是一份计划表，上面显示目前所有在学习技术的学习进度。为了将学习过程量化，我采用了这种原始的记录方式！</p>
@@ -4078,6 +4056,42 @@ int main(int argc, char *argv[])
 ]]></content>
   </entry>
   <entry>
+    <title>categories</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>游戏</title>
+    <url>/games/index.html</url>
+    <content><![CDATA[<p>此处整理了部分游戏游玩过程时的心得和体会，包括相关资源的下载和整理，出这一个版面的原由，是因为在玩战双的时候老是会忘记角色技能怎么放？</p>
+<p><img src="/games/index/e1ccc03c269759ee6b004bdef4fb43166d22df0f.jpg" alt="e1ccc03c269759ee6b004bdef4fb43166d22df0f"></p>
+<p>因此就顺带开这一个版面来记录自己的游戏旅程吧。</p>
+<p>今年也是25岁了，渐渐开始感觉到玩不动游戏了，所有的能力也都在下滑，唉~</p>
+<ul>
+<li><a href="./PGR.html">战双</a></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>古诗鉴赏</title>
+    <url>/yposts/index.html</url>
+    <content><![CDATA[<p>由于个人喜好，开了本诗词鉴赏专栏，会收集一些古诗词放在此处以供参考，默认按照作者进行分类：</p>
+<blockquote>
+<p>龚自珍：</p>
+</blockquote>
+<p>龚自珍（<code>1792</code>年<code>8</code>月<code>22</code>日-<code>1841</code>年<code>9</code>月<code>26</code>日），字璱（<code>sè</code>）人，号定庵（<code>ān</code>）。汉族，浙江仁和（今杭州）人。晚年居住昆山羽琌山馆，又号羽琌山民。清代思想家、诗人、文学家和改良主义的先驱者。著有《定盦文集》，留存文章<code>300</code>余篇，诗词近<code>800</code>首，今人辑为《龚自珍全集》。著名诗作《己亥杂诗》共<code>315</code>首。多咏怀和讽喻之作。</p>
+<ul>
+<li><a href="./己亥杂诗.html">己亥杂诗</a>：九州生气恃风雷，万马齐喑究可哀。（形容社会死气沉沉，人们不敢讲话，到处是一种令人窒息的沉闷气氛）</li>
+<li><a href="./漫感.html">漫感</a>：一箫一剑平生意，负尽狂名十五年。</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title></title>
     <url>/yposts/%E5%B7%B1%E4%BA%A5%E6%9D%82%E8%AF%97.html</url>
     <content><![CDATA[<h2 id="己亥杂诗"><a href="#己亥杂诗" class="headerlink" title="己亥杂诗"></a>己亥杂诗</h2><div style="background-color: #EFEFEF;margin: 0 auto;text-align: center;font-size: 25px;line-height:40px"><b>己亥杂诗</b><br><span style="text-align:right;font-size:15px;">龚自珍</span><br>九州生气<ruby>恃<rp><rt>shì</rt></rp></ruby>风雷，万马齐<ruby>喑<rp><rt>yīn</rt></rp></ruby>究可哀。<br>我劝天公重抖擞，不拘一格降人材。</div>
@@ -4103,20 +4117,6 @@ int main(int argc, char *argv[])
 <p>在这首诗中，诗人对死气沉沉、缺乏生机的社会现状，深表痛心，急切地希望巨大的社会变革迅速到来。全诗以一种热情洋溢的战斗姿态，对清朝当政者以讽荐，表达了作者心中对国家未来命途的关切，和希望当政者能够广纳人才的渴望，具有很深刻的历史背景和很强的现实意义。</p>
 <h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><p>前两句可以引用在于昏暗的社会环境中，而后两句可以在重视贤士、人才等场合中使用。</p>
 <p>参考：<a href="https://www.gushiwen.cn/shiwenv_838d9b401572.aspx">己亥杂诗原文、翻译及赏析、拼音版及朗读<em>龚自珍古诗</em>古诗文网 (gushiwen.cn)</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>古诗鉴赏</title>
-    <url>/yposts/index.html</url>
-    <content><![CDATA[<p>由于个人喜好，开了本诗词鉴赏专栏，会收集一些古诗词放在此处以供参考，默认按照作者进行分类：</p>
-<blockquote>
-<p>龚自珍：</p>
-</blockquote>
-<p>龚自珍（<code>1792</code>年<code>8</code>月<code>22</code>日-<code>1841</code>年<code>9</code>月<code>26</code>日），字璱（<code>sè</code>）人，号定庵（<code>ān</code>）。汉族，浙江仁和（今杭州）人。晚年居住昆山羽琌山馆，又号羽琌山民。清代思想家、诗人、文学家和改良主义的先驱者。著有《定盦文集》，留存文章<code>300</code>余篇，诗词近<code>800</code>首，今人辑为《龚自珍全集》。著名诗作《己亥杂诗》共<code>315</code>首。多咏怀和讽喻之作。</p>
-<ul>
-<li><a href="./己亥杂诗.html">己亥杂诗</a>：九州生气恃风雷，万马齐喑究可哀。（形容社会死气沉沉，人们不敢讲话，到处是一种令人窒息的沉闷气氛）</li>
-<li><a href="./漫感.html">漫感</a>：一箫一剑平生意，负尽狂名十五年。</li>
-</ul>
 ]]></content>
   </entry>
   <entry>
