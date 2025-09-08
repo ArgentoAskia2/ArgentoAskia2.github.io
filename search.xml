@@ -203,6 +203,73 @@
       </tags>
   </entry>
   <entry>
+    <title>C语言隐藏结构体的实现方法</title>
+    <url>/2019/11/26/C/C%E8%AF%AD%E8%A8%80%E9%9A%90%E8%97%8F%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>前些天在搞win32，被windows花里胡哨的结构弄得生不如死，脑子里莫名其妙蹦出了一个想法：能不能定义一些结构体，外部可以用它来定义变量，然而却不能改变它的成员的值, 就像C++，Java一类语言的class一样对数据进行保护。<del>好吧，其实是我还没吃饱撑着随便乱搞</del><br>参照了网上很多的说法，自己胡乱地搞了几个小时给弄出来了。</p>
+<h1 id="正文："><a href="#正文：" class="headerlink" title="正文："></a>正文：</h1><p>直接上代码:<br><br><code>book.cpp</code></p>
+<pre><code>#include &quot;book.h&quot;
+struct book&#123;
+    int price;
+    char *name;
+&#125;;
+
+PBOOK CreateBook(int price, char *name)
+&#123;
+    PBOOK Book1 = (PBOOK)malloc(sizeof(BOOK));
+    Book1-&gt;price = 100;
+    Book1-&gt;name = 0;
+    return Book1;
+&#125;
+
+void FreeBook(PBOOK book)
+&#123;
+    free(book);
+&#125; 
+</code></pre><p>上述源代码文件定义了一个结构和两个函数，同时包含一个自身的头文件</p>
+<p><code>book.h</code></p>
+<pre><code>#include &lt;malloc.h&gt;
+#define PBOOK BOOK *
+
+struct book;
+typedef struct book BOOK;
+
+PBOOK CreateBook(int price, char *name);
+void FreeBook(PBOOK book);
+</code></pre><p>头文件中声明了两个函数和结构体，其中用typedef给结构体定义为一种类型。因为源代码文件会包含这个头文件，<strong>所以在源代码中也可以使用头文件中的宏</strong></p>
+<p><code>main.cpp</code></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &quot;book.h&quot;
+int main()
+&#123;
+    PBOOK a = CreateBook(20, &quot;1231321231&quot;);    // 定义的变量必须是指针类型 
+    printf(&quot;%d&quot;,a);
+&#125; 
+</code></pre><p>注意定义的BOOK类型 <strong>必须是指针（BOOK *类型，参照头文件的宏定义）</strong> 一旦定义为</p>
+<pre><code>BOOK a；
+</code></pre><p>就会报错，因为我们包含的头文件只有BOOK的声明，定义为BOOK a的话编译器不知道要给a分配多少内存空间，会引发以下类似类型错误：</p>
+<pre><code>[Error] variable &#39;BOOK a&#39; has initializer but incomplete type
+</code></pre><p>编译通过之后，可以用printf函数打印分配的地址，看下是否分配成功！<br>这样定义的变量的所有对成员的操作都要写到源代码文件中（包括基本的输入输出函数都要），因为在主函数中，这些变量的成员的值无法被直接更改！<br>如：</p>
+<p><code>main.cpp</code></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &quot;book.h&quot;
+int main()
+&#123;
+    PBOOK a = CreateBook(20, &quot;1231321231&quot;);    // 定义的变量必须是指针类型 
+    printf(&quot;%d %d&quot;,a, a-&gt;price);
+&#125; 
+</code></pre><p>编译器会报类型错误，</p>
+<pre><code>[Error] invalid use of incomplete type &#39;BOOK &#123;aka struct book&#125;&#39;
+</code></pre><p>​    </p>
+]]></content>
+      <categories>
+        <category>C_Struct</category>
+      </categories>
+      <tags>
+        <tag>language C</tag>
+        <tag>struct</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>选择排序（Selection）</title>
     <url>/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
@@ -249,6 +316,154 @@
         <tag>Algorithm</tag>
         <tag>sort</tag>
         <tag>Selection</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>stdarg.h实现可变参数</title>
+    <url>/2019/11/24/C/stdarg-h%E5%AE%9E%E7%8E%B0%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/</url>
+    <content><![CDATA[<h2 id="stdarg-h实现可变参数"><a href="#stdarg-h实现可变参数" class="headerlink" title="stdarg.h实现可变参数"></a>stdarg.h实现可变参数</h2><ol>
+<li>本篇谈论用标准库stdarg.h实现不定参数的方方面面（11/24/2019 11:48:35 PM ）</li>
+<li>小技巧：实现格式输入、输出（见更新）</li>
+</ol>
+<h3 id="stdarg-h的介绍"><a href="#stdarg-h的介绍" class="headerlink" title="stdarg.h的介绍"></a>stdarg.h的介绍</h3><p>stdarg.h是C语言中C标准函数库的头文件，stdarg是由<strong>standard（标准） arguments（参数）</strong>简化而来。</p>
+<p>我们常常看到一些函数形如：<strong>printf(const char *fomat,…);</strong><br>这类型的函数就可以用该标准头文件实现。</p>
+<h3 id="包含成员"><a href="#包含成员" class="headerlink" title="包含成员"></a>包含成员</h3><p><strong>va_list:</strong> </p>
+<p>用来保存<strong>va_start()</strong>、<strong>va_arg()</strong> 和 <strong>va_end()</strong> 这三个宏存储信息的类型。</p>
+<p><strong>va_start:</strong></p>
+<pre><code> void va_start(va_list list, arg)
+</code></pre><p>将va_list指向初始参数</p>
+<ul>
+<li>arg为函数的最后一个非不定参数，如：上面的printf函数，该参数就要填fomat。</li>
+</ul>
+<p><strong>va_arg：</strong></p>
+<pre><code>type va_arg(va_list list, type)
+</code></pre><p>从list中取出参数并指定为type类型返回，同时移动指针指向下一个参数</p>
+<ul>
+<li>注意：一定要确保函数的type类型和返回值相同</li>
+</ul>
+<p><strong>va_end：</strong></p>
+<pre><code>void va_end(va_list list)
+</code></pre><p>释放list，将其置NULL。</p>
+<h3 id="具体用法"><a href="#具体用法" class="headerlink" title="具体用法"></a>具体用法</h3><pre><code>char **CreateStrings(int nNum, const char *nName,...);
+//生成一个字符串数组
+
+//代码如下：
+va_list ParamList;
+va_start(ParamList, nName); // 最后一个非可变参数
+
+char **sRet = (char **)malloc(sizeof(char *)*(nNum+1));                 // 创建二级指针
+if(sRet!=NULL)
+&#123;
+    // 此处不用纠结，只是填入nName参数到返回的字符串数组中
+    char *sMenber = NULL;
+    char *sTmp = NULL;
+    sMenber = (char *)malloc(sizeof(char)*strlen(nName));           
+    if(strcpy(sMenber, nName)!=NULL)                                // copy string to sMenber
+        *sRet = sMenber;                                            // add sMenber to sRet
+    else
+        return NULL;                                                // test copy
+    // 此处不用纠结
+
+    // 正戏开始
+    for(i=1; i&lt;=nNum-1; i++)
+    &#123;
+        sTmp = va_arg(ParamList,char *);                            // 多次从不定参数表取出参数，转为char *类型
+        if(sTmp==NULL)
+            return NULL;
+        sMenber = (char *)malloc(sizeof(char)*strlen(sTmp));
+        strcpy(sMenber, sTmp);
+        *(sRet+i) = sMenber;                                   
+    &#125;
+    *(sRet+nNum) = NULL;
+&#125;
+va_end(ParamList);                                                    // 释放不定参数表
+</code></pre>]]></content>
+      <categories>
+        <category>C Library</category>
+      </categories>
+      <tags>
+        <tag>C Std Library</tag>
+        <tag>stdarg.h</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>开闭原则</title>
+    <url>/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</url>
+    <content><![CDATA[<h4 id="软件设计模式——-gt-软件设计原则——-gt-开闭原则"><a href="#软件设计模式——-gt-软件设计原则——-gt-开闭原则" class="headerlink" title="软件设计模式——&gt;软件设计原则——&gt;开闭原则"></a>软件设计模式——&gt;软件设计原则——&gt;开闭原则</h4><span id="more"></span>
+<h1 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h1><h2 id="何为开闭原则"><a href="#何为开闭原则" class="headerlink" title="何为开闭原则"></a>何为开闭原则</h2><p>开闭原则（<code>Open Closed Principle</code>），<strong>意思是对扩展开放，对修改关闭</strong>。旨在程序需要进行扩展的时候，不能去修改原有的代码，实现一个热拔插的效果。使程序的扩展性好，易于维护和升级。</p>
+<p>通过扩展新的实现类的方式来进行修是开闭原则实现的一种方法，在更加高阶的应用中，如热替换、热部署等，常常需要接口、配置文件等形式来完成。</p>
+<h2 id="开闭原则逐步求精"><a href="#开闭原则逐步求精" class="headerlink" title="开闭原则逐步求精"></a>开闭原则逐步求精</h2><h3 id="基础版本"><a href="#基础版本" class="headerlink" title="基础版本"></a>基础版本</h3><p>举搜狗皮肤的案例，搜狗上有很多皮肤，当我们下载某款皮肤的时候可以进行一个皮肤的热替换，具体这个是怎么实现的呢？</p>
+<p>首先我们一种实现方式，工程目录如下：</p>
+<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708100725873.png" alt="image-20220708100725873"></p>
+<p>其中<code>XXXXSkin</code>代表各类皮肤代码，代码如下示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AskiaSkin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;AskiaSkin皮肤&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>SkinTestClient</code>代表搜狗输入法客户端。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsSkinDisplay</span><span class="params">(WindowsSkin windowsSkin)</span></span>&#123;</span><br><span class="line">        windowsSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">askiaSkinDisplay</span><span class="params">(AskiaSkin askiaSkin)</span></span>&#123;</span><br><span class="line">        askiaSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsReSkinDisplay</span><span class="params">(WindowsReSkin windowsReSkin)</span></span>&#123;</span><br><span class="line">        windowsReSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsSkin windowsSkin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">            windowsSkinDisplay(windowsSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            AskiaSkin askiaSkin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">            askiaSkinDisplay(askiaSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsReSkin windowsReSkin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">            windowsReSkinDisplay(windowsReSkin);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们需要新增一个新的皮肤的时候，比方说我们在<code>java</code>文件夹里面新增一个<code>RedJudgeSkin</code>这一个新增并不会修改已有的皮肤类代码，因此新增一个皮肤符合开闭原则，但是当我们把目光看向<code>SkinTestClient</code>的时候，他的代码问题就比较大了，大概可以分为两部分，第一部分问题出在这里：<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101406986.png" alt="image-20220708101406986"></p>
+<p>我们在客户端<strong>为每一个皮肤都写了一个换肤的方法</strong>（接口），然后通过方法</p>
+<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101933670.png" alt="image-20220708101933670"></p>
+<p>做皮肤的换肤判断，然后客户端的运行过程中，只要像这样，就能达到换肤的效果。<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708102027266.png" alt="image-20220708102027266"></p>
+<p>这种实现，<strong>问题比较大</strong>，创建新皮肤的时候符合开闭原则没毛病，但是客户端的代码就是重灾区了<strong>，因为现在扩展一个皮肤，你都需要额外编写一个换肤接口，同时你还需要在changeSkin()中，新增一个if分支！一旦你的皮肤越来越多，会造成SkinTestClient类代码臃肿，同时会留下非常多形式相同的代码，后期难以维护</strong></p>
+<h3 id="一次求精：去除客户端换肤接口"><a href="#一次求精：去除客户端换肤接口" class="headerlink" title="一次求精：去除客户端换肤接口"></a>一次求精：去除客户端换肤接口</h3><p>为了改进上面的代码，我么引入了<code>Java</code>中的接口，现在我们让所有皮肤类都实现顶层皮肤接口<code>Skin</code>，工程目录如下：</p>
+<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708103823374.png" alt="image-20220708103823374"></p>
+<p>其中<code>Skin</code>接口有一个抽象的换肤方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Skin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其他皮肤类都需要实现这个接口。</p>
+<p>// 图片继承图</p>
+<p>在客户端代码中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        Skin skin = <span class="keyword">new</span> DefaultSkin();</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">           skin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">        &#125;</span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsReSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有了这个<code>Skin</code>接口，我们现在就<strong>不需要每次新增一个皮肤都在客户端中写一个皮肤接口方法了</strong>（之前代码的<code>windowsReSkinDisplay(WindowsReSkin windowsReSkin)</code>、<code>askiaSkinDisplay(AskiaSkin askiaSkin)</code>都不用写啦）。现在当我们需要扩展皮肤，时，只需要实现<code>Skin</code>接口，然后在<code>changeSkin()</code>中添加一个<code>if</code>分支，就可以了。</p>
+<p>需要注意，本次的改进虽然让我们<strong>避免了在客户端中去写皮肤接口方法</strong>，减少了客户端代码的修改量，<strong>但客户端代码仍然不符合开闭原则，问题出在changeSkin()在每次添加新皮肤的时候，都需要添加一个if分支</strong>。这就涉及到接下来的第三次代码改进。</p>
+<h3 id="二次求精：统一changeSkin"><a href="#二次求精：统一changeSkin" class="headerlink" title="二次求精：统一changeSkin()"></a>二次求精：统一changeSkin()</h3><p>既然问题出在<code>changeSkin()</code>的分支上，那这个分支有什么作用呢？<strong>他主要是用来判别参数传递过来的皮肤名，通过皮肤名来做判断，然后创建相应的对象</strong>，讲到这里，所有的<code>if</code>都直接或者间接和皮肤名有关，也就是说和参数有关，这个方法参数会随时变化，我们写<code>if</code>也是为了判断是哪一类变化，然后根据这个变化<strong>来创建相应的皮肤对象</strong>。</p>
+<p>既然如此，<strong>如果传递过来的参数能够通过某个自己的内置的方法直接创建皮肤对象</strong>呢？如果能够做到这一点的话<code>if</code>语句不就可以省略了嘛。那么在<code>Java</code>中哪项技术可以做到在程序运行时创建对象——反射<code>API</code>。因此，我们把方法参数数改成<code>Class</code>类型即可，具体的代码参考下面的改进：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">    <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">    Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">    <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">    <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">            !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">        skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">    Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">    <span class="comment">// 显示皮肤</span></span><br><span class="line">    skinDisplay(skin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那现在<code>SkinTestClient</code>类代码变成了：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">        Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">        <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">        <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">                !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">            skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">        Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">        <span class="comment">// 显示皮肤</span></span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 模拟在皮肤更换窗口中点击按钮更换皮肤的过程</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin2(AskiaSkin.class);</span><br><span class="line">        skinTestClient.changeSkin2(DefaultSkin.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>现在我们代码每个模块基本上都符合开闭原则了。当我们现在重新新增一个皮肤，比如新增一个<code>RedJudgeSkin</code>，我们只需要让<code>RedJudgeSkin</code>实现接口<code>Skin</code>即可，<strong>不需要更改任何已有的代码</strong>。需要注意，<code>main</code>方法里面的代码属于模拟窗口点击的，不属于具体的工程，只用于测试用。</p>
+<h3 id="二次求精另外一套思路：引入配置文件"><a href="#二次求精另外一套思路：引入配置文件" class="headerlink" title="二次求精另外一套思路：引入配置文件"></a>二次求精另外一套思路：引入配置文件</h3><p>二次求精的代码已经符合开闭原则的要求了，已经是完美的最简单的版本了，但是在这里还有一种能达到和二次求精一样效果的方法，并且该方法甚至能完全统一客户端代码（包括不属于客户端的，用于测试的<code>main</code>方法），这种方法就是使用配置文件。</p>
+<p>使用配置文件有一个好处就是能够分担代码重量，让一些工作能够在代码之外的地方完成，同时，配置文件不需要编译，能够做到即时修改即时生效。</p>
+<p>但使用配置文件缺点也很明显，使用配置文件意味着<strong>代码中需要有专门处理配置文件的部分</strong>，这一部分的代码并不简单，因此这种思路更加复杂，实现也比较困难。</p>
+<p>使用配置文件，设计到外部文件监听服务（<code>WatchService</code>类）具体代码结构和类继承图如下：</p>
+<p>// 图片继承图</p>
+]]></content>
+      <categories>
+        <category>DesignPatterns</category>
+      </categories>
+      <tags>
+        <tag>Open-Closed</tag>
+        <tag>Principle</tag>
+        <tag>DesignPatterns</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git提交时显示其他用户名和邮箱</title>
+    <url>/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/</url>
+    <content><![CDATA[<p>介绍在配置了全局user.name和<code>user.email</code>的情况下，如何使用其他的名用户名和email提交代码</p>
+<span id="more"></span>
+<p>默认情况下只要配置了全局user.name和user.email，你的所有提交都会使用这个user.name和user.email作为提交作者，可以使用下面的指令来查看：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --list</span><br><span class="line"><span class="comment">## 或者单独查看</span></span><br><span class="line">git config --global user.name</span><br><span class="line">git config --global user.email</span><br></pre></td></tr></table></figure>
+<p><img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121001373.png" alt="image-20250908121001373"></p>
+<p>这两个值一般使用下面的指令设置：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&#x27;张三&#x27;</span></span><br><span class="line">git config --global user.email <span class="string">&#x27;zs@gmail.com&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>你可以看到我当前的设置为：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">user.name</span>=<span class="string">ArgentoAskia</span></span><br><span class="line"><span class="meta">user.email</span>=<span class="string">askiaxiaoming@outlook.com</span></span><br></pre></td></tr></table></figure>
+<p>所以但我提交代码的时候，提交人信息一栏会使用这两个信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121640943.png" alt="image-20250908121640943" style="zoom:200%;"></p>
+<p>当你将内容<code>Push</code>到<code>Github</code>的时候，Github也会收到相关提交人的信息，<code>Github</code>优先会根据邮箱来判断，判断该邮箱是否注册过<code>Github</code>账号，如果注册过则会直接显示该用户的<code>Github</code>头像和相关信息，例如我的账户是Askiaxiaoming@outlook.com<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121915033.png" alt="image-20250908121915033"></p>
+<p>则此时你会看到提交信息上，就是我的相关<code>Github</code>信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122021677.png" alt="image-20250908122021677"></p>
+<p>如果发现这个邮箱没有注册过<code>Github</code>，则此时<code>Github</code>会使用您提交的用户名作为显示，头像会显示默认头像：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122218037.png" alt="image-20250908122218037"></p>
+<p>那么问题来了，这个信息是根据<code>Git</code>全局配置获取的，当我在新项目中不希望使用这个全局设置，而是使用其他的用户名和<code>Email</code>该怎么办？</p>
+<p>在每个项目的根目录下都有一个<code>.git</code>文件夹，该文件夹是隐藏状态，先将其显示，然后打开里面的<code>config</code>文件，一般位于这里：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122640512.png" alt="image-20250908122640512"></p>
+<p>在末尾添加一条配置信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">    name =  compay_yourname</span><br><span class="line">    email = youremail@compay.cn</span><br></pre></td></tr></table></figure>
+<p>这样设置后，你在该项目下提交的信息即为你设置的信息。唯一的缺点是他是只能配置该项目，如果有多个项目，需要分别配置下。但这样也有好处，就是你无需改动全局配置，当你不需要分别设置的时候你就不需要做任何其他的配置。</p>
+]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>git username</tag>
+        <tag>git email</tag>
       </tags>
   </entry>
   <entry>
@@ -314,7 +529,7 @@
 <h5 id="MSI安装器"><a href="#MSI安装器" class="headerlink" title="MSI安装器"></a>MSI安装器</h5><p>自从<code>MySQL 8.0</code>以后，<code>MySQL Installer</code>不再发布，即<code>8.1</code>及以上版本<code>msi</code>安装器只会安装当前版本而不是能够实现安装全版本：<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250501182003072.png" alt="image-20250501182003072"></p>
 <p>我们仍然能在<a href="https://dev.mysql.com/downloads/windows/installer/8.0.html">这个地方</a>找到<code>MySQL 8.0</code>的全版本安装器，在<a href="https://downloads.mysql.com/archives/installer/">这个地方</a>找到归档的所有安装器，只不过这个安装器已经无法安装<code>MySQL 8.1</code>及以上版本了。</p>
 <p><code>MSI</code>版本的安装视频参考</p>
-<video src="./1.数据库安装和启动/1.mysql的安装（消音版本）.mp4" type="video/mp4" autoplay="true" controls="controls" width="800" height="600"></video>
+<video src="../1.数据库安装和启动/1.mysql的安装（消音版本）.mp4" type="video/mp4" autoplay="true" controls="controls" width="800" height="600"></video>
 
 <p>我们先介绍<code>MySQL 8.0</code>以下的<code>MySQL Installer</code>的安装：</p>
 <ol>
@@ -565,221 +780,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Git提交时显示其他用户名和邮箱</title>
-    <url>/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/</url>
-    <content><![CDATA[<p>介绍在配置了全局user.name和<code>user.email</code>的情况下，如何使用其他的名用户名和email提交代码</p>
-<span id="more"></span>
-<p>默认情况下只要配置了全局user.name和user.email，你的所有提交都会使用这个user.name和user.email作为提交作者，可以使用下面的指令来查看：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --list</span><br><span class="line"><span class="comment">## 或者单独查看</span></span><br><span class="line">git config --global user.name</span><br><span class="line">git config --global user.email</span><br></pre></td></tr></table></figure>
-<p><img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121001373.png" alt="image-20250908121001373"></p>
-<p>这两个值一般使用下面的指令设置：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&#x27;张三&#x27;</span></span><br><span class="line">git config --global user.email <span class="string">&#x27;zs@gmail.com&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>你可以看到我当前的设置为：</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">user.name</span>=<span class="string">ArgentoAskia</span></span><br><span class="line"><span class="meta">user.email</span>=<span class="string">askiaxiaoming@outlook.com</span></span><br></pre></td></tr></table></figure>
-<p>所以但我提交代码的时候，提交人信息一栏会使用这两个信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121640943.png" alt="image-20250908121640943" style="zoom:200%;"></p>
-<p>当你将内容<code>Push</code>到<code>Github</code>的时候，Github也会收到相关提交人的信息，<code>Github</code>优先会根据邮箱来判断，判断该邮箱是否注册过<code>Github</code>账号，如果注册过则会直接显示该用户的<code>Github</code>头像和相关信息，例如我的账户是Askiaxiaoming@outlook.com<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121915033.png" alt="image-20250908121915033"></p>
-<p>则此时你会看到提交信息上，就是我的相关<code>Github</code>信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122021677.png" alt="image-20250908122021677"></p>
-<p>如果发现这个邮箱没有注册过<code>Github</code>，则此时<code>Github</code>会使用您提交的用户名作为显示，头像会显示默认头像：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122218037.png" alt="image-20250908122218037"></p>
-<p>那么问题来了，这个信息是根据<code>Git</code>全局配置获取的，当我在新项目中不希望使用这个全局设置，而是使用其他的用户名和<code>Email</code>该怎么办？</p>
-<p>在每个项目的根目录下都有一个<code>.git</code>文件夹，该文件夹是隐藏状态，先将其显示，然后打开里面的<code>config</code>文件，一般位于这里：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122640512.png" alt="image-20250908122640512"></p>
-<p>在末尾添加一条配置信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">    name =  compay_yourname</span><br><span class="line">    email = youremail@compay.cn</span><br></pre></td></tr></table></figure>
-<p>这样设置后，你在该项目下提交的信息即为你设置的信息。唯一的缺点是他是只能配置该项目，如果有多个项目，需要分别配置下。但这样也有好处，就是你无需改动全局配置，当你不需要分别设置的时候你就不需要做任何其他的配置。</p>
-]]></content>
-      <categories>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>git username</tag>
-        <tag>git email</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>开闭原则</title>
-    <url>/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</url>
-    <content><![CDATA[<h4 id="软件设计模式——-gt-软件设计原则——-gt-开闭原则"><a href="#软件设计模式——-gt-软件设计原则——-gt-开闭原则" class="headerlink" title="软件设计模式——&gt;软件设计原则——&gt;开闭原则"></a>软件设计模式——&gt;软件设计原则——&gt;开闭原则</h4><span id="more"></span>
-<h1 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h1><h2 id="何为开闭原则"><a href="#何为开闭原则" class="headerlink" title="何为开闭原则"></a>何为开闭原则</h2><p>开闭原则（<code>Open Closed Principle</code>），<strong>意思是对扩展开放，对修改关闭</strong>。旨在程序需要进行扩展的时候，不能去修改原有的代码，实现一个热拔插的效果。使程序的扩展性好，易于维护和升级。</p>
-<p>通过扩展新的实现类的方式来进行修是开闭原则实现的一种方法，在更加高阶的应用中，如热替换、热部署等，常常需要接口、配置文件等形式来完成。</p>
-<h2 id="开闭原则逐步求精"><a href="#开闭原则逐步求精" class="headerlink" title="开闭原则逐步求精"></a>开闭原则逐步求精</h2><h3 id="基础版本"><a href="#基础版本" class="headerlink" title="基础版本"></a>基础版本</h3><p>举搜狗皮肤的案例，搜狗上有很多皮肤，当我们下载某款皮肤的时候可以进行一个皮肤的热替换，具体这个是怎么实现的呢？</p>
-<p>首先我们一种实现方式，工程目录如下：</p>
-<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708100725873.png" alt="image-20220708100725873"></p>
-<p>其中<code>XXXXSkin</code>代表各类皮肤代码，代码如下示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AskiaSkin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;AskiaSkin皮肤&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>SkinTestClient</code>代表搜狗输入法客户端。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsSkinDisplay</span><span class="params">(WindowsSkin windowsSkin)</span></span>&#123;</span><br><span class="line">        windowsSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">askiaSkinDisplay</span><span class="params">(AskiaSkin askiaSkin)</span></span>&#123;</span><br><span class="line">        askiaSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsReSkinDisplay</span><span class="params">(WindowsReSkin windowsReSkin)</span></span>&#123;</span><br><span class="line">        windowsReSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsSkin windowsSkin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">            windowsSkinDisplay(windowsSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            AskiaSkin askiaSkin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">            askiaSkinDisplay(askiaSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsReSkin windowsReSkin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">            windowsReSkinDisplay(windowsReSkin);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当我们需要新增一个新的皮肤的时候，比方说我们在<code>java</code>文件夹里面新增一个<code>RedJudgeSkin</code>这一个新增并不会修改已有的皮肤类代码，因此新增一个皮肤符合开闭原则，但是当我们把目光看向<code>SkinTestClient</code>的时候，他的代码问题就比较大了，大概可以分为两部分，第一部分问题出在这里：<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101406986.png" alt="image-20220708101406986"></p>
-<p>我们在客户端<strong>为每一个皮肤都写了一个换肤的方法</strong>（接口），然后通过方法</p>
-<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101933670.png" alt="image-20220708101933670"></p>
-<p>做皮肤的换肤判断，然后客户端的运行过程中，只要像这样，就能达到换肤的效果。<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708102027266.png" alt="image-20220708102027266"></p>
-<p>这种实现，<strong>问题比较大</strong>，创建新皮肤的时候符合开闭原则没毛病，但是客户端的代码就是重灾区了<strong>，因为现在扩展一个皮肤，你都需要额外编写一个换肤接口，同时你还需要在changeSkin()中，新增一个if分支！一旦你的皮肤越来越多，会造成SkinTestClient类代码臃肿，同时会留下非常多形式相同的代码，后期难以维护</strong></p>
-<h3 id="一次求精：去除客户端换肤接口"><a href="#一次求精：去除客户端换肤接口" class="headerlink" title="一次求精：去除客户端换肤接口"></a>一次求精：去除客户端换肤接口</h3><p>为了改进上面的代码，我么引入了<code>Java</code>中的接口，现在我们让所有皮肤类都实现顶层皮肤接口<code>Skin</code>，工程目录如下：</p>
-<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708103823374.png" alt="image-20220708103823374"></p>
-<p>其中<code>Skin</code>接口有一个抽象的换肤方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Skin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其他皮肤类都需要实现这个接口。</p>
-<p>// 图片继承图</p>
-<p>在客户端代码中：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        Skin skin = <span class="keyword">new</span> DefaultSkin();</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">           skin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">        &#125;</span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsReSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>有了这个<code>Skin</code>接口，我们现在就<strong>不需要每次新增一个皮肤都在客户端中写一个皮肤接口方法了</strong>（之前代码的<code>windowsReSkinDisplay(WindowsReSkin windowsReSkin)</code>、<code>askiaSkinDisplay(AskiaSkin askiaSkin)</code>都不用写啦）。现在当我们需要扩展皮肤，时，只需要实现<code>Skin</code>接口，然后在<code>changeSkin()</code>中添加一个<code>if</code>分支，就可以了。</p>
-<p>需要注意，本次的改进虽然让我们<strong>避免了在客户端中去写皮肤接口方法</strong>，减少了客户端代码的修改量，<strong>但客户端代码仍然不符合开闭原则，问题出在changeSkin()在每次添加新皮肤的时候，都需要添加一个if分支</strong>。这就涉及到接下来的第三次代码改进。</p>
-<h3 id="二次求精：统一changeSkin"><a href="#二次求精：统一changeSkin" class="headerlink" title="二次求精：统一changeSkin()"></a>二次求精：统一changeSkin()</h3><p>既然问题出在<code>changeSkin()</code>的分支上，那这个分支有什么作用呢？<strong>他主要是用来判别参数传递过来的皮肤名，通过皮肤名来做判断，然后创建相应的对象</strong>，讲到这里，所有的<code>if</code>都直接或者间接和皮肤名有关，也就是说和参数有关，这个方法参数会随时变化，我们写<code>if</code>也是为了判断是哪一类变化，然后根据这个变化<strong>来创建相应的皮肤对象</strong>。</p>
-<p>既然如此，<strong>如果传递过来的参数能够通过某个自己的内置的方法直接创建皮肤对象</strong>呢？如果能够做到这一点的话<code>if</code>语句不就可以省略了嘛。那么在<code>Java</code>中哪项技术可以做到在程序运行时创建对象——反射<code>API</code>。因此，我们把方法参数数改成<code>Class</code>类型即可，具体的代码参考下面的改进：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">    <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">    Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">    <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">    <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">            !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">        skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">    Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">    <span class="comment">// 显示皮肤</span></span><br><span class="line">    skinDisplay(skin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那现在<code>SkinTestClient</code>类代码变成了：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">        Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">        <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">        <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">                !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">            skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">        Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">        <span class="comment">// 显示皮肤</span></span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 模拟在皮肤更换窗口中点击按钮更换皮肤的过程</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin2(AskiaSkin.class);</span><br><span class="line">        skinTestClient.changeSkin2(DefaultSkin.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>现在我们代码每个模块基本上都符合开闭原则了。当我们现在重新新增一个皮肤，比如新增一个<code>RedJudgeSkin</code>，我们只需要让<code>RedJudgeSkin</code>实现接口<code>Skin</code>即可，<strong>不需要更改任何已有的代码</strong>。需要注意，<code>main</code>方法里面的代码属于模拟窗口点击的，不属于具体的工程，只用于测试用。</p>
-<h3 id="二次求精另外一套思路：引入配置文件"><a href="#二次求精另外一套思路：引入配置文件" class="headerlink" title="二次求精另外一套思路：引入配置文件"></a>二次求精另外一套思路：引入配置文件</h3><p>二次求精的代码已经符合开闭原则的要求了，已经是完美的最简单的版本了，但是在这里还有一种能达到和二次求精一样效果的方法，并且该方法甚至能完全统一客户端代码（包括不属于客户端的，用于测试的<code>main</code>方法），这种方法就是使用配置文件。</p>
-<p>使用配置文件有一个好处就是能够分担代码重量，让一些工作能够在代码之外的地方完成，同时，配置文件不需要编译，能够做到即时修改即时生效。</p>
-<p>但使用配置文件缺点也很明显，使用配置文件意味着<strong>代码中需要有专门处理配置文件的部分</strong>，这一部分的代码并不简单，因此这种思路更加复杂，实现也比较困难。</p>
-<p>使用配置文件，设计到外部文件监听服务（<code>WatchService</code>类）具体代码结构和类继承图如下：</p>
-<p>// 图片继承图</p>
-]]></content>
-      <categories>
-        <category>DesignPatterns</category>
-      </categories>
-      <tags>
-        <tag>Open-Closed</tag>
-        <tag>Principle</tag>
-        <tag>DesignPatterns</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C语言隐藏结构体的实现方法</title>
-    <url>/2019/11/26/C/C%E8%AF%AD%E8%A8%80%E9%9A%90%E8%97%8F%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>前些天在搞win32，被windows花里胡哨的结构弄得生不如死，脑子里莫名其妙蹦出了一个想法：能不能定义一些结构体，外部可以用它来定义变量，然而却不能改变它的成员的值, 就像C++，Java一类语言的class一样对数据进行保护。<del>好吧，其实是我还没吃饱撑着随便乱搞</del><br>参照了网上很多的说法，自己胡乱地搞了几个小时给弄出来了。</p>
-<h1 id="正文："><a href="#正文：" class="headerlink" title="正文："></a>正文：</h1><p>直接上代码:<br><br><code>book.cpp</code></p>
-<pre><code>#include &quot;book.h&quot;
-struct book&#123;
-    int price;
-    char *name;
-&#125;;
-
-PBOOK CreateBook(int price, char *name)
-&#123;
-    PBOOK Book1 = (PBOOK)malloc(sizeof(BOOK));
-    Book1-&gt;price = 100;
-    Book1-&gt;name = 0;
-    return Book1;
-&#125;
-
-void FreeBook(PBOOK book)
-&#123;
-    free(book);
-&#125; 
-</code></pre><p>上述源代码文件定义了一个结构和两个函数，同时包含一个自身的头文件</p>
-<p><code>book.h</code></p>
-<pre><code>#include &lt;malloc.h&gt;
-#define PBOOK BOOK *
-
-struct book;
-typedef struct book BOOK;
-
-PBOOK CreateBook(int price, char *name);
-void FreeBook(PBOOK book);
-</code></pre><p>头文件中声明了两个函数和结构体，其中用typedef给结构体定义为一种类型。因为源代码文件会包含这个头文件，<strong>所以在源代码中也可以使用头文件中的宏</strong></p>
-<p><code>main.cpp</code></p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &quot;book.h&quot;
-int main()
-&#123;
-    PBOOK a = CreateBook(20, &quot;1231321231&quot;);    // 定义的变量必须是指针类型 
-    printf(&quot;%d&quot;,a);
-&#125; 
-</code></pre><p>注意定义的BOOK类型 <strong>必须是指针（BOOK *类型，参照头文件的宏定义）</strong> 一旦定义为</p>
-<pre><code>BOOK a；
-</code></pre><p>就会报错，因为我们包含的头文件只有BOOK的声明，定义为BOOK a的话编译器不知道要给a分配多少内存空间，会引发以下类似类型错误：</p>
-<pre><code>[Error] variable &#39;BOOK a&#39; has initializer but incomplete type
-</code></pre><p>编译通过之后，可以用printf函数打印分配的地址，看下是否分配成功！<br>这样定义的变量的所有对成员的操作都要写到源代码文件中（包括基本的输入输出函数都要），因为在主函数中，这些变量的成员的值无法被直接更改！<br>如：</p>
-<p><code>main.cpp</code></p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &quot;book.h&quot;
-int main()
-&#123;
-    PBOOK a = CreateBook(20, &quot;1231321231&quot;);    // 定义的变量必须是指针类型 
-    printf(&quot;%d %d&quot;,a, a-&gt;price);
-&#125; 
-</code></pre><p>编译器会报类型错误，</p>
-<pre><code>[Error] invalid use of incomplete type &#39;BOOK &#123;aka struct book&#125;&#39;
-</code></pre><p>​    </p>
-]]></content>
-      <categories>
-        <category>C_Struct</category>
-      </categories>
-      <tags>
-        <tag>language C</tag>
-        <tag>struct</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>stdarg.h实现可变参数</title>
-    <url>/2019/11/24/C/stdarg-h%E5%AE%9E%E7%8E%B0%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/</url>
-    <content><![CDATA[<h2 id="stdarg-h实现可变参数"><a href="#stdarg-h实现可变参数" class="headerlink" title="stdarg.h实现可变参数"></a>stdarg.h实现可变参数</h2><ol>
-<li>本篇谈论用标准库stdarg.h实现不定参数的方方面面（11/24/2019 11:48:35 PM ）</li>
-<li>小技巧：实现格式输入、输出（见更新）</li>
-</ol>
-<h3 id="stdarg-h的介绍"><a href="#stdarg-h的介绍" class="headerlink" title="stdarg.h的介绍"></a>stdarg.h的介绍</h3><p>stdarg.h是C语言中C标准函数库的头文件，stdarg是由<strong>standard（标准） arguments（参数）</strong>简化而来。</p>
-<p>我们常常看到一些函数形如：<strong>printf(const char *fomat,…);</strong><br>这类型的函数就可以用该标准头文件实现。</p>
-<h3 id="包含成员"><a href="#包含成员" class="headerlink" title="包含成员"></a>包含成员</h3><p><strong>va_list:</strong> </p>
-<p>用来保存<strong>va_start()</strong>、<strong>va_arg()</strong> 和 <strong>va_end()</strong> 这三个宏存储信息的类型。</p>
-<p><strong>va_start:</strong></p>
-<pre><code> void va_start(va_list list, arg)
-</code></pre><p>将va_list指向初始参数</p>
-<ul>
-<li>arg为函数的最后一个非不定参数，如：上面的printf函数，该参数就要填fomat。</li>
-</ul>
-<p><strong>va_arg：</strong></p>
-<pre><code>type va_arg(va_list list, type)
-</code></pre><p>从list中取出参数并指定为type类型返回，同时移动指针指向下一个参数</p>
-<ul>
-<li>注意：一定要确保函数的type类型和返回值相同</li>
-</ul>
-<p><strong>va_end：</strong></p>
-<pre><code>void va_end(va_list list)
-</code></pre><p>释放list，将其置NULL。</p>
-<h3 id="具体用法"><a href="#具体用法" class="headerlink" title="具体用法"></a>具体用法</h3><pre><code>char **CreateStrings(int nNum, const char *nName,...);
-//生成一个字符串数组
-
-//代码如下：
-va_list ParamList;
-va_start(ParamList, nName); // 最后一个非可变参数
-
-char **sRet = (char **)malloc(sizeof(char *)*(nNum+1));                 // 创建二级指针
-if(sRet!=NULL)
-&#123;
-    // 此处不用纠结，只是填入nName参数到返回的字符串数组中
-    char *sMenber = NULL;
-    char *sTmp = NULL;
-    sMenber = (char *)malloc(sizeof(char)*strlen(nName));           
-    if(strcpy(sMenber, nName)!=NULL)                                // copy string to sMenber
-        *sRet = sMenber;                                            // add sMenber to sRet
-    else
-        return NULL;                                                // test copy
-    // 此处不用纠结
-
-    // 正戏开始
-    for(i=1; i&lt;=nNum-1; i++)
-    &#123;
-        sTmp = va_arg(ParamList,char *);                            // 多次从不定参数表取出参数，转为char *类型
-        if(sTmp==NULL)
-            return NULL;
-        sMenber = (char *)malloc(sizeof(char)*strlen(sTmp));
-        strcpy(sMenber, sTmp);
-        *(sRet+i) = sMenber;                                   
-    &#125;
-    *(sRet+nNum) = NULL;
-&#125;
-va_end(ParamList);                                                    // 释放不定参数表
-</code></pre>]]></content>
-      <categories>
-        <category>C Library</category>
-      </categories>
-      <tags>
-        <tag>C Std Library</tag>
-        <tag>stdarg.h</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>El表达式</title>
     <url>/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<span id="more"></span>
@@ -790,28 +790,6 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>javaweb_EL_Expression</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>22端口抽风</title>
-    <url>/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/</url>
-    <content><![CDATA[<p>前一天还能push，今天一push，就报：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="记录一次github-22端口抽风日常"><a href="#记录一次github-22端口抽风日常" class="headerlink" title="记录一次github 22端口抽风日常"></a>记录一次github 22端口抽风日常</h2><p>前一天还能push，今天一push，就报：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
-<p>出现 <code>ssh: connect to host github.com port 22: Connection timed out</code> 错误，通常是由于网络或配置问题导致无法通过默认的SSH端口22连接到GitHub。以下是解决方法：</p>
-<h3 id="临时测试连接"><a href="#临时测试连接" class="headerlink" title="临时测试连接"></a>临时测试连接</h3><p>在命令行中运行以下命令来测试连接：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T -p 443 git@ssh.github.com</span><br></pre></td></tr></table></figure>
-<p>如果显示类似 <code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code> 的信息，则表明通过443端口成功进行了身份验证。</p>
-<h3 id="修改SSH配置文件"><a href="#修改SSH配置文件" class="headerlink" title="修改SSH配置文件"></a>修改SSH配置文件</h3><p>修改 <code>~/.ssh/config</code> 文件，添加以下内容：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 443</span><br></pre></td></tr></table></figure>
-<p>保存文件后，再次运行以下命令测试连接：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-<p>如果连接成功，显示<code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>，之后就可以正常进行git操作了。</p>
-<p>如果此时还不能正常操作，或者提示<code>permission deny</code>，则你需要去到<code>.ssh</code>文件夹下（一般位于），删除<code>known_hosts</code>让<code>git</code>重新生成指纹</p>
-<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>出现这个问题很大概率是<code>Github</code>的主域名<code>github.com</code>，被墙了或者维护了，你<code>ping</code>不上去，此时可以尝试使用<code>ssh.github.com</code>，因此上面的解决方法相当于将<code>github.com</code>的主机名映射到<code>ssh.github.com</code>去！</p>
-<p><img src="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/image-20250827125841944.png" alt="image-20250827125841944"></p>
-]]></content>
   </entry>
   <entry>
     <title>Filter过滤器</title>
@@ -2137,6 +2115,28 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>22端口抽风</title>
+    <url>/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/</url>
+    <content><![CDATA[<p>前一天还能push，今天一push，就报：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="记录一次github-22端口抽风日常"><a href="#记录一次github-22端口抽风日常" class="headerlink" title="记录一次github 22端口抽风日常"></a>记录一次github 22端口抽风日常</h2><p>前一天还能push，今天一push，就报：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
+<p>出现 <code>ssh: connect to host github.com port 22: Connection timed out</code> 错误，通常是由于网络或配置问题导致无法通过默认的SSH端口22连接到GitHub。以下是解决方法：</p>
+<h3 id="临时测试连接"><a href="#临时测试连接" class="headerlink" title="临时测试连接"></a>临时测试连接</h3><p>在命令行中运行以下命令来测试连接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T -p 443 git@ssh.github.com</span><br></pre></td></tr></table></figure>
+<p>如果显示类似 <code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code> 的信息，则表明通过443端口成功进行了身份验证。</p>
+<h3 id="修改SSH配置文件"><a href="#修改SSH配置文件" class="headerlink" title="修改SSH配置文件"></a>修改SSH配置文件</h3><p>修改 <code>~/.ssh/config</code> 文件，添加以下内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 443</span><br></pre></td></tr></table></figure>
+<p>保存文件后，再次运行以下命令测试连接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>如果连接成功，显示<code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>，之后就可以正常进行git操作了。</p>
+<p>如果此时还不能正常操作，或者提示<code>permission deny</code>，则你需要去到<code>.ssh</code>文件夹下（一般位于），删除<code>known_hosts</code>让<code>git</code>重新生成指纹</p>
+<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>出现这个问题很大概率是<code>Github</code>的主域名<code>github.com</code>，被墙了或者维护了，你<code>ping</code>不上去，此时可以尝试使用<code>ssh.github.com</code>，因此上面的解决方法相当于将<code>github.com</code>的主机名映射到<code>ssh.github.com</code>去！</p>
+<p><img src="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/image-20250827125841944.png" alt="image-20250827125841944"></p>
+]]></content>
+  </entry>
+  <entry>
     <title>Session</title>
     <url>/2022/01/08/JavaWeb/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFSession/</url>
     <content><![CDATA[<h1 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h1><span id="more"></span>
@@ -2557,6 +2557,39 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>Hexo常用指令&amp;Front Matter</title>
+    <url>/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="Hexo常用指令-amp-Front-Matter"><a href="#Hexo常用指令-amp-Front-Matter" class="headerlink" title="Hexo常用指令&amp;Front Matter"></a>Hexo常用指令&amp;Front Matter</h1><span id="more"></span>
+<h2 id="Front-Matter"><a href="#Front-Matter" class="headerlink" title="Front Matter"></a>Front Matter</h2><p>重要的有两个：</p>
+<ul>
+<li><p>tags：标签，可以打多个</p>
+</li>
+<li><p>categories：分类，只能放一个分类</p>
+</li>
+</ul>
+<h3 id="tags"><a href="#tags" class="headerlink" title="tags"></a>tags</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">方式1：</span><br><span class="line">[java,javeweb]</span><br><span class="line">方式2：</span><br><span class="line">	- Java</span><br><span class="line">	- JavaWeb</span><br></pre></td></tr></table></figure>
+<h3 id="categories"><a href="#categories" class="headerlink" title="categories"></a>categories</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">categories: Hexo</span><br></pre></td></tr></table></figure>
+<h2 id="Hexo常用指令"><a href="#Hexo常用指令" class="headerlink" title="Hexo常用指令"></a>Hexo常用指令</h2><h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><p>希望在<code>_post</code>文件夹下创建文章：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post &quot;文章名[.md]&quot;</span><br></pre></td></tr></table></figure>
+<p>希望在<code>_post/分类</code>文件下面创建文章：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post --path &quot;[目录名]/[文章名]&quot;</span><br></pre></td></tr></table></figure>
+<p><code>[目录名]</code> <strong>不存在会自动创建</strong></p>
+<h2 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo g -d 		// 生成之后立即部署</span><br></pre></td></tr></table></figure>
+<h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo s	//本地测试</span><br></pre></td></tr></table></figure>
+<p>可以边开启服务器，边修改文章，边看效果（<strong>支持热部署</strong>）</p>
+<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d		// 部署静态页面</span><br></pre></td></tr></table></figure>
+<h2 id="一般流程"><a href="#一般流程" class="headerlink" title="一般流程"></a>一般流程</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(hexo clean)--&gt; hexo new --&gt; 写文章 --&gt; hexo g(hexo g -d) --&gt; (hexo s) --&gt; hexo d</span><br></pre></td></tr></table></figure>
+<p><code>hexo d</code>,远端没更新，一般都是<code>github</code>服务器问题，<strong>等！</strong></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Hexo指令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>解决Windows环境变量无法使用列表展开</title>
     <url>/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/</url>
     <content><![CDATA[<p>这里说的问题可能会对配置Windows环境变量出错的同学有一点点帮助（<del>但不多</del>）</p>
@@ -2577,6 +2610,27 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>windows</tag>
         <tag>variables</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>文章常用标志</title>
+    <url>/2019/11/20/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/%E6%96%87%E7%AB%A0%E5%B8%B8%E7%94%A8%E6%A0%87%E5%BF%97/</url>
+    <content><![CDATA[<p>hexo常用标志</p>
+<span id="more"></span>
+<h1 id="常用标识："><a href="#常用标识：" class="headerlink" title="常用标识："></a>常用标识：</h1><h2 id="title"><a href="#title" class="headerlink" title="title:"></a>title:</h2><p>文章标题</p>
+<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><p>文章标签，格式可为：<code>[XXXX,XXXX,...]</code> 或者 <code>- XXXXX\n - XXXXXX\n</code></p>
+<h2 id="date"><a href="#date" class="headerlink" title="date:"></a>date:</h2><p>生成日期<br>格式自定义</p>
+<h2 id="categories"><a href="#categories" class="headerlink" title="categories:"></a>categories:</h2><p>文章分类</p>
+<h2 id="description"><a href="#description" class="headerlink" title="description:"></a>description:</h2><p>文章描述，展示在主页的描述。 </p>
+<h2 id="image"><a href="#image" class="headerlink" title="image:"></a>image:</h2><p>待写</p>
+<h2 id="password"><a href="#password" class="headerlink" title="password:"></a>password:</h2><p>如果需要给md加密码访问，可加上这个。</p>
+<h2 id="top"><a href="#top" class="headerlink" title="top:"></a>top:</h2><p>博文置顶优先级，数值越高越靠前。</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -2656,26 +2710,94 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>hexo模板修改和使用</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
+    <title>Markdown语法</title>
+    <url>/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Markdown%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<p>Markdown语法</p>
 <span id="more"></span>
-<p><code>hexo</code>的模板一般放在：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
-<p>有三个文件</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
-<p>对应new命令的三种创建类型！</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
-<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
-<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="Markdown语法"><a href="#Markdown语法" class="headerlink" title="Markdown语法"></a>Markdown语法</h1><h2 id="Markdown简介"><a href="#Markdown简介" class="headerlink" title="Markdown简介"></a>Markdown简介</h2><p>markdown就是一种轻量级标记语言。兼容HTML。可以用来写<code>HTML</code>。一般用来记笔记。</p>
+<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>有6个级别的标题</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 一级标题</span></span><br><span class="line"><span class="section">## 二级标题</span></span><br><span class="line"><span class="section">### 三级标题</span></span><br><span class="line"><span class="section">#### 四级标题</span></span><br><span class="line"><span class="section">##### 五级标题</span></span><br><span class="line"><span class="section">###### 六级标题</span></span><br></pre></td></tr></table></figure>
+<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>引用用于更新文章</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="quote">&gt; 引用内容</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>引用内容</p>
+<p>2022年5月14日更新内容：</p>
+<p>XXXXX</p>
+<p>13131231</p>
+<blockquote>
+<p>23点32分</p>
+</blockquote>
+</blockquote>
+<h2 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">~~123123~~</span><br></pre></td></tr></table></figure>
+<p><del>12313123</del></p>
+<h2 id="加粗"><a href="#加粗" class="headerlink" title="加粗"></a>加粗</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="strong">**sdasdsda**</span></span><br></pre></td></tr></table></figure>
+<p><strong>123112</strong></p>
+<h2 id="倾斜"><a href="#倾斜" class="headerlink" title="倾斜"></a>倾斜</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="emphasis">*321323*</span></span><br></pre></td></tr></table></figure>
+<p><em>2313</em></p>
+<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="code">``` 代码块</span></span><br></pre></td></tr></table></figure>
+<h2 id="内嵌代码"><a href="#内嵌代码" class="headerlink" title="内嵌代码"></a>内嵌代码</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="code">`1231332312`</span></span><br></pre></td></tr></table></figure>
+<p><code>askia</code></p>
+<h2 id="公式块"><a href="#公式块" class="headerlink" title="公式块"></a>公式块</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">$$</span><br><span class="line">mathJs公式代码</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+\alpha、\delta</script><h2 id="内嵌公式"><a href="#内嵌公式" class="headerlink" title="内嵌公式"></a>内嵌公式</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">$&#123;O(n^2)&#125;$</span><br></pre></td></tr></table></figure>
+<p>${O(n^2)}$</p>
+<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>head1</th>
+<th>head2</th>
+<th>head3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">1.</span> 123</span><br><span class="line"><span class="bullet">2.</span> 345</span><br></pre></td></tr></table></figure>
+<ol>
+<li>123</li>
+<li>456</li>
+</ol>
+<h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> 1231</span><br><span class="line"><span class="bullet">-</span> 12313</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1231</li>
+<li>4141sda</li>
+</ul>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[<span class="string">标题</span>](<span class="link">链接地址</span>)</span><br></pre></td></tr></table></figure>
+<p><a href="www.baidu.com">baidu</a></p>
+<h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---	</span><br></pre></td></tr></table></figure>
+<hr>
+<hr>
+<h2 id="内容目录"><a href="#内容目录" class="headerlink" title="内容目录"></a>内容目录</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[TOC]</span><br></pre></td></tr></table></figure>
+<p>[TOC]</p>
+<h2 id="高亮"><a href="#高亮" class="headerlink" title="高亮"></a>高亮</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">==23132==</span><br></pre></td></tr></table></figure>
+<p>==21313==</p>
+<h2 id="上标"><a href="#上标" class="headerlink" title="上标"></a>上标</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">^22^</span><br><span class="line">~11~</span><br></pre></td></tr></table></figure>
+<p>a^21^</p>
+<p>b~2~</p>
+<h2 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h2><p><img src="/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Markdown%E8%AF%AD%E6%B3%95/image-20220515000408871.png" alt="image-20220515000408871"></p>
+<h2 id="画图"><a href="#画图" class="headerlink" title="画图"></a>画图</h2><p>流程图、类图，需要插件支持。</p>
 ]]></content>
       <categories>
-        <category>博客运维</category>
+        <category>Markdown</category>
       </categories>
       <tags>
-        <tag>hexo</tag>
-        <tag>features</tag>
-        <tag>reference</tag>
+        <tag>Markdown</tag>
       </tags>
   </entry>
   <entry>
@@ -2810,6 +2932,29 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
+    <title>hexo模板修改和使用</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
+<span id="more"></span>
+<p><code>hexo</code>的模板一般放在：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
+<p>有三个文件</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
+<p>对应new命令的三种创建类型！</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
+<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
+<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>features</tag>
+        <tag>reference</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关于hexoGenerate</title>
     <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/</url>
     <content><![CDATA[<p>本次讲解<code>hexo</code>博客常用的命令：<code>hexo g</code></p>
@@ -2880,6 +3025,23 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
+    <title>解决hexo中文乱码</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
+<p>出现中文乱码可能是因为配置文件中不是使用<code>utf-8</code>进行保存，因此</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>添加评论功能</title>
     <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<p>这篇文章会介绍<code>hexo</code>如何添加文章评论功能，会介绍<code>hexo</code>中几乎所有可接入的评论系统，希望能帮到您！</p>
@@ -2914,23 +3076,6 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
-    <title>解决hexo中文乱码</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
-    <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
-<p>出现中文乱码可能是因为配置文件中不是使用<code>utf-8</code>进行保存，因此</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>解决hexo标签和分类页面无法正常显示</title>
     <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA/</url>
     <content><![CDATA[<h2 id="解决hexo标签和分类页面无法正常显示"><a href="#解决hexo标签和分类页面无法正常显示" class="headerlink" title="解决hexo标签和分类页面无法正常显示"></a>解决hexo标签和分类页面无法正常显示</h2><span id="more"></span>
@@ -2940,27 +3085,6 @@ cnpm install -g hexo-cli
 <p>分别添加：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type: &quot;categories&quot;</span><br><span class="line">layout: &quot;categories&quot;</span><br><span class="line"></span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">layout: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
 <p>即可解决</p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo-github hexo g time out 443</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
-    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
-<span id="more"></span>
-<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-<p>如果不需要代理了，则可以运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>博客运维</category>
@@ -3006,6 +3130,27 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
+    <title>解决hexo-github hexo g time out 443</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
+    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
+<span id="more"></span>
+<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+<p>如果不需要代理了，则可以运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>记录一次hexo上传大文件失败产生的问题</title>
     <url>/2023/05/21/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1hexo%E4%B8%8A%E4%BC%A0%E5%A4%A7%E6%96%87%E4%BB%B6%E5%A4%B1%E8%B4%A5%E4%BA%A7%E7%94%9F%E7%9A%84%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<p>最近想搞动态背景，使用了了一张比较大的gif（2K画质，60帧），大小在146MB！</p>
@@ -3038,237 +3183,6 @@ cnpm install -g hexo-cli
       </categories>
       <tags>
         <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo常用指令&amp;Front Matter</title>
-    <url>/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
-    <content><![CDATA[<h1 id="Hexo常用指令-amp-Front-Matter"><a href="#Hexo常用指令-amp-Front-Matter" class="headerlink" title="Hexo常用指令&amp;Front Matter"></a>Hexo常用指令&amp;Front Matter</h1><span id="more"></span>
-<h2 id="Front-Matter"><a href="#Front-Matter" class="headerlink" title="Front Matter"></a>Front Matter</h2><p>重要的有两个：</p>
-<ul>
-<li><p>tags：标签，可以打多个</p>
-</li>
-<li><p>categories：分类，只能放一个分类</p>
-</li>
-</ul>
-<h3 id="tags"><a href="#tags" class="headerlink" title="tags"></a>tags</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">方式1：</span><br><span class="line">[java,javeweb]</span><br><span class="line">方式2：</span><br><span class="line">	- Java</span><br><span class="line">	- JavaWeb</span><br></pre></td></tr></table></figure>
-<h3 id="categories"><a href="#categories" class="headerlink" title="categories"></a>categories</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">categories: Hexo</span><br></pre></td></tr></table></figure>
-<h2 id="Hexo常用指令"><a href="#Hexo常用指令" class="headerlink" title="Hexo常用指令"></a>Hexo常用指令</h2><h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><p>希望在<code>_post</code>文件夹下创建文章：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post &quot;文章名[.md]&quot;</span><br></pre></td></tr></table></figure>
-<p>希望在<code>_post/分类</code>文件下面创建文章：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new post --path &quot;[目录名]/[文章名]&quot;</span><br></pre></td></tr></table></figure>
-<p><code>[目录名]</code> <strong>不存在会自动创建</strong></p>
-<h2 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo g -d 		// 生成之后立即部署</span><br></pre></td></tr></table></figure>
-<h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo s	//本地测试</span><br></pre></td></tr></table></figure>
-<p>可以边开启服务器，边修改文章，边看效果（<strong>支持热部署</strong>）</p>
-<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d		// 部署静态页面</span><br></pre></td></tr></table></figure>
-<h2 id="一般流程"><a href="#一般流程" class="headerlink" title="一般流程"></a>一般流程</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(hexo clean)--&gt; hexo new --&gt; 写文章 --&gt; hexo g(hexo g -d) --&gt; (hexo s) --&gt; hexo d</span><br></pre></td></tr></table></figure>
-<p><code>hexo d</code>,远端没更新，一般都是<code>github</code>服务器问题，<strong>等！</strong></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Hexo指令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Markdown语法</title>
-    <url>/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Markdown%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<p>Markdown语法</p>
-<span id="more"></span>
-<h1 id="Markdown语法"><a href="#Markdown语法" class="headerlink" title="Markdown语法"></a>Markdown语法</h1><h2 id="Markdown简介"><a href="#Markdown简介" class="headerlink" title="Markdown简介"></a>Markdown简介</h2><p>markdown就是一种轻量级标记语言。兼容HTML。可以用来写<code>HTML</code>。一般用来记笔记。</p>
-<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>有6个级别的标题</p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section"># 一级标题</span></span><br><span class="line"><span class="section">## 二级标题</span></span><br><span class="line"><span class="section">### 三级标题</span></span><br><span class="line"><span class="section">#### 四级标题</span></span><br><span class="line"><span class="section">##### 五级标题</span></span><br><span class="line"><span class="section">###### 六级标题</span></span><br></pre></td></tr></table></figure>
-<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>引用用于更新文章</p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="quote">&gt; 引用内容</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>引用内容</p>
-<p>2022年5月14日更新内容：</p>
-<p>XXXXX</p>
-<p>13131231</p>
-<blockquote>
-<p>23点32分</p>
-</blockquote>
-</blockquote>
-<h2 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">~~123123~~</span><br></pre></td></tr></table></figure>
-<p><del>12313123</del></p>
-<h2 id="加粗"><a href="#加粗" class="headerlink" title="加粗"></a>加粗</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="strong">**sdasdsda**</span></span><br></pre></td></tr></table></figure>
-<p><strong>123112</strong></p>
-<h2 id="倾斜"><a href="#倾斜" class="headerlink" title="倾斜"></a>倾斜</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="emphasis">*321323*</span></span><br></pre></td></tr></table></figure>
-<p><em>2313</em></p>
-<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="code">``` 代码块</span></span><br></pre></td></tr></table></figure>
-<h2 id="内嵌代码"><a href="#内嵌代码" class="headerlink" title="内嵌代码"></a>内嵌代码</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="code">`1231332312`</span></span><br></pre></td></tr></table></figure>
-<p><code>askia</code></p>
-<h2 id="公式块"><a href="#公式块" class="headerlink" title="公式块"></a>公式块</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">$$</span><br><span class="line">mathJs公式代码</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
-<script type="math/tex; mode=display">
-\alpha、\delta</script><h2 id="内嵌公式"><a href="#内嵌公式" class="headerlink" title="内嵌公式"></a>内嵌公式</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">$&#123;O(n^2)&#125;$</span><br></pre></td></tr></table></figure>
-<p>${O(n^2)}$</p>
-<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>head1</th>
-<th>head2</th>
-<th>head3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">1.</span> 123</span><br><span class="line"><span class="bullet">2.</span> 345</span><br></pre></td></tr></table></figure>
-<ol>
-<li>123</li>
-<li>456</li>
-</ol>
-<h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> 1231</span><br><span class="line"><span class="bullet">-</span> 12313</span><br></pre></td></tr></table></figure>
-<ul>
-<li>1231</li>
-<li>4141sda</li>
-</ul>
-<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[<span class="string">标题</span>](<span class="link">链接地址</span>)</span><br></pre></td></tr></table></figure>
-<p><a href="www.baidu.com">baidu</a></p>
-<h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---	</span><br></pre></td></tr></table></figure>
-<hr>
-<hr>
-<h2 id="内容目录"><a href="#内容目录" class="headerlink" title="内容目录"></a>内容目录</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">[TOC]</span><br></pre></td></tr></table></figure>
-<p>[TOC]</p>
-<h2 id="高亮"><a href="#高亮" class="headerlink" title="高亮"></a>高亮</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">==23132==</span><br></pre></td></tr></table></figure>
-<p>==21313==</p>
-<h2 id="上标"><a href="#上标" class="headerlink" title="上标"></a>上标</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">^22^</span><br><span class="line">~11~</span><br></pre></td></tr></table></figure>
-<p>a^21^</p>
-<p>b~2~</p>
-<h2 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h2><p><img src="/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Markdown%E8%AF%AD%E6%B3%95/image-20220515000408871.png" alt="image-20220515000408871"></p>
-<h2 id="画图"><a href="#画图" class="headerlink" title="画图"></a>画图</h2><p>流程图、类图，需要插件支持。</p>
-]]></content>
-      <categories>
-        <category>Markdown</category>
-      </categories>
-      <tags>
-        <tag>Markdown</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>文章常用标志</title>
-    <url>/2019/11/20/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/%E6%96%87%E7%AB%A0%E5%B8%B8%E7%94%A8%E6%A0%87%E5%BF%97/</url>
-    <content><![CDATA[<p>hexo常用标志</p>
-<span id="more"></span>
-<h1 id="常用标识："><a href="#常用标识：" class="headerlink" title="常用标识："></a>常用标识：</h1><h2 id="title"><a href="#title" class="headerlink" title="title:"></a>title:</h2><p>文章标题</p>
-<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><p>文章标签，格式可为：<code>[XXXX,XXXX,...]</code> 或者 <code>- XXXXX\n - XXXXXX\n</code></p>
-<h2 id="date"><a href="#date" class="headerlink" title="date:"></a>date:</h2><p>生成日期<br>格式自定义</p>
-<h2 id="categories"><a href="#categories" class="headerlink" title="categories:"></a>categories:</h2><p>文章分类</p>
-<h2 id="description"><a href="#description" class="headerlink" title="description:"></a>description:</h2><p>文章描述，展示在主页的描述。 </p>
-<h2 id="image"><a href="#image" class="headerlink" title="image:"></a>image:</h2><p>待写</p>
-<h2 id="password"><a href="#password" class="headerlink" title="password:"></a>password:</h2><p>如果需要给md加密码访问，可加上这个。</p>
-<h2 id="top"><a href="#top" class="headerlink" title="top:"></a>top:</h2><p>博文置顶优先级，数值越高越靠前。</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常用正则表达式</title>
-    <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
-<h2 id="常用表达式举例"><a href="#常用表达式举例" class="headerlink" title="常用表达式举例"></a>常用表达式举例</h2><span id="more"></span>
-<h3 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h3><h5 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
-<h5 id="n位数字（n为具体数字）"><a href="#n位数字（n为具体数字）" class="headerlink" title="n位数字（n为具体数字）"></a>n位数字（n为具体数字）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="至少n位的数字"><a href="#至少n位的数字" class="headerlink" title="至少n位的数字"></a>至少n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n,&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="m-n位的数字"><a href="#m-n位的数字" class="headerlink" title="m-n位的数字"></a>m-n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;m,n&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="零和非零开头的数字"><a href="#零和非零开头的数字" class="headerlink" title="零和非零开头的数字"></a>零和非零开头的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$</span><br></pre></td></tr></table></figure>
-<h5 id="非零开头的最多带两位小数的数字"><a href="#非零开头的最多带两位小数的数字" class="headerlink" title="非零开头的最多带两位小数的数字"></a>非零开头的最多带两位小数的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)+(\.[0-9]&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
-<h5 id="带1-2位小数的正数或负数"><a href="#带1-2位小数的正数或负数" class="headerlink" title="带1-2位小数的正数或负数"></a>带1-2位小数的正数或负数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-)?\d+(\.\d&#123;1,2&#125;)$</span><br></pre></td></tr></table></figure>
-<h5 id="正数、负数、和小数"><a href="#正数、负数、和小数" class="headerlink" title="正数、负数、和小数"></a>正数、负数、和小数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-|\+)?\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
-<h5 id="有两位小数的正实数"><a href="#有两位小数的正实数" class="headerlink" title="有两位小数的正实数"></a>有两位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;2&#125;)?$</span><br></pre></td></tr></table></figure>
-<h5 id="有1-3位小数的正实数"><a href="#有1-3位小数的正实数" class="headerlink" title="有1~3位小数的正实数"></a>有1~3位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;1,3&#125;)?$</span><br></pre></td></tr></table></figure>
-<h5 id="非零的正整数"><a href="#非零的正整数" class="headerlink" title="非零的正整数"></a>非零的正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)&#123;1,3&#125;$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\+?[1-9][0-9]*$</span><br></pre></td></tr></table></figure>
-<h5 id="非零的负整数"><a href="#非零的负整数" class="headerlink" title="非零的负整数"></a>非零的负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\-[1-9][]0-9&quot;*$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*$</span><br></pre></td></tr></table></figure>
-<h5 id="非负整数"><a href="#非负整数" class="headerlink" title="非负整数"></a>非负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
-<h5 id="非正整数"><a href="#非正整数" class="headerlink" title="非正整数"></a>非正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+)|(0+))$</span><br></pre></td></tr></table></figure>
-<h5 id="非负浮点数"><a href="#非负浮点数" class="headerlink" title="非负浮点数"></a>非负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span><br></pre></td></tr></table></figure>
-<h5 id="非正浮点数"><a href="#非正浮点数" class="headerlink" title="非正浮点数"></a>非正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+(\.\d+)?)|(0+(\.0+)?))$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span><br></pre></td></tr></table></figure>
-<h5 id="正浮点数"><a href="#正浮点数" class="headerlink" title="正浮点数"></a>正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</span><br></pre></td></tr></table></figure>
-<h5 id="负浮点数"><a href="#负浮点数" class="headerlink" title="负浮点数"></a>负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</span><br></pre></td></tr></table></figure>
-<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-?\d+)(\.\d+)?$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span><br></pre></td></tr></table></figure>
-<h3 id="校验字符的表达式"><a href="#校验字符的表达式" class="headerlink" title="校验字符的表达式"></a>校验字符的表达式</h3><h5 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;0,&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="英文和数字"><a href="#英文和数字" class="headerlink" title="英文和数字"></a>英文和数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;4,40&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="长度为3-20的所有字符"><a href="#长度为3-20的所有字符" class="headerlink" title="长度为3-20的所有字符"></a>长度为3-20的所有字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^.&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="由26个英文字母组成的字符串"><a href="#由26个英文字母组成的字符串" class="headerlink" title="由26个英文字母组成的字符串"></a>由26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由26个大写英文字母组成的字符串"><a href="#由26个大写英文字母组成的字符串" class="headerlink" title="由26个大写英文字母组成的字符串"></a>由26个大写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Z]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由26个小写英文字母组成的字符串"><a href="#由26个小写英文字母组成的字符串" class="headerlink" title="由26个小写英文字母组成的字符串"></a>由26个小写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-z]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由数字和26个英文字母组成的字符串"><a href="#由数字和26个英文字母组成的字符串" class="headerlink" title="由数字和26个英文字母组成的字符串"></a>由数字和26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由数字、26个英文字母或者下划线组成的字符串"><a href="#由数字、26个英文字母或者下划线组成的字符串" class="headerlink" title="由数字、26个英文字母或者下划线组成的字符串"></a>由数字、26个英文字母或者下划线组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+$ 或 ^\w&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="中文、英文、数字包括下划线"><a href="#中文、英文、数字包括下划线" class="headerlink" title="中文、英文、数字包括下划线"></a>中文、英文、数字包括下划线</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9_]+$</span><br></pre></td></tr></table></figure>
-<h5 id="中文、英文、数字但不包括下划线等符号"><a href="#中文、英文、数字但不包括下划线等符号" class="headerlink" title="中文、英文、数字但不包括下划线等符号"></a>中文、英文、数字但不包括下划线等符号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]&#123;2,20&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="可以输入含有-amp-’-”等字符"><a href="#可以输入含有-amp-’-”等字符" class="headerlink" title="可以输入含有^%&amp;’,;=?$\”等字符"></a>可以输入含有^%&amp;’,;=?$\”等字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^%&amp;&#x27;,;=?$\x22]+</span><br></pre></td></tr></table></figure>
-<h5 id="禁止输入含有-的字符"><a href="#禁止输入含有-的字符" class="headerlink" title="禁止输入含有~的字符"></a>禁止输入含有~的字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^~\x22]+</span><br></pre></td></tr></table></figure>
-<h3 id="特殊需求表达式"><a href="#特殊需求表达式" class="headerlink" title="特殊需求表达式"></a>特殊需求表达式</h3><h5 id="Email地址"><a href="#Email地址" class="headerlink" title="Email地址"></a>Email地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br></pre></td></tr></table></figure>
-<h5 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(\.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+\.?</span><br></pre></td></tr></table></figure>
-<h5 id="InternetURL"><a href="#InternetURL" class="headerlink" title="InternetURL"></a>InternetURL</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-z]+://[^\s]*</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</span><br></pre></td></tr></table></figure>
-<h5 id="手机号码"><a href="#手机号码" class="headerlink" title="手机号码"></a>手机号码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX"><a href="#电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX" class="headerlink" title="电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)"></a>电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="国内电话号码-0511-4405222、021-87888822"><a href="#国内电话号码-0511-4405222、021-87888822" class="headerlink" title="国内电话号码(0511-4405222、021-87888822)"></a>国内电话号码(0511-4405222、021-87888822)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><a href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）" class="headerlink" title="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"></a>电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((\d&#123;11&#125;)|^((\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;)|(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;))$)</span><br></pre></td></tr></table></figure>
-<h5 id="身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X"><a href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X" class="headerlink" title="身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X"></a>身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)</span><br></pre></td></tr></table></figure>
-<h5 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线"><a href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线" class="headerlink" title="帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)"></a>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线"><a href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线" class="headerlink" title="密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)"></a>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z]\w&#123;5,17&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间"><a href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)"></a>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"><a href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)"></a>强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="日期格式"><a href="#日期格式" class="headerlink" title="日期格式"></a>日期格式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="一年的12个月-01～09和1～12"><a href="#一年的12个月-01～09和1～12" class="headerlink" title="一年的12个月(01～09和1～12)"></a>一年的12个月(01～09和1～12)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0?[1-9]|1[0-2])$</span><br></pre></td></tr></table></figure>
-<h5 id="一个月的31天-01～09和1～31"><a href="#一个月的31天-01～09和1～31" class="headerlink" title="一个月的31天(01～09和1～31)"></a>一个月的31天(01～09和1～31)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((0?[1-9])|((1|2)[0-9])|30|31)$</span><br></pre></td></tr></table></figure>
-<h5 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</span><br></pre></td></tr></table></figure>
-<h5 id="中国邮政编码"><a href="#中国邮政编码" class="headerlink" title="中国邮政编码"></a>中国邮政编码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9]\d&#123;5&#125;(?!\d) </span><br></pre></td></tr></table></figure>
-<h5 id="腾讯QQ号"><a href="#腾讯QQ号" class="headerlink" title="腾讯QQ号"></a>腾讯QQ号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9][0-9]&#123;4,&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="IPv4地址"><a href="#IPv4地址" class="headerlink" title="IPv4地址"></a>IPv4地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;)(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;))&#123;3&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="字符过滤类"><a href="#字符过滤类" class="headerlink" title="字符过滤类"></a>字符过滤类</h3><h5 id="中文字符的正则表达式"><a href="#中文字符的正则表达式" class="headerlink" title="中文字符的正则表达式"></a>中文字符的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[\u4e00-\u9fa5]</span><br></pre></td></tr></table></figure>
-<h5 id="双字节字符"><a href="#双字节字符" class="headerlink" title="双字节字符"></a>双字节字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\x00-\xff] </span><br></pre></td></tr></table></figure>
-<p>(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</p>
-<h5 id="空白行的正则表达式"><a href="#空白行的正则表达式" class="headerlink" title="空白行的正则表达式"></a>空白行的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\n\s*\r</span><br></pre></td></tr></table></figure>
-<p>(可以用来删除空白行)</p>
-<h5 id="HTML标记的正则表达式"><a href="#HTML标记的正则表达式" class="headerlink" title="HTML标记的正则表达式"></a>HTML标记的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt;</span><br></pre></td></tr></table></figure>
-<p> <strong>( 首尾空白字符的正则表达式：<code>^\s\*|\s\*$</code>或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</strong></p>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>匹配字符中不出现某些特殊字符可以这样:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]		// 不匹配带有\/*:?&quot;&lt;&gt;|的字符串</span><br></pre></td></tr></table></figure>
-<p>匹配目录是否合法(windows)</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[C-Z]:\\([^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]+\\)*$</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>正则表达式</category>
-      </categories>
-      <tags>
-        <tag>常用正则表达式持续更新</tag>
       </tags>
   </entry>
   <entry>
@@ -3887,6 +3801,92 @@ a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = 0\\
       </tags>
   </entry>
   <entry>
+    <title>常用正则表达式</title>
+    <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
+<h2 id="常用表达式举例"><a href="#常用表达式举例" class="headerlink" title="常用表达式举例"></a>常用表达式举例</h2><span id="more"></span>
+<h3 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h3><h5 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
+<h5 id="n位数字（n为具体数字）"><a href="#n位数字（n为具体数字）" class="headerlink" title="n位数字（n为具体数字）"></a>n位数字（n为具体数字）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="至少n位的数字"><a href="#至少n位的数字" class="headerlink" title="至少n位的数字"></a>至少n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n,&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="m-n位的数字"><a href="#m-n位的数字" class="headerlink" title="m-n位的数字"></a>m-n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;m,n&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="零和非零开头的数字"><a href="#零和非零开头的数字" class="headerlink" title="零和非零开头的数字"></a>零和非零开头的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$</span><br></pre></td></tr></table></figure>
+<h5 id="非零开头的最多带两位小数的数字"><a href="#非零开头的最多带两位小数的数字" class="headerlink" title="非零开头的最多带两位小数的数字"></a>非零开头的最多带两位小数的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)+(\.[0-9]&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
+<h5 id="带1-2位小数的正数或负数"><a href="#带1-2位小数的正数或负数" class="headerlink" title="带1-2位小数的正数或负数"></a>带1-2位小数的正数或负数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-)?\d+(\.\d&#123;1,2&#125;)$</span><br></pre></td></tr></table></figure>
+<h5 id="正数、负数、和小数"><a href="#正数、负数、和小数" class="headerlink" title="正数、负数、和小数"></a>正数、负数、和小数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-|\+)?\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
+<h5 id="有两位小数的正实数"><a href="#有两位小数的正实数" class="headerlink" title="有两位小数的正实数"></a>有两位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;2&#125;)?$</span><br></pre></td></tr></table></figure>
+<h5 id="有1-3位小数的正实数"><a href="#有1-3位小数的正实数" class="headerlink" title="有1~3位小数的正实数"></a>有1~3位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;1,3&#125;)?$</span><br></pre></td></tr></table></figure>
+<h5 id="非零的正整数"><a href="#非零的正整数" class="headerlink" title="非零的正整数"></a>非零的正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)&#123;1,3&#125;$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\+?[1-9][0-9]*$</span><br></pre></td></tr></table></figure>
+<h5 id="非零的负整数"><a href="#非零的负整数" class="headerlink" title="非零的负整数"></a>非零的负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\-[1-9][]0-9&quot;*$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*$</span><br></pre></td></tr></table></figure>
+<h5 id="非负整数"><a href="#非负整数" class="headerlink" title="非负整数"></a>非负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
+<h5 id="非正整数"><a href="#非正整数" class="headerlink" title="非正整数"></a>非正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+)|(0+))$</span><br></pre></td></tr></table></figure>
+<h5 id="非负浮点数"><a href="#非负浮点数" class="headerlink" title="非负浮点数"></a>非负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+<h5 id="非正浮点数"><a href="#非正浮点数" class="headerlink" title="非正浮点数"></a>非正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+(\.\d+)?)|(0+(\.0+)?))$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+<h5 id="正浮点数"><a href="#正浮点数" class="headerlink" title="正浮点数"></a>正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</span><br></pre></td></tr></table></figure>
+<h5 id="负浮点数"><a href="#负浮点数" class="headerlink" title="负浮点数"></a>负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</span><br></pre></td></tr></table></figure>
+<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-?\d+)(\.\d+)?$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span><br></pre></td></tr></table></figure>
+<h3 id="校验字符的表达式"><a href="#校验字符的表达式" class="headerlink" title="校验字符的表达式"></a>校验字符的表达式</h3><h5 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;0,&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="英文和数字"><a href="#英文和数字" class="headerlink" title="英文和数字"></a>英文和数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;4,40&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="长度为3-20的所有字符"><a href="#长度为3-20的所有字符" class="headerlink" title="长度为3-20的所有字符"></a>长度为3-20的所有字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^.&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="由26个英文字母组成的字符串"><a href="#由26个英文字母组成的字符串" class="headerlink" title="由26个英文字母组成的字符串"></a>由26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由26个大写英文字母组成的字符串"><a href="#由26个大写英文字母组成的字符串" class="headerlink" title="由26个大写英文字母组成的字符串"></a>由26个大写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Z]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由26个小写英文字母组成的字符串"><a href="#由26个小写英文字母组成的字符串" class="headerlink" title="由26个小写英文字母组成的字符串"></a>由26个小写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-z]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由数字和26个英文字母组成的字符串"><a href="#由数字和26个英文字母组成的字符串" class="headerlink" title="由数字和26个英文字母组成的字符串"></a>由数字和26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由数字、26个英文字母或者下划线组成的字符串"><a href="#由数字、26个英文字母或者下划线组成的字符串" class="headerlink" title="由数字、26个英文字母或者下划线组成的字符串"></a>由数字、26个英文字母或者下划线组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+$ 或 ^\w&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="中文、英文、数字包括下划线"><a href="#中文、英文、数字包括下划线" class="headerlink" title="中文、英文、数字包括下划线"></a>中文、英文、数字包括下划线</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9_]+$</span><br></pre></td></tr></table></figure>
+<h5 id="中文、英文、数字但不包括下划线等符号"><a href="#中文、英文、数字但不包括下划线等符号" class="headerlink" title="中文、英文、数字但不包括下划线等符号"></a>中文、英文、数字但不包括下划线等符号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]&#123;2,20&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="可以输入含有-amp-’-”等字符"><a href="#可以输入含有-amp-’-”等字符" class="headerlink" title="可以输入含有^%&amp;’,;=?$\”等字符"></a>可以输入含有^%&amp;’,;=?$\”等字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^%&amp;&#x27;,;=?$\x22]+</span><br></pre></td></tr></table></figure>
+<h5 id="禁止输入含有-的字符"><a href="#禁止输入含有-的字符" class="headerlink" title="禁止输入含有~的字符"></a>禁止输入含有~的字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^~\x22]+</span><br></pre></td></tr></table></figure>
+<h3 id="特殊需求表达式"><a href="#特殊需求表达式" class="headerlink" title="特殊需求表达式"></a>特殊需求表达式</h3><h5 id="Email地址"><a href="#Email地址" class="headerlink" title="Email地址"></a>Email地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br></pre></td></tr></table></figure>
+<h5 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(\.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+\.?</span><br></pre></td></tr></table></figure>
+<h5 id="InternetURL"><a href="#InternetURL" class="headerlink" title="InternetURL"></a>InternetURL</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-z]+://[^\s]*</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</span><br></pre></td></tr></table></figure>
+<h5 id="手机号码"><a href="#手机号码" class="headerlink" title="手机号码"></a>手机号码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX"><a href="#电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX" class="headerlink" title="电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)"></a>电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="国内电话号码-0511-4405222、021-87888822"><a href="#国内电话号码-0511-4405222、021-87888822" class="headerlink" title="国内电话号码(0511-4405222、021-87888822)"></a>国内电话号码(0511-4405222、021-87888822)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><a href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）" class="headerlink" title="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"></a>电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((\d&#123;11&#125;)|^((\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;)|(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;))$)</span><br></pre></td></tr></table></figure>
+<h5 id="身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X"><a href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X" class="headerlink" title="身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X"></a>身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)</span><br></pre></td></tr></table></figure>
+<h5 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线"><a href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线" class="headerlink" title="帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)"></a>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线"><a href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线" class="headerlink" title="密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)"></a>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z]\w&#123;5,17&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间"><a href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)"></a>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"><a href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)"></a>强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="日期格式"><a href="#日期格式" class="headerlink" title="日期格式"></a>日期格式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="一年的12个月-01～09和1～12"><a href="#一年的12个月-01～09和1～12" class="headerlink" title="一年的12个月(01～09和1～12)"></a>一年的12个月(01～09和1～12)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0?[1-9]|1[0-2])$</span><br></pre></td></tr></table></figure>
+<h5 id="一个月的31天-01～09和1～31"><a href="#一个月的31天-01～09和1～31" class="headerlink" title="一个月的31天(01～09和1～31)"></a>一个月的31天(01～09和1～31)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((0?[1-9])|((1|2)[0-9])|30|31)$</span><br></pre></td></tr></table></figure>
+<h5 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</span><br></pre></td></tr></table></figure>
+<h5 id="中国邮政编码"><a href="#中国邮政编码" class="headerlink" title="中国邮政编码"></a>中国邮政编码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9]\d&#123;5&#125;(?!\d) </span><br></pre></td></tr></table></figure>
+<h5 id="腾讯QQ号"><a href="#腾讯QQ号" class="headerlink" title="腾讯QQ号"></a>腾讯QQ号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9][0-9]&#123;4,&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="IPv4地址"><a href="#IPv4地址" class="headerlink" title="IPv4地址"></a>IPv4地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;)(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;))&#123;3&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="字符过滤类"><a href="#字符过滤类" class="headerlink" title="字符过滤类"></a>字符过滤类</h3><h5 id="中文字符的正则表达式"><a href="#中文字符的正则表达式" class="headerlink" title="中文字符的正则表达式"></a>中文字符的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[\u4e00-\u9fa5]</span><br></pre></td></tr></table></figure>
+<h5 id="双字节字符"><a href="#双字节字符" class="headerlink" title="双字节字符"></a>双字节字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\x00-\xff] </span><br></pre></td></tr></table></figure>
+<p>(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</p>
+<h5 id="空白行的正则表达式"><a href="#空白行的正则表达式" class="headerlink" title="空白行的正则表达式"></a>空白行的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\n\s*\r</span><br></pre></td></tr></table></figure>
+<p>(可以用来删除空白行)</p>
+<h5 id="HTML标记的正则表达式"><a href="#HTML标记的正则表达式" class="headerlink" title="HTML标记的正则表达式"></a>HTML标记的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt;</span><br></pre></td></tr></table></figure>
+<p> <strong>( 首尾空白字符的正则表达式：<code>^\s\*|\s\*$</code>或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</strong></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>匹配字符中不出现某些特殊字符可以这样:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]		// 不匹配带有\/*:?&quot;&lt;&gt;|的字符串</span><br></pre></td></tr></table></figure>
+<p>匹配目录是否合法(windows)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[C-Z]:\\([^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]+\\)*$</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>正则表达式</category>
+      </categories>
+      <tags>
+        <tag>常用正则表达式持续更新</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>GTK+CodeBlock（windows）环境搭建</title>
     <url>/2019/11/28/C/GTK-CodeBlock%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<h1 id="C-B-GTK（windows）环境搭建教学"><a href="#C-B-GTK（windows）环境搭建教学" class="headerlink" title="C::B+GTK（windows）环境搭建教学"></a>C::B+GTK（windows）环境搭建教学</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>学完C语言已经一段时间了，不想局限于控制台程序，想学做下窗口，一开始想试试MFC，然而MFC的书太厚了，上手难，于是在同学建议下试了比较容易上手的GTK+。<del>GTK+是真的爽！</del><br>本篇将<del>简单</del>介绍C::B（CodeBlock）+GTK+的搭建。</p>
@@ -3936,6 +3936,28 @@ int main(int argc, char *argv[])
     <title>archives</title>
     <url>/archives/index.html</url>
     <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>categories</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>游戏</title>
+    <url>/games/index.html</url>
+    <content><![CDATA[<p>此处整理了部分游戏游玩过程时的心得和体会，包括相关资源的下载和整理，出这一个版面的原由，是因为在玩战双的时候老是会忘记角色技能怎么放？</p>
+<p><img src="/games/index/e1ccc03c269759ee6b004bdef4fb43166d22df0f.jpg" alt="e1ccc03c269759ee6b004bdef4fb43166d22df0f"></p>
+<p>因此就顺带开这一个版面来记录自己的游戏旅程吧。</p>
+<p>今年也是25岁了，渐渐开始感觉到玩不动游戏了，所有的能力也都在下滑，唉~</p>
+<ul>
+<li><a href="./PGR.html">战双</a></li>
+</ul>
+]]></content>
   </entry>
   <entry>
     <title>schedule</title>
@@ -4056,28 +4078,6 @@ int main(int argc, char *argv[])
 ]]></content>
   </entry>
   <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>游戏</title>
-    <url>/games/index.html</url>
-    <content><![CDATA[<p>此处整理了部分游戏游玩过程时的心得和体会，包括相关资源的下载和整理，出这一个版面的原由，是因为在玩战双的时候老是会忘记角色技能怎么放？</p>
-<p><img src="/games/index/e1ccc03c269759ee6b004bdef4fb43166d22df0f.jpg" alt="e1ccc03c269759ee6b004bdef4fb43166d22df0f"></p>
-<p>因此就顺带开这一个版面来记录自己的游戏旅程吧。</p>
-<p>今年也是25岁了，渐渐开始感觉到玩不动游戏了，所有的能力也都在下滑，唉~</p>
-<ul>
-<li><a href="./PGR.html">战双</a></li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
     <title>古诗鉴赏</title>
     <url>/yposts/index.html</url>
     <content><![CDATA[<p>由于个人喜好，开了本诗词鉴赏专栏，会收集一些古诗词放在此处以供参考，默认按照作者进行分类：</p>
@@ -4089,34 +4089,6 @@ int main(int argc, char *argv[])
 <li><a href="./己亥杂诗.html">己亥杂诗</a>：九州生气恃风雷，万马齐喑究可哀。（形容社会死气沉沉，人们不敢讲话，到处是一种令人窒息的沉闷气氛）</li>
 <li><a href="./漫感.html">漫感</a>：一箫一剑平生意，负尽狂名十五年。</li>
 </ul>
-]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/yposts/%E5%B7%B1%E4%BA%A5%E6%9D%82%E8%AF%97.html</url>
-    <content><![CDATA[<h2 id="己亥杂诗"><a href="#己亥杂诗" class="headerlink" title="己亥杂诗"></a>己亥杂诗</h2><div style="background-color: #EFEFEF;margin: 0 auto;text-align: center;font-size: 25px;line-height:40px"><b>己亥杂诗</b><br><span style="text-align:right;font-size:15px;">龚自珍</span><br>九州生气<ruby>恃<rp><rt>shì</rt></rp></ruby>风雷，万马齐<ruby>喑<rp><rt>yīn</rt></rp></ruby>究可哀。<br>我劝天公重抖擞，不拘一格降人材。</div>
-
-<h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><h5 id="初翻（方面记忆）"><a href="#初翻（方面记忆）" class="headerlink" title="初翻（方面记忆）"></a>初翻（方面记忆）</h5><p>九州生气勃勃的局面要依靠风雷，万马都沉默终究可哀。我奉劝天公重新抖擞，不拘一格地降下人才。</p>
-<h5 id="润色"><a href="#润色" class="headerlink" title="润色"></a>润色</h5><p>只有依靠风雷激荡般的巨大力量才能使中国大地焕发勃勃生机，然而社会政局毫无生气终究是一种悲哀。<br>我奉劝上天要重新振作精神，不要拘泥一定规格以降下更多的人才。</p>
-<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
-<li>九州：中国的别称之一。分别是：冀州、兖州、青州、徐州、扬州、荆州、梁州、雍州和豫州。</li>
-<li>生气：生气勃勃的局面。</li>
-<li>恃（<code>shì</code>）：依靠。</li>
-<li>万马齐喑：所有的马都沉寂无声。比喻社会政局毫无生气。</li>
-<li>喑（<code>yīn</code>），沉默，不说话。</li>
-<li>天公：造物主。</li>
-<li>抖擞：振作，奋发。</li>
-<li>降：降生，降临。</li>
-</ul>
-<h4 id="鉴赏"><a href="#鉴赏" class="headerlink" title="鉴赏"></a>鉴赏</h4><p>这是一首出色的政治诗。全诗层次清晰，共分三个层次：</p>
-<ol>
-<li>写了万马齐喑，朝野噤声的死气沉沉的现实社会。“万马齐喑”，比喻在清朝统治下，人们不敢讲话，到处是一种令人窒息的沉闷气氛。</li>
-<li>作者指出了要改变这种沉闷，腐朽的现状，就必须依靠风雷激荡般的巨大力量。暗喻必须经历波澜壮阔的社会变革才能使中国变得生机勃勃。</li>
-<li>作者认为这样的力量来源于人材，而朝廷所应该做的就是破格荐用人材，只有这样，中国才有希望。</li>
-</ol>
-<p>在这首诗中，诗人对死气沉沉、缺乏生机的社会现状，深表痛心，急切地希望巨大的社会变革迅速到来。全诗以一种热情洋溢的战斗姿态，对清朝当政者以讽荐，表达了作者心中对国家未来命途的关切，和希望当政者能够广纳人才的渴望，具有很深刻的历史背景和很强的现实意义。</p>
-<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><p>前两句可以引用在于昏暗的社会环境中，而后两句可以在重视贤士、人才等场合中使用。</p>
-<p>参考：<a href="https://www.gushiwen.cn/shiwenv_838d9b401572.aspx">己亥杂诗原文、翻译及赏析、拼音版及朗读<em>龚自珍古诗</em>古诗文网 (gushiwen.cn)</a></p>
 ]]></content>
   </entry>
   <entry>
@@ -4148,6 +4120,34 @@ int main(int argc, char *argv[])
 <li><a href="https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx">https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx</a></li>
 <li><a href="https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346">https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346</a></li>
 </ul>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/yposts/%E5%B7%B1%E4%BA%A5%E6%9D%82%E8%AF%97.html</url>
+    <content><![CDATA[<h2 id="己亥杂诗"><a href="#己亥杂诗" class="headerlink" title="己亥杂诗"></a>己亥杂诗</h2><div style="background-color: #EFEFEF;margin: 0 auto;text-align: center;font-size: 25px;line-height:40px"><b>己亥杂诗</b><br><span style="text-align:right;font-size:15px;">龚自珍</span><br>九州生气<ruby>恃<rp><rt>shì</rt></rp></ruby>风雷，万马齐<ruby>喑<rp><rt>yīn</rt></rp></ruby>究可哀。<br>我劝天公重抖擞，不拘一格降人材。</div>
+
+<h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><h5 id="初翻（方面记忆）"><a href="#初翻（方面记忆）" class="headerlink" title="初翻（方面记忆）"></a>初翻（方面记忆）</h5><p>九州生气勃勃的局面要依靠风雷，万马都沉默终究可哀。我奉劝天公重新抖擞，不拘一格地降下人才。</p>
+<h5 id="润色"><a href="#润色" class="headerlink" title="润色"></a>润色</h5><p>只有依靠风雷激荡般的巨大力量才能使中国大地焕发勃勃生机，然而社会政局毫无生气终究是一种悲哀。<br>我奉劝上天要重新振作精神，不要拘泥一定规格以降下更多的人才。</p>
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
+<li>九州：中国的别称之一。分别是：冀州、兖州、青州、徐州、扬州、荆州、梁州、雍州和豫州。</li>
+<li>生气：生气勃勃的局面。</li>
+<li>恃（<code>shì</code>）：依靠。</li>
+<li>万马齐喑：所有的马都沉寂无声。比喻社会政局毫无生气。</li>
+<li>喑（<code>yīn</code>），沉默，不说话。</li>
+<li>天公：造物主。</li>
+<li>抖擞：振作，奋发。</li>
+<li>降：降生，降临。</li>
+</ul>
+<h4 id="鉴赏"><a href="#鉴赏" class="headerlink" title="鉴赏"></a>鉴赏</h4><p>这是一首出色的政治诗。全诗层次清晰，共分三个层次：</p>
+<ol>
+<li>写了万马齐喑，朝野噤声的死气沉沉的现实社会。“万马齐喑”，比喻在清朝统治下，人们不敢讲话，到处是一种令人窒息的沉闷气氛。</li>
+<li>作者指出了要改变这种沉闷，腐朽的现状，就必须依靠风雷激荡般的巨大力量。暗喻必须经历波澜壮阔的社会变革才能使中国变得生机勃勃。</li>
+<li>作者认为这样的力量来源于人材，而朝廷所应该做的就是破格荐用人材，只有这样，中国才有希望。</li>
+</ol>
+<p>在这首诗中，诗人对死气沉沉、缺乏生机的社会现状，深表痛心，急切地希望巨大的社会变革迅速到来。全诗以一种热情洋溢的战斗姿态，对清朝当政者以讽荐，表达了作者心中对国家未来命途的关切，和希望当政者能够广纳人才的渴望，具有很深刻的历史背景和很强的现实意义。</p>
+<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><p>前两句可以引用在于昏暗的社会环境中，而后两句可以在重视贤士、人才等场合中使用。</p>
+<p>参考：<a href="https://www.gushiwen.cn/shiwenv_838d9b401572.aspx">己亥杂诗原文、翻译及赏析、拼音版及朗读<em>龚自珍古诗</em>古诗文网 (gushiwen.cn)</a></p>
 ]]></content>
   </entry>
 </search>
