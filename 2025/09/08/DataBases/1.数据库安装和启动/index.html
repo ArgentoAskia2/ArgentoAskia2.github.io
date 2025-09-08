@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.17.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本篇集中介绍市面上常见数据库安装、包括Windows、Linux、Docker等多环境、安装的数据库包括但不仅限于MySQL、Oracle、PostgreSQL、MS Server、DB2等主流数据库！ 篇幅较长，部分附有视频，请自行选择观看的部分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="各类数据库环境安装">
+<meta property="og:url" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/index.html">
+<meta property="og:site_name" content="Askia&#39;s Zoom">
+<meta property="og:description" content="本篇集中介绍市面上常见数据库安装、包括Windows、Linux、Docker等多环境、安装的数据库包括但不仅限于MySQL、Oracle、PostgreSQL、MS Server、DB2等主流数据库！ 篇幅较长，部分附有视频，请自行选择观看的部分">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203122847.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203134193.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203156004.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203303324.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203341801.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203422259.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203505291.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203524702.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203551450.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203606129.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203614392.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203629171.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024204246485.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024204322490.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024204343366.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024204919600.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024205016752.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024205152387.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024205230518.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024205959180.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024210014737.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024210032320.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024210327068.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024210342493.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024205457574.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024205559610.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024210731547.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250501182003072.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250501182430754.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123111105.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123155615.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123255266.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123309226.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123319426.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123336088.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123343161.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123349850.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123405275.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123422323.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123432556.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123442231.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123449850.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123713182.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123722923.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123735889.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123742388.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123751187.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123802114.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123809490.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123818787.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123827411.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123837468.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908124002668.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024231831388.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024231856969.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024231954271.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024232011485.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025120506859.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025120555293.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025120646784.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025120721778.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025120758944.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025120819927.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121058703.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121151549.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121446086.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121520234.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121614795.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121633747.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121915244.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122041099.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122120932.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122137999.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122157424.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122243878.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122304284.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122426236.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025123005733.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025130147952.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025130225429.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025130310016.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025130354343.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025132833380.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025134158304.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025140621459.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025141617332.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025140700770.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025140739913.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025140823604.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025141012249.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025141020951.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250501190933144.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250501192236160.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250506171434783.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250506171552227.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250506172416197.png">
+<meta property="og:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250902014528142.png">
+<meta property="article:published_time" content="2025-09-08T05:13:49.000Z">
+<meta property="article:modified_time" content="2025-09-08T05:17:52.198Z">
+<meta property="article:author" content="Askia">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="数据库安装">
+<meta property="article:tag" content="Databases">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203122847.png">
+
+
+<link rel="canonical" href="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/","path":"2025/09/08/DataBases/1.数据库安装和启动/","title":"各类数据库环境安装"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>各类数据库环境安装 | Askia's Zoom</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Askia's Zoom</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">just keep going!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li><li class="menu-item menu-item-posts"><a href="/yposts/" rel="section"><i class="fa fa-paw fa-fw"></i>古诗词</a></li><li class="menu-item menu-item-games"><a href="/games/" rel="section"><i class="fa fa-gamepad fa-fw"></i>游戏</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">数据库安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">Windows环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%92%8C%E8%BF%9E%E6%8E%A5PostgreSQL"><span class="nav-number">1.1.1.</span> <span class="nav-text">安装和连接PostgreSQL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%92%8C%E8%BF%9E%E6%8E%A5MySQL"><span class="nav-number">1.1.2.</span> <span class="nav-text">安装和连接MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#MSI%E5%AE%89%E8%A3%85%E5%99%A8"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">MSI安装器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E5%8C%85%E7%BB%BF%E8%89%B2%E5%AE%89%E8%A3%85"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">压缩包绿色安装</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%92%8C%E8%BF%9E%E6%8E%A5Oracle"><span class="nav-number">1.1.3.</span> <span class="nav-text">安装和连接Oracle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%92%8C%E8%BF%9E%E6%8E%A5MS-Server"><span class="nav-number">1.1.4.</span> <span class="nav-text">安装和连接MS Server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%92%8C%E8%BF%9E%E6%8E%A5SQLite"><span class="nav-number">1.1.5.</span> <span class="nav-text">安装和连接SQLite</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%92%8C%E8%BF%9E%E6%8E%A5MongoDB"><span class="nav-number">1.1.6.</span> <span class="nav-text">安装和连接MongoDB</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E7%8E%AF%E5%A2%83"><span class="nav-number">1.2.</span> <span class="nav-text">Linux环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL%E5%AE%89%E8%A3%85%E5%92%8C%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.2.1.</span> <span class="nav-text">MySQL安装和连接</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%98%E6%96%B9RPM%E5%8C%85%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">官方RPM包安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%98%E6%96%B9DEB%E5%8C%85%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">官方DEB包安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8%E5%AE%89%E8%A3%85%EF%BC%88yum%E5%92%8Capt%EF%BC%89"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">包管理器安装（yum和apt）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MySQL%E7%BC%96%E8%AF%91%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">MySQL编译源码安装</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Askia"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Askia</p>
+  <div class="site-description" itemprop="description">And you! my friend, a true hero!</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Askia">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Askia's Zoom">
+      <meta itemprop="description" content="And you! my friend, a true hero!">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="各类数据库环境安装 | Askia's Zoom">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          各类数据库环境安装
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-09-08 13:13:49 / 修改时间：13:17:52" itemprop="dateCreated datePublished" datetime="2025-09-08T13:13:49+08:00">2025-09-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Databases/" itemprop="url" rel="index"><span itemprop="name">Databases</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan：</span>
+    
+    <a title="各类数据库环境安装" href="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/#SOHUCS" itemprop="discussionUrl">
+      <span id="sourceId::13e2914cb6db5c1bf97ac4266fe21c13" class="cy_cmt_count" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本篇集中介绍市面上常见数据库安装、包括<code>Windows</code>、<code>Linux</code>、<code>Docker</code>等多环境、安装的数据库包括但不仅限于<code>MySQL</code>、<code>Oracle</code>、<code>PostgreSQL</code>、<code>MS Server</code>、<code>DB2</code>等主流数据库！</p>
+<p>篇幅较长，部分附有视频，请自行选择观看的部分</p>
+<span id="more"></span>
+<h2 id="数据库安装"><a href="#数据库安装" class="headerlink" title="数据库安装"></a>数据库安装</h2><p>本篇集中介绍市面上常见数据库安装、包括<code>Windows</code>、<code>Linux</code>、<code>Docker</code>等多环境、安装的数据库包括但不仅限于<code>MySQL</code>、<code>Oracle</code>、<code>PostgreSQL</code>、<code>MS Server</code>、<code>DB2</code>等主流数据库！</p>
+<h3 id="Windows环境"><a href="#Windows环境" class="headerlink" title="Windows环境"></a>Windows环境</h3><h4 id="安装和连接PostgreSQL"><a href="#安装和连接PostgreSQL" class="headerlink" title="安装和连接PostgreSQL"></a>安装和连接PostgreSQL</h4><blockquote>
+<p>如果你的Navicat是15版本，则建议安装PostgreSQL 14及以下版本</p>
+</blockquote>
+<p>官网下载：<a target="_blank" rel="noopener" href="https://www.enterprisedb.com/downloads/postgres-postgresql-downloads">Community DL Page (enterprisedb.com)</a></p>
+<p>选择版本：<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203122847.png" alt="image-20231024203122847"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203134193.png" alt="image-20231024203134193"></p>
+<p>双击打开：</p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203156004.png" alt="image-20231024203156004"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203303324.png" alt="image-20231024203303324"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203341801.png" alt="image-20231024203341801"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203422259.png" alt="image-20231024203422259"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203505291.png" alt="image-20231024203505291"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203524702.png" alt="image-20231024203524702"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203551450.png" alt="image-20231024203551450"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203606129.png" alt="image-20231024203606129"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203614392.png" alt="image-20231024203614392"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024203629171.png" alt="image-20231024203629171"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024204246485.png" alt="image-20231024204246485"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024204322490.png" alt="image-20231024204322490"></p>
+<p>如果报告下面的错误：</p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024204343366.png" alt="image-20231024204343366"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024204919600.png" alt="image-20231024204919600"></p>
+<p>则需要挂代理下载，或者干脆不下载扩展工具！</p>
+<p>下载语言包：</p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024205016752.png" alt="image-20231024205016752"></p>
+<p>等待下载完成之后：</p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024205152387.png" alt="image-20231024205152387"></p>
+<p>选择安装语言：</p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024205230518.png" alt="image-20231024205230518"></p>
+<p>接下的步骤和安装一样！</p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024205959180.png" alt="image-20231024205959180"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024210014737.png" alt="image-20231024210014737"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024210032320.png" alt="image-20231024210032320"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024210327068.png" alt="image-20231024210327068"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024210342493.png" alt="image-20231024210342493"></p>
+<p>连接<code>PostgreSQL</code>，我们使用<code>Navicat</code>作为连接工具：</p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024205457574.png" alt="image-20231024205457574"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024205559610.png" alt="image-20231024205559610"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024210731547.png" alt="image-20231024210731547"></p>
+<p>出现这个问题，解决方法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/ximaiyao1984/article/details/130775496">解决Navicat连接postgresql时出现‘datlastsysoid does not exist‘报错-CSDN博客</a></p>
+<p>然后重启<code>Navicat</code>就可以了！</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/tangzongwu/article/details/122033968">Windows下postgresql安装步骤（超级详细）<em>postgresql edb language pack</em>&amp;小汤的博客-CSDN博客</a></p>
+<h4 id="安装和连接MySQL"><a href="#安装和连接MySQL" class="headerlink" title="安装和连接MySQL"></a>安装和连接MySQL</h4><p>你可以在此处下载<code>MySQL</code>：</p>
+<ul>
+<li><p><code>MySQL Community Server release</code>：<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/mysql/">https://dev.mysql.com/downloads/mysql/</a></p>
+</li>
+<li><p><code>MySQL Community Archives</code>：<a target="_blank" rel="noopener" href="https://downloads.mysql.com/archives/community/">https://downloads.mysql.com/archives/community/</a></p>
+</li>
+<li>MySQL的所有下载安装资源：<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/">https://dev.mysql.com/downloads/</a></li>
+</ul>
+<p><code>windows</code>下的<code>MySQL</code>安装有两种方法，一种是直接下载压缩包安装，另外一种是基于<code>windows</code>的<code>MSI Installer</code>（<code>msi</code>安装器）来安装。</p>
+<p>此处我们先介绍如何使用<code>msi</code>安装器安装，然后再介绍如何使用压缩包的绿色安装。</p>
+<h5 id="MSI安装器"><a href="#MSI安装器" class="headerlink" title="MSI安装器"></a>MSI安装器</h5><p>自从<code>MySQL 8.0</code>以后，<code>MySQL Installer</code>不再发布，即<code>8.1</code>及以上版本<code>msi</code>安装器只会安装当前版本而不是能够实现安装全版本：<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250501182003072.png" alt="image-20250501182003072"></p>
+<p>我们仍然能在<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/windows/installer/8.0.html">这个地方</a>找到<code>MySQL 8.0</code>的全版本安装器，在<a target="_blank" rel="noopener" href="https://downloads.mysql.com/archives/installer/">这个地方</a>找到归档的所有安装器，只不过这个安装器已经无法安装<code>MySQL 8.1</code>及以上版本了。</p>
+<p><code>MSI</code>版本的安装视频参考</p>
+<video src="./MySQL安装视频/1.mysql的安装（消音版本）.mp4" type="video/mp4" autoplay="true" controls="controls" width="800" height="600"></video>
+
+<p>我们先介绍<code>MySQL 8.0</code>以下的<code>MySQL Installer</code>的安装：</p>
+<ol>
+<li>准备<code>MySQL Installer</code>：<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250501182430754.png" alt="image-20250501182430754">，如果希望安装<code>8.0</code>版本，可以准备（两个安装包都可以在归档中找到）<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123111105.png" alt="image-20250908123111105"></li>
+<li>双击打开，等待加载</li>
+<li>进入安装界面，操作见下图<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123155615.png" alt="image-20250908123155615"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123255266.png" alt="image-20250908123255266"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123309226.png" alt="image-20250908123309226"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123319426.png" alt="image-20250908123319426"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123336088.png" alt="image-20250908123336088"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123343161.png" alt="image-20250908123343161"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123349850.png" alt="image-20250908123349850"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123405275.png" alt="image-20250908123405275"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123422323.png" alt="image-20250908123422323"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123432556.png" alt="image-20250908123432556"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123442231.png" alt="image-20250908123442231"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123449850.png" alt="image-20250908123449850"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123713182.png" alt="image-20250908123713182"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123722923.png" alt="image-20250908123722923"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123735889.png" alt="image-20250908123735889"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123742388.png" alt="image-20250908123742388"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123751187.png" alt="image-20250908123751187"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123802114.png" alt="image-20250908123802114"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123809490.png" alt="image-20250908123809490"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123818787.png" alt="image-20250908123818787"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123827411.png" alt="image-20250908123827411"></li>
+<li><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908123837468.png" alt="image-20250908123837468"></li>
+</ol>
+<p>安装过程中可能会出问题，一旦安装出问题，可以点击右侧的log进行查看到底什么问题（基本出事最多的就是目录用了中文）<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250908124002668.png" alt="image-20250908124002668"></p>
+<h5 id="压缩包绿色安装"><a href="#压缩包绿色安装" class="headerlink" title="压缩包绿色安装"></a>压缩包绿色安装</h5><h4 id="安装和连接Oracle"><a href="#安装和连接Oracle" class="headerlink" title="安装和连接Oracle"></a>安装和连接Oracle</h4><h4 id="安装和连接MS-Server"><a href="#安装和连接MS-Server" class="headerlink" title="安装和连接MS Server"></a>安装和连接MS Server</h4><p>下载<code>MS Server 2019</code>：<a target="_blank" rel="noopener" href="https://go.microsoft.com/fwlink/?linkid=866662">https://go.microsoft.com/fwlink/?linkid=866662</a></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024231831388.png" alt="image-20231024231831388"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024231856969.png" alt="image-20231024231856969"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024231954271.png" alt="image-20231024231954271"></p>
+<p>等待下载</p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231024232011485.png" alt="image-20231024232011485"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025120506859.png" alt="image-20231025120506859"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025120555293.png" alt="image-20231025120555293"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025120646784.png" alt="image-20231025120646784"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025120721778.png" alt="image-20231025120721778"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025120758944.png" alt="image-20231025120758944"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025120819927.png" alt="image-20231025120819927"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121058703.png" alt="image-20231025121058703"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121151549.png" alt="image-20231025121151549"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121446086.png" alt="image-20231025121446086"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121520234.png" alt="image-20231025121520234"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121614795.png" alt="image-20231025121614795"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121633747.png" alt="image-20231025121633747"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025121915244.png" alt="image-20231025121915244"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122041099.png" alt="image-20231025122041099"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122120932.png" alt="image-20231025122120932"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122137999.png" alt="image-20231025122137999"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122157424.png" alt="image-20231025122157424"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122243878.png" alt="image-20231025122243878"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122304284.png" alt="image-20231025122304284"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025122426236.png" alt="image-20231025122426236"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025123005733.png" alt="image-20231025123005733"></p>
+<p>然后把下载的所有cab包放在一个位置，后面的1033改称为2052</p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025130147952.png" alt="image-20231025130147952"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025130225429.png" alt="image-20231025130225429"></p>
+<p>然后导入，就可以点击下一步了：</p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025130310016.png" alt="image-20231025130310016"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025130354343.png" alt="image-20231025130354343"></p>
+<p>报错：<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025132833380.png" alt="image-20231025132833380"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025134158304.png" alt="image-20231025134158304"></p>
+<p>查看Windows日志，发现：</p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025140621459.png" alt="image-20231025140621459"></p>
+<p>懵逼了，自己补了这个数据目录也不行，改权限也不行，然后百度了半天，查到的结果都是以前<code>MS Server 2008</code>的清除日志+重启服务的方法，但是不管用，最后按照报错信息中的帮助链接去到微软官网查出现的是这个：<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025141617332.png" alt="image-20231025141617332"></p>
+<p>我实在蚌埠住了兄弟们，好在该服务的作用是：<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025140700770.png" alt="image-20231025140700770"></p>
+<p>简单学习<code>MS SQL</code>应该用不到！只要下面的服务端开了就行！、<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025140739913.png" alt="image-20231025140739913"></p>
+<p>我们同样使用Navicat连接：</p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025140823604.png" alt="image-20231025140823604"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025141012249.png" alt="image-20231025141012249"></p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20231025141020951.png" alt="image-20231025141020951"></p>
+<h4 id="安装和连接SQLite"><a href="#安装和连接SQLite" class="headerlink" title="安装和连接SQLite"></a>安装和连接SQLite</h4><h4 id="安装和连接MongoDB"><a href="#安装和连接MongoDB" class="headerlink" title="安装和连接MongoDB"></a>安装和连接MongoDB</h4><h3 id="Linux环境"><a href="#Linux环境" class="headerlink" title="Linux环境"></a>Linux环境</h3><p><code>Linux</code>环境下的安装就比较复杂了，不像<code>windows</code>那样能一键搞定。</p>
+<h4 id="MySQL安装和连接"><a href="#MySQL安装和连接" class="headerlink" title="MySQL安装和连接"></a>MySQL安装和连接</h4><p><code>Linux</code>环境下的安装方式也有很多，一种方法是使用官网给的<code>rpm</code>或者<code>deb</code>包安装，另外一种就是使用<code>yum</code>源或者<code>apt</code>源进行安装</p>
+<p>第二种方式比较简单，因此我们这里先介绍第一种方式的安装。</p>
+<h5 id="官方RPM包安装"><a href="#官方RPM包安装" class="headerlink" title="官方RPM包安装"></a>官方RPM包安装</h5><p>你可以在这个地方下载MySQL的所有Linux安装包：<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/mysql/，下载参考下图：![image-20250501185337921](1.数据库安装和启动/image-20250501185337921.png">https://dev.mysql.com/downloads/mysql/，下载参考下图：![image-20250501185337921](1.数据库安装和启动/image-20250501185337921.png</a>)</p>
+<p>如果下载的是全的包<code>mysql-8.0.42-1.el7.x86_64.rpm-bundle.tar</code>，则需要先解压：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf mysql-8.0.42-1.el7.x86_64.rpm-bundle.tar</span><br></pre></td></tr></table></figure>
+<p>而理论上我们只需要下载下面五个包即可，即：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.RPM Package, MySQL Server</span><br><span class="line">2.RPM Package, Client Utilities</span><br><span class="line">3.RPM Package, MySQL Configuration</span><br><span class="line">4.RPM Package, Shared Libraries</span><br><span class="line">5.RPM Package, Compatibility Libraries</span><br></pre></td></tr></table></figure>
+<p>在安装的时候我们需要遵循下面的顺序：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.RPM Package, MySQL Configuration</span><br><span class="line">2.RPM Package, Shared Libraries</span><br><span class="line">3.RPM Package, Compatibility Libraries</span><br><span class="line">4.RPM Package, Client Utilities</span><br><span class="line">5.RPM Package, MySQL Server</span><br></pre></td></tr></table></figure>
+<p>安装步骤如下：</p>
+<ol>
+<li><p>卸载<code>CentOS 7</code>默认数据库<code>mariadb</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看：</span></span><br><span class="line">rpm -qa|grep mariadb</span><br><span class="line"></span><br><span class="line">mariadb-libs-5.5.68-1.el7.x86_64</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">卸载：</span></span><br><span class="line">rpm -e --nodeps mariadb-libs-5.5.68-1.el7.x86_64</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上传<code>MySQL</code>上面的那<code>5</code>个<code>RPM</code>包<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250501190933144.png" alt="image-20250501190933144">   </p>
+<blockquote>
+<p>高版本的MySQL还需要下面这两个包：<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250501192236160.png" alt="image-20250501192236160"></p>
+</blockquote>
+</li>
+<li><p>安装：依次执行下面的命令进行安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh mysql-community-common-5.7.25-1.el7.x86_64.rpm --force --nodeps</span><br><span class="line"></span><br><span class="line">rpm -ivh mysql-community-libs-5.7.25-1.el7.x86_64.rpm --force --nodeps</span><br><span class="line"></span><br><span class="line">rpm -ivh mysql-community-libs-compat-5.7.25-1.el7.x86_64.rpm --force --nodeps</span><br><span class="line"></span><br><span class="line">rpm -ivh mysql-community-client-5.7.25-1.el7.x86_64.rpm --force --nodeps</span><br><span class="line"></span><br><span class="line">rpm -ivh mysql-community-server-5.7.25-1.el7.x86_64.rpm --force --nodeps</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动<code>mysql</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> mysql启动</span></span><br><span class="line">systemctl start mysqld </span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看mysql启动状态</span></span><br><span class="line">systemctl status mysqld </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改<code>MySQL</code>密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1.查看临时密码：</span></span><br><span class="line"><span class="meta">$</span><span class="bash">&gt; grep password /var/<span class="built_in">log</span>/mysqld.log</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2.用临时密码登录mysql</span></span><br><span class="line"><span class="meta">$</span><span class="bash">&gt; mysql -uroot –p</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 3.首先需要设置密码的验证强度等级，设置 validate_password_policy 的全局参数为 LOW 即可(建议使用随机密码而不是简单密码)</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> <span class="built_in">set</span> global validate_password_policy=LOW;</span> </span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 4.当前密码长度为8，如果不介意的话就不用修改了，按照通用的来讲，设置为 6 位的密码，设置 validate_password_length 的全局参数为 6 即可(建议使用随机密码而不是简单密码)</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> <span class="built_in">set</span> global validate_password_length=6;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 5.修改成新的密码(建议使用随机密码而不是简单密码)</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> <span class="built_in">set</span> password = password(<span class="string">&quot;123456&quot;</span>);</span></span><br><span class="line"><span class="meta">#</span><span class="bash">   如果是高版本MYSQL, 可能强制你使用下面的SQL来修改密码：</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="string">&#x27;123456&#x27;</span>;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">   或者下面这个语句</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> update mysql.user <span class="built_in">set</span> authentication_string=password(<span class="string">&#x27;新密码&#x27;</span>) <span class="built_in">where</span> user=<span class="string">&#x27;用户名&#x27;</span> and Host =<span class="string">&#x27;localhost&#x27;</span>;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">   刷新权限</span> </span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> flush privileges;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启用远程登录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看当前用户</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> SELECT HOST, USER FROM mysql.user;</span></span><br><span class="line"></span><br><span class="line">+-----------+------------------+</span><br><span class="line">| HOST      | USER             |</span><br><span class="line">+-----------+------------------+</span><br><span class="line">| localhost | mysql.infoschema |</span><br><span class="line">| localhost | mysql.session    |</span><br><span class="line">| localhost | mysql.sys        |</span><br><span class="line">| localhost | root             |</span><br><span class="line">+-----------+------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建远程登录账户</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> CREATE USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED BY <span class="string">&#x27;123456&#x27;</span>;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置远程登录</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> GRANT ALL PRIVILEGES ON *.* TO <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> *.*指代数据库和数据表，*代表匹配所有数据库，如需要单独，请自行设置，比如mysql.user代表mysql数据库中的user表</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;%&#x27;</span>指代给谁链接，格式是<span class="string">&#x27;用户&#x27;</span>@<span class="string">&#x27;IP&#x27;</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 低版本的MySQL可以使用下面的SQL一下子设置完，但高版本的不行</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 这是因为从 MySQL 5.7 版本开始，GRANT 语句不再隐式创建用户，你需要先创建用户，然后再授予权限。</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> GRANT ALL PRIVILEGES ON *.* TO <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED BY <span class="string">&#x27;123456&#x27;</span> WITH GRANT OPTION;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> *.*指代数据库和数据表，*代表匹配所有数据库，如需要单独，请自行设置，比如mysql.user代表mysql数据库中的user表</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;%&#x27;</span>指代给谁链接，格式是<span class="string">&#x27;用户&#x27;</span>@<span class="string">&#x27;IP&#x27;</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> IDENTIFIED BY后面的是密码</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开放<code>3306</code>端口或者关闭防火墙（不建议）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 开放3306端口</span></span><br><span class="line"><span class="meta">$</span><span class="bash">&gt; firewall-cmd --zone=public --add-port=3306/tcp --permanent</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启防火墙</span></span><br><span class="line"><span class="meta">$</span><span class="bash">&gt; firewall-cmd --reload</span> </span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 关闭防火墙</span></span><br><span class="line">systemctl stop firewall</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化<code>MySQL</code>数据库，导入测试数据库（可选），其实从第<code>5</code>步开始就可以借助这个脚本来初始化<code>MySQL</code>数据库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 运行这个脚本</span></span><br><span class="line"><span class="meta">$</span><span class="bash">&gt; mysql_secure_installation</span></span><br><span class="line"></span><br><span class="line">Securing the MySQL server deployment.</span><br><span class="line"><span class="meta">#</span><span class="bash">输入root的临时密码，可以参考第5步的获取</span></span><br><span class="line">Enter password for user root: </span><br><span class="line">The &#x27;validate_password&#x27; component is installed on the server.</span><br><span class="line">The subsequent steps will run with the existing configuration</span><br><span class="line">of the component.</span><br><span class="line">Using existing password for root.</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 这里可以更改root的密码，输入yes即可更改</span></span><br><span class="line">Estimated strength of the password: 100 </span><br><span class="line">Change the password for root ? ((Press y|Y for Yes, any other key for No) : no</span><br><span class="line"></span><br><span class="line"> ... skipping.</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 是否移除所有匿名用户</span></span><br><span class="line">By default, a MySQL installation has an anonymous user,</span><br><span class="line">allowing anyone to log into MySQL without having to have</span><br><span class="line">a user account created for them. This is intended only for</span><br><span class="line">testing, and to make the installation go a bit smoother.</span><br><span class="line">You should remove them before moving into a production</span><br><span class="line">environment.</span><br><span class="line"></span><br><span class="line">Remove anonymous users? (Press y|Y for Yes, any other key for No) : no</span><br><span class="line"></span><br><span class="line"> ... skipping.</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 是否禁用远程数据库连接</span></span><br><span class="line">Normally, root should only be allowed to connect from</span><br><span class="line">&#x27;localhost&#x27;. This ensures that someone cannot guess at</span><br><span class="line">the root password from the network.</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? (Press y|Y for Yes, any other key for No) : no</span><br><span class="line"></span><br><span class="line"> ... skipping.</span><br><span class="line"><span class="meta"> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 是否删除测试数据库</span></span><br><span class="line">By default, MySQL comes with a database named &#x27;test&#x27; that</span><br><span class="line">anyone can access. This is also intended only for testing,</span><br><span class="line">and should be removed before moving into a production</span><br><span class="line">environment.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Remove test database and access to it? (Press y|Y for Yes, any other key for No) : no</span><br><span class="line"></span><br><span class="line"> ... skipping.</span><br><span class="line"><span class="meta"> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 是否立刻刷新权限表让权限生效</span></span><br><span class="line">Reloading the privilege tables will ensure that all changes</span><br><span class="line">made so far will take effect immediately.</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? (Press y|Y for Yes, any other key for No) : no</span><br><span class="line"></span><br><span class="line"> ... skipping.</span><br><span class="line">All done! </span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 导入sakila测试数据库</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 下载sakila测试数据库：https://dev.mysql.com/doc/index-other.html</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 1. 连接数据库</span></span><br><span class="line">mysql -uroot -p</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2. 解压sql脚本</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 3. 导入脚本</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> SOURCE C:/temp/sakila-db/sakila-schema.sql;</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> SOURCE C:/temp/sakila-db/sakila-data.sql;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>navicat</code>或者<code>datagrip</code>进行测试</p>
+</li>
+</ol>
+<h5 id="官方DEB包安装"><a href="#官方DEB包安装" class="headerlink" title="官方DEB包安装"></a>官方DEB包安装</h5><h5 id="包管理器安装（yum和apt）"><a href="#包管理器安装（yum和apt）" class="headerlink" title="包管理器安装（yum和apt）"></a>包管理器安装（yum和apt）</h5><ul>
+<li><code>yum</code>源：<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/repo/yum/">https://dev.mysql.com/downloads/repo/yum/</a></li>
+<li><code>apt</code>源：<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/repo/apt/">https://dev.mysql.com/downloads/repo/apt/</a></li>
+</ul>
+<p>这里以<code>yum</code>源为例子， 我们先下载官网上<code>yum</code>源的的<code>rpm</code>包<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250506171434783.png" alt="image-20250506171434783"></p>
+<p>上传到<code>Linux</code>服务器</p>
+<p><img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250506171552227.png" alt="image-20250506171552227"></p>
+<p>运行<code>rpm</code>包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost MySQL]<span class="comment"># rpm -i mysql84-community-release-el7-1.noarch.rpm</span></span><br></pre></td></tr></table></figure>
+<p>成功之后，此时在<code>/etc/yum.repos.d</code>下会多出三个<code>repo</code>仓库文件<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250506172416197.png" alt="image-20250506172416197"></p>
+<p>然后我们刷新<code>yum</code>缓存</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost MySQL]<span class="comment"># yum clean all</span></span><br><span class="line">[root@localhost MySQL]<span class="comment"># yum makecache</span></span><br></pre></td></tr></table></figure>
+<p>在<code>mysql</code>存储库中搜索<code>MySQL</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum --disablerepo=&quot;*&quot; --enablerepo=&quot;mysql*&quot; search mysql</span><br></pre></td></tr></table></figure>
+<p>之后的步骤参考上面的离线安装即可！直接执行指令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mysql-community-server</span><br></pre></td></tr></table></figure>
+<p>即可安装完成！</p>
+<h5 id="MySQL编译源码安装"><a href="#MySQL编译源码安装" class="headerlink" title="MySQL编译源码安装"></a>MySQL编译源码安装</h5><p>默认情况下<code>MySQL</code>的安装不能指定位置，哪怕无论是<code>Yum</code>还是<code>Apt</code>，无论是<code>deb</code>还是<code>rpm</code>，想要将<code>MySQL</code>安装在特定的位置只能自己编译源代码进行安装。</p>
+<ol>
+<li><p>卸载旧版本<code>&amp;</code>清理环境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop mysqld 2&gt;/dev/null</span><br><span class="line">sudo yum erase -y mariadb* mysql*      <span class="comment"># Ubuntu 用 apt purge</span></span><br><span class="line">sudo rm -rf /etc/my.cnf /etc/mysql /var/lib/mysql</span><br><span class="line">sudo userdel -r mysql 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装编译依赖</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo yum groupinstall -y <span class="string">&quot;Development Tools&quot;</span></span><br><span class="line">sudo yum install -y cmake ncurses-devel openssl-devel bison flex libtirpc-devel</span><br><span class="line"><span class="comment"># Ubuntu 用</span></span><br><span class="line"><span class="comment"># sudo apt update</span></span><br><span class="line"><span class="comment"># sudo apt install build-essential cmake libncurses5-dev libssl-dev bison flex libtirpc-dev</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建运行用户（禁止登录）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd -r mysql</span><br><span class="line">sudo useradd -r -g mysql -s /sbin/nologin -M mysql</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载链接：<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/mysql/">MySQL :: Download MySQL Community Server</a>下载的包参考下图<img src="/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/image-20250902014528142.png" alt="image-20250902014528142">下载的是源代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 或者直接使用下面的下载MySQL</span></span><br><span class="line">wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-boost-8.0.39.tar.gz</span><br><span class="line">tar zxvf mysql-boost-8.0.39.tar.gz</span><br><span class="line"><span class="built_in">cd</span> mysql-8.0.39 <span class="comment"># 此处放在你想放的地方</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>预编译（<code>cmake</code>），官方推荐<strong>外部构建目录</strong>保持源码干净：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mkdir build &amp;&amp; <span class="built_in">cd</span> build</span><br><span class="line">cmake .. \</span><br><span class="line">  -DCMAKE_INSTALL_PREFIX=/service/noname/envs/mysql \</span><br><span class="line">  -DMYSQL_DATADIR=/service/noname/envs/mysql/data \</span><br><span class="line">  -DSYSCONFDIR=/service/noname/envs/mysql/etc \</span><br><span class="line">  -DMYSQL_UNIX_ADDR=/service/noname/envs/mysql/run/mysql.sock \</span><br><span class="line">  -DWITH_BOOST=../boost \</span><br><span class="line">  -DWITH_SSL=system \</span><br><span class="line">  -DDEFAULT_CHARSET=utf8mb4 \</span><br><span class="line">  -DDEFAULT_COLLATION=utf8mb4_0900_ai_ci \</span><br><span class="line">  -DWITH_INNOBASE_STORAGE_ENGINE=1 \</span><br><span class="line">  -DENABLED_LOCAL_INFILE=1 \</span><br><span class="line">  -DWITH_SYSTEMD=1</span><br></pre></td></tr></table></figure>
+<p>常见错误：</p>
+<ul>
+<li><code>Could not find rpcgen</code> → 再装 <code>libtirpc-devel</code> 并加 <code>-DWITH_RPCGEN=system</code>。</li>
+<li>内存 &lt; 2 GB → 事先加 swap。</li>
+</ul>
+</li>
+<li><p>编译 &amp; 安装</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">make -j$(nproc)          <span class="comment"># 视 CPU 核数决定并行度</span></span><br><span class="line">sudo make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># yum</span></span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>目录权限 &amp; 初始化</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R mysql:mysql /service/noname/envs/mysql</span><br><span class="line"><span class="built_in">cd</span> /service/noname/envs/mysql</span><br><span class="line">sudo ./bin/mysqld --initialize --user=mysql \</span><br><span class="line">  --basedir=/service/noname/envs/mysql \</span><br><span class="line">  --datadir=/service/noname/envs/mysql/data</span><br><span class="line"><span class="comment"># 记住最后一行的 root 临时密码！</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编辑配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /service/noname/envs/mysql/etc</span><br><span class="line">sudo vim /service/noname/envs/mysql/etc/my.cnf</span><br></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">socket</span>=/service/noname/envs/mysql/run/mysql.sock</span><br><span class="line"></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">user</span>=mysql</span><br><span class="line"><span class="attr">port</span>=<span class="number">3306</span></span><br><span class="line"><span class="attr">basedir</span>=/service/noname/envs/mysql</span><br><span class="line"><span class="attr">datadir</span>=/service/noname/envs/mysql/data</span><br><span class="line"><span class="attr">socket</span>=/service/noname/envs/mysql/run/mysql.sock</span><br><span class="line"><span class="attr">pid-file</span>=/service/noname/envs/mysql/run/mysqld.pid</span><br><span class="line"><span class="attr">character-set-server</span>=utf8mb4</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>systemd</code>服务文件（<code>MySQL</code>自带模板需简单改路径）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo cp /service/noname/envs/mysql/support-files/mysql.server /etc/systemd/system/mysqld</span><br><span class="line">sudo sed -i <span class="string">&#x27;s|/usr/local/mysql|/service/noname/envs/mysql|g&#x27;</span> /etc/systemd/system/mysqld</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> --now mysqld</span><br></pre></td></tr></table></figure>
+<p>如果是8.0之前的版本（包括8.0），此方法可行，但是在<code>MySQL 8.0</code>之后，<strong>不再把旧的 SysV 脚本 <code>mysql.server</code> 放到 <code>support-files</code> 目录，而是直接生成 systemd unit 文件模板</strong>。因此你可以在<code>/service/noname/envs/mysql/source/mysql-8.4.6/scripts/systemd</code>中找到这些模板</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql@.service.in</span><br><span class="line">mysqld.service.in</span><br></pre></td></tr></table></figure>
+<p>需要自行替换：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@prefix@        → /service/noname/envs/mysql</span><br><span class="line">@sysconfdir@    → /service/noname/envs/mysql/etc</span><br><span class="line">@localstatedir@ → /service/noname/envs/mysql/data</span><br></pre></td></tr></table></figure>
+<p>8.4版本的MySQL甚至不需要你替换，在<code>build</code>目录下<code>/service/noname/envs/mysql/source/mysql-8.4.6/build/scripts</code>，里面会有已经<code>build</code>好的各种<code>service</code>文件，包括<code>mysqld.service</code>，我们把它复制到<code>/etc/systemd/system/mysqld</code>即可。</p>
+<p>笔者个人对这个<code>mysqld.service</code>进行了一些修改：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line"><span class="comment"># ExeStart中添加了--defaults-file只想运行所使用的my.cnf</span></span><br><span class="line"><span class="attr">ExecStart</span>=/service/noname/envs/mysql/bin/mysqld \</span><br><span class="line">          <span class="attr">--defaults-file</span>=/service/noname/envs/mysql/etc/my.cnf</span><br><span class="line"><span class="comment"># 运行时的PID</span></span><br><span class="line"><span class="attr">PIDFile</span>=/service/noname/envs/mysql/run/mysqld.pid</span><br><span class="line"><span class="comment"># 其他内容保持不动</span></span><br></pre></td></tr></table></figure>
+<p>然后让<code>systemd</code>重新加载并启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> --now mysqld</span><br></pre></td></tr></table></figure>
+<p>如果出现<code>ERROR 2002 (HY000): Can&#39;t connect to local MySQL server through socket &#39;/service/noname/envs/mysql/run/mysql.sock&#39;</code>，重启<code>MySQL</code>一般就能解决</p>
+<p>之后就是参考[修改<code>MySQL</code>密码]的步骤了</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85/" rel="tag"># 数据库安装</a>
+              <a href="/tags/Databases/" rel="tag"># Databases</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/" rel="prev" title="Git提交时显示其他用户名和邮箱">
+                  <i class="fa fa-chevron-left"></i> Git提交时显示其他用户名和邮箱
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="SOHUCS" sid="13e2914cb6db5c1bf97ac4266fe21c13"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Askia</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="changyan" type="application/json">{"enable":true,"appid":"cyxyiBqK8","appkey":"b41fd3ec6c28772b8afe9ce1613b783a","count":true}</script>
+<script src="/js/third-party/comments/changyan.js"></script>
+
+</body>
+</html>
