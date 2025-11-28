@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>C语言隐藏结构体的实现方法</title>
+    <url>/2019/11/26/C/C%E8%AF%AD%E8%A8%80%E9%9A%90%E8%97%8F%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>前些天在搞win32，被windows花里胡哨的结构弄得生不如死，脑子里莫名其妙蹦出了一个想法：能不能定义一些结构体，外部可以用它来定义变量，然而却不能改变它的成员的值, 就像C++，Java一类语言的class一样对数据进行保护。<del>好吧，其实是我还没吃饱撑着随便乱搞</del><br>参照了网上很多的说法，自己胡乱地搞了几个小时给弄出来了。</p>
+<h1 id="正文："><a href="#正文：" class="headerlink" title="正文："></a>正文：</h1><p>直接上代码:<br><br><code>book.cpp</code></p>
+<pre><code>#include &quot;book.h&quot;
+struct book&#123;
+    int price;
+    char *name;
+&#125;;
+
+PBOOK CreateBook(int price, char *name)
+&#123;
+    PBOOK Book1 = (PBOOK)malloc(sizeof(BOOK));
+    Book1-&gt;price = 100;
+    Book1-&gt;name = 0;
+    return Book1;
+&#125;
+
+void FreeBook(PBOOK book)
+&#123;
+    free(book);
+&#125; 
+</code></pre><p>上述源代码文件定义了一个结构和两个函数，同时包含一个自身的头文件</p>
+<p><code>book.h</code></p>
+<pre><code>#include &lt;malloc.h&gt;
+#define PBOOK BOOK *
+
+struct book;
+typedef struct book BOOK;
+
+PBOOK CreateBook(int price, char *name);
+void FreeBook(PBOOK book);
+</code></pre><p>头文件中声明了两个函数和结构体，其中用typedef给结构体定义为一种类型。因为源代码文件会包含这个头文件，<strong>所以在源代码中也可以使用头文件中的宏</strong></p>
+<p><code>main.cpp</code></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &quot;book.h&quot;
+int main()
+&#123;
+    PBOOK a = CreateBook(20, &quot;1231321231&quot;);    // 定义的变量必须是指针类型 
+    printf(&quot;%d&quot;,a);
+&#125; 
+</code></pre><p>注意定义的BOOK类型 <strong>必须是指针（BOOK *类型，参照头文件的宏定义）</strong> 一旦定义为</p>
+<pre><code>BOOK a；
+</code></pre><p>就会报错，因为我们包含的头文件只有BOOK的声明，定义为BOOK a的话编译器不知道要给a分配多少内存空间，会引发以下类似类型错误：</p>
+<pre><code>[Error] variable &#39;BOOK a&#39; has initializer but incomplete type
+</code></pre><p>编译通过之后，可以用printf函数打印分配的地址，看下是否分配成功！<br>这样定义的变量的所有对成员的操作都要写到源代码文件中（包括基本的输入输出函数都要），因为在主函数中，这些变量的成员的值无法被直接更改！<br>如：</p>
+<p><code>main.cpp</code></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &quot;book.h&quot;
+int main()
+&#123;
+    PBOOK a = CreateBook(20, &quot;1231321231&quot;);    // 定义的变量必须是指针类型 
+    printf(&quot;%d %d&quot;,a, a-&gt;price);
+&#125; 
+</code></pre><p>编译器会报类型错误，</p>
+<pre><code>[Error] invalid use of incomplete type &#39;BOOK &#123;aka struct book&#125;&#39;
+</code></pre><p>​    </p>
+]]></content>
+      <categories>
+        <category>C_Struct</category>
+      </categories>
+      <tags>
+        <tag>language C</tag>
+        <tag>struct</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>冒泡排序（Bubble）</title>
     <url>/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/bubbleSort.gif" alt="bubbleSort"></p>
@@ -43,6 +110,74 @@
         <tag>Algorithm</tag>
         <tag>sort</tag>
         <tag>Bubble</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>stdarg.h实现可变参数</title>
+    <url>/2019/11/24/C/stdarg-h%E5%AE%9E%E7%8E%B0%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/</url>
+    <content><![CDATA[<h2 id="stdarg-h实现可变参数"><a href="#stdarg-h实现可变参数" class="headerlink" title="stdarg.h实现可变参数"></a>stdarg.h实现可变参数</h2><ol>
+<li>本篇谈论用标准库stdarg.h实现不定参数的方方面面（11/24/2019 11:48:35 PM ）</li>
+<li>小技巧：实现格式输入、输出（见更新）</li>
+</ol>
+<h3 id="stdarg-h的介绍"><a href="#stdarg-h的介绍" class="headerlink" title="stdarg.h的介绍"></a>stdarg.h的介绍</h3><p>stdarg.h是C语言中C标准函数库的头文件，stdarg是由<strong>standard（标准） arguments（参数）</strong>简化而来。</p>
+<p>我们常常看到一些函数形如：<strong>printf(const char *fomat,…);</strong><br>这类型的函数就可以用该标准头文件实现。</p>
+<h3 id="包含成员"><a href="#包含成员" class="headerlink" title="包含成员"></a>包含成员</h3><p><strong>va_list:</strong> </p>
+<p>用来保存<strong>va_start()</strong>、<strong>va_arg()</strong> 和 <strong>va_end()</strong> 这三个宏存储信息的类型。</p>
+<p><strong>va_start:</strong></p>
+<pre><code> void va_start(va_list list, arg)
+</code></pre><p>将va_list指向初始参数</p>
+<ul>
+<li>arg为函数的最后一个非不定参数，如：上面的printf函数，该参数就要填fomat。</li>
+</ul>
+<p><strong>va_arg：</strong></p>
+<pre><code>type va_arg(va_list list, type)
+</code></pre><p>从list中取出参数并指定为type类型返回，同时移动指针指向下一个参数</p>
+<ul>
+<li>注意：一定要确保函数的type类型和返回值相同</li>
+</ul>
+<p><strong>va_end：</strong></p>
+<pre><code>void va_end(va_list list)
+</code></pre><p>释放list，将其置NULL。</p>
+<h3 id="具体用法"><a href="#具体用法" class="headerlink" title="具体用法"></a>具体用法</h3><pre><code>char **CreateStrings(int nNum, const char *nName,...);
+//生成一个字符串数组
+
+//代码如下：
+va_list ParamList;
+va_start(ParamList, nName); // 最后一个非可变参数
+
+char **sRet = (char **)malloc(sizeof(char *)*(nNum+1));                 // 创建二级指针
+if(sRet!=NULL)
+&#123;
+    // 此处不用纠结，只是填入nName参数到返回的字符串数组中
+    char *sMenber = NULL;
+    char *sTmp = NULL;
+    sMenber = (char *)malloc(sizeof(char)*strlen(nName));           
+    if(strcpy(sMenber, nName)!=NULL)                                // copy string to sMenber
+        *sRet = sMenber;                                            // add sMenber to sRet
+    else
+        return NULL;                                                // test copy
+    // 此处不用纠结
+
+    // 正戏开始
+    for(i=1; i&lt;=nNum-1; i++)
+    &#123;
+        sTmp = va_arg(ParamList,char *);                            // 多次从不定参数表取出参数，转为char *类型
+        if(sTmp==NULL)
+            return NULL;
+        sMenber = (char *)malloc(sizeof(char)*strlen(sTmp));
+        strcpy(sMenber, sTmp);
+        *(sRet+i) = sMenber;                                   
+    &#125;
+    *(sRet+nNum) = NULL;
+&#125;
+va_end(ParamList);                                                    // 释放不定参数表
+</code></pre>]]></content>
+      <categories>
+        <category>C Library</category>
+      </categories>
+      <tags>
+        <tag>C Std Library</tag>
+        <tag>stdarg.h</tag>
       </tags>
   </entry>
   <entry>
@@ -249,141 +384,6 @@
         <tag>Algorithm</tag>
         <tag>sort</tag>
         <tag>Selection</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C语言隐藏结构体的实现方法</title>
-    <url>/2019/11/26/C/C%E8%AF%AD%E8%A8%80%E9%9A%90%E8%97%8F%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>前些天在搞win32，被windows花里胡哨的结构弄得生不如死，脑子里莫名其妙蹦出了一个想法：能不能定义一些结构体，外部可以用它来定义变量，然而却不能改变它的成员的值, 就像C++，Java一类语言的class一样对数据进行保护。<del>好吧，其实是我还没吃饱撑着随便乱搞</del><br>参照了网上很多的说法，自己胡乱地搞了几个小时给弄出来了。</p>
-<h1 id="正文："><a href="#正文：" class="headerlink" title="正文："></a>正文：</h1><p>直接上代码:<br><br><code>book.cpp</code></p>
-<pre><code>#include &quot;book.h&quot;
-struct book&#123;
-    int price;
-    char *name;
-&#125;;
-
-PBOOK CreateBook(int price, char *name)
-&#123;
-    PBOOK Book1 = (PBOOK)malloc(sizeof(BOOK));
-    Book1-&gt;price = 100;
-    Book1-&gt;name = 0;
-    return Book1;
-&#125;
-
-void FreeBook(PBOOK book)
-&#123;
-    free(book);
-&#125; 
-</code></pre><p>上述源代码文件定义了一个结构和两个函数，同时包含一个自身的头文件</p>
-<p><code>book.h</code></p>
-<pre><code>#include &lt;malloc.h&gt;
-#define PBOOK BOOK *
-
-struct book;
-typedef struct book BOOK;
-
-PBOOK CreateBook(int price, char *name);
-void FreeBook(PBOOK book);
-</code></pre><p>头文件中声明了两个函数和结构体，其中用typedef给结构体定义为一种类型。因为源代码文件会包含这个头文件，<strong>所以在源代码中也可以使用头文件中的宏</strong></p>
-<p><code>main.cpp</code></p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &quot;book.h&quot;
-int main()
-&#123;
-    PBOOK a = CreateBook(20, &quot;1231321231&quot;);    // 定义的变量必须是指针类型 
-    printf(&quot;%d&quot;,a);
-&#125; 
-</code></pre><p>注意定义的BOOK类型 <strong>必须是指针（BOOK *类型，参照头文件的宏定义）</strong> 一旦定义为</p>
-<pre><code>BOOK a；
-</code></pre><p>就会报错，因为我们包含的头文件只有BOOK的声明，定义为BOOK a的话编译器不知道要给a分配多少内存空间，会引发以下类似类型错误：</p>
-<pre><code>[Error] variable &#39;BOOK a&#39; has initializer but incomplete type
-</code></pre><p>编译通过之后，可以用printf函数打印分配的地址，看下是否分配成功！<br>这样定义的变量的所有对成员的操作都要写到源代码文件中（包括基本的输入输出函数都要），因为在主函数中，这些变量的成员的值无法被直接更改！<br>如：</p>
-<p><code>main.cpp</code></p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &quot;book.h&quot;
-int main()
-&#123;
-    PBOOK a = CreateBook(20, &quot;1231321231&quot;);    // 定义的变量必须是指针类型 
-    printf(&quot;%d %d&quot;,a, a-&gt;price);
-&#125; 
-</code></pre><p>编译器会报类型错误，</p>
-<pre><code>[Error] invalid use of incomplete type &#39;BOOK &#123;aka struct book&#125;&#39;
-</code></pre><p>​    </p>
-]]></content>
-      <categories>
-        <category>C_Struct</category>
-      </categories>
-      <tags>
-        <tag>language C</tag>
-        <tag>struct</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>stdarg.h实现可变参数</title>
-    <url>/2019/11/24/C/stdarg-h%E5%AE%9E%E7%8E%B0%E4%B8%8D%E5%AE%9A%E5%8F%82%E6%95%B0/</url>
-    <content><![CDATA[<h2 id="stdarg-h实现可变参数"><a href="#stdarg-h实现可变参数" class="headerlink" title="stdarg.h实现可变参数"></a>stdarg.h实现可变参数</h2><ol>
-<li>本篇谈论用标准库stdarg.h实现不定参数的方方面面（11/24/2019 11:48:35 PM ）</li>
-<li>小技巧：实现格式输入、输出（见更新）</li>
-</ol>
-<h3 id="stdarg-h的介绍"><a href="#stdarg-h的介绍" class="headerlink" title="stdarg.h的介绍"></a>stdarg.h的介绍</h3><p>stdarg.h是C语言中C标准函数库的头文件，stdarg是由<strong>standard（标准） arguments（参数）</strong>简化而来。</p>
-<p>我们常常看到一些函数形如：<strong>printf(const char *fomat,…);</strong><br>这类型的函数就可以用该标准头文件实现。</p>
-<h3 id="包含成员"><a href="#包含成员" class="headerlink" title="包含成员"></a>包含成员</h3><p><strong>va_list:</strong> </p>
-<p>用来保存<strong>va_start()</strong>、<strong>va_arg()</strong> 和 <strong>va_end()</strong> 这三个宏存储信息的类型。</p>
-<p><strong>va_start:</strong></p>
-<pre><code> void va_start(va_list list, arg)
-</code></pre><p>将va_list指向初始参数</p>
-<ul>
-<li>arg为函数的最后一个非不定参数，如：上面的printf函数，该参数就要填fomat。</li>
-</ul>
-<p><strong>va_arg：</strong></p>
-<pre><code>type va_arg(va_list list, type)
-</code></pre><p>从list中取出参数并指定为type类型返回，同时移动指针指向下一个参数</p>
-<ul>
-<li>注意：一定要确保函数的type类型和返回值相同</li>
-</ul>
-<p><strong>va_end：</strong></p>
-<pre><code>void va_end(va_list list)
-</code></pre><p>释放list，将其置NULL。</p>
-<h3 id="具体用法"><a href="#具体用法" class="headerlink" title="具体用法"></a>具体用法</h3><pre><code>char **CreateStrings(int nNum, const char *nName,...);
-//生成一个字符串数组
-
-//代码如下：
-va_list ParamList;
-va_start(ParamList, nName); // 最后一个非可变参数
-
-char **sRet = (char **)malloc(sizeof(char *)*(nNum+1));                 // 创建二级指针
-if(sRet!=NULL)
-&#123;
-    // 此处不用纠结，只是填入nName参数到返回的字符串数组中
-    char *sMenber = NULL;
-    char *sTmp = NULL;
-    sMenber = (char *)malloc(sizeof(char)*strlen(nName));           
-    if(strcpy(sMenber, nName)!=NULL)                                // copy string to sMenber
-        *sRet = sMenber;                                            // add sMenber to sRet
-    else
-        return NULL;                                                // test copy
-    // 此处不用纠结
-
-    // 正戏开始
-    for(i=1; i&lt;=nNum-1; i++)
-    &#123;
-        sTmp = va_arg(ParamList,char *);                            // 多次从不定参数表取出参数，转为char *类型
-        if(sTmp==NULL)
-            return NULL;
-        sMenber = (char *)malloc(sizeof(char)*strlen(sTmp));
-        strcpy(sMenber, sTmp);
-        *(sRet+i) = sMenber;                                   
-    &#125;
-    *(sRet+nNum) = NULL;
-&#125;
-va_end(ParamList);                                                    // 释放不定参数表
-</code></pre>]]></content>
-      <categories>
-        <category>C Library</category>
-      </categories>
-      <tags>
-        <tag>C Std Library</tag>
-        <tag>stdarg.h</tag>
       </tags>
   </entry>
   <entry>
@@ -641,37 +641,6 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>Git提交时显示其他用户名和邮箱</title>
-    <url>/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/</url>
-    <content><![CDATA[<p>介绍在配置了全局user.name和<code>user.email</code>的情况下，如何使用其他的名用户名和email提交代码</p>
-<span id="more"></span>
-<p>默认情况下只要配置了全局user.name和user.email，你的所有提交都会使用这个user.name和user.email作为提交作者，可以使用下面的指令来查看：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --list</span><br><span class="line"><span class="comment">## 或者单独查看</span></span><br><span class="line">git config --global user.name</span><br><span class="line">git config --global user.email</span><br></pre></td></tr></table></figure>
-<p><img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121001373.png" alt="image-20250908121001373"></p>
-<p>这两个值一般使用下面的指令设置：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&#x27;张三&#x27;</span></span><br><span class="line">git config --global user.email <span class="string">&#x27;zs@gmail.com&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>你可以看到我当前的设置为：</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">user.name</span>=<span class="string">ArgentoAskia</span></span><br><span class="line"><span class="meta">user.email</span>=<span class="string">askiaxiaoming@outlook.com</span></span><br></pre></td></tr></table></figure>
-<p>所以但我提交代码的时候，提交人信息一栏会使用这两个信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121640943.png" alt="image-20250908121640943" style="zoom:200%;"></p>
-<p>当你将内容<code>Push</code>到<code>Github</code>的时候，Github也会收到相关提交人的信息，<code>Github</code>优先会根据邮箱来判断，判断该邮箱是否注册过<code>Github</code>账号，如果注册过则会直接显示该用户的<code>Github</code>头像和相关信息，例如我的账户是Askiaxiaoming@outlook.com<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121915033.png" alt="image-20250908121915033"></p>
-<p>则此时你会看到提交信息上，就是我的相关<code>Github</code>信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122021677.png" alt="image-20250908122021677"></p>
-<p>如果发现这个邮箱没有注册过<code>Github</code>，则此时<code>Github</code>会使用您提交的用户名作为显示，头像会显示默认头像：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122218037.png" alt="image-20250908122218037"></p>
-<p>那么问题来了，这个信息是根据<code>Git</code>全局配置获取的，当我在新项目中不希望使用这个全局设置，而是使用其他的用户名和<code>Email</code>该怎么办？</p>
-<p>在每个项目的根目录下都有一个<code>.git</code>文件夹，该文件夹是隐藏状态，先将其显示，然后打开里面的<code>config</code>文件，一般位于这里：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122640512.png" alt="image-20250908122640512"></p>
-<p>在末尾添加一条配置信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">    name =  compay_yourname</span><br><span class="line">    email = youremail@compay.cn</span><br></pre></td></tr></table></figure>
-<p>这样设置后，你在该项目下提交的信息即为你设置的信息。唯一的缺点是他是只能配置该项目，如果有多个项目，需要分别配置下。但这样也有好处，就是你无需改动全局配置，当你不需要分别设置的时候你就不需要做任何其他的配置。</p>
-]]></content>
-      <categories>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>git username</tag>
-        <tag>git email</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>开闭原则</title>
     <url>/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</url>
     <content><![CDATA[<h4 id="软件设计模式——-gt-软件设计原则——-gt-开闭原则"><a href="#软件设计模式——-gt-软件设计原则——-gt-开闭原则" class="headerlink" title="软件设计模式——&gt;软件设计原则——&gt;开闭原则"></a>软件设计模式——&gt;软件设计原则——&gt;开闭原则</h4><span id="more"></span>
@@ -721,26 +690,35 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>22端口抽风</title>
-    <url>/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/</url>
-    <content><![CDATA[<p>前一天还能push，今天一push，就报：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
+    <title>Git提交时显示其他用户名和邮箱</title>
+    <url>/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/</url>
+    <content><![CDATA[<p>介绍在配置了全局user.name和<code>user.email</code>的情况下，如何使用其他的名用户名和email提交代码</p>
 <span id="more"></span>
-<h2 id="记录一次github-22端口抽风日常"><a href="#记录一次github-22端口抽风日常" class="headerlink" title="记录一次github 22端口抽风日常"></a>记录一次github 22端口抽风日常</h2><p>前一天还能push，今天一push，就报：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
-<p>出现 <code>ssh: connect to host github.com port 22: Connection timed out</code> 错误，通常是由于网络或配置问题导致无法通过默认的SSH端口22连接到GitHub。以下是解决方法：</p>
-<h3 id="临时测试连接"><a href="#临时测试连接" class="headerlink" title="临时测试连接"></a>临时测试连接</h3><p>在命令行中运行以下命令来测试连接：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T -p 443 git@ssh.github.com</span><br></pre></td></tr></table></figure>
-<p>如果显示类似 <code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code> 的信息，则表明通过443端口成功进行了身份验证。</p>
-<h3 id="修改SSH配置文件"><a href="#修改SSH配置文件" class="headerlink" title="修改SSH配置文件"></a>修改SSH配置文件</h3><p>修改 <code>~/.ssh/config</code> 文件，添加以下内容：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 443</span><br></pre></td></tr></table></figure>
-<p>保存文件后，再次运行以下命令测试连接：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-<p>如果连接成功，显示<code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>，之后就可以正常进行git操作了。</p>
-<p>如果此时还不能正常操作，或者提示<code>permission deny</code>，则你需要去到<code>.ssh</code>文件夹下（一般位于），删除<code>known_hosts</code>让<code>git</code>重新生成指纹</p>
-<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>出现这个问题很大概率是<code>Github</code>的主域名<code>github.com</code>，被墙了或者维护了，你<code>ping</code>不上去，此时可以尝试使用<code>ssh.github.com</code>，因此上面的解决方法相当于将<code>github.com</code>的主机名映射到<code>ssh.github.com</code>去！</p>
-<p><img src="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/image-20250827125841944.png" alt="image-20250827125841944"></p>
+<p>默认情况下只要配置了全局user.name和user.email，你的所有提交都会使用这个user.name和user.email作为提交作者，可以使用下面的指令来查看：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --list</span><br><span class="line"><span class="comment">## 或者单独查看</span></span><br><span class="line">git config --global user.name</span><br><span class="line">git config --global user.email</span><br></pre></td></tr></table></figure>
+<p><img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121001373.png" alt="image-20250908121001373"></p>
+<p>这两个值一般使用下面的指令设置：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&#x27;张三&#x27;</span></span><br><span class="line">git config --global user.email <span class="string">&#x27;zs@gmail.com&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>你可以看到我当前的设置为：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">user.name</span>=<span class="string">ArgentoAskia</span></span><br><span class="line"><span class="meta">user.email</span>=<span class="string">askiaxiaoming@outlook.com</span></span><br></pre></td></tr></table></figure>
+<p>所以但我提交代码的时候，提交人信息一栏会使用这两个信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121640943.png" alt="image-20250908121640943" style="zoom:200%;"></p>
+<p>当你将内容<code>Push</code>到<code>Github</code>的时候，Github也会收到相关提交人的信息，<code>Github</code>优先会根据邮箱来判断，判断该邮箱是否注册过<code>Github</code>账号，如果注册过则会直接显示该用户的<code>Github</code>头像和相关信息，例如我的账户是Askiaxiaoming@outlook.com<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121915033.png" alt="image-20250908121915033"></p>
+<p>则此时你会看到提交信息上，就是我的相关<code>Github</code>信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122021677.png" alt="image-20250908122021677"></p>
+<p>如果发现这个邮箱没有注册过<code>Github</code>，则此时<code>Github</code>会使用您提交的用户名作为显示，头像会显示默认头像：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122218037.png" alt="image-20250908122218037"></p>
+<p>那么问题来了，这个信息是根据<code>Git</code>全局配置获取的，当我在新项目中不希望使用这个全局设置，而是使用其他的用户名和<code>Email</code>该怎么办？</p>
+<p>在每个项目的根目录下都有一个<code>.git</code>文件夹，该文件夹是隐藏状态，先将其显示，然后打开里面的<code>config</code>文件，一般位于这里：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122640512.png" alt="image-20250908122640512"></p>
+<p>在末尾添加一条配置信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">    name =  compay_yourname</span><br><span class="line">    email = youremail@compay.cn</span><br></pre></td></tr></table></figure>
+<p>这样设置后，你在该项目下提交的信息即为你设置的信息。唯一的缺点是他是只能配置该项目，如果有多个项目，需要分别配置下。但这样也有好处，就是你无需改动全局配置，当你不需要分别设置的时候你就不需要做任何其他的配置。</p>
 ]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>git username</tag>
+        <tag>git email</tag>
+      </tags>
   </entry>
   <entry>
     <title>git代码合并</title>
@@ -802,6 +780,28 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>22端口抽风</title>
+    <url>/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/</url>
+    <content><![CDATA[<p>前一天还能push，今天一push，就报：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="记录一次github-22端口抽风日常"><a href="#记录一次github-22端口抽风日常" class="headerlink" title="记录一次github 22端口抽风日常"></a>记录一次github 22端口抽风日常</h2><p>前一天还能push，今天一push，就报：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
+<p>出现 <code>ssh: connect to host github.com port 22: Connection timed out</code> 错误，通常是由于网络或配置问题导致无法通过默认的SSH端口22连接到GitHub。以下是解决方法：</p>
+<h3 id="临时测试连接"><a href="#临时测试连接" class="headerlink" title="临时测试连接"></a>临时测试连接</h3><p>在命令行中运行以下命令来测试连接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T -p 443 git@ssh.github.com</span><br></pre></td></tr></table></figure>
+<p>如果显示类似 <code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code> 的信息，则表明通过443端口成功进行了身份验证。</p>
+<h3 id="修改SSH配置文件"><a href="#修改SSH配置文件" class="headerlink" title="修改SSH配置文件"></a>修改SSH配置文件</h3><p>修改 <code>~/.ssh/config</code> 文件，添加以下内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 443</span><br></pre></td></tr></table></figure>
+<p>保存文件后，再次运行以下命令测试连接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>如果连接成功，显示<code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>，之后就可以正常进行git操作了。</p>
+<p>如果此时还不能正常操作，或者提示<code>permission deny</code>，则你需要去到<code>.ssh</code>文件夹下（一般位于），删除<code>known_hosts</code>让<code>git</code>重新生成指纹</p>
+<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>出现这个问题很大概率是<code>Github</code>的主域名<code>github.com</code>，被墙了或者维护了，你<code>ping</code>不上去，此时可以尝试使用<code>ssh.github.com</code>，因此上面的解决方法相当于将<code>github.com</code>的主机名映射到<code>ssh.github.com</code>去！</p>
+<p><img src="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/image-20250827125841944.png" alt="image-20250827125841944"></p>
+]]></content>
+  </entry>
+  <entry>
     <title>El表达式</title>
     <url>/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<span id="more"></span>
@@ -811,6 +811,85 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>javaweb_EL_Expression</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Filter过滤器</title>
+    <url>/2022/01/01/JavaWeb/Filter/</url>
+    <content><![CDATA[<h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
+<h2 id="所谓Filter"><a href="#所谓Filter" class="headerlink" title="所谓Filter"></a>所谓Filter</h2><p>当一个请求在到达服务器软件之后，服务器软件响应请求时会找到相关的资源，如<strong>一个Html页面，一个JSP页面，一个servlet</strong>，Filter所做的事情，就是拦截这些请求，然后对它进行预处理。</p>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000319755.png" alt="image-20211230000319755" style="zoom:200%;"></p>
+<p><strong>要注意，Filter不仅仅能够截拦Servlet，对于任意的URL（这个URL可以指向一个html，也可以指向一个jsp），如：<a href="http://www.argentoaskia.tech/resource.html，也是可以拦截的。">http://www.argentoaskia.tech/resource.html，也是可以拦截的。</a></strong></p>
+<h2 id="配置编写Filter"><a href="#配置编写Filter" class="headerlink" title="配置编写Filter"></a>配置编写Filter</h2><p>编写Filter的步骤应如下：</p>
+<ol>
+<li>新建Filter的Java类</li>
+<li>让该类实现Filter接口</li>
+<li>在doFilter()方法中进行求情拦截</li>
+<li>给该类添加@WebFilter注解，并指定要拦截的URL，或者在Web.xml中添加Filter配置，如：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>FittlerDemo1.ABCFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">       &lt;servlet-name&gt;demo1&lt;/servlet-name&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">urlPattern</span>&gt;</span>/result<span class="tag">&lt;/<span class="name">urlPattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>完整的Filter可以参考：</p>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000952257.png" alt="image-20211230000952257"></p>
+<h2 id="过滤器执行流程"><a href="#过滤器执行流程" class="headerlink" title="过滤器执行流程"></a>过滤器执行流程</h2><p>对于一个过滤器他的执行流程是双向的，也就是说它实际上遵循下面的流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[客户端请求] --&gt;|被截拦| B[过滤器1]</span><br><span class="line">B[过滤器1] --&gt;|过滤器1执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器1调用filterChain.doFilter方法到| C[过滤器2]</span><br><span class="line">C[过滤器2] --&gt;|过滤器2执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器2调用filterChain.doFilter方法到| E[过滤器3]</span><br><span class="line">E[过滤器3] --&gt;|过滤器3执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器3调用filterChain.doFilter方法到| F[过滤器4]</span><br><span class="line">F[过滤器4] --&gt;|过滤器4执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|没有其他过滤器 将会调用请求资源| G[Servlet或者JSP或者HTML]</span><br><span class="line">G[Servlet或者JSP或者HTML] --&gt;|执行完成 回到过滤器4|H[过滤器4]</span><br><span class="line">H[过滤器4] --&gt;|执行filterChain.doFilter方法之后的代码| I[过滤器3]</span><br><span class="line">I[过滤器3] --&gt;|执行filterChain.doFilter方法之后的代码| J[过滤器2]</span><br><span class="line">J[过滤器2] --&gt;|执行filterChain.doFilter方法之后的代码| K[过滤器1]</span><br></pre></td></tr></table></figure>
+<h2 id="过滤器生命周期"><a href="#过滤器生命周期" class="headerlink" title="过滤器生命周期"></a>过滤器生命周期</h2><p>Filter的生命周期主要有三个：</p>
+<ul>
+<li>init()</li>
+<li>doFilter()</li>
+<li>destroy()</li>
+</ul>
+<h2 id="过滤器配置"><a href="#过滤器配置" class="headerlink" title="过滤器配置"></a>过滤器配置</h2><p>@WebFilter源代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WebFilter &#123;</span><br><span class="line">    <span class="function">String <span class="title">description</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 该filter的描述</span></span><br><span class="line">    <span class="function">String <span class="title">displayName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 过滤器的显示名称</span></span><br><span class="line">    WebInitParam[] initParams() <span class="keyword">default</span> &#123;&#125;;	<span class="comment">// 初始化参数</span></span><br><span class="line">    <span class="function">String <span class="title">filterName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// 过滤器名称</span></span><br><span class="line">    <span class="function">String <span class="title">smallIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The small-icon of the filter</span></span><br><span class="line">    <span class="function">String <span class="title">largeIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The large-icon of the filter</span></span><br><span class="line">    String[] servletNames() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The names of the servlets to which the filter applies.</span></span><br><span class="line">    String[] value() <span class="keyword">default</span> &#123;&#125;;			<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    String[] urlPatterns() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    <span class="comment">// The dispatcher types to which the filter applies</span></span><br><span class="line">    DispatcherType[] dispatcherTypes() <span class="keyword">default</span> &#123;DispatcherType.REQUEST&#125;;</span><br><span class="line">    <span class="comment">// Declares whether the filter supports asynchronous operation mode.</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">asyncSupported</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230010247571.png" alt="image-20211230010247571"></p>
+<h3 id="配置方式拦截"><a href="#配置方式拦截" class="headerlink" title="配置方式拦截"></a>配置方式拦截</h3><p>配置方式拦截主要涉及到DispatcherType的指定，有五种方式：</p>
+<ul>
+<li>FORWARD、INCLUDE用于当使用RequestDispatcher的forward()、include()时应用该Filter</li>
+<li>ERROR用于当请求的URL会404时，应用该Filter</li>
+<li>REQUEST默认选项，当发送请求的时候应用该Filter</li>
+<li>ASYNC异步拦截，用于Ajax</li>
+</ul>
+<h3 id="配置路径拦截"><a href="#配置路径拦截" class="headerlink" title="配置路径拦截"></a>配置路径拦截</h3><ol>
+<li>具体资源路径：<code>/index.jsp</code></li>
+<li>拦截目录：<code>/user/*</code>：拦截某个目录下的资源</li>
+<li>后缀名拦截：<code>*.jsp</code>：拦截所有的<code>jsp</code>文件</li>
+<li>拦截所有资源：<code>/*</code></li>
+</ol>
+<h2 id="多个Filter作用顺序-过滤器链"><a href="#多个Filter作用顺序-过滤器链" class="headerlink" title="多个Filter作用顺序(过滤器链)"></a>多个Filter作用顺序(过滤器链)</h2><p>一个Servlet中配置多个Filter的执行顺序是一件很有意思的事情，如果一个项目配置了多个Filter，这些Filter里面包括使用urlPatterns来指定拦截的，使用servletNames来指定拦截Servlet的，有在Web.xml中定义的，也有使用@WebFilter定义的。</p>
+<p>无论有多少，<strong>首先都会执行配置了urlPatterns属性的Filters</strong>，在这些配置了urlPatterns属性的Filters里面，<strong>又优先执行Web.xml中定义的Filters，根据Web.xml中的Filters的上下文排列顺序来执行</strong>，<strong>然后才执行使用@WebFilter的Filter，执行@WebFilter的Filter，根据类名来判断执行顺序，不区分大小写。</strong></p>
+<p><strong>然后才会执行配置了servlet-name属性的Filters</strong>，执行顺序同配置了urlPatterns属性的Filters一样。</p>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_filter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaBean技术</title>
+    <url>/2022/01/08/JavaWeb/JavaBean%E6%8A%80%E6%9C%AF/</url>
+    <content><![CDATA[<h1 id="JavaBean技术"><a href="#JavaBean技术" class="headerlink" title="JavaBean技术"></a>JavaBean技术</h1><p>JavaBean技术最初是面向Swing等GUI而设计的,后来经过用于Web开发上.</p>
+<span id="more"></span>
+<h2 id="使用JavaBean"><a href="#使用JavaBean" class="headerlink" title="使用JavaBean"></a>使用JavaBean</h2><p>JavaBean主要设计3个JSP动作:</p>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;对象名&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;类型&quot;</span> scope=<span class="string">&quot;范围[request | page | session | application]&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;* | 相关属性&quot;</span> value = <span class="string">&quot;&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">	*:自动匹配表单中的能匹配的属性名</span><br><span class="line">	相关属性: 请确保和bean类中的私有属性名一样</span><br><span class="line">	value:可选,如果省略,则自动匹配表单中同名的输入域(text input)</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:getProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;相关属性&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="1-编写JavaBean类"><a href="#1-编写JavaBean类" class="headerlink" title="1.编写JavaBean类"></a>1.编写JavaBean类</h3><p>编写JavaBean类需要注意:</p>
+<ul>
+<li>为每一个字段都设置为<code>private</code>,且提供<code>setter</code>和<code>getter</code></li>
+<li>创建默认构造方法</li>
+<li>请将javabean放在包里面,不要使用<code>defaultPackage</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> bean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> width;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> length;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> area;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> perimeter;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getArea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        area = width * length;</span><br><span class="line">        <span class="keyword">return</span> area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getLength</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setArea</span><span class="params">(<span class="keyword">double</span> area)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.area = area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLength</span><span class="params">(<span class="keyword">double</span> length)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.length = length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPerimeter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        perimeter = <span class="number">2</span> * (width + length);</span><br><span class="line">        <span class="keyword">return</span> perimeter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWidth</span><span class="params">(<span class="keyword">double</span> width)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.width = width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPerimeter</span><span class="params">(<span class="keyword">double</span> perimeter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.perimeter = perimeter;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Rectangle</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="2-设计JSP页面引用JavaBean"><a href="#2-设计JSP页面引用JavaBean" class="headerlink" title="2.设计JSP页面引用JavaBean"></a>2.设计JSP页面引用JavaBean</h3><h4 id="请求端页面关键代码"><a href="#请求端页面关键代码" class="headerlink" title="请求端页面关键代码:"></a>请求端页面关键代码:</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;result.jsp&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">   长:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;length&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的length字段同名--&gt;</span></span><br><span class="line">   宽:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;width&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的width字段同名--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;计算&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="响应端页面关键代码"><a href="#响应端页面关键代码" class="headerlink" title="响应端页面关键代码:"></a>响应端页面关键代码:</h4><figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;rectangle&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;bean.Rectangle&quot;</span> scope=<span class="string">&quot;request&quot;</span>/&gt;	</span><br><span class="line">	&lt;!-- 创建一个Rectangle对象,对象名为:rectangle --&gt;</span><br><span class="line">	&lt;!-- 相当于 Rectangle rectangle = <span class="keyword">new</span> Rectangle() --&gt;</span><br><span class="line"></span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;*&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 设置rectangle对象可匹配属性值,相当于下面代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 也相当于下面的代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;width&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;length&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;!-- 获取rectangle对象属性值 --&gt;</span><br><span class="line">面积:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;area&quot;</span>/&gt;&lt;br/&gt;</span><br><span class="line">周长:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;perimeter&quot;</span>/&gt;&lt;br/&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_bean</tag>
+        <tag>javaweb_jsp</tag>
       </tags>
   </entry>
   <entry>
@@ -1597,85 +1676,6 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>Filter过滤器</title>
-    <url>/2022/01/01/JavaWeb/Filter/</url>
-    <content><![CDATA[<h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
-<h2 id="所谓Filter"><a href="#所谓Filter" class="headerlink" title="所谓Filter"></a>所谓Filter</h2><p>当一个请求在到达服务器软件之后，服务器软件响应请求时会找到相关的资源，如<strong>一个Html页面，一个JSP页面，一个servlet</strong>，Filter所做的事情，就是拦截这些请求，然后对它进行预处理。</p>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000319755.png" alt="image-20211230000319755" style="zoom:200%;"></p>
-<p><strong>要注意，Filter不仅仅能够截拦Servlet，对于任意的URL（这个URL可以指向一个html，也可以指向一个jsp），如：<a href="http://www.argentoaskia.tech/resource.html，也是可以拦截的。">http://www.argentoaskia.tech/resource.html，也是可以拦截的。</a></strong></p>
-<h2 id="配置编写Filter"><a href="#配置编写Filter" class="headerlink" title="配置编写Filter"></a>配置编写Filter</h2><p>编写Filter的步骤应如下：</p>
-<ol>
-<li>新建Filter的Java类</li>
-<li>让该类实现Filter接口</li>
-<li>在doFilter()方法中进行求情拦截</li>
-<li>给该类添加@WebFilter注解，并指定要拦截的URL，或者在Web.xml中添加Filter配置，如：</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>FittlerDemo1.ABCFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">       &lt;servlet-name&gt;demo1&lt;/servlet-name&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">urlPattern</span>&gt;</span>/result<span class="tag">&lt;/<span class="name">urlPattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>完整的Filter可以参考：</p>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000952257.png" alt="image-20211230000952257"></p>
-<h2 id="过滤器执行流程"><a href="#过滤器执行流程" class="headerlink" title="过滤器执行流程"></a>过滤器执行流程</h2><p>对于一个过滤器他的执行流程是双向的，也就是说它实际上遵循下面的流程：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[客户端请求] --&gt;|被截拦| B[过滤器1]</span><br><span class="line">B[过滤器1] --&gt;|过滤器1执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器1调用filterChain.doFilter方法到| C[过滤器2]</span><br><span class="line">C[过滤器2] --&gt;|过滤器2执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器2调用filterChain.doFilter方法到| E[过滤器3]</span><br><span class="line">E[过滤器3] --&gt;|过滤器3执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器3调用filterChain.doFilter方法到| F[过滤器4]</span><br><span class="line">F[过滤器4] --&gt;|过滤器4执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|没有其他过滤器 将会调用请求资源| G[Servlet或者JSP或者HTML]</span><br><span class="line">G[Servlet或者JSP或者HTML] --&gt;|执行完成 回到过滤器4|H[过滤器4]</span><br><span class="line">H[过滤器4] --&gt;|执行filterChain.doFilter方法之后的代码| I[过滤器3]</span><br><span class="line">I[过滤器3] --&gt;|执行filterChain.doFilter方法之后的代码| J[过滤器2]</span><br><span class="line">J[过滤器2] --&gt;|执行filterChain.doFilter方法之后的代码| K[过滤器1]</span><br></pre></td></tr></table></figure>
-<h2 id="过滤器生命周期"><a href="#过滤器生命周期" class="headerlink" title="过滤器生命周期"></a>过滤器生命周期</h2><p>Filter的生命周期主要有三个：</p>
-<ul>
-<li>init()</li>
-<li>doFilter()</li>
-<li>destroy()</li>
-</ul>
-<h2 id="过滤器配置"><a href="#过滤器配置" class="headerlink" title="过滤器配置"></a>过滤器配置</h2><p>@WebFilter源代码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WebFilter &#123;</span><br><span class="line">    <span class="function">String <span class="title">description</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 该filter的描述</span></span><br><span class="line">    <span class="function">String <span class="title">displayName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 过滤器的显示名称</span></span><br><span class="line">    WebInitParam[] initParams() <span class="keyword">default</span> &#123;&#125;;	<span class="comment">// 初始化参数</span></span><br><span class="line">    <span class="function">String <span class="title">filterName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// 过滤器名称</span></span><br><span class="line">    <span class="function">String <span class="title">smallIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The small-icon of the filter</span></span><br><span class="line">    <span class="function">String <span class="title">largeIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The large-icon of the filter</span></span><br><span class="line">    String[] servletNames() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The names of the servlets to which the filter applies.</span></span><br><span class="line">    String[] value() <span class="keyword">default</span> &#123;&#125;;			<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    String[] urlPatterns() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    <span class="comment">// The dispatcher types to which the filter applies</span></span><br><span class="line">    DispatcherType[] dispatcherTypes() <span class="keyword">default</span> &#123;DispatcherType.REQUEST&#125;;</span><br><span class="line">    <span class="comment">// Declares whether the filter supports asynchronous operation mode.</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">asyncSupported</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230010247571.png" alt="image-20211230010247571"></p>
-<h3 id="配置方式拦截"><a href="#配置方式拦截" class="headerlink" title="配置方式拦截"></a>配置方式拦截</h3><p>配置方式拦截主要涉及到DispatcherType的指定，有五种方式：</p>
-<ul>
-<li>FORWARD、INCLUDE用于当使用RequestDispatcher的forward()、include()时应用该Filter</li>
-<li>ERROR用于当请求的URL会404时，应用该Filter</li>
-<li>REQUEST默认选项，当发送请求的时候应用该Filter</li>
-<li>ASYNC异步拦截，用于Ajax</li>
-</ul>
-<h3 id="配置路径拦截"><a href="#配置路径拦截" class="headerlink" title="配置路径拦截"></a>配置路径拦截</h3><ol>
-<li>具体资源路径：<code>/index.jsp</code></li>
-<li>拦截目录：<code>/user/*</code>：拦截某个目录下的资源</li>
-<li>后缀名拦截：<code>*.jsp</code>：拦截所有的<code>jsp</code>文件</li>
-<li>拦截所有资源：<code>/*</code></li>
-</ol>
-<h2 id="多个Filter作用顺序-过滤器链"><a href="#多个Filter作用顺序-过滤器链" class="headerlink" title="多个Filter作用顺序(过滤器链)"></a>多个Filter作用顺序(过滤器链)</h2><p>一个Servlet中配置多个Filter的执行顺序是一件很有意思的事情，如果一个项目配置了多个Filter，这些Filter里面包括使用urlPatterns来指定拦截的，使用servletNames来指定拦截Servlet的，有在Web.xml中定义的，也有使用@WebFilter定义的。</p>
-<p>无论有多少，<strong>首先都会执行配置了urlPatterns属性的Filters</strong>，在这些配置了urlPatterns属性的Filters里面，<strong>又优先执行Web.xml中定义的Filters，根据Web.xml中的Filters的上下文排列顺序来执行</strong>，<strong>然后才执行使用@WebFilter的Filter，执行@WebFilter的Filter，根据类名来判断执行顺序，不区分大小写。</strong></p>
-<p><strong>然后才会执行配置了servlet-name属性的Filters</strong>，执行顺序同配置了urlPatterns属性的Filters一样。</p>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_filter</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JavaBean技术</title>
-    <url>/2022/01/08/JavaWeb/JavaBean%E6%8A%80%E6%9C%AF/</url>
-    <content><![CDATA[<h1 id="JavaBean技术"><a href="#JavaBean技术" class="headerlink" title="JavaBean技术"></a>JavaBean技术</h1><p>JavaBean技术最初是面向Swing等GUI而设计的,后来经过用于Web开发上.</p>
-<span id="more"></span>
-<h2 id="使用JavaBean"><a href="#使用JavaBean" class="headerlink" title="使用JavaBean"></a>使用JavaBean</h2><p>JavaBean主要设计3个JSP动作:</p>
-<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;对象名&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;类型&quot;</span> scope=<span class="string">&quot;范围[request | page | session | application]&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;* | 相关属性&quot;</span> value = <span class="string">&quot;&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">	*:自动匹配表单中的能匹配的属性名</span><br><span class="line">	相关属性: 请确保和bean类中的私有属性名一样</span><br><span class="line">	value:可选,如果省略,则自动匹配表单中同名的输入域(text input)</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:getProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;相关属性&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="1-编写JavaBean类"><a href="#1-编写JavaBean类" class="headerlink" title="1.编写JavaBean类"></a>1.编写JavaBean类</h3><p>编写JavaBean类需要注意:</p>
-<ul>
-<li>为每一个字段都设置为<code>private</code>,且提供<code>setter</code>和<code>getter</code></li>
-<li>创建默认构造方法</li>
-<li>请将javabean放在包里面,不要使用<code>defaultPackage</code></li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> bean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> width;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> length;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> area;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> perimeter;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getArea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        area = width * length;</span><br><span class="line">        <span class="keyword">return</span> area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getLength</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setArea</span><span class="params">(<span class="keyword">double</span> area)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.area = area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLength</span><span class="params">(<span class="keyword">double</span> length)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.length = length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPerimeter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        perimeter = <span class="number">2</span> * (width + length);</span><br><span class="line">        <span class="keyword">return</span> perimeter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWidth</span><span class="params">(<span class="keyword">double</span> width)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.width = width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPerimeter</span><span class="params">(<span class="keyword">double</span> perimeter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.perimeter = perimeter;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Rectangle</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="2-设计JSP页面引用JavaBean"><a href="#2-设计JSP页面引用JavaBean" class="headerlink" title="2.设计JSP页面引用JavaBean"></a>2.设计JSP页面引用JavaBean</h3><h4 id="请求端页面关键代码"><a href="#请求端页面关键代码" class="headerlink" title="请求端页面关键代码:"></a>请求端页面关键代码:</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;result.jsp&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">   长:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;length&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的length字段同名--&gt;</span></span><br><span class="line">   宽:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;width&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的width字段同名--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;计算&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="响应端页面关键代码"><a href="#响应端页面关键代码" class="headerlink" title="响应端页面关键代码:"></a>响应端页面关键代码:</h4><figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;rectangle&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;bean.Rectangle&quot;</span> scope=<span class="string">&quot;request&quot;</span>/&gt;	</span><br><span class="line">	&lt;!-- 创建一个Rectangle对象,对象名为:rectangle --&gt;</span><br><span class="line">	&lt;!-- 相当于 Rectangle rectangle = <span class="keyword">new</span> Rectangle() --&gt;</span><br><span class="line"></span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;*&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 设置rectangle对象可匹配属性值,相当于下面代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 也相当于下面的代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;width&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;length&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;!-- 获取rectangle对象属性值 --&gt;</span><br><span class="line">面积:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;area&quot;</span>/&gt;&lt;br/&gt;</span><br><span class="line">周长:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;perimeter&quot;</span>/&gt;&lt;br/&gt;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_bean</tag>
-        <tag>javaweb_jsp</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Response对象</title>
     <url>/2021/12/17/JavaWeb/Response/</url>
     <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
@@ -1850,6 +1850,64 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>javaweb_servlet - javaweb_tomcat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cookies</title>
+    <url>/2022/01/08/JavaWeb/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFcookies/</url>
+    <content><![CDATA[<h1 id="客户端会话技术——cookies"><a href="#客户端会话技术——cookies" class="headerlink" title="客户端会话技术——cookies"></a>客户端会话技术——cookies</h1><span id="more"></span>
+<h2 id="什么是Cookies"><a href="#什么是Cookies" class="headerlink" title="什么是Cookies"></a>什么是Cookies</h2><p>客户端会话技术：将数据保存在客户端</p>
+<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><ol>
+<li>创建Cookies对象，绑定数据</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookie ck = <span class="keyword">new</span> Cookie(String name, String value);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>发送Cookies对象</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.addCookies(Cookies cookie);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>获取Cookies对象</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookies[] cks = request.getCookies();</span><br></pre></td></tr></table></figure>
+<h2 id="Cookie原理"><a href="#Cookie原理" class="headerlink" title="Cookie原理"></a>Cookie原理</h2><p>Cookie是基于HTTP中的set-cookie头和cookie头的</p>
+<p><img src="/2022/01/08/JavaWeb/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFcookies/image-20220104002958718.png" alt="image-20220104002958718"></p>
+<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><h3 id="能不能一次发送多个Cookie"><a href="#能不能一次发送多个Cookie" class="headerlink" title="能不能一次发送多个Cookie"></a>能不能一次发送多个Cookie</h3><p>可以，理论上只需要在Servlet中多次调：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookie ck1 = <span class="keyword">new</span> Cookie(<span class="string">&quot;123&quot;</span>,<span class="string">&quot;456&quot;</span>);</span><br><span class="line">Cookie ck2 = <span class="keyword">new</span> Cookie(<span class="string">&quot;012&quot;</span>,<span class="string">&quot;789&quot;</span>);</span><br><span class="line">response.addCookie(ck1);</span><br><span class="line">response.addCookie(ck2);</span><br></pre></td></tr></table></figure>
+<p>在Response头中，会设置多个<code>set-cookie</code>头，request的cookie头中将会有多个键值对，用<code>;</code>分割</p>
+<h3 id="Cookie持久化问题"><a href="#Cookie持久化问题" class="headerlink" title="Cookie持久化问题"></a>Cookie持久化问题</h3><p>cookie在默认情况下，cookie存储在浏览器的内存中，当浏览器关闭后，Cookie数据被销毁。</p>
+<p>如果期望Cookie能够存储在硬盘中，可以使用<code>setMaxAge(int seconds)</code>方法、</p>
+<p>其中seconds可以取下面三种值：</p>
+<ul>
+<li>正数：将cookie数据写到硬盘的文件中，seconds代表秒数。</li>
+<li>负数：默认值，存在于当前标签页或者浏览器中</li>
+<li>0：删除该Cookie</li>
+</ul>
+<p>负数的作用范围会小于正数，设置为负数的时候，一旦浏览器标签页被关闭就要销毁，如果设置为正数，则多个标签页可以共享该cookie，只要你请求的URL是一样的就可以，因为在浏览器中，cookie的存储以网站URl为键名，这个涉及到cookie在浏览器中的存储.</p>
+<h3 id="Cookie如何存储中文"><a href="#Cookie如何存储中文" class="headerlink" title="Cookie如何存储中文"></a>Cookie如何存储中文</h3><p>tomcat 8之前不能直接存储中文，tomcat 8之后支持存储中文</p>
+<p>tomcat 8之前需要使用转码工具，转为URL，如%E3</p>
+<h3 id="Cookie共享"><a href="#Cookie共享" class="headerlink" title="Cookie共享"></a>Cookie共享</h3><p>默认情况下cookie是不共享的，cookie只能在自己的web项目中使用。</p>
+<p>如果你期望你的Cookie能够被同一个服务器下的多个web项目共享，那就需要使用<code>setPath(String path)</code></p>
+<p><strong>默认情况下如果不设置该方法，该方法会设置当前项目的虚拟路径。</strong></p>
+<h2 id="Cookie特点"><a href="#Cookie特点" class="headerlink" title="Cookie特点"></a>Cookie特点</h2><ul>
+<li>cookie存储数据在客户端浏览器</li>
+<li><p>浏览器对于单个cookie的大小有限制（4kb）以及对同一个域名下的总cookie数量也有限制（20个）</p>
+</li>
+<li><p>cookie一般用于存储少量的不太敏感的信息</p>
+</li>
+<li>cookie一般用于存储偏好设置等</li>
+</ul>
+<h2 id="Cookie在浏览器中的存储"><a href="#Cookie在浏览器中的存储" class="headerlink" title="Cookie在浏览器中的存储"></a>Cookie在浏览器中的存储</h2><h4 id="IE-浏览器"><a href="#IE-浏览器" class="headerlink" title="IE 浏览器"></a>IE 浏览器</h4><p>Windows 系统上 IE 浏览器 Cookie 数据位于 <code>%APPDATA%\Microsoft\Windows\Cookies\</code> 目录中的 <code>xxx.txt</code> 文件，里面可能有很多个. txt Cookie 文件，如 <code>C：\Users\yren9\AppData\Roaming\Microsoft\Windows\Cookies\0WQ6YROK.txt。</code></p>
+<p>在 IE 浏览器中，IE 将各个站点的 <code>Cookie</code> 分别保存为一个 <code>XXX.txt</code> 这样的纯文本文件；</p>
+<h4 id="Firefox-和-Chrome-浏览器"><a href="#Firefox-和-Chrome-浏览器" class="headerlink" title="Firefox 和 Chrome 浏览器"></a>Firefox 和 Chrome 浏览器</h4><p>Firefox 和 Chrome 是将所有的 Cookie 都保存在一个文件中，该文件的格式为 SQLite 数据库格式的文件。</p>
+<p>Firefox 的 Cookie 数据位于 <code>%APPDATA%\Mozilla\Firefox\Profiles\</code> 目录中的 <code>xxx.default</code> 目录下，名为 <code>Cookies.sqlite</code> 的文件中，如 <code>C：\Users\jay\AppData\Roaming\Mozilla\Firefox\Profiles\ji4grfex.default\cookies.sqlite</code>。</p>
+<p>在 Firefox 中查看 Cookie，可以选择“工具&gt;选项&gt;隐私&gt;显示 Cookie”。</p>
+<p>Chrome 的 Cookie 数据位于 <code>%LOCALAPPDATA%\Google\Chrome\User Data\Default\</code> 目录中名为 Cookies 的文件中，如 <code>C：\Users\jay\AppData\Local\Google\Chrome\User Data\Default\Cookies。</code></p>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_cookies</tag>
       </tags>
   </entry>
   <entry>
@@ -2076,64 +2134,6 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>javaweb_servlet</tag>
         <tag>javaweb_tomcat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>cookies</title>
-    <url>/2022/01/08/JavaWeb/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFcookies/</url>
-    <content><![CDATA[<h1 id="客户端会话技术——cookies"><a href="#客户端会话技术——cookies" class="headerlink" title="客户端会话技术——cookies"></a>客户端会话技术——cookies</h1><span id="more"></span>
-<h2 id="什么是Cookies"><a href="#什么是Cookies" class="headerlink" title="什么是Cookies"></a>什么是Cookies</h2><p>客户端会话技术：将数据保存在客户端</p>
-<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><ol>
-<li>创建Cookies对象，绑定数据</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookie ck = <span class="keyword">new</span> Cookie(String name, String value);</span><br></pre></td></tr></table></figure>
-<ol>
-<li>发送Cookies对象</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.addCookies(Cookies cookie);</span><br></pre></td></tr></table></figure>
-<ol>
-<li>获取Cookies对象</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookies[] cks = request.getCookies();</span><br></pre></td></tr></table></figure>
-<h2 id="Cookie原理"><a href="#Cookie原理" class="headerlink" title="Cookie原理"></a>Cookie原理</h2><p>Cookie是基于HTTP中的set-cookie头和cookie头的</p>
-<p><img src="/2022/01/08/JavaWeb/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFcookies/image-20220104002958718.png" alt="image-20220104002958718"></p>
-<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><h3 id="能不能一次发送多个Cookie"><a href="#能不能一次发送多个Cookie" class="headerlink" title="能不能一次发送多个Cookie"></a>能不能一次发送多个Cookie</h3><p>可以，理论上只需要在Servlet中多次调：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookie ck1 = <span class="keyword">new</span> Cookie(<span class="string">&quot;123&quot;</span>,<span class="string">&quot;456&quot;</span>);</span><br><span class="line">Cookie ck2 = <span class="keyword">new</span> Cookie(<span class="string">&quot;012&quot;</span>,<span class="string">&quot;789&quot;</span>);</span><br><span class="line">response.addCookie(ck1);</span><br><span class="line">response.addCookie(ck2);</span><br></pre></td></tr></table></figure>
-<p>在Response头中，会设置多个<code>set-cookie</code>头，request的cookie头中将会有多个键值对，用<code>;</code>分割</p>
-<h3 id="Cookie持久化问题"><a href="#Cookie持久化问题" class="headerlink" title="Cookie持久化问题"></a>Cookie持久化问题</h3><p>cookie在默认情况下，cookie存储在浏览器的内存中，当浏览器关闭后，Cookie数据被销毁。</p>
-<p>如果期望Cookie能够存储在硬盘中，可以使用<code>setMaxAge(int seconds)</code>方法、</p>
-<p>其中seconds可以取下面三种值：</p>
-<ul>
-<li>正数：将cookie数据写到硬盘的文件中，seconds代表秒数。</li>
-<li>负数：默认值，存在于当前标签页或者浏览器中</li>
-<li>0：删除该Cookie</li>
-</ul>
-<p>负数的作用范围会小于正数，设置为负数的时候，一旦浏览器标签页被关闭就要销毁，如果设置为正数，则多个标签页可以共享该cookie，只要你请求的URL是一样的就可以，因为在浏览器中，cookie的存储以网站URl为键名，这个涉及到cookie在浏览器中的存储.</p>
-<h3 id="Cookie如何存储中文"><a href="#Cookie如何存储中文" class="headerlink" title="Cookie如何存储中文"></a>Cookie如何存储中文</h3><p>tomcat 8之前不能直接存储中文，tomcat 8之后支持存储中文</p>
-<p>tomcat 8之前需要使用转码工具，转为URL，如%E3</p>
-<h3 id="Cookie共享"><a href="#Cookie共享" class="headerlink" title="Cookie共享"></a>Cookie共享</h3><p>默认情况下cookie是不共享的，cookie只能在自己的web项目中使用。</p>
-<p>如果你期望你的Cookie能够被同一个服务器下的多个web项目共享，那就需要使用<code>setPath(String path)</code></p>
-<p><strong>默认情况下如果不设置该方法，该方法会设置当前项目的虚拟路径。</strong></p>
-<h2 id="Cookie特点"><a href="#Cookie特点" class="headerlink" title="Cookie特点"></a>Cookie特点</h2><ul>
-<li>cookie存储数据在客户端浏览器</li>
-<li><p>浏览器对于单个cookie的大小有限制（4kb）以及对同一个域名下的总cookie数量也有限制（20个）</p>
-</li>
-<li><p>cookie一般用于存储少量的不太敏感的信息</p>
-</li>
-<li>cookie一般用于存储偏好设置等</li>
-</ul>
-<h2 id="Cookie在浏览器中的存储"><a href="#Cookie在浏览器中的存储" class="headerlink" title="Cookie在浏览器中的存储"></a>Cookie在浏览器中的存储</h2><h4 id="IE-浏览器"><a href="#IE-浏览器" class="headerlink" title="IE 浏览器"></a>IE 浏览器</h4><p>Windows 系统上 IE 浏览器 Cookie 数据位于 <code>%APPDATA%\Microsoft\Windows\Cookies\</code> 目录中的 <code>xxx.txt</code> 文件，里面可能有很多个. txt Cookie 文件，如 <code>C：\Users\yren9\AppData\Roaming\Microsoft\Windows\Cookies\0WQ6YROK.txt。</code></p>
-<p>在 IE 浏览器中，IE 将各个站点的 <code>Cookie</code> 分别保存为一个 <code>XXX.txt</code> 这样的纯文本文件；</p>
-<h4 id="Firefox-和-Chrome-浏览器"><a href="#Firefox-和-Chrome-浏览器" class="headerlink" title="Firefox 和 Chrome 浏览器"></a>Firefox 和 Chrome 浏览器</h4><p>Firefox 和 Chrome 是将所有的 Cookie 都保存在一个文件中，该文件的格式为 SQLite 数据库格式的文件。</p>
-<p>Firefox 的 Cookie 数据位于 <code>%APPDATA%\Mozilla\Firefox\Profiles\</code> 目录中的 <code>xxx.default</code> 目录下，名为 <code>Cookies.sqlite</code> 的文件中，如 <code>C：\Users\jay\AppData\Roaming\Mozilla\Firefox\Profiles\ji4grfex.default\cookies.sqlite</code>。</p>
-<p>在 Firefox 中查看 Cookie，可以选择“工具&gt;选项&gt;隐私&gt;显示 Cookie”。</p>
-<p>Chrome 的 Cookie 数据位于 <code>%LOCALAPPDATA%\Google\Chrome\User Data\Default\</code> 目录中名为 Cookies 的文件中，如 <code>C：\Users\jay\AppData\Local\Google\Chrome\User Data\Default\Cookies。</code></p>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_cookies</tag>
       </tags>
   </entry>
   <entry>
@@ -2557,6 +2557,29 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>解决Windows环境变量无法使用列表展开</title>
+    <url>/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/</url>
+    <content><![CDATA[<p>这里说的问题可能会对配置Windows环境变量出错的同学有一点点帮助（<del>但不多</del>）</p>
+<span id="more"></span>
+<h2 id="如何以列表的形式展开Windows环境变量"><a href="#如何以列表的形式展开Windows环境变量" class="headerlink" title="如何以列表的形式展开Windows环境变量"></a>如何以列表的形式展开Windows环境变量</h2><ol>
+<li><p>首先如何你的环境变量是以引用其他环境变量开头的话，<code>Windows</code>是不会以列表的形式来显示所有环境变量的，而是以一个文本框的形式：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003623666.png" alt="image-20241004003623666"></p>
+</li>
+<li><p>如果希望以列表的形式来打开环境变量的话，需要指定第一个变量值必须以盘符开始，比如下面的配置：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003834186.png" alt="image-20241004003834186"></p>
+</li>
+<li><p>添加上以盘符为开始的变量值之后点击多次确定让环境变量生效，然后下次打开就变成列表形式啦~在列表形式下，比较好判断自己是否写错了环境变量了<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004004001406.png" alt="image-20241004004001406"></p>
+</li>
+</ol>
+<p>参考：<a href="https://blog.csdn.net/weixin_46070150/article/details/121021035#:~:text=%E5%8F%98%E9%87%8F%E5%80%BC%E4%BB%A5%%E5%BC%80%E5%A4%B4%EF%BC%8C">Windows10系统的环境变量（path）怎么进行列表显示？_win10 环境变量 path 怎么是个字符串-CSDN博客</a></p>
+]]></content>
+      <categories>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>variables</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo常用指令&amp;Front Matter</title>
     <url>/2022/05/15/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/Hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="Hexo常用指令-amp-Front-Matter"><a href="#Hexo常用指令-amp-Front-Matter" class="headerlink" title="Hexo常用指令&amp;Front Matter"></a>Hexo常用指令&amp;Front Matter</h1><span id="more"></span>
@@ -2587,29 +2610,6 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>Hexo</tag>
         <tag>Hexo指令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决Windows环境变量无法使用列表展开</title>
-    <url>/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/</url>
-    <content><![CDATA[<p>这里说的问题可能会对配置Windows环境变量出错的同学有一点点帮助（<del>但不多</del>）</p>
-<span id="more"></span>
-<h2 id="如何以列表的形式展开Windows环境变量"><a href="#如何以列表的形式展开Windows环境变量" class="headerlink" title="如何以列表的形式展开Windows环境变量"></a>如何以列表的形式展开Windows环境变量</h2><ol>
-<li><p>首先如何你的环境变量是以引用其他环境变量开头的话，<code>Windows</code>是不会以列表的形式来显示所有环境变量的，而是以一个文本框的形式：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003623666.png" alt="image-20241004003623666"></p>
-</li>
-<li><p>如果希望以列表的形式来打开环境变量的话，需要指定第一个变量值必须以盘符开始，比如下面的配置：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003834186.png" alt="image-20241004003834186"></p>
-</li>
-<li><p>添加上以盘符为开始的变量值之后点击多次确定让环境变量生效，然后下次打开就变成列表形式啦~在列表形式下，比较好判断自己是否写错了环境变量了<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004004001406.png" alt="image-20241004004001406"></p>
-</li>
-</ol>
-<p>参考：<a href="https://blog.csdn.net/weixin_46070150/article/details/121021035#:~:text=%E5%8F%98%E9%87%8F%E5%80%BC%E4%BB%A5%%E5%BC%80%E5%A4%B4%EF%BC%8C">Windows10系统的环境变量（path）怎么进行列表显示？_win10 环境变量 path 怎么是个字符串-CSDN博客</a></p>
-]]></content>
-      <categories>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>windows</tag>
-        <tag>variables</tag>
       </tags>
   </entry>
   <entry>
@@ -2801,6 +2801,29 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>hexo模板修改和使用</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
+<span id="more"></span>
+<p><code>hexo</code>的模板一般放在：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
+<p>有三个文件</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
+<p>对应new命令的三种创建类型！</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
+<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
+<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>features</tag>
+        <tag>reference</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo恢复搭建</title>
     <url>/2020/02/19/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%81%A2%E5%A4%8D%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<p>写下这篇博客，主要用于记录自己搭建博客过程，以后重装系统后有一个参考的恢复方向（已经干掉重新来了好几次，每次都要找资料，猝），而且，不得不说，windows系统，C盘没<del>100G</del>（现在300G都不够）真的用不了多久，不知道是不是只有我是这样！！😭😭😭😭</p>
@@ -2932,29 +2955,6 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
-    <title>hexo模板修改和使用</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
-<span id="more"></span>
-<p><code>hexo</code>的模板一般放在：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
-<p>有三个文件</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
-<p>对应new命令的三种创建类型！</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
-<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
-<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>features</tag>
-        <tag>reference</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>关于hexoGenerate</title>
     <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/</url>
     <content><![CDATA[<p>本次讲解<code>hexo</code>博客常用的命令：<code>hexo g</code></p>
@@ -3001,30 +3001,6 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
-    <title>添加搜索功能</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<h2 id="基于next-hexo-generator-searchdb的搜索功能"><a href="#基于next-hexo-generator-searchdb的搜索功能" class="headerlink" title="基于next + hexo-generator-searchdb的搜索功能"></a>基于next + hexo-generator-searchdb的搜索功能</h2><span id="more"></span>
-<h2 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h2><p>在博客根目录下，启动git bash，键入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-<p>如果添加了淘宝源，键入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-<h2 id="修改博客和主题的-config-yml"><a href="#修改博客和主题的-config-yml" class="headerlink" title="修改博客和主题的__config.yml"></a>修改博客和主题的__config.yml</h2><h3 id="博客的-config-yml"><a href="#博客的-config-yml" class="headerlink" title="博客的__config.yml"></a>博客的__config.yml</h3><p>在配置文件末尾添加：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101118677.png" alt="image-20210812101118677"></p>
-<p>其中这些参数：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">path：表示搜索后生成的文件路径，可以生成xml和json两种格式；将path设置为“content.json”就可以替代第二个插件。</span><br><span class="line">field：表示搜索的范围，有“post、page和all”三种值。</span><br><span class="line">    post：所有的文章；</span><br><span class="line">    page：所有顶部导航选项的页面；</span><br><span class="line">    all：所有的文章和顶部导航选项的页面。</span><br><span class="line">content：是否包含搜索到的文章的全部内容。如果false，生成的结果只包括标题和创建时间这些信息，没有文章主体。默认情况下是true.</span><br><span class="line">format：搜索到的内容、选项的格式。</span><br><span class="line">    html(默认)：将html原文本缩略。</span><br><span class="line">    striptags：将html原文本缩略，并删除所有标记。</span><br><span class="line">    raw：记下每一篇文章或每一页的文字。</span><br></pre></td></tr></table></figure>
-<h3 id="主题的-config-yml"><a href="#主题的-config-yml" class="headerlink" title="主题的__config.yml"></a>主题的__config.yml</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101256981.png" alt="image-20210812101256981"></p>
-<p>当然<code>enable</code>后面的东西可以自行修改。</p>
-<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812104330740.png" alt="image-20210812104330740"></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo_优化</tag>
-        <tag>hexo_添加</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>添加评论功能</title>
     <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<p>这篇文章会介绍<code>hexo</code>如何添加文章评论功能，会介绍<code>hexo</code>中几乎所有可接入的评论系统，希望能帮到您！</p>
@@ -3049,6 +3025,30 @@ cnpm install -g hexo-cli
 <h3 id="大功告成-1"><a href="#大功告成-1" class="headerlink" title="大功告成"></a>大功告成</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/image-20241017161517546.png" alt="image-20241017161517546"></p>
 <p>注意，这里的评论系统的布局我是改过样式的，因为原版评论系统的组件所在的<code>div</code>元素和我博客的文章<code>div</code>看起来<strong>很难看</strong>，所以我稍微改了一下，如果你也希望自定义这个评论组件，请善用浏览器开发者工具箱（一般是<code>F12</code>）的查看器，查看评论组件的具体所在的<code>div</code>所使用的样式进行修改即可（<code>class</code>属性或者<code>id</code>属性都<code>ok</code>）</p>
 <p>因此<code>hexo</code>内置了好几个主题，不同的主题布局不一样，修改的方法也不一样！</p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo_优化</tag>
+        <tag>hexo_添加</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>添加搜索功能</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h2 id="基于next-hexo-generator-searchdb的搜索功能"><a href="#基于next-hexo-generator-searchdb的搜索功能" class="headerlink" title="基于next + hexo-generator-searchdb的搜索功能"></a>基于next + hexo-generator-searchdb的搜索功能</h2><span id="more"></span>
+<h2 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h2><p>在博客根目录下，启动git bash，键入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+<p>如果添加了淘宝源，键入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+<h2 id="修改博客和主题的-config-yml"><a href="#修改博客和主题的-config-yml" class="headerlink" title="修改博客和主题的__config.yml"></a>修改博客和主题的__config.yml</h2><h3 id="博客的-config-yml"><a href="#博客的-config-yml" class="headerlink" title="博客的__config.yml"></a>博客的__config.yml</h3><p>在配置文件末尾添加：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101118677.png" alt="image-20210812101118677"></p>
+<p>其中这些参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">path：表示搜索后生成的文件路径，可以生成xml和json两种格式；将path设置为“content.json”就可以替代第二个插件。</span><br><span class="line">field：表示搜索的范围，有“post、page和all”三种值。</span><br><span class="line">    post：所有的文章；</span><br><span class="line">    page：所有顶部导航选项的页面；</span><br><span class="line">    all：所有的文章和顶部导航选项的页面。</span><br><span class="line">content：是否包含搜索到的文章的全部内容。如果false，生成的结果只包括标题和创建时间这些信息，没有文章主体。默认情况下是true.</span><br><span class="line">format：搜索到的内容、选项的格式。</span><br><span class="line">    html(默认)：将html原文本缩略。</span><br><span class="line">    striptags：将html原文本缩略，并删除所有标记。</span><br><span class="line">    raw：记下每一篇文章或每一页的文字。</span><br></pre></td></tr></table></figure>
+<h3 id="主题的-config-yml"><a href="#主题的-config-yml" class="headerlink" title="主题的__config.yml"></a>主题的__config.yml</h3><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812101256981.png" alt="image-20210812101256981"></p>
+<p>当然<code>enable</code>后面的东西可以自行修改。</p>
+<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/image-20210812104330740.png" alt="image-20210812104330740"></p>
 ]]></content>
       <categories>
         <category>博客运维</category>
@@ -3183,92 +3183,6 @@ cnpm install -g hexo-cli
       </categories>
       <tags>
         <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常用正则表达式</title>
-    <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
-<h2 id="常用表达式举例"><a href="#常用表达式举例" class="headerlink" title="常用表达式举例"></a>常用表达式举例</h2><span id="more"></span>
-<h3 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h3><h5 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
-<h5 id="n位数字（n为具体数字）"><a href="#n位数字（n为具体数字）" class="headerlink" title="n位数字（n为具体数字）"></a>n位数字（n为具体数字）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="至少n位的数字"><a href="#至少n位的数字" class="headerlink" title="至少n位的数字"></a>至少n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n,&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="m-n位的数字"><a href="#m-n位的数字" class="headerlink" title="m-n位的数字"></a>m-n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;m,n&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="零和非零开头的数字"><a href="#零和非零开头的数字" class="headerlink" title="零和非零开头的数字"></a>零和非零开头的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$</span><br></pre></td></tr></table></figure>
-<h5 id="非零开头的最多带两位小数的数字"><a href="#非零开头的最多带两位小数的数字" class="headerlink" title="非零开头的最多带两位小数的数字"></a>非零开头的最多带两位小数的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)+(\.[0-9]&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
-<h5 id="带1-2位小数的正数或负数"><a href="#带1-2位小数的正数或负数" class="headerlink" title="带1-2位小数的正数或负数"></a>带1-2位小数的正数或负数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-)?\d+(\.\d&#123;1,2&#125;)$</span><br></pre></td></tr></table></figure>
-<h5 id="正数、负数、和小数"><a href="#正数、负数、和小数" class="headerlink" title="正数、负数、和小数"></a>正数、负数、和小数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-|\+)?\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
-<h5 id="有两位小数的正实数"><a href="#有两位小数的正实数" class="headerlink" title="有两位小数的正实数"></a>有两位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;2&#125;)?$</span><br></pre></td></tr></table></figure>
-<h5 id="有1-3位小数的正实数"><a href="#有1-3位小数的正实数" class="headerlink" title="有1~3位小数的正实数"></a>有1~3位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;1,3&#125;)?$</span><br></pre></td></tr></table></figure>
-<h5 id="非零的正整数"><a href="#非零的正整数" class="headerlink" title="非零的正整数"></a>非零的正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)&#123;1,3&#125;$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\+?[1-9][0-9]*$</span><br></pre></td></tr></table></figure>
-<h5 id="非零的负整数"><a href="#非零的负整数" class="headerlink" title="非零的负整数"></a>非零的负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\-[1-9][]0-9&quot;*$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*$</span><br></pre></td></tr></table></figure>
-<h5 id="非负整数"><a href="#非负整数" class="headerlink" title="非负整数"></a>非负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
-<h5 id="非正整数"><a href="#非正整数" class="headerlink" title="非正整数"></a>非正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+)|(0+))$</span><br></pre></td></tr></table></figure>
-<h5 id="非负浮点数"><a href="#非负浮点数" class="headerlink" title="非负浮点数"></a>非负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span><br></pre></td></tr></table></figure>
-<h5 id="非正浮点数"><a href="#非正浮点数" class="headerlink" title="非正浮点数"></a>非正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+(\.\d+)?)|(0+(\.0+)?))$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span><br></pre></td></tr></table></figure>
-<h5 id="正浮点数"><a href="#正浮点数" class="headerlink" title="正浮点数"></a>正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</span><br></pre></td></tr></table></figure>
-<h5 id="负浮点数"><a href="#负浮点数" class="headerlink" title="负浮点数"></a>负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</span><br></pre></td></tr></table></figure>
-<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-?\d+)(\.\d+)?$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span><br></pre></td></tr></table></figure>
-<h3 id="校验字符的表达式"><a href="#校验字符的表达式" class="headerlink" title="校验字符的表达式"></a>校验字符的表达式</h3><h5 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;0,&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="英文和数字"><a href="#英文和数字" class="headerlink" title="英文和数字"></a>英文和数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;4,40&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="长度为3-20的所有字符"><a href="#长度为3-20的所有字符" class="headerlink" title="长度为3-20的所有字符"></a>长度为3-20的所有字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^.&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="由26个英文字母组成的字符串"><a href="#由26个英文字母组成的字符串" class="headerlink" title="由26个英文字母组成的字符串"></a>由26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由26个大写英文字母组成的字符串"><a href="#由26个大写英文字母组成的字符串" class="headerlink" title="由26个大写英文字母组成的字符串"></a>由26个大写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Z]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由26个小写英文字母组成的字符串"><a href="#由26个小写英文字母组成的字符串" class="headerlink" title="由26个小写英文字母组成的字符串"></a>由26个小写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-z]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由数字和26个英文字母组成的字符串"><a href="#由数字和26个英文字母组成的字符串" class="headerlink" title="由数字和26个英文字母组成的字符串"></a>由数字和26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由数字、26个英文字母或者下划线组成的字符串"><a href="#由数字、26个英文字母或者下划线组成的字符串" class="headerlink" title="由数字、26个英文字母或者下划线组成的字符串"></a>由数字、26个英文字母或者下划线组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+$ 或 ^\w&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="中文、英文、数字包括下划线"><a href="#中文、英文、数字包括下划线" class="headerlink" title="中文、英文、数字包括下划线"></a>中文、英文、数字包括下划线</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9_]+$</span><br></pre></td></tr></table></figure>
-<h5 id="中文、英文、数字但不包括下划线等符号"><a href="#中文、英文、数字但不包括下划线等符号" class="headerlink" title="中文、英文、数字但不包括下划线等符号"></a>中文、英文、数字但不包括下划线等符号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]&#123;2,20&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="可以输入含有-amp-’-”等字符"><a href="#可以输入含有-amp-’-”等字符" class="headerlink" title="可以输入含有^%&amp;’,;=?$\”等字符"></a>可以输入含有^%&amp;’,;=?$\”等字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^%&amp;&#x27;,;=?$\x22]+</span><br></pre></td></tr></table></figure>
-<h5 id="禁止输入含有-的字符"><a href="#禁止输入含有-的字符" class="headerlink" title="禁止输入含有~的字符"></a>禁止输入含有~的字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^~\x22]+</span><br></pre></td></tr></table></figure>
-<h3 id="特殊需求表达式"><a href="#特殊需求表达式" class="headerlink" title="特殊需求表达式"></a>特殊需求表达式</h3><h5 id="Email地址"><a href="#Email地址" class="headerlink" title="Email地址"></a>Email地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br></pre></td></tr></table></figure>
-<h5 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(\.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+\.?</span><br></pre></td></tr></table></figure>
-<h5 id="InternetURL"><a href="#InternetURL" class="headerlink" title="InternetURL"></a>InternetURL</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-z]+://[^\s]*</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</span><br></pre></td></tr></table></figure>
-<h5 id="手机号码"><a href="#手机号码" class="headerlink" title="手机号码"></a>手机号码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX"><a href="#电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX" class="headerlink" title="电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)"></a>电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="国内电话号码-0511-4405222、021-87888822"><a href="#国内电话号码-0511-4405222、021-87888822" class="headerlink" title="国内电话号码(0511-4405222、021-87888822)"></a>国内电话号码(0511-4405222、021-87888822)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><a href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）" class="headerlink" title="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"></a>电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((\d&#123;11&#125;)|^((\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;)|(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;))$)</span><br></pre></td></tr></table></figure>
-<h5 id="身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X"><a href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X" class="headerlink" title="身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X"></a>身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)</span><br></pre></td></tr></table></figure>
-<h5 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线"><a href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线" class="headerlink" title="帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)"></a>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线"><a href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线" class="headerlink" title="密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)"></a>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z]\w&#123;5,17&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间"><a href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)"></a>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"><a href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)"></a>强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="日期格式"><a href="#日期格式" class="headerlink" title="日期格式"></a>日期格式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="一年的12个月-01～09和1～12"><a href="#一年的12个月-01～09和1～12" class="headerlink" title="一年的12个月(01～09和1～12)"></a>一年的12个月(01～09和1～12)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0?[1-9]|1[0-2])$</span><br></pre></td></tr></table></figure>
-<h5 id="一个月的31天-01～09和1～31"><a href="#一个月的31天-01～09和1～31" class="headerlink" title="一个月的31天(01～09和1～31)"></a>一个月的31天(01～09和1～31)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((0?[1-9])|((1|2)[0-9])|30|31)$</span><br></pre></td></tr></table></figure>
-<h5 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</span><br></pre></td></tr></table></figure>
-<h5 id="中国邮政编码"><a href="#中国邮政编码" class="headerlink" title="中国邮政编码"></a>中国邮政编码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9]\d&#123;5&#125;(?!\d) </span><br></pre></td></tr></table></figure>
-<h5 id="腾讯QQ号"><a href="#腾讯QQ号" class="headerlink" title="腾讯QQ号"></a>腾讯QQ号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9][0-9]&#123;4,&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="IPv4地址"><a href="#IPv4地址" class="headerlink" title="IPv4地址"></a>IPv4地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;)(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;))&#123;3&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="字符过滤类"><a href="#字符过滤类" class="headerlink" title="字符过滤类"></a>字符过滤类</h3><h5 id="中文字符的正则表达式"><a href="#中文字符的正则表达式" class="headerlink" title="中文字符的正则表达式"></a>中文字符的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[\u4e00-\u9fa5]</span><br></pre></td></tr></table></figure>
-<h5 id="双字节字符"><a href="#双字节字符" class="headerlink" title="双字节字符"></a>双字节字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\x00-\xff] </span><br></pre></td></tr></table></figure>
-<p>(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</p>
-<h5 id="空白行的正则表达式"><a href="#空白行的正则表达式" class="headerlink" title="空白行的正则表达式"></a>空白行的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\n\s*\r</span><br></pre></td></tr></table></figure>
-<p>(可以用来删除空白行)</p>
-<h5 id="HTML标记的正则表达式"><a href="#HTML标记的正则表达式" class="headerlink" title="HTML标记的正则表达式"></a>HTML标记的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt;</span><br></pre></td></tr></table></figure>
-<p> <strong>( 首尾空白字符的正则表达式：<code>^\s\*|\s\*$</code>或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</strong></p>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>匹配字符中不出现某些特殊字符可以这样:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]		// 不匹配带有\/*:?&quot;&lt;&gt;|的字符串</span><br></pre></td></tr></table></figure>
-<p>匹配目录是否合法(windows)</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[C-Z]:\\([^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]+\\)*$</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>正则表达式</category>
-      </categories>
-      <tags>
-        <tag>常用正则表达式持续更新</tag>
       </tags>
   </entry>
   <entry>
@@ -3763,6 +3677,17 @@ f(x)=
       </tags>
   </entry>
   <entry>
+    <title>线性代数知识点总结结_3</title>
+    <url>/2019/12/16/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-3/</url>
+    <content><![CDATA[<h1 id="线性代数第三章知识点总结"><a href="#线性代数第三章知识点总结" class="headerlink" title="线性代数第三章知识点总结"></a>线性代数第三章知识点总结</h1>]]></content>
+      <categories>
+        <category>线性代数复习知识点</category>
+      </categories>
+      <tags>
+        <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>线性代数知识点总结2</title>
     <url>/2019/12/11/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-2/</url>
     <content><![CDATA[<h1 id="线性代数第二章知识点总结"><a href="#线性代数第二章知识点总结" class="headerlink" title="线性代数第二章知识点总结"></a>线性代数第二章知识点总结</h1><h2 id="1-增广矩阵-amp-系数矩阵"><a href="#1-增广矩阵-amp-系数矩阵" class="headerlink" title="1. 增广矩阵&amp;系数矩阵"></a>1. 增广矩阵&amp;系数矩阵</h2><ul>
@@ -3876,14 +3801,89 @@ a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = 0\\
       </tags>
   </entry>
   <entry>
-    <title>线性代数知识点总结结_3</title>
-    <url>/2019/12/16/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-3/</url>
-    <content><![CDATA[<h1 id="线性代数第三章知识点总结"><a href="#线性代数第三章知识点总结" class="headerlink" title="线性代数第三章知识点总结"></a>线性代数第三章知识点总结</h1>]]></content>
+    <title>常用正则表达式</title>
+    <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
+<h2 id="常用表达式举例"><a href="#常用表达式举例" class="headerlink" title="常用表达式举例"></a>常用表达式举例</h2><span id="more"></span>
+<h3 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h3><h5 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
+<h5 id="n位数字（n为具体数字）"><a href="#n位数字（n为具体数字）" class="headerlink" title="n位数字（n为具体数字）"></a>n位数字（n为具体数字）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="至少n位的数字"><a href="#至少n位的数字" class="headerlink" title="至少n位的数字"></a>至少n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n,&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="m-n位的数字"><a href="#m-n位的数字" class="headerlink" title="m-n位的数字"></a>m-n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;m,n&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="零和非零开头的数字"><a href="#零和非零开头的数字" class="headerlink" title="零和非零开头的数字"></a>零和非零开头的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$</span><br></pre></td></tr></table></figure>
+<h5 id="非零开头的最多带两位小数的数字"><a href="#非零开头的最多带两位小数的数字" class="headerlink" title="非零开头的最多带两位小数的数字"></a>非零开头的最多带两位小数的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)+(\.[0-9]&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
+<h5 id="带1-2位小数的正数或负数"><a href="#带1-2位小数的正数或负数" class="headerlink" title="带1-2位小数的正数或负数"></a>带1-2位小数的正数或负数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-)?\d+(\.\d&#123;1,2&#125;)$</span><br></pre></td></tr></table></figure>
+<h5 id="正数、负数、和小数"><a href="#正数、负数、和小数" class="headerlink" title="正数、负数、和小数"></a>正数、负数、和小数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-|\+)?\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
+<h5 id="有两位小数的正实数"><a href="#有两位小数的正实数" class="headerlink" title="有两位小数的正实数"></a>有两位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;2&#125;)?$</span><br></pre></td></tr></table></figure>
+<h5 id="有1-3位小数的正实数"><a href="#有1-3位小数的正实数" class="headerlink" title="有1~3位小数的正实数"></a>有1~3位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;1,3&#125;)?$</span><br></pre></td></tr></table></figure>
+<h5 id="非零的正整数"><a href="#非零的正整数" class="headerlink" title="非零的正整数"></a>非零的正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)&#123;1,3&#125;$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\+?[1-9][0-9]*$</span><br></pre></td></tr></table></figure>
+<h5 id="非零的负整数"><a href="#非零的负整数" class="headerlink" title="非零的负整数"></a>非零的负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\-[1-9][]0-9&quot;*$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*$</span><br></pre></td></tr></table></figure>
+<h5 id="非负整数"><a href="#非负整数" class="headerlink" title="非负整数"></a>非负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
+<h5 id="非正整数"><a href="#非正整数" class="headerlink" title="非正整数"></a>非正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+)|(0+))$</span><br></pre></td></tr></table></figure>
+<h5 id="非负浮点数"><a href="#非负浮点数" class="headerlink" title="非负浮点数"></a>非负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+<h5 id="非正浮点数"><a href="#非正浮点数" class="headerlink" title="非正浮点数"></a>非正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+(\.\d+)?)|(0+(\.0+)?))$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+<h5 id="正浮点数"><a href="#正浮点数" class="headerlink" title="正浮点数"></a>正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</span><br></pre></td></tr></table></figure>
+<h5 id="负浮点数"><a href="#负浮点数" class="headerlink" title="负浮点数"></a>负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</span><br></pre></td></tr></table></figure>
+<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-?\d+)(\.\d+)?$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span><br></pre></td></tr></table></figure>
+<h3 id="校验字符的表达式"><a href="#校验字符的表达式" class="headerlink" title="校验字符的表达式"></a>校验字符的表达式</h3><h5 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;0,&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="英文和数字"><a href="#英文和数字" class="headerlink" title="英文和数字"></a>英文和数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;4,40&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="长度为3-20的所有字符"><a href="#长度为3-20的所有字符" class="headerlink" title="长度为3-20的所有字符"></a>长度为3-20的所有字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^.&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="由26个英文字母组成的字符串"><a href="#由26个英文字母组成的字符串" class="headerlink" title="由26个英文字母组成的字符串"></a>由26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由26个大写英文字母组成的字符串"><a href="#由26个大写英文字母组成的字符串" class="headerlink" title="由26个大写英文字母组成的字符串"></a>由26个大写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Z]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由26个小写英文字母组成的字符串"><a href="#由26个小写英文字母组成的字符串" class="headerlink" title="由26个小写英文字母组成的字符串"></a>由26个小写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-z]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由数字和26个英文字母组成的字符串"><a href="#由数字和26个英文字母组成的字符串" class="headerlink" title="由数字和26个英文字母组成的字符串"></a>由数字和26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由数字、26个英文字母或者下划线组成的字符串"><a href="#由数字、26个英文字母或者下划线组成的字符串" class="headerlink" title="由数字、26个英文字母或者下划线组成的字符串"></a>由数字、26个英文字母或者下划线组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+$ 或 ^\w&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="中文、英文、数字包括下划线"><a href="#中文、英文、数字包括下划线" class="headerlink" title="中文、英文、数字包括下划线"></a>中文、英文、数字包括下划线</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9_]+$</span><br></pre></td></tr></table></figure>
+<h5 id="中文、英文、数字但不包括下划线等符号"><a href="#中文、英文、数字但不包括下划线等符号" class="headerlink" title="中文、英文、数字但不包括下划线等符号"></a>中文、英文、数字但不包括下划线等符号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]&#123;2,20&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="可以输入含有-amp-’-”等字符"><a href="#可以输入含有-amp-’-”等字符" class="headerlink" title="可以输入含有^%&amp;’,;=?$\”等字符"></a>可以输入含有^%&amp;’,;=?$\”等字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^%&amp;&#x27;,;=?$\x22]+</span><br></pre></td></tr></table></figure>
+<h5 id="禁止输入含有-的字符"><a href="#禁止输入含有-的字符" class="headerlink" title="禁止输入含有~的字符"></a>禁止输入含有~的字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^~\x22]+</span><br></pre></td></tr></table></figure>
+<h3 id="特殊需求表达式"><a href="#特殊需求表达式" class="headerlink" title="特殊需求表达式"></a>特殊需求表达式</h3><h5 id="Email地址"><a href="#Email地址" class="headerlink" title="Email地址"></a>Email地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br></pre></td></tr></table></figure>
+<h5 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(\.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+\.?</span><br></pre></td></tr></table></figure>
+<h5 id="InternetURL"><a href="#InternetURL" class="headerlink" title="InternetURL"></a>InternetURL</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-z]+://[^\s]*</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</span><br></pre></td></tr></table></figure>
+<h5 id="手机号码"><a href="#手机号码" class="headerlink" title="手机号码"></a>手机号码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX"><a href="#电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX" class="headerlink" title="电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)"></a>电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="国内电话号码-0511-4405222、021-87888822"><a href="#国内电话号码-0511-4405222、021-87888822" class="headerlink" title="国内电话号码(0511-4405222、021-87888822)"></a>国内电话号码(0511-4405222、021-87888822)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><a href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）" class="headerlink" title="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"></a>电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((\d&#123;11&#125;)|^((\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;)|(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;))$)</span><br></pre></td></tr></table></figure>
+<h5 id="身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X"><a href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X" class="headerlink" title="身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X"></a>身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)</span><br></pre></td></tr></table></figure>
+<h5 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线"><a href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线" class="headerlink" title="帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)"></a>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线"><a href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线" class="headerlink" title="密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)"></a>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z]\w&#123;5,17&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间"><a href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)"></a>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"><a href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)"></a>强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="日期格式"><a href="#日期格式" class="headerlink" title="日期格式"></a>日期格式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="一年的12个月-01～09和1～12"><a href="#一年的12个月-01～09和1～12" class="headerlink" title="一年的12个月(01～09和1～12)"></a>一年的12个月(01～09和1～12)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0?[1-9]|1[0-2])$</span><br></pre></td></tr></table></figure>
+<h5 id="一个月的31天-01～09和1～31"><a href="#一个月的31天-01～09和1～31" class="headerlink" title="一个月的31天(01～09和1～31)"></a>一个月的31天(01～09和1～31)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((0?[1-9])|((1|2)[0-9])|30|31)$</span><br></pre></td></tr></table></figure>
+<h5 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</span><br></pre></td></tr></table></figure>
+<h5 id="中国邮政编码"><a href="#中国邮政编码" class="headerlink" title="中国邮政编码"></a>中国邮政编码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9]\d&#123;5&#125;(?!\d) </span><br></pre></td></tr></table></figure>
+<h5 id="腾讯QQ号"><a href="#腾讯QQ号" class="headerlink" title="腾讯QQ号"></a>腾讯QQ号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9][0-9]&#123;4,&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="IPv4地址"><a href="#IPv4地址" class="headerlink" title="IPv4地址"></a>IPv4地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;)(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;))&#123;3&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="字符过滤类"><a href="#字符过滤类" class="headerlink" title="字符过滤类"></a>字符过滤类</h3><h5 id="中文字符的正则表达式"><a href="#中文字符的正则表达式" class="headerlink" title="中文字符的正则表达式"></a>中文字符的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[\u4e00-\u9fa5]</span><br></pre></td></tr></table></figure>
+<h5 id="双字节字符"><a href="#双字节字符" class="headerlink" title="双字节字符"></a>双字节字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\x00-\xff] </span><br></pre></td></tr></table></figure>
+<p>(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</p>
+<h5 id="空白行的正则表达式"><a href="#空白行的正则表达式" class="headerlink" title="空白行的正则表达式"></a>空白行的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\n\s*\r</span><br></pre></td></tr></table></figure>
+<p>(可以用来删除空白行)</p>
+<h5 id="HTML标记的正则表达式"><a href="#HTML标记的正则表达式" class="headerlink" title="HTML标记的正则表达式"></a>HTML标记的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt;</span><br></pre></td></tr></table></figure>
+<p> <strong>( 首尾空白字符的正则表达式：<code>^\s\*|\s\*$</code>或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</strong></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>匹配字符中不出现某些特殊字符可以这样:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]		// 不匹配带有\/*:?&quot;&lt;&gt;|的字符串</span><br></pre></td></tr></table></figure>
+<p>匹配目录是否合法(windows)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[C-Z]:\\([^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]+\\)*$</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>线性代数复习知识点</category>
+        <category>正则表达式</category>
       </categories>
       <tags>
-        <tag>线性代数</tag>
+        <tag>常用正则表达式持续更新</tag>
       </tags>
   </entry>
   <entry>
@@ -3938,6 +3938,11 @@ int main(int argc, char *argv[])
     <content><![CDATA[]]></content>
   </entry>
   <entry>
+    <title>categories</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>游戏</title>
     <url>/games/index.html</url>
     <content><![CDATA[<p>此处整理了部分游戏游玩过程时的心得和体会，包括相关资源的下载和整理，出这一个版面的原由，是因为在玩战双的时候老是会忘记角色技能怎么放？</p>
@@ -3950,9 +3955,82 @@ int main(int argc, char *argv[])
 ]]></content>
   </entry>
   <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
+    <title>tags</title>
+    <url>/tags/index.html</url>
     <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>古诗鉴赏</title>
+    <url>/yposts/index.html</url>
+    <content><![CDATA[<p>由于个人喜好，开了本诗词鉴赏专栏，会收集一些古诗词放在此处以供参考，默认按照作者进行分类：</p>
+<blockquote>
+<p>龚自珍：</p>
+</blockquote>
+<p>龚自珍（<code>1792</code>年<code>8</code>月<code>22</code>日-<code>1841</code>年<code>9</code>月<code>26</code>日），字璱（<code>sè</code>）人，号定庵（<code>ān</code>）。汉族，浙江仁和（今杭州）人。晚年居住昆山羽琌山馆，又号羽琌山民。清代思想家、诗人、文学家和改良主义的先驱者。著有《定盦文集》，留存文章<code>300</code>余篇，诗词近<code>800</code>首，今人辑为《龚自珍全集》。著名诗作《己亥杂诗》共<code>315</code>首。多咏怀和讽喻之作。</p>
+<ul>
+<li><a href="./己亥杂诗.html">己亥杂诗</a>：九州生气恃风雷，万马齐喑究可哀。（形容社会死气沉沉，人们不敢讲话，到处是一种令人窒息的沉闷气氛）</li>
+<li><a href="./漫感.html">漫感</a>：一箫一剑平生意，负尽狂名十五年。</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/yposts/%E5%B7%B1%E4%BA%A5%E6%9D%82%E8%AF%97.html</url>
+    <content><![CDATA[<h2 id="己亥杂诗"><a href="#己亥杂诗" class="headerlink" title="己亥杂诗"></a>己亥杂诗</h2><div style="background-color: #EFEFEF;margin: 0 auto;text-align: center;font-size: 25px;line-height:40px"><b>己亥杂诗</b><br><span style="text-align:right;font-size:15px;">龚自珍</span><br>九州生气<ruby>恃<rp><rt>shì</rt></rp></ruby>风雷，万马齐<ruby>喑<rp><rt>yīn</rt></rp></ruby>究可哀。<br>我劝天公重抖擞，不拘一格降人材。</div>
+
+<h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><h5 id="初翻（方面记忆）"><a href="#初翻（方面记忆）" class="headerlink" title="初翻（方面记忆）"></a>初翻（方面记忆）</h5><p>九州生气勃勃的局面要依靠风雷，万马都沉默终究可哀。我奉劝天公重新抖擞，不拘一格地降下人才。</p>
+<h5 id="润色"><a href="#润色" class="headerlink" title="润色"></a>润色</h5><p>只有依靠风雷激荡般的巨大力量才能使中国大地焕发勃勃生机，然而社会政局毫无生气终究是一种悲哀。<br>我奉劝上天要重新振作精神，不要拘泥一定规格以降下更多的人才。</p>
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
+<li>九州：中国的别称之一。分别是：冀州、兖州、青州、徐州、扬州、荆州、梁州、雍州和豫州。</li>
+<li>生气：生气勃勃的局面。</li>
+<li>恃（<code>shì</code>）：依靠。</li>
+<li>万马齐喑：所有的马都沉寂无声。比喻社会政局毫无生气。</li>
+<li>喑（<code>yīn</code>），沉默，不说话。</li>
+<li>天公：造物主。</li>
+<li>抖擞：振作，奋发。</li>
+<li>降：降生，降临。</li>
+</ul>
+<h4 id="鉴赏"><a href="#鉴赏" class="headerlink" title="鉴赏"></a>鉴赏</h4><p>这是一首出色的政治诗。全诗层次清晰，共分三个层次：</p>
+<ol>
+<li>写了万马齐喑，朝野噤声的死气沉沉的现实社会。“万马齐喑”，比喻在清朝统治下，人们不敢讲话，到处是一种令人窒息的沉闷气氛。</li>
+<li>作者指出了要改变这种沉闷，腐朽的现状，就必须依靠风雷激荡般的巨大力量。暗喻必须经历波澜壮阔的社会变革才能使中国变得生机勃勃。</li>
+<li>作者认为这样的力量来源于人材，而朝廷所应该做的就是破格荐用人材，只有这样，中国才有希望。</li>
+</ol>
+<p>在这首诗中，诗人对死气沉沉、缺乏生机的社会现状，深表痛心，急切地希望巨大的社会变革迅速到来。全诗以一种热情洋溢的战斗姿态，对清朝当政者以讽荐，表达了作者心中对国家未来命途的关切，和希望当政者能够广纳人才的渴望，具有很深刻的历史背景和很强的现实意义。</p>
+<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><p>前两句可以引用在于昏暗的社会环境中，而后两句可以在重视贤士、人才等场合中使用。</p>
+<p>参考：<a href="https://www.gushiwen.cn/shiwenv_838d9b401572.aspx">己亥杂诗原文、翻译及赏析、拼音版及朗读<em>龚自珍古诗</em>古诗文网 (gushiwen.cn)</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/yposts/%E6%BC%AB%E6%84%9F.html</url>
+    <content><![CDATA[<h2 id="漫感"><a href="#漫感" class="headerlink" title="漫感"></a>漫感</h2><div style="background-color: #EFEFEF;margin: 0 auto;text-align: center;font-size: 25px;line-height:40px"><b>漫感</b><br><span style="text-align:right;font-size:15px;">龚自珍</span><br>绝域从军计<ruby>惘<rp><rt>wǎng</rt></rp></ruby>然，东南幽恨满词<ruby>笺<rp><rt>jiān</rt></rp></ruby>。<br>一箫一剑平生意，负尽狂名十五年。</div>
+
+<h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><h5 id="初翻（方面记忆）"><a href="#初翻（方面记忆）" class="headerlink" title="初翻（方面记忆）"></a>初翻（方面记忆）</h5><p>在绝域中从军的思考已经很惘然，对东南的幽恨写满了词笺。一箫一剑是平生的意愿，负尽了狂士的名声十五年。</p>
+<h5 id="润色"><a href="#润色" class="headerlink" title="润色"></a>润色</h5><p>从军疆场的壮志难酬令人怅惘，只能将对东南形势的忧虑情怀注满诗行。<br>赋诗抒怀和仗剑抗敌是我平生志愿，而如今十五年过去了，却白白辜负了”狂士”的名声</p>
+<p>（最后一句的狂士应该指代著名诗人”王昙”，这里龚自珍可能想表达的意思是辜负了”<br>王昙”对自己的期望的意思？见注释”十五年”的解释）。</p>
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
+<li>绝域：隔绝的地域，言其远。此指我国边疆。</li>
+<li>计：思考</li>
+<li>惘（<code>wǎng</code>）然：失志的样子。指从军的愿望未能实现。</li>
+<li>东南：指我国东南沿海一带。当时英、美、葡等国已开始在东南沿海一带的广州、漳州(今属厦门)、宁波进行经济掠夺。</li>
+<li>幽恨：深沉的忧愤。</li>
+<li>词笺：书写诗词的纸，亦可作“诗词。这里指表达忧愤的诗词。笺，古代小幅而极精致的纸。</li>
+<li>一箫一剑：代指作者的诗才武略。箫，泛指音乐；剑，比喻武功。</li>
+<li>平生意：一生的志愿。</li>
+<li>负：辜负。</li>
+<li>十五年：诗人于嘉庆十四年（1809）十八岁时成人立志，在北京与被目为“狂士”的著名诗人王昙订为忘年交，当时已在社会上小有名气，从那时到此时，前后正好十五年。</li>
+</ul>
+<h4 id="鉴赏"><a href="#鉴赏" class="headerlink" title="鉴赏"></a>鉴赏</h4><p>这是一首充满强烈爱国主义激情的诗篇，抒发了忧心国事，尤其是对东南沿海地区遭遇列强侵凌的深重忧患，表达了不畏宵小之徒的嘲笑，愿以文才武略报效国家的爱国情怀。</p>
+<p>该诗前两句写诗人建议加强西北边防的计划落空，为报国志愿失落而惆怅；后二句以“箫剑”精神概括平生意志，是他的自我写照，也是其在抑郁中发出的抗议。 </p>
+<h4 id="创作背景"><a href="#创作背景" class="headerlink" title="创作背景"></a>创作背景</h4><p>该诗作于道光三年（<code>1823</code>年），作者三十二岁。当时，西北边疆分裂祖国的叛乱虽然暂时平息，但在外国侵略势力支持下，正酝酿着更大规模的叛乱。东南沿海，英国派船只向中国大量走私鸦片，进行经济侵略，清政府屡禁不绝。面对内忧外患日益严重的国势，忧心如焚。</p>
+<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><p>别想了，你没有龚自珍的成就建议不要随便套用这首诗！！</p>
+<p>前面两句的引用其实可以套用在不得志，但又不甘心的场景！后面两句算了！</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx">https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx</a></li>
+<li><a href="https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346">https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346</a></li>
+</ul>
+]]></content>
   </entry>
   <entry>
     <title>schedule</title>
@@ -4069,84 +4147,6 @@ int main(int argc, char *argv[])
 <h2 id="platform"><a href="#platform" class="headerlink" title="platform"></a>platform</h2><ul>
 <li><code>Apifox</code>：</li>
 <li><code>JMetter</code>：</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title>tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/yposts/%E5%B7%B1%E4%BA%A5%E6%9D%82%E8%AF%97.html</url>
-    <content><![CDATA[<h2 id="己亥杂诗"><a href="#己亥杂诗" class="headerlink" title="己亥杂诗"></a>己亥杂诗</h2><div style="background-color: #EFEFEF;margin: 0 auto;text-align: center;font-size: 25px;line-height:40px"><b>己亥杂诗</b><br><span style="text-align:right;font-size:15px;">龚自珍</span><br>九州生气<ruby>恃<rp><rt>shì</rt></rp></ruby>风雷，万马齐<ruby>喑<rp><rt>yīn</rt></rp></ruby>究可哀。<br>我劝天公重抖擞，不拘一格降人材。</div>
-
-<h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><h5 id="初翻（方面记忆）"><a href="#初翻（方面记忆）" class="headerlink" title="初翻（方面记忆）"></a>初翻（方面记忆）</h5><p>九州生气勃勃的局面要依靠风雷，万马都沉默终究可哀。我奉劝天公重新抖擞，不拘一格地降下人才。</p>
-<h5 id="润色"><a href="#润色" class="headerlink" title="润色"></a>润色</h5><p>只有依靠风雷激荡般的巨大力量才能使中国大地焕发勃勃生机，然而社会政局毫无生气终究是一种悲哀。<br>我奉劝上天要重新振作精神，不要拘泥一定规格以降下更多的人才。</p>
-<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
-<li>九州：中国的别称之一。分别是：冀州、兖州、青州、徐州、扬州、荆州、梁州、雍州和豫州。</li>
-<li>生气：生气勃勃的局面。</li>
-<li>恃（<code>shì</code>）：依靠。</li>
-<li>万马齐喑：所有的马都沉寂无声。比喻社会政局毫无生气。</li>
-<li>喑（<code>yīn</code>），沉默，不说话。</li>
-<li>天公：造物主。</li>
-<li>抖擞：振作，奋发。</li>
-<li>降：降生，降临。</li>
-</ul>
-<h4 id="鉴赏"><a href="#鉴赏" class="headerlink" title="鉴赏"></a>鉴赏</h4><p>这是一首出色的政治诗。全诗层次清晰，共分三个层次：</p>
-<ol>
-<li>写了万马齐喑，朝野噤声的死气沉沉的现实社会。“万马齐喑”，比喻在清朝统治下，人们不敢讲话，到处是一种令人窒息的沉闷气氛。</li>
-<li>作者指出了要改变这种沉闷，腐朽的现状，就必须依靠风雷激荡般的巨大力量。暗喻必须经历波澜壮阔的社会变革才能使中国变得生机勃勃。</li>
-<li>作者认为这样的力量来源于人材，而朝廷所应该做的就是破格荐用人材，只有这样，中国才有希望。</li>
-</ol>
-<p>在这首诗中，诗人对死气沉沉、缺乏生机的社会现状，深表痛心，急切地希望巨大的社会变革迅速到来。全诗以一种热情洋溢的战斗姿态，对清朝当政者以讽荐，表达了作者心中对国家未来命途的关切，和希望当政者能够广纳人才的渴望，具有很深刻的历史背景和很强的现实意义。</p>
-<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><p>前两句可以引用在于昏暗的社会环境中，而后两句可以在重视贤士、人才等场合中使用。</p>
-<p>参考：<a href="https://www.gushiwen.cn/shiwenv_838d9b401572.aspx">己亥杂诗原文、翻译及赏析、拼音版及朗读<em>龚自珍古诗</em>古诗文网 (gushiwen.cn)</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>古诗鉴赏</title>
-    <url>/yposts/index.html</url>
-    <content><![CDATA[<p>由于个人喜好，开了本诗词鉴赏专栏，会收集一些古诗词放在此处以供参考，默认按照作者进行分类：</p>
-<blockquote>
-<p>龚自珍：</p>
-</blockquote>
-<p>龚自珍（<code>1792</code>年<code>8</code>月<code>22</code>日-<code>1841</code>年<code>9</code>月<code>26</code>日），字璱（<code>sè</code>）人，号定庵（<code>ān</code>）。汉族，浙江仁和（今杭州）人。晚年居住昆山羽琌山馆，又号羽琌山民。清代思想家、诗人、文学家和改良主义的先驱者。著有《定盦文集》，留存文章<code>300</code>余篇，诗词近<code>800</code>首，今人辑为《龚自珍全集》。著名诗作《己亥杂诗》共<code>315</code>首。多咏怀和讽喻之作。</p>
-<ul>
-<li><a href="./己亥杂诗.html">己亥杂诗</a>：九州生气恃风雷，万马齐喑究可哀。（形容社会死气沉沉，人们不敢讲话，到处是一种令人窒息的沉闷气氛）</li>
-<li><a href="./漫感.html">漫感</a>：一箫一剑平生意，负尽狂名十五年。</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/yposts/%E6%BC%AB%E6%84%9F.html</url>
-    <content><![CDATA[<h2 id="漫感"><a href="#漫感" class="headerlink" title="漫感"></a>漫感</h2><div style="background-color: #EFEFEF;margin: 0 auto;text-align: center;font-size: 25px;line-height:40px"><b>漫感</b><br><span style="text-align:right;font-size:15px;">龚自珍</span><br>绝域从军计<ruby>惘<rp><rt>wǎng</rt></rp></ruby>然，东南幽恨满词<ruby>笺<rp><rt>jiān</rt></rp></ruby>。<br>一箫一剑平生意，负尽狂名十五年。</div>
-
-<h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><h5 id="初翻（方面记忆）"><a href="#初翻（方面记忆）" class="headerlink" title="初翻（方面记忆）"></a>初翻（方面记忆）</h5><p>在绝域中从军的思考已经很惘然，对东南的幽恨写满了词笺。一箫一剑是平生的意愿，负尽了狂士的名声十五年。</p>
-<h5 id="润色"><a href="#润色" class="headerlink" title="润色"></a>润色</h5><p>从军疆场的壮志难酬令人怅惘，只能将对东南形势的忧虑情怀注满诗行。<br>赋诗抒怀和仗剑抗敌是我平生志愿，而如今十五年过去了，却白白辜负了”狂士”的名声</p>
-<p>（最后一句的狂士应该指代著名诗人”王昙”，这里龚自珍可能想表达的意思是辜负了”<br>王昙”对自己的期望的意思？见注释”十五年”的解释）。</p>
-<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
-<li>绝域：隔绝的地域，言其远。此指我国边疆。</li>
-<li>计：思考</li>
-<li>惘（<code>wǎng</code>）然：失志的样子。指从军的愿望未能实现。</li>
-<li>东南：指我国东南沿海一带。当时英、美、葡等国已开始在东南沿海一带的广州、漳州(今属厦门)、宁波进行经济掠夺。</li>
-<li>幽恨：深沉的忧愤。</li>
-<li>词笺：书写诗词的纸，亦可作“诗词。这里指表达忧愤的诗词。笺，古代小幅而极精致的纸。</li>
-<li>一箫一剑：代指作者的诗才武略。箫，泛指音乐；剑，比喻武功。</li>
-<li>平生意：一生的志愿。</li>
-<li>负：辜负。</li>
-<li>十五年：诗人于嘉庆十四年（1809）十八岁时成人立志，在北京与被目为“狂士”的著名诗人王昙订为忘年交，当时已在社会上小有名气，从那时到此时，前后正好十五年。</li>
-</ul>
-<h4 id="鉴赏"><a href="#鉴赏" class="headerlink" title="鉴赏"></a>鉴赏</h4><p>这是一首充满强烈爱国主义激情的诗篇，抒发了忧心国事，尤其是对东南沿海地区遭遇列强侵凌的深重忧患，表达了不畏宵小之徒的嘲笑，愿以文才武略报效国家的爱国情怀。</p>
-<p>该诗前两句写诗人建议加强西北边防的计划落空，为报国志愿失落而惆怅；后二句以“箫剑”精神概括平生意志，是他的自我写照，也是其在抑郁中发出的抗议。 </p>
-<h4 id="创作背景"><a href="#创作背景" class="headerlink" title="创作背景"></a>创作背景</h4><p>该诗作于道光三年（<code>1823</code>年），作者三十二岁。当时，西北边疆分裂祖国的叛乱虽然暂时平息，但在外国侵略势力支持下，正酝酿着更大规模的叛乱。东南沿海，英国派船只向中国大量走私鸦片，进行经济侵略，清政府屡禁不绝。面对内忧外患日益严重的国势，忧心如焚。</p>
-<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><p>别想了，你没有龚自珍的成就建议不要随便套用这首诗！！</p>
-<p>前面两句的引用其实可以套用在不得志，但又不甘心的场景！后面两句算了！</p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx">https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx</a></li>
-<li><a href="https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346">https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346</a></li>
 </ul>
 ]]></content>
   </entry>
