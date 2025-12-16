@@ -136,6 +136,208 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>冒泡排序（Bubble）</title>
+    <url>/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/bubbleSort.gif" alt="bubbleSort"></p>
+<span id="more"></span>
+<h1 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>排序算法</th>
+<th>平均事件复杂度</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+<th>排序方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>冒泡排序</td>
+<td>$O(n^2)$</td>
+<td>$O(n)$</td>
+<td>$O(n^2)$</td>
+<td>$O(1)$</td>
+<td>稳定</td>
+<td>In-place</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>冒泡排序（Bubble Sort）也是一种简单直观的排序算法。</p>
+<p>它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢”浮”到数列的顶端。</p>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h3><p><img src="/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/bubbleSort.gif" alt="bubbleSort"></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> <span class="keyword">implements</span> <span class="title">IArraySort</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] sort(<span class="keyword">int</span>[] sourceArray) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 对 arr 进行拷贝，不改变参数内容</span></span><br><span class="line">        <span class="keyword">int</span>[] arr = Arrays.copyOf(sourceArray, sourceArray.length);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 外层循环是要冒泡的规模，因为每次排好一个数所以最后会剩下一个数，因此最后一趟不用排，因此总共需要循环n-1次，这也是为什么从1开始的原因</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            <span class="comment">// 设定一个标记，若为true，则表示此次循环没有进行交换，也就是待排序列已经有序，排序已经完成。</span></span><br><span class="line">            <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</span><br><span class="line">            <span class="comment">// 冒泡过程</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; arr.length - i; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                    <span class="keyword">int</span> tmp = arr[j];</span><br><span class="line">                    arr[j] = arr[j + <span class="number">1</span>];</span><br><span class="line">                    arr[j + <span class="number">1</span>] = tmp;</span><br><span class="line"></span><br><span class="line">                    flag = <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><h3 id="最好"><a href="#最好" class="headerlink" title="最好"></a>最好</h3><h3 id="最坏"><a href="#最坏" class="headerlink" title="最坏"></a>最坏</h3><h3 id="空间"><a href="#空间" class="headerlink" title="空间"></a>空间</h3>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>sort</tag>
+        <tag>Bubble</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>插入排序（Insertion）</title>
+    <url>/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/插入排序.gif" alt="插入排序"></p>
+<span id="more"></span>
+<h1 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>排序算法</th>
+<th>平均事件复杂度</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+<th>排序方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>插入排序</td>
+<td>$O(n^2)$</td>
+<td>$O(n)$</td>
+<td>$O(n^2)$</td>
+<td>$O(1)$</td>
+<td>稳定</td>
+<td>In-place</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>插入排序，一般也被称为<strong>直接插入排序</strong>。对于<strong>少量元素的排序</strong>，它是一个有效的算法。</p>
+<p>插入排序实际上会在数组中形成两个子数组，一个为待排序的子数组，一个为已经有序的子数组，因此，如果一个<strong>数组本身就是部分有序的</strong>，插入排序也会是一个选择。</p>
+<p><strong>算法本身采用减治法思想。</strong></p>
+<h2 id="算法思想与设计"><a href="#算法思想与设计" class="headerlink" title="算法思想与设计"></a>算法思想与设计</h2><h3 id="排序动画"><a href="#排序动画" class="headerlink" title="排序动画"></a>排序动画</h3><p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/插入排序.gif" alt="插入排序"></p>
+<h3 id="代码设计"><a href="#代码设计" class="headerlink" title="代码设计"></a>代码设计</h3><p>首先插入排序讲整个大数组分成了两个关键子数组：</p>
+<ul>
+<li>已有序的数据</li>
+<li>待排序的数据</li>
+</ul>
+<p>插入排序的目标数组一定包含这两部分，<strong>剩余的便是如何讲待排序的数据插入到已有序的数据中</strong></p>
+<p><strong>因此编写插入排序代码的第一步便是确定待排序数据的规模，已确定外层排序顺序</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 从1开始是因为第一个元素单独构成了一个已有序的数据</span></span><br><span class="line"><span class="comment">// 剩下的从1开始的元素规划为待排序的数据</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; array.length; i++)&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>然后在待排序的数据中选出一个数据</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Comparable target = array[i];</span><br></pre></td></tr></table></figure>
+<p><strong>最后将target跟已有序的数据进行逐一比较确认位置下标j</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在已有序的数据中寻找符合的位置，如果target比当前位置（array[j-1]）要小，则将当前位置的数据往后移</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> j = i; j &gt; <span class="number">0</span> &amp;&amp; less(target, array[j-<span class="number">1</span>]); j--)&#123;</span><br><span class="line">	array[j] = array[j-<span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里对边界值进行解释，首先目标数据是跟前一个数相比，因此当target和 array[0]比较的时候（less函数），<code>j</code>为<code>1</code>也只能为<code>1</code>，换句话说<code>j</code>最小的情况是1，这也是为什么使用<code>j&gt;0</code>条件的原因，当<code>j</code>等于1的时候条件仍然成立，这个时候就是：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">array[<span class="number">1</span>] = array[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+<p><strong>当target比array[1-1]还要小的时候，则将有序数组下标为0的元素挪到下标为1的地方。这个时候下标为0的地方就空出来了。</strong>然后执行<code>j--</code>，<code>j</code><strong>就等于0</strong>，不合条件，退出循环。也就是说目标数据的待插入位置为0。</p>
+<p>同样当执行<code>less(target, array[j-1])</code>，注意当前<code>array[j]</code>为空位，跟前一个数比较的时候，less函数出现<code>false</code>，那么就确定<code>array[j-1]</code>要小于<code>target</code>，也就说明了插入位置为<code>j</code>。</p>
+<p>因此我们最后一步便是让<code>array[j] = target</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">array[i] = target;</span><br></pre></td></tr></table></figure>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">	<span class="comment">// 临时存储要插入的值</span></span><br><span class="line">    Comparable tmp = a[i];</span><br><span class="line">    <span class="keyword">int</span> j;</span><br><span class="line">    <span class="comment">// less():判断a[i]是否小于a[j - 1]</span></span><br><span class="line">    <span class="keyword">for</span> ( j = i; j &gt; <span class="number">0</span> &amp;&amp; less(a[i], a[j - <span class="number">1</span>]) ; j--) &#123;</span><br><span class="line">    	<span class="comment">// 如果a[i]小于a[j - 1]，则将a[j - 1]右移</span></span><br><span class="line">        a[j] = a[j - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 知道找到比a[i]小的数，那么这时候的j-1就是这个小数的下标，j就是它的前一位，也就是目标位，替换</span></span><br><span class="line">    a[j] = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>首先将第一个元素初始化为一个有序组，然后光标移向第二个有元素</p>
+<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221128408.png" alt="image-20210615221128408"></p>
+<p>然后将第二个元素进行定位</p>
+<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221502845.png" alt="image-20210615221502845"></p>
+<p>形成：</p>
+<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221552079.png" alt="image-20210615221552079"></p>
+<p>然后选取第三个元素，定位并插入到括号里面</p>
+<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221651930.png" alt="image-20210615221651930"></p>
+<p>然后选取第四个元素，重复定位并插入有序组里</p>
+<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221823595.png" alt="image-20210615221823595"></p>
+<p>重复上面的步骤，最终得到的就是有序数组</p>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>sort</tag>
+        <tag>Insertion</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>希尔排序（Shell）</title>
+    <url>/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/希尔排序.gif" alt="希尔排序"><br><span id="more"></span></p>
+<h1 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>平均事件复杂度</th>
+<th>最好情况</th>
+<th>最坏情况</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+<th>排序方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$O(nlogn)$</td>
+<td>$O(nlog^2 n)$</td>
+<td>$O(nlog^2 n)$</td>
+<td>$O(1)$</td>
+<td>不稳定</td>
+<td>In-place</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>希尔排序(Shell’s Sort)是插入排序的一种又称“缩小增量排序”（Diminishing Increment Sort），<strong>是直接插入排序算法的一种更高效的改进版本。</strong></p>
+<blockquote>
+<p>提算法贡献者：D.L.Shell</p>
+<p>提出时间：1959 年</p>
+</blockquote>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><h4 id="基于插入排序"><a href="#基于插入排序" class="headerlink" title="基于插入排序"></a>基于插入排序</h4><p>希尔排序是基于插入排序的以下两点性质而提出改进方法的：</p>
+<ol>
+<li>插入排序在对几乎已经排好序的数据操作时，效率高，即可以达到线性排序的效率。</li>
+<li>但插入排序一般来说是低效的，因为插入排序每次只能将数据移动一位。</li>
+</ol>
+<h4 id="使用增量序列来排序（Gap-sequences）"><a href="#使用增量序列来排序（Gap-sequences）" class="headerlink" title="使用增量序列来排序（Gap sequences）"></a>使用增量序列来排序（Gap sequences）</h4><p>希尔排序的好坏<strong>与增量序列的选择有关</strong>。</p>
+<p>希尔排序中比较著名的增量序列有：</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/v2-8080ea078aed21e0cfa427df93863138_r.jpg" alt="v2-8080ea078aed21e0cfa427df93863138_r" style="zoom:200%;"></p>
+<h3 id="排序动画"><a href="#排序动画" class="headerlink" title="排序动画"></a>排序动画</h3><p>动图展示的是增量序列为：<strong>5，2，1</strong></p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/希尔排序.gif" alt="希尔排序"></p>
+<h2 id="代码设计"><a href="#代码设计" class="headerlink" title="代码设计"></a>代码设计</h2><h3 id="确定增量序列"><a href="#确定增量序列" class="headerlink" title="确定增量序列"></a>确定增量序列</h3><p>选取一个合适的增量序列，假设序列为<strong>gaps[]</strong>。（<strong>注意增量序列需要倒序处理</strong>，确保最后一个是1）</p>
+<h3 id="外层遍历增量序列"><a href="#外层遍历增量序列" class="headerlink" title="外层遍历增量序列"></a>外层遍历增量序列</h3><p>每次选取增量序列中的一个序列来进行排序</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// foreach gaps[]</span></span><br><span class="line"><span class="keyword">for</span>(gap : gaps)&#123;</span><br><span class="line">    <span class="comment">// 内层进行跨增量的插入排序</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="内层进行跨增量的插入排序"><a href="#内层进行跨增量的插入排序" class="headerlink" title="内层进行跨增量的插入排序"></a>内层进行跨增量的插入排序</h3><p><strong>首先从增量对应的数组下标开始，确定待排序数据范围</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 循环次数是数组长度减去当前增量值</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = gap; i &lt; array.length; i++)&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>然后在待排序数据范围循环内部，根据某个增量跨度，将增量跨度的元素进行排序</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 进行跨增量插排，比较当前下标的数据(array[j])和下标减掉增量的数据(array[j - gap])是否符合条件</span></span><br><span class="line"><span class="comment">// 如果最后j小于当前增量，则退出循环，i+1，继续进行插入排序</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> j = gap; j &gt;=gap &amp;&amp; less(array[j], array[j - gap]); j -=gap)</span><br><span class="line">    exch(array,j,j-gap);	<span class="comment">// 交换两个变量</span></span><br></pre></td></tr></table></figure>
+<p><strong>将所有代码拼起来就是：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shell</span><span class="params">(Comparable[] array, <span class="keyword">int</span>[] gaps)</span></span>&#123;</span><br><span class="line">	<span class="comment">// foreach gaps[]</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> gap : gaps)&#123;</span><br><span class="line">    	<span class="comment">// 内层进行跨增量的插入排序</span></span><br><span class="line">    	<span class="keyword">for</span>(<span class="keyword">int</span> i = gap; i &lt; array.length; i++)&#123;</span><br><span class="line">    		<span class="keyword">for</span>(<span class="keyword">int</span> j = gap; j &gt;=gap &amp;&amp; less(array[j], array[j - gap]); j -=gap)</span><br><span class="line">    			exch(array,j,j-gap);	<span class="comment">// 交换两个变量</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>当然上面的代码是shell排序的通用模板，实际上写方法不唯一，如对于<code>A003462</code>增量序列，可以参考下面的代码：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 序列：121,40,13,4,1 </span></span><br><span class="line"><span class="keyword">int</span> N = a.length;</span><br><span class="line"><span class="keyword">int</span> h = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> inc = <span class="number">3</span>;</span><br><span class="line"><span class="comment">// 生成序列</span></span><br><span class="line"><span class="keyword">while</span> (h &lt; N/inc)</span><br><span class="line">    h = inc * h + <span class="number">1</span>;</span><br><span class="line">	<span class="comment">// 初始化增量跨度规模，从规模（下标）h开始，，最后一次相当于插入排序</span></span><br><span class="line"><span class="keyword">while</span>(h &gt;= <span class="number">1</span>)&#123;</span><br><span class="line">	<span class="comment">// 内层是插入排序</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = h; i &lt; N; i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = i; j &gt;= h &amp;&amp; less(a[j], a[j-h]); j -= h)</span><br><span class="line">            exch(a, j, j-h);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 降低增量</span></span><br><span class="line">    h /= inc;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="排序实例"><a href="#排序实例" class="headerlink" title="排序实例"></a>排序实例</h2><p>首先确定跨度，实例采用的跨度是h=3， 2，1，先使用3的跨度，定位到相应的元素</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615222734106.png" alt="image-20210615222734106"></p>
+<p>由于当前跨度是3，因此当前定位需要比较的元素为：</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615222918460.png" alt="image-20210615222918460"></p>
+<p>当前比较符合要求，定位下走一位：</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223010617.png" alt="image-20210615223010617"></p>
+<p>当下走到32时，出现比较交换</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223136386.png" alt="image-20210615223136386"></p>
+<p>当走到88时，要进行插入比较定位的元素就是</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223310282.png" alt="image-20210615223310282"></p>
+<p>当h=3时，定位到75并处理好之后，一趟结束下来，序列应该变成这样：</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223509718.png" alt="image-20210615223509718"></p>
+<p>调整跨度h = 2，定位从32开始</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223639038.png" alt="image-20210615223639038"></p>
+<p>重复上面的步骤，h=2的最终序列就是：</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223804680.png" alt="image-20210615223804680"></p>
+<p>最后调整h=1，最终排列的结果就是：</p>
+<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615224111008.png" alt="image-20210615224111008"></p>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>Algorithm</tag>
+        <tag>sort</tag>
+        <tag>Shell</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>各类数据库环境安装</title>
     <url>/2025/09/08/DataBases/1.%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E5%92%8C%E5%90%AF%E5%8A%A8/</url>
     <content><![CDATA[<p>本篇集中介绍市面上常见数据库安装、包括<code>Windows</code>、<code>Linux</code>、<code>Docker</code>等多环境、安装的数据库包括但不仅限于<code>MySQL</code>、<code>Oracle</code>、<code>PostgreSQL</code>、<code>MS Server</code>、<code>DB2</code>等主流数据库！</p>
@@ -390,100 +592,6 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>开闭原则</title>
-    <url>/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</url>
-    <content><![CDATA[<h4 id="软件设计模式——-gt-软件设计原则——-gt-开闭原则"><a href="#软件设计模式——-gt-软件设计原则——-gt-开闭原则" class="headerlink" title="软件设计模式——&gt;软件设计原则——&gt;开闭原则"></a>软件设计模式——&gt;软件设计原则——&gt;开闭原则</h4><span id="more"></span>
-<h1 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h1><h2 id="何为开闭原则"><a href="#何为开闭原则" class="headerlink" title="何为开闭原则"></a>何为开闭原则</h2><p>开闭原则（<code>Open Closed Principle</code>），<strong>意思是对扩展开放，对修改关闭</strong>。旨在程序需要进行扩展的时候，不能去修改原有的代码，实现一个热拔插的效果。使程序的扩展性好，易于维护和升级。</p>
-<p>通过扩展新的实现类的方式来进行修是开闭原则实现的一种方法，在更加高阶的应用中，如热替换、热部署等，常常需要接口、配置文件等形式来完成。</p>
-<h2 id="开闭原则逐步求精"><a href="#开闭原则逐步求精" class="headerlink" title="开闭原则逐步求精"></a>开闭原则逐步求精</h2><h3 id="基础版本"><a href="#基础版本" class="headerlink" title="基础版本"></a>基础版本</h3><p>举搜狗皮肤的案例，搜狗上有很多皮肤，当我们下载某款皮肤的时候可以进行一个皮肤的热替换，具体这个是怎么实现的呢？</p>
-<p>首先我们一种实现方式，工程目录如下：</p>
-<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708100725873.png" alt="image-20220708100725873"></p>
-<p>其中<code>XXXXSkin</code>代表各类皮肤代码，代码如下示例：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AskiaSkin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;AskiaSkin皮肤&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>SkinTestClient</code>代表搜狗输入法客户端。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsSkinDisplay</span><span class="params">(WindowsSkin windowsSkin)</span></span>&#123;</span><br><span class="line">        windowsSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">askiaSkinDisplay</span><span class="params">(AskiaSkin askiaSkin)</span></span>&#123;</span><br><span class="line">        askiaSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsReSkinDisplay</span><span class="params">(WindowsReSkin windowsReSkin)</span></span>&#123;</span><br><span class="line">        windowsReSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsSkin windowsSkin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">            windowsSkinDisplay(windowsSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            AskiaSkin askiaSkin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">            askiaSkinDisplay(askiaSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsReSkin windowsReSkin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">            windowsReSkinDisplay(windowsReSkin);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当我们需要新增一个新的皮肤的时候，比方说我们在<code>java</code>文件夹里面新增一个<code>RedJudgeSkin</code>这一个新增并不会修改已有的皮肤类代码，因此新增一个皮肤符合开闭原则，但是当我们把目光看向<code>SkinTestClient</code>的时候，他的代码问题就比较大了，大概可以分为两部分，第一部分问题出在这里：<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101406986.png" alt="image-20220708101406986"></p>
-<p>我们在客户端<strong>为每一个皮肤都写了一个换肤的方法</strong>（接口），然后通过方法</p>
-<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101933670.png" alt="image-20220708101933670"></p>
-<p>做皮肤的换肤判断，然后客户端的运行过程中，只要像这样，就能达到换肤的效果。<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708102027266.png" alt="image-20220708102027266"></p>
-<p>这种实现，<strong>问题比较大</strong>，创建新皮肤的时候符合开闭原则没毛病，但是客户端的代码就是重灾区了<strong>，因为现在扩展一个皮肤，你都需要额外编写一个换肤接口，同时你还需要在changeSkin()中，新增一个if分支！一旦你的皮肤越来越多，会造成SkinTestClient类代码臃肿，同时会留下非常多形式相同的代码，后期难以维护</strong></p>
-<h3 id="一次求精：去除客户端换肤接口"><a href="#一次求精：去除客户端换肤接口" class="headerlink" title="一次求精：去除客户端换肤接口"></a>一次求精：去除客户端换肤接口</h3><p>为了改进上面的代码，我么引入了<code>Java</code>中的接口，现在我们让所有皮肤类都实现顶层皮肤接口<code>Skin</code>，工程目录如下：</p>
-<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708103823374.png" alt="image-20220708103823374"></p>
-<p>其中<code>Skin</code>接口有一个抽象的换肤方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Skin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其他皮肤类都需要实现这个接口。</p>
-<p>// 图片继承图</p>
-<p>在客户端代码中：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        Skin skin = <span class="keyword">new</span> DefaultSkin();</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">           skin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">        &#125;</span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsReSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>有了这个<code>Skin</code>接口，我们现在就<strong>不需要每次新增一个皮肤都在客户端中写一个皮肤接口方法了</strong>（之前代码的<code>windowsReSkinDisplay(WindowsReSkin windowsReSkin)</code>、<code>askiaSkinDisplay(AskiaSkin askiaSkin)</code>都不用写啦）。现在当我们需要扩展皮肤，时，只需要实现<code>Skin</code>接口，然后在<code>changeSkin()</code>中添加一个<code>if</code>分支，就可以了。</p>
-<p>需要注意，本次的改进虽然让我们<strong>避免了在客户端中去写皮肤接口方法</strong>，减少了客户端代码的修改量，<strong>但客户端代码仍然不符合开闭原则，问题出在changeSkin()在每次添加新皮肤的时候，都需要添加一个if分支</strong>。这就涉及到接下来的第三次代码改进。</p>
-<h3 id="二次求精：统一changeSkin"><a href="#二次求精：统一changeSkin" class="headerlink" title="二次求精：统一changeSkin()"></a>二次求精：统一changeSkin()</h3><p>既然问题出在<code>changeSkin()</code>的分支上，那这个分支有什么作用呢？<strong>他主要是用来判别参数传递过来的皮肤名，通过皮肤名来做判断，然后创建相应的对象</strong>，讲到这里，所有的<code>if</code>都直接或者间接和皮肤名有关，也就是说和参数有关，这个方法参数会随时变化，我们写<code>if</code>也是为了判断是哪一类变化，然后根据这个变化<strong>来创建相应的皮肤对象</strong>。</p>
-<p>既然如此，<strong>如果传递过来的参数能够通过某个自己的内置的方法直接创建皮肤对象</strong>呢？如果能够做到这一点的话<code>if</code>语句不就可以省略了嘛。那么在<code>Java</code>中哪项技术可以做到在程序运行时创建对象——反射<code>API</code>。因此，我们把方法参数数改成<code>Class</code>类型即可，具体的代码参考下面的改进：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">    <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">    Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">    <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">    <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">            !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">        skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">    Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">    <span class="comment">// 显示皮肤</span></span><br><span class="line">    skinDisplay(skin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那现在<code>SkinTestClient</code>类代码变成了：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">        Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">        <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">        <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">                !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">            skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">        Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">        <span class="comment">// 显示皮肤</span></span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 模拟在皮肤更换窗口中点击按钮更换皮肤的过程</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin2(AskiaSkin.class);</span><br><span class="line">        skinTestClient.changeSkin2(DefaultSkin.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>现在我们代码每个模块基本上都符合开闭原则了。当我们现在重新新增一个皮肤，比如新增一个<code>RedJudgeSkin</code>，我们只需要让<code>RedJudgeSkin</code>实现接口<code>Skin</code>即可，<strong>不需要更改任何已有的代码</strong>。需要注意，<code>main</code>方法里面的代码属于模拟窗口点击的，不属于具体的工程，只用于测试用。</p>
-<h3 id="二次求精另外一套思路：引入配置文件"><a href="#二次求精另外一套思路：引入配置文件" class="headerlink" title="二次求精另外一套思路：引入配置文件"></a>二次求精另外一套思路：引入配置文件</h3><p>二次求精的代码已经符合开闭原则的要求了，已经是完美的最简单的版本了，但是在这里还有一种能达到和二次求精一样效果的方法，并且该方法甚至能完全统一客户端代码（包括不属于客户端的，用于测试的<code>main</code>方法），这种方法就是使用配置文件。</p>
-<p>使用配置文件有一个好处就是能够分担代码重量，让一些工作能够在代码之外的地方完成，同时，配置文件不需要编译，能够做到即时修改即时生效。</p>
-<p>但使用配置文件缺点也很明显，使用配置文件意味着<strong>代码中需要有专门处理配置文件的部分</strong>，这一部分的代码并不简单，因此这种思路更加复杂，实现也比较困难。</p>
-<p>使用配置文件，设计到外部文件监听服务（<code>WatchService</code>类）具体代码结构和类继承图如下：</p>
-<p>// 图片继承图</p>
-]]></content>
-      <categories>
-        <category>DesignPatterns</category>
-      </categories>
-      <tags>
-        <tag>Open-Closed</tag>
-        <tag>Principle</tag>
-        <tag>DesignPatterns</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>冒泡排序（Bubble）</title>
-    <url>/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/bubbleSort.gif" alt="bubbleSort"></p>
-<span id="more"></span>
-<h1 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h1><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>排序算法</th>
-<th>平均事件复杂度</th>
-<th>最好情况</th>
-<th>最坏情况</th>
-<th>空间复杂度</th>
-<th>稳定性</th>
-<th>排序方式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>冒泡排序</td>
-<td>$O(n^2)$</td>
-<td>$O(n)$</td>
-<td>$O(n^2)$</td>
-<td>$O(1)$</td>
-<td>稳定</td>
-<td>In-place</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>冒泡排序（Bubble Sort）也是一种简单直观的排序算法。</p>
-<p>它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢”浮”到数列的顶端。</p>
-<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h3><p><img src="/2022/03/15/Algorithm/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/bubbleSort.gif" alt="bubbleSort"></p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> <span class="keyword">implements</span> <span class="title">IArraySort</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] sort(<span class="keyword">int</span>[] sourceArray) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 对 arr 进行拷贝，不改变参数内容</span></span><br><span class="line">        <span class="keyword">int</span>[] arr = Arrays.copyOf(sourceArray, sourceArray.length);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 外层循环是要冒泡的规模，因为每次排好一个数所以最后会剩下一个数，因此最后一趟不用排，因此总共需要循环n-1次，这也是为什么从1开始的原因</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            <span class="comment">// 设定一个标记，若为true，则表示此次循环没有进行交换，也就是待排序列已经有序，排序已经完成。</span></span><br><span class="line">            <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</span><br><span class="line">            <span class="comment">// 冒泡过程</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; arr.length - i; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                    <span class="keyword">int</span> tmp = arr[j];</span><br><span class="line">                    arr[j] = arr[j + <span class="number">1</span>];</span><br><span class="line">                    arr[j + <span class="number">1</span>] = tmp;</span><br><span class="line"></span><br><span class="line">                    flag = <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><h3 id="最好"><a href="#最好" class="headerlink" title="最好"></a>最好</h3><h3 id="最坏"><a href="#最坏" class="headerlink" title="最坏"></a>最坏</h3><h3 id="空间"><a href="#空间" class="headerlink" title="空间"></a>空间</h3>]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>sort</tag>
-        <tag>Bubble</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>选择排序（Selection）</title>
     <url>/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/选择排序.gif" alt="选择排序"></p>
@@ -533,160 +641,52 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>希尔排序（Shell）</title>
-    <url>/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/希尔排序.gif" alt="希尔排序"><br><span id="more"></span></p>
-<h1 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h1><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>平均事件复杂度</th>
-<th>最好情况</th>
-<th>最坏情况</th>
-<th>空间复杂度</th>
-<th>稳定性</th>
-<th>排序方式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$O(nlogn)$</td>
-<td>$O(nlog^2 n)$</td>
-<td>$O(nlog^2 n)$</td>
-<td>$O(1)$</td>
-<td>不稳定</td>
-<td>In-place</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>希尔排序(Shell’s Sort)是插入排序的一种又称“缩小增量排序”（Diminishing Increment Sort），<strong>是直接插入排序算法的一种更高效的改进版本。</strong></p>
-<blockquote>
-<p>提算法贡献者：D.L.Shell</p>
-<p>提出时间：1959 年</p>
-</blockquote>
-<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><h4 id="基于插入排序"><a href="#基于插入排序" class="headerlink" title="基于插入排序"></a>基于插入排序</h4><p>希尔排序是基于插入排序的以下两点性质而提出改进方法的：</p>
-<ol>
-<li>插入排序在对几乎已经排好序的数据操作时，效率高，即可以达到线性排序的效率。</li>
-<li>但插入排序一般来说是低效的，因为插入排序每次只能将数据移动一位。</li>
-</ol>
-<h4 id="使用增量序列来排序（Gap-sequences）"><a href="#使用增量序列来排序（Gap-sequences）" class="headerlink" title="使用增量序列来排序（Gap sequences）"></a>使用增量序列来排序（Gap sequences）</h4><p>希尔排序的好坏<strong>与增量序列的选择有关</strong>。</p>
-<p>希尔排序中比较著名的增量序列有：</p>
-<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/v2-8080ea078aed21e0cfa427df93863138_r.jpg" alt="v2-8080ea078aed21e0cfa427df93863138_r" style="zoom:200%;"></p>
-<h3 id="排序动画"><a href="#排序动画" class="headerlink" title="排序动画"></a>排序动画</h3><p>动图展示的是增量序列为：<strong>5，2，1</strong></p>
-<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/希尔排序.gif" alt="希尔排序"></p>
-<h2 id="代码设计"><a href="#代码设计" class="headerlink" title="代码设计"></a>代码设计</h2><h3 id="确定增量序列"><a href="#确定增量序列" class="headerlink" title="确定增量序列"></a>确定增量序列</h3><p>选取一个合适的增量序列，假设序列为<strong>gaps[]</strong>。（<strong>注意增量序列需要倒序处理</strong>，确保最后一个是1）</p>
-<h3 id="外层遍历增量序列"><a href="#外层遍历增量序列" class="headerlink" title="外层遍历增量序列"></a>外层遍历增量序列</h3><p>每次选取增量序列中的一个序列来进行排序</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// foreach gaps[]</span></span><br><span class="line"><span class="keyword">for</span>(gap : gaps)&#123;</span><br><span class="line">    <span class="comment">// 内层进行跨增量的插入排序</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="内层进行跨增量的插入排序"><a href="#内层进行跨增量的插入排序" class="headerlink" title="内层进行跨增量的插入排序"></a>内层进行跨增量的插入排序</h3><p><strong>首先从增量对应的数组下标开始，确定待排序数据范围</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 循环次数是数组长度减去当前增量值</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = gap; i &lt; array.length; i++)&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>然后在待排序数据范围循环内部，根据某个增量跨度，将增量跨度的元素进行排序</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 进行跨增量插排，比较当前下标的数据(array[j])和下标减掉增量的数据(array[j - gap])是否符合条件</span></span><br><span class="line"><span class="comment">// 如果最后j小于当前增量，则退出循环，i+1，继续进行插入排序</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> j = gap; j &gt;=gap &amp;&amp; less(array[j], array[j - gap]); j -=gap)</span><br><span class="line">    exch(array,j,j-gap);	<span class="comment">// 交换两个变量</span></span><br></pre></td></tr></table></figure>
-<p><strong>将所有代码拼起来就是：</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">shell</span><span class="params">(Comparable[] array, <span class="keyword">int</span>[] gaps)</span></span>&#123;</span><br><span class="line">	<span class="comment">// foreach gaps[]</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> gap : gaps)&#123;</span><br><span class="line">    	<span class="comment">// 内层进行跨增量的插入排序</span></span><br><span class="line">    	<span class="keyword">for</span>(<span class="keyword">int</span> i = gap; i &lt; array.length; i++)&#123;</span><br><span class="line">    		<span class="keyword">for</span>(<span class="keyword">int</span> j = gap; j &gt;=gap &amp;&amp; less(array[j], array[j - gap]); j -=gap)</span><br><span class="line">    			exch(array,j,j-gap);	<span class="comment">// 交换两个变量</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>当然上面的代码是shell排序的通用模板，实际上写方法不唯一，如对于<code>A003462</code>增量序列，可以参考下面的代码：</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 序列：121,40,13,4,1 </span></span><br><span class="line"><span class="keyword">int</span> N = a.length;</span><br><span class="line"><span class="keyword">int</span> h = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> inc = <span class="number">3</span>;</span><br><span class="line"><span class="comment">// 生成序列</span></span><br><span class="line"><span class="keyword">while</span> (h &lt; N/inc)</span><br><span class="line">    h = inc * h + <span class="number">1</span>;</span><br><span class="line">	<span class="comment">// 初始化增量跨度规模，从规模（下标）h开始，，最后一次相当于插入排序</span></span><br><span class="line"><span class="keyword">while</span>(h &gt;= <span class="number">1</span>)&#123;</span><br><span class="line">	<span class="comment">// 内层是插入排序</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = h; i &lt; N; i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = i; j &gt;= h &amp;&amp; less(a[j], a[j-h]); j -= h)</span><br><span class="line">            exch(a, j, j-h);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 降低增量</span></span><br><span class="line">    h /= inc;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="排序实例"><a href="#排序实例" class="headerlink" title="排序实例"></a>排序实例</h2><p>首先确定跨度，实例采用的跨度是h=3， 2，1，先使用3的跨度，定位到相应的元素</p>
-<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615222734106.png" alt="image-20210615222734106"></p>
-<p>由于当前跨度是3，因此当前定位需要比较的元素为：</p>
-<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615222918460.png" alt="image-20210615222918460"></p>
-<p>当前比较符合要求，定位下走一位：</p>
-<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223010617.png" alt="image-20210615223010617"></p>
-<p>当下走到32时，出现比较交换</p>
-<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223136386.png" alt="image-20210615223136386"></p>
-<p>当走到88时，要进行插入比较定位的元素就是</p>
-<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223310282.png" alt="image-20210615223310282"></p>
-<p>当h=3时，定位到75并处理好之后，一趟结束下来，序列应该变成这样：</p>
-<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223509718.png" alt="image-20210615223509718"></p>
-<p>调整跨度h = 2，定位从32开始</p>
-<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223639038.png" alt="image-20210615223639038"></p>
-<p>重复上面的步骤，h=2的最终序列就是：</p>
-<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615223804680.png" alt="image-20210615223804680"></p>
-<p>最后调整h=1，最终排列的结果就是：</p>
-<p><img src="/2022/03/15/Algorithm/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/image-20210615224111008.png" alt="image-20210615224111008"></p>
-<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
+    <title>开闭原则</title>
+    <url>/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</url>
+    <content><![CDATA[<h4 id="软件设计模式——-gt-软件设计原则——-gt-开闭原则"><a href="#软件设计模式——-gt-软件设计原则——-gt-开闭原则" class="headerlink" title="软件设计模式——&gt;软件设计原则——&gt;开闭原则"></a>软件设计模式——&gt;软件设计原则——&gt;开闭原则</h4><span id="more"></span>
+<h1 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h1><h2 id="何为开闭原则"><a href="#何为开闭原则" class="headerlink" title="何为开闭原则"></a>何为开闭原则</h2><p>开闭原则（<code>Open Closed Principle</code>），<strong>意思是对扩展开放，对修改关闭</strong>。旨在程序需要进行扩展的时候，不能去修改原有的代码，实现一个热拔插的效果。使程序的扩展性好，易于维护和升级。</p>
+<p>通过扩展新的实现类的方式来进行修是开闭原则实现的一种方法，在更加高阶的应用中，如热替换、热部署等，常常需要接口、配置文件等形式来完成。</p>
+<h2 id="开闭原则逐步求精"><a href="#开闭原则逐步求精" class="headerlink" title="开闭原则逐步求精"></a>开闭原则逐步求精</h2><h3 id="基础版本"><a href="#基础版本" class="headerlink" title="基础版本"></a>基础版本</h3><p>举搜狗皮肤的案例，搜狗上有很多皮肤，当我们下载某款皮肤的时候可以进行一个皮肤的热替换，具体这个是怎么实现的呢？</p>
+<p>首先我们一种实现方式，工程目录如下：</p>
+<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708100725873.png" alt="image-20220708100725873"></p>
+<p>其中<code>XXXXSkin</code>代表各类皮肤代码，代码如下示例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AskiaSkin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;AskiaSkin皮肤&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>SkinTestClient</code>代表搜狗输入法客户端。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsSkinDisplay</span><span class="params">(WindowsSkin windowsSkin)</span></span>&#123;</span><br><span class="line">        windowsSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">askiaSkinDisplay</span><span class="params">(AskiaSkin askiaSkin)</span></span>&#123;</span><br><span class="line">        askiaSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">windowsReSkinDisplay</span><span class="params">(WindowsReSkin windowsReSkin)</span></span>&#123;</span><br><span class="line">        windowsReSkin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsSkin windowsSkin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">            windowsSkinDisplay(windowsSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            AskiaSkin askiaSkin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">            askiaSkinDisplay(askiaSkin);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            WindowsReSkin windowsReSkin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">            windowsReSkinDisplay(windowsReSkin);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们需要新增一个新的皮肤的时候，比方说我们在<code>java</code>文件夹里面新增一个<code>RedJudgeSkin</code>这一个新增并不会修改已有的皮肤类代码，因此新增一个皮肤符合开闭原则，但是当我们把目光看向<code>SkinTestClient</code>的时候，他的代码问题就比较大了，大概可以分为两部分，第一部分问题出在这里：<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101406986.png" alt="image-20220708101406986"></p>
+<p>我们在客户端<strong>为每一个皮肤都写了一个换肤的方法</strong>（接口），然后通过方法</p>
+<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708101933670.png" alt="image-20220708101933670"></p>
+<p>做皮肤的换肤判断，然后客户端的运行过程中，只要像这样，就能达到换肤的效果。<img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708102027266.png" alt="image-20220708102027266"></p>
+<p>这种实现，<strong>问题比较大</strong>，创建新皮肤的时候符合开闭原则没毛病，但是客户端的代码就是重灾区了<strong>，因为现在扩展一个皮肤，你都需要额外编写一个换肤接口，同时你还需要在changeSkin()中，新增一个if分支！一旦你的皮肤越来越多，会造成SkinTestClient类代码臃肿，同时会留下非常多形式相同的代码，后期难以维护</strong></p>
+<h3 id="一次求精：去除客户端换肤接口"><a href="#一次求精：去除客户端换肤接口" class="headerlink" title="一次求精：去除客户端换肤接口"></a>一次求精：去除客户端换肤接口</h3><p>为了改进上面的代码，我么引入了<code>Java</code>中的接口，现在我们让所有皮肤类都实现顶层皮肤接口<code>Skin</code>，工程目录如下：</p>
+<p><img src="/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/image-20220708103823374.png" alt="image-20220708103823374"></p>
+<p>其中<code>Skin</code>接口有一个抽象的换肤方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Skin</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其他皮肤类都需要实现这个接口。</p>
+<p>// 图片继承图</p>
+<p>在客户端代码中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin</span><span class="params">(String skinName)</span></span>&#123;</span><br><span class="line">        Skin skin = <span class="keyword">new</span> DefaultSkin();</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;windowsSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> WindowsSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;askiaSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">            skin = <span class="keyword">new</span> AskiaSkin();</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;windowsReSkin&quot;</span>.equals(skinName))&#123;</span><br><span class="line">           skin = <span class="keyword">new</span> WindowsReSkin();</span><br><span class="line">        &#125;</span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;askiaSkin&quot;</span>);</span><br><span class="line">        skinTestClient.changeSkin(<span class="string">&quot;windowsReSkin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有了这个<code>Skin</code>接口，我们现在就<strong>不需要每次新增一个皮肤都在客户端中写一个皮肤接口方法了</strong>（之前代码的<code>windowsReSkinDisplay(WindowsReSkin windowsReSkin)</code>、<code>askiaSkinDisplay(AskiaSkin askiaSkin)</code>都不用写啦）。现在当我们需要扩展皮肤，时，只需要实现<code>Skin</code>接口，然后在<code>changeSkin()</code>中添加一个<code>if</code>分支，就可以了。</p>
+<p>需要注意，本次的改进虽然让我们<strong>避免了在客户端中去写皮肤接口方法</strong>，减少了客户端代码的修改量，<strong>但客户端代码仍然不符合开闭原则，问题出在changeSkin()在每次添加新皮肤的时候，都需要添加一个if分支</strong>。这就涉及到接下来的第三次代码改进。</p>
+<h3 id="二次求精：统一changeSkin"><a href="#二次求精：统一changeSkin" class="headerlink" title="二次求精：统一changeSkin()"></a>二次求精：统一changeSkin()</h3><p>既然问题出在<code>changeSkin()</code>的分支上，那这个分支有什么作用呢？<strong>他主要是用来判别参数传递过来的皮肤名，通过皮肤名来做判断，然后创建相应的对象</strong>，讲到这里，所有的<code>if</code>都直接或者间接和皮肤名有关，也就是说和参数有关，这个方法参数会随时变化，我们写<code>if</code>也是为了判断是哪一类变化，然后根据这个变化<strong>来创建相应的皮肤对象</strong>。</p>
+<p>既然如此，<strong>如果传递过来的参数能够通过某个自己的内置的方法直接创建皮肤对象</strong>呢？如果能够做到这一点的话<code>if</code>语句不就可以省略了嘛。那么在<code>Java</code>中哪项技术可以做到在程序运行时创建对象——反射<code>API</code>。因此，我们把方法参数数改成<code>Class</code>类型即可，具体的代码参考下面的改进：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">    <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">    Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">    <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">    <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">            !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">        skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">    Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">    <span class="comment">// 显示皮肤</span></span><br><span class="line">    skinDisplay(skin);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那现在<code>SkinTestClient</code>类代码变成了：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SkinTestClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skinDisplay</span><span class="params">(Skin skin)</span></span>&#123;</span><br><span class="line">        skin.display();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeSkin2</span><span class="params">(Class&lt;?&gt; skinClazz)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        <span class="comment">// 获取skinClazz所有继承的接口</span></span><br><span class="line">        Class&lt;?&gt;[] interfaces = skinClazz.getInterfaces();</span><br><span class="line">        <span class="comment">// 防止传入Skin接口的class对象和其他对象</span></span><br><span class="line">        <span class="keyword">if</span> (skinClazz.getSuperclass() == <span class="keyword">null</span> ||</span><br><span class="line">                !interfaces[<span class="number">0</span>].equals(Skin.class))&#123;</span><br><span class="line">            skinDisplay(<span class="keyword">new</span> DefaultSkin());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 反射创建皮肤对象</span></span><br><span class="line">        Skin skin = (Skin)skinClazz.newInstance();</span><br><span class="line">        <span class="comment">// 显示皮肤</span></span><br><span class="line">        skinDisplay(skin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 模拟在皮肤更换窗口中点击按钮更换皮肤的过程</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        SkinTestClient skinTestClient = <span class="keyword">new</span> SkinTestClient();</span><br><span class="line">        skinTestClient.changeSkin2(AskiaSkin.class);</span><br><span class="line">        skinTestClient.changeSkin2(DefaultSkin.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>现在我们代码每个模块基本上都符合开闭原则了。当我们现在重新新增一个皮肤，比如新增一个<code>RedJudgeSkin</code>，我们只需要让<code>RedJudgeSkin</code>实现接口<code>Skin</code>即可，<strong>不需要更改任何已有的代码</strong>。需要注意，<code>main</code>方法里面的代码属于模拟窗口点击的，不属于具体的工程，只用于测试用。</p>
+<h3 id="二次求精另外一套思路：引入配置文件"><a href="#二次求精另外一套思路：引入配置文件" class="headerlink" title="二次求精另外一套思路：引入配置文件"></a>二次求精另外一套思路：引入配置文件</h3><p>二次求精的代码已经符合开闭原则的要求了，已经是完美的最简单的版本了，但是在这里还有一种能达到和二次求精一样效果的方法，并且该方法甚至能完全统一客户端代码（包括不属于客户端的，用于测试的<code>main</code>方法），这种方法就是使用配置文件。</p>
+<p>使用配置文件有一个好处就是能够分担代码重量，让一些工作能够在代码之外的地方完成，同时，配置文件不需要编译，能够做到即时修改即时生效。</p>
+<p>但使用配置文件缺点也很明显，使用配置文件意味着<strong>代码中需要有专门处理配置文件的部分</strong>，这一部分的代码并不简单，因此这种思路更加复杂，实现也比较困难。</p>
+<p>使用配置文件，设计到外部文件监听服务（<code>WatchService</code>类）具体代码结构和类继承图如下：</p>
+<p>// 图片继承图</p>
+]]></content>
       <categories>
-        <category>Algorithm</category>
+        <category>DesignPatterns</category>
       </categories>
       <tags>
-        <tag>Algorithm</tag>
-        <tag>sort</tag>
-        <tag>Shell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>插入排序（Insertion）</title>
-    <url>/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/插入排序.gif" alt="插入排序"></p>
-<span id="more"></span>
-<h1 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h1><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>排序算法</th>
-<th>平均事件复杂度</th>
-<th>最好情况</th>
-<th>最坏情况</th>
-<th>空间复杂度</th>
-<th>稳定性</th>
-<th>排序方式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>插入排序</td>
-<td>$O(n^2)$</td>
-<td>$O(n)$</td>
-<td>$O(n^2)$</td>
-<td>$O(1)$</td>
-<td>稳定</td>
-<td>In-place</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>插入排序，一般也被称为<strong>直接插入排序</strong>。对于<strong>少量元素的排序</strong>，它是一个有效的算法。</p>
-<p>插入排序实际上会在数组中形成两个子数组，一个为待排序的子数组，一个为已经有序的子数组，因此，如果一个<strong>数组本身就是部分有序的</strong>，插入排序也会是一个选择。</p>
-<p><strong>算法本身采用减治法思想。</strong></p>
-<h2 id="算法思想与设计"><a href="#算法思想与设计" class="headerlink" title="算法思想与设计"></a>算法思想与设计</h2><h3 id="排序动画"><a href="#排序动画" class="headerlink" title="排序动画"></a>排序动画</h3><p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/插入排序.gif" alt="插入排序"></p>
-<h3 id="代码设计"><a href="#代码设计" class="headerlink" title="代码设计"></a>代码设计</h3><p>首先插入排序讲整个大数组分成了两个关键子数组：</p>
-<ul>
-<li>已有序的数据</li>
-<li>待排序的数据</li>
-</ul>
-<p>插入排序的目标数组一定包含这两部分，<strong>剩余的便是如何讲待排序的数据插入到已有序的数据中</strong></p>
-<p><strong>因此编写插入排序代码的第一步便是确定待排序数据的规模，已确定外层排序顺序</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 从1开始是因为第一个元素单独构成了一个已有序的数据</span></span><br><span class="line"><span class="comment">// 剩下的从1开始的元素规划为待排序的数据</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; array.length; i++)&#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>然后在待排序的数据中选出一个数据</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Comparable target = array[i];</span><br></pre></td></tr></table></figure>
-<p><strong>最后将target跟已有序的数据进行逐一比较确认位置下标j</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在已有序的数据中寻找符合的位置，如果target比当前位置（array[j-1]）要小，则将当前位置的数据往后移</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> j = i; j &gt; <span class="number">0</span> &amp;&amp; less(target, array[j-<span class="number">1</span>]); j--)&#123;</span><br><span class="line">	array[j] = array[j-<span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里对边界值进行解释，首先目标数据是跟前一个数相比，因此当target和 array[0]比较的时候（less函数），<code>j</code>为<code>1</code>也只能为<code>1</code>，换句话说<code>j</code>最小的情况是1，这也是为什么使用<code>j&gt;0</code>条件的原因，当<code>j</code>等于1的时候条件仍然成立，这个时候就是：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">array[<span class="number">1</span>] = array[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
-<p><strong>当target比array[1-1]还要小的时候，则将有序数组下标为0的元素挪到下标为1的地方。这个时候下标为0的地方就空出来了。</strong>然后执行<code>j--</code>，<code>j</code><strong>就等于0</strong>，不合条件，退出循环。也就是说目标数据的待插入位置为0。</p>
-<p>同样当执行<code>less(target, array[j-1])</code>，注意当前<code>array[j]</code>为空位，跟前一个数比较的时候，less函数出现<code>false</code>，那么就确定<code>array[j-1]</code>要小于<code>target</code>，也就说明了插入位置为<code>j</code>。</p>
-<p>因此我们最后一步便是让<code>array[j] = target</code></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">array[i] = target;</span><br></pre></td></tr></table></figure>
-<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">	<span class="comment">// 临时存储要插入的值</span></span><br><span class="line">    Comparable tmp = a[i];</span><br><span class="line">    <span class="keyword">int</span> j;</span><br><span class="line">    <span class="comment">// less():判断a[i]是否小于a[j - 1]</span></span><br><span class="line">    <span class="keyword">for</span> ( j = i; j &gt; <span class="number">0</span> &amp;&amp; less(a[i], a[j - <span class="number">1</span>]) ; j--) &#123;</span><br><span class="line">    	<span class="comment">// 如果a[i]小于a[j - 1]，则将a[j - 1]右移</span></span><br><span class="line">        a[j] = a[j - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 知道找到比a[i]小的数，那么这时候的j-1就是这个小数的下标，j就是它的前一位，也就是目标位，替换</span></span><br><span class="line">    a[j] = tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>首先将第一个元素初始化为一个有序组，然后光标移向第二个有元素</p>
-<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221128408.png" alt="image-20210615221128408"></p>
-<p>然后将第二个元素进行定位</p>
-<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221502845.png" alt="image-20210615221502845"></p>
-<p>形成：</p>
-<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221552079.png" alt="image-20210615221552079"></p>
-<p>然后选取第三个元素，定位并插入到括号里面</p>
-<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221651930.png" alt="image-20210615221651930"></p>
-<p>然后选取第四个元素，重复定位并插入有序组里</p>
-<p><img src="/2022/03/15/Algorithm/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/image-20210615221823595.png" alt="image-20210615221823595"></p>
-<p>重复上面的步骤，最终得到的就是有序数组</p>
-<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="最好情况"><a href="#最好情况" class="headerlink" title="最好情况"></a>最好情况</h3><h3 id="最坏情况"><a href="#最坏情况" class="headerlink" title="最坏情况"></a>最坏情况</h3><h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3>]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>Algorithm</tag>
-        <tag>sort</tag>
-        <tag>Insertion</tag>
+        <tag>Open-Closed</tag>
+        <tag>Principle</tag>
+        <tag>DesignPatterns</tag>
       </tags>
   </entry>
   <entry>
@@ -719,28 +719,6 @@ va_end(ParamList);                                                    // 释放�
         <tag>git username</tag>
         <tag>git email</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>22端口抽风</title>
-    <url>/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/</url>
-    <content><![CDATA[<p>前一天还能push，今天一push，就报：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="记录一次github-22端口抽风日常"><a href="#记录一次github-22端口抽风日常" class="headerlink" title="记录一次github 22端口抽风日常"></a>记录一次github 22端口抽风日常</h2><p>前一天还能push，今天一push，就报：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
-<p>出现 <code>ssh: connect to host github.com port 22: Connection timed out</code> 错误，通常是由于网络或配置问题导致无法通过默认的SSH端口22连接到GitHub。以下是解决方法：</p>
-<h3 id="临时测试连接"><a href="#临时测试连接" class="headerlink" title="临时测试连接"></a>临时测试连接</h3><p>在命令行中运行以下命令来测试连接：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T -p 443 git@ssh.github.com</span><br></pre></td></tr></table></figure>
-<p>如果显示类似 <code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code> 的信息，则表明通过443端口成功进行了身份验证。</p>
-<h3 id="修改SSH配置文件"><a href="#修改SSH配置文件" class="headerlink" title="修改SSH配置文件"></a>修改SSH配置文件</h3><p>修改 <code>~/.ssh/config</code> 文件，添加以下内容：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 443</span><br></pre></td></tr></table></figure>
-<p>保存文件后，再次运行以下命令测试连接：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-<p>如果连接成功，显示<code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>，之后就可以正常进行git操作了。</p>
-<p>如果此时还不能正常操作，或者提示<code>permission deny</code>，则你需要去到<code>.ssh</code>文件夹下（一般位于），删除<code>known_hosts</code>让<code>git</code>重新生成指纹</p>
-<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>出现这个问题很大概率是<code>Github</code>的主域名<code>github.com</code>，被墙了或者维护了，你<code>ping</code>不上去，此时可以尝试使用<code>ssh.github.com</code>，因此上面的解决方法相当于将<code>github.com</code>的主机名映射到<code>ssh.github.com</code>去！</p>
-<p><img src="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/image-20250827125841944.png" alt="image-20250827125841944"></p>
-]]></content>
   </entry>
   <entry>
     <title>git代码合并</title>
@@ -802,6 +780,28 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>22端口抽风</title>
+    <url>/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/</url>
+    <content><![CDATA[<p>前一天还能push，今天一push，就报：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="记录一次github-22端口抽风日常"><a href="#记录一次github-22端口抽风日常" class="headerlink" title="记录一次github 22端口抽风日常"></a>记录一次github 22端口抽风日常</h2><p>前一天还能push，今天一push，就报：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
+<p>出现 <code>ssh: connect to host github.com port 22: Connection timed out</code> 错误，通常是由于网络或配置问题导致无法通过默认的SSH端口22连接到GitHub。以下是解决方法：</p>
+<h3 id="临时测试连接"><a href="#临时测试连接" class="headerlink" title="临时测试连接"></a>临时测试连接</h3><p>在命令行中运行以下命令来测试连接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T -p 443 git@ssh.github.com</span><br></pre></td></tr></table></figure>
+<p>如果显示类似 <code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code> 的信息，则表明通过443端口成功进行了身份验证。</p>
+<h3 id="修改SSH配置文件"><a href="#修改SSH配置文件" class="headerlink" title="修改SSH配置文件"></a>修改SSH配置文件</h3><p>修改 <code>~/.ssh/config</code> 文件，添加以下内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 443</span><br></pre></td></tr></table></figure>
+<p>保存文件后，再次运行以下命令测试连接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>如果连接成功，显示<code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>，之后就可以正常进行git操作了。</p>
+<p>如果此时还不能正常操作，或者提示<code>permission deny</code>，则你需要去到<code>.ssh</code>文件夹下（一般位于），删除<code>known_hosts</code>让<code>git</code>重新生成指纹</p>
+<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>出现这个问题很大概率是<code>Github</code>的主域名<code>github.com</code>，被墙了或者维护了，你<code>ping</code>不上去，此时可以尝试使用<code>ssh.github.com</code>，因此上面的解决方法相当于将<code>github.com</code>的主机名映射到<code>ssh.github.com</code>去！</p>
+<p><img src="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/image-20250827125841944.png" alt="image-20250827125841944"></p>
+]]></content>
+  </entry>
+  <entry>
     <title>El表达式</title>
     <url>/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<span id="more"></span>
@@ -811,6 +811,58 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>javaweb_EL_Expression</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Filter过滤器</title>
+    <url>/2022/01/01/JavaWeb/Filter/</url>
+    <content><![CDATA[<h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
+<h2 id="所谓Filter"><a href="#所谓Filter" class="headerlink" title="所谓Filter"></a>所谓Filter</h2><p>当一个请求在到达服务器软件之后，服务器软件响应请求时会找到相关的资源，如<strong>一个Html页面，一个JSP页面，一个servlet</strong>，Filter所做的事情，就是拦截这些请求，然后对它进行预处理。</p>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000319755.png" alt="image-20211230000319755" style="zoom:200%;"></p>
+<p><strong>要注意，Filter不仅仅能够截拦Servlet，对于任意的URL（这个URL可以指向一个html，也可以指向一个jsp），如：<a href="http://www.argentoaskia.tech/resource.html，也是可以拦截的。">http://www.argentoaskia.tech/resource.html，也是可以拦截的。</a></strong></p>
+<h2 id="配置编写Filter"><a href="#配置编写Filter" class="headerlink" title="配置编写Filter"></a>配置编写Filter</h2><p>编写Filter的步骤应如下：</p>
+<ol>
+<li>新建Filter的Java类</li>
+<li>让该类实现Filter接口</li>
+<li>在doFilter()方法中进行求情拦截</li>
+<li>给该类添加@WebFilter注解，并指定要拦截的URL，或者在Web.xml中添加Filter配置，如：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>FittlerDemo1.ABCFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">       &lt;servlet-name&gt;demo1&lt;/servlet-name&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">urlPattern</span>&gt;</span>/result<span class="tag">&lt;/<span class="name">urlPattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>完整的Filter可以参考：</p>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000952257.png" alt="image-20211230000952257"></p>
+<h2 id="过滤器执行流程"><a href="#过滤器执行流程" class="headerlink" title="过滤器执行流程"></a>过滤器执行流程</h2><p>对于一个过滤器他的执行流程是双向的，也就是说它实际上遵循下面的流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[客户端请求] --&gt;|被截拦| B[过滤器1]</span><br><span class="line">B[过滤器1] --&gt;|过滤器1执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器1调用filterChain.doFilter方法到| C[过滤器2]</span><br><span class="line">C[过滤器2] --&gt;|过滤器2执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器2调用filterChain.doFilter方法到| E[过滤器3]</span><br><span class="line">E[过滤器3] --&gt;|过滤器3执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器3调用filterChain.doFilter方法到| F[过滤器4]</span><br><span class="line">F[过滤器4] --&gt;|过滤器4执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|没有其他过滤器 将会调用请求资源| G[Servlet或者JSP或者HTML]</span><br><span class="line">G[Servlet或者JSP或者HTML] --&gt;|执行完成 回到过滤器4|H[过滤器4]</span><br><span class="line">H[过滤器4] --&gt;|执行filterChain.doFilter方法之后的代码| I[过滤器3]</span><br><span class="line">I[过滤器3] --&gt;|执行filterChain.doFilter方法之后的代码| J[过滤器2]</span><br><span class="line">J[过滤器2] --&gt;|执行filterChain.doFilter方法之后的代码| K[过滤器1]</span><br></pre></td></tr></table></figure>
+<h2 id="过滤器生命周期"><a href="#过滤器生命周期" class="headerlink" title="过滤器生命周期"></a>过滤器生命周期</h2><p>Filter的生命周期主要有三个：</p>
+<ul>
+<li>init()</li>
+<li>doFilter()</li>
+<li>destroy()</li>
+</ul>
+<h2 id="过滤器配置"><a href="#过滤器配置" class="headerlink" title="过滤器配置"></a>过滤器配置</h2><p>@WebFilter源代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WebFilter &#123;</span><br><span class="line">    <span class="function">String <span class="title">description</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 该filter的描述</span></span><br><span class="line">    <span class="function">String <span class="title">displayName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 过滤器的显示名称</span></span><br><span class="line">    WebInitParam[] initParams() <span class="keyword">default</span> &#123;&#125;;	<span class="comment">// 初始化参数</span></span><br><span class="line">    <span class="function">String <span class="title">filterName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// 过滤器名称</span></span><br><span class="line">    <span class="function">String <span class="title">smallIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The small-icon of the filter</span></span><br><span class="line">    <span class="function">String <span class="title">largeIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The large-icon of the filter</span></span><br><span class="line">    String[] servletNames() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The names of the servlets to which the filter applies.</span></span><br><span class="line">    String[] value() <span class="keyword">default</span> &#123;&#125;;			<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    String[] urlPatterns() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    <span class="comment">// The dispatcher types to which the filter applies</span></span><br><span class="line">    DispatcherType[] dispatcherTypes() <span class="keyword">default</span> &#123;DispatcherType.REQUEST&#125;;</span><br><span class="line">    <span class="comment">// Declares whether the filter supports asynchronous operation mode.</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">asyncSupported</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230010247571.png" alt="image-20211230010247571"></p>
+<h3 id="配置方式拦截"><a href="#配置方式拦截" class="headerlink" title="配置方式拦截"></a>配置方式拦截</h3><p>配置方式拦截主要涉及到DispatcherType的指定，有五种方式：</p>
+<ul>
+<li>FORWARD、INCLUDE用于当使用RequestDispatcher的forward()、include()时应用该Filter</li>
+<li>ERROR用于当请求的URL会404时，应用该Filter</li>
+<li>REQUEST默认选项，当发送请求的时候应用该Filter</li>
+<li>ASYNC异步拦截，用于Ajax</li>
+</ul>
+<h3 id="配置路径拦截"><a href="#配置路径拦截" class="headerlink" title="配置路径拦截"></a>配置路径拦截</h3><ol>
+<li>具体资源路径：<code>/index.jsp</code></li>
+<li>拦截目录：<code>/user/*</code>：拦截某个目录下的资源</li>
+<li>后缀名拦截：<code>*.jsp</code>：拦截所有的<code>jsp</code>文件</li>
+<li>拦截所有资源：<code>/*</code></li>
+</ol>
+<h2 id="多个Filter作用顺序-过滤器链"><a href="#多个Filter作用顺序-过滤器链" class="headerlink" title="多个Filter作用顺序(过滤器链)"></a>多个Filter作用顺序(过滤器链)</h2><p>一个Servlet中配置多个Filter的执行顺序是一件很有意思的事情，如果一个项目配置了多个Filter，这些Filter里面包括使用urlPatterns来指定拦截的，使用servletNames来指定拦截Servlet的，有在Web.xml中定义的，也有使用@WebFilter定义的。</p>
+<p>无论有多少，<strong>首先都会执行配置了urlPatterns属性的Filters</strong>，在这些配置了urlPatterns属性的Filters里面，<strong>又优先执行Web.xml中定义的Filters，根据Web.xml中的Filters的上下文排列顺序来执行</strong>，<strong>然后才执行使用@WebFilter的Filter，执行@WebFilter的Filter，根据类名来判断执行顺序，不区分大小写。</strong></p>
+<p><strong>然后才会执行配置了servlet-name属性的Filters</strong>，执行顺序同配置了urlPatterns属性的Filters一样。</p>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_filter</tag>
       </tags>
   </entry>
   <entry>
@@ -1597,58 +1649,6 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>Filter过滤器</title>
-    <url>/2022/01/01/JavaWeb/Filter/</url>
-    <content><![CDATA[<h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
-<h2 id="所谓Filter"><a href="#所谓Filter" class="headerlink" title="所谓Filter"></a>所谓Filter</h2><p>当一个请求在到达服务器软件之后，服务器软件响应请求时会找到相关的资源，如<strong>一个Html页面，一个JSP页面，一个servlet</strong>，Filter所做的事情，就是拦截这些请求，然后对它进行预处理。</p>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000319755.png" alt="image-20211230000319755" style="zoom:200%;"></p>
-<p><strong>要注意，Filter不仅仅能够截拦Servlet，对于任意的URL（这个URL可以指向一个html，也可以指向一个jsp），如：<a href="http://www.argentoaskia.tech/resource.html，也是可以拦截的。">http://www.argentoaskia.tech/resource.html，也是可以拦截的。</a></strong></p>
-<h2 id="配置编写Filter"><a href="#配置编写Filter" class="headerlink" title="配置编写Filter"></a>配置编写Filter</h2><p>编写Filter的步骤应如下：</p>
-<ol>
-<li>新建Filter的Java类</li>
-<li>让该类实现Filter接口</li>
-<li>在doFilter()方法中进行求情拦截</li>
-<li>给该类添加@WebFilter注解，并指定要拦截的URL，或者在Web.xml中添加Filter配置，如：</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>FittlerDemo1.ABCFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">       &lt;servlet-name&gt;demo1&lt;/servlet-name&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">urlPattern</span>&gt;</span>/result<span class="tag">&lt;/<span class="name">urlPattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>完整的Filter可以参考：</p>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000952257.png" alt="image-20211230000952257"></p>
-<h2 id="过滤器执行流程"><a href="#过滤器执行流程" class="headerlink" title="过滤器执行流程"></a>过滤器执行流程</h2><p>对于一个过滤器他的执行流程是双向的，也就是说它实际上遵循下面的流程：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[客户端请求] --&gt;|被截拦| B[过滤器1]</span><br><span class="line">B[过滤器1] --&gt;|过滤器1执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器1调用filterChain.doFilter方法到| C[过滤器2]</span><br><span class="line">C[过滤器2] --&gt;|过滤器2执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器2调用filterChain.doFilter方法到| E[过滤器3]</span><br><span class="line">E[过滤器3] --&gt;|过滤器3执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器3调用filterChain.doFilter方法到| F[过滤器4]</span><br><span class="line">F[过滤器4] --&gt;|过滤器4执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|没有其他过滤器 将会调用请求资源| G[Servlet或者JSP或者HTML]</span><br><span class="line">G[Servlet或者JSP或者HTML] --&gt;|执行完成 回到过滤器4|H[过滤器4]</span><br><span class="line">H[过滤器4] --&gt;|执行filterChain.doFilter方法之后的代码| I[过滤器3]</span><br><span class="line">I[过滤器3] --&gt;|执行filterChain.doFilter方法之后的代码| J[过滤器2]</span><br><span class="line">J[过滤器2] --&gt;|执行filterChain.doFilter方法之后的代码| K[过滤器1]</span><br></pre></td></tr></table></figure>
-<h2 id="过滤器生命周期"><a href="#过滤器生命周期" class="headerlink" title="过滤器生命周期"></a>过滤器生命周期</h2><p>Filter的生命周期主要有三个：</p>
-<ul>
-<li>init()</li>
-<li>doFilter()</li>
-<li>destroy()</li>
-</ul>
-<h2 id="过滤器配置"><a href="#过滤器配置" class="headerlink" title="过滤器配置"></a>过滤器配置</h2><p>@WebFilter源代码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WebFilter &#123;</span><br><span class="line">    <span class="function">String <span class="title">description</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 该filter的描述</span></span><br><span class="line">    <span class="function">String <span class="title">displayName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 过滤器的显示名称</span></span><br><span class="line">    WebInitParam[] initParams() <span class="keyword">default</span> &#123;&#125;;	<span class="comment">// 初始化参数</span></span><br><span class="line">    <span class="function">String <span class="title">filterName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// 过滤器名称</span></span><br><span class="line">    <span class="function">String <span class="title">smallIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The small-icon of the filter</span></span><br><span class="line">    <span class="function">String <span class="title">largeIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The large-icon of the filter</span></span><br><span class="line">    String[] servletNames() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The names of the servlets to which the filter applies.</span></span><br><span class="line">    String[] value() <span class="keyword">default</span> &#123;&#125;;			<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    String[] urlPatterns() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    <span class="comment">// The dispatcher types to which the filter applies</span></span><br><span class="line">    DispatcherType[] dispatcherTypes() <span class="keyword">default</span> &#123;DispatcherType.REQUEST&#125;;</span><br><span class="line">    <span class="comment">// Declares whether the filter supports asynchronous operation mode.</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">asyncSupported</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230010247571.png" alt="image-20211230010247571"></p>
-<h3 id="配置方式拦截"><a href="#配置方式拦截" class="headerlink" title="配置方式拦截"></a>配置方式拦截</h3><p>配置方式拦截主要涉及到DispatcherType的指定，有五种方式：</p>
-<ul>
-<li>FORWARD、INCLUDE用于当使用RequestDispatcher的forward()、include()时应用该Filter</li>
-<li>ERROR用于当请求的URL会404时，应用该Filter</li>
-<li>REQUEST默认选项，当发送请求的时候应用该Filter</li>
-<li>ASYNC异步拦截，用于Ajax</li>
-</ul>
-<h3 id="配置路径拦截"><a href="#配置路径拦截" class="headerlink" title="配置路径拦截"></a>配置路径拦截</h3><ol>
-<li>具体资源路径：<code>/index.jsp</code></li>
-<li>拦截目录：<code>/user/*</code>：拦截某个目录下的资源</li>
-<li>后缀名拦截：<code>*.jsp</code>：拦截所有的<code>jsp</code>文件</li>
-<li>拦截所有资源：<code>/*</code></li>
-</ol>
-<h2 id="多个Filter作用顺序-过滤器链"><a href="#多个Filter作用顺序-过滤器链" class="headerlink" title="多个Filter作用顺序(过滤器链)"></a>多个Filter作用顺序(过滤器链)</h2><p>一个Servlet中配置多个Filter的执行顺序是一件很有意思的事情，如果一个项目配置了多个Filter，这些Filter里面包括使用urlPatterns来指定拦截的，使用servletNames来指定拦截Servlet的，有在Web.xml中定义的，也有使用@WebFilter定义的。</p>
-<p>无论有多少，<strong>首先都会执行配置了urlPatterns属性的Filters</strong>，在这些配置了urlPatterns属性的Filters里面，<strong>又优先执行Web.xml中定义的Filters，根据Web.xml中的Filters的上下文排列顺序来执行</strong>，<strong>然后才执行使用@WebFilter的Filter，执行@WebFilter的Filter，根据类名来判断执行顺序，不区分大小写。</strong></p>
-<p><strong>然后才会执行配置了servlet-name属性的Filters</strong>，执行顺序同配置了urlPatterns属性的Filters一样。</p>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_filter</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JavaBean技术</title>
     <url>/2022/01/08/JavaWeb/JavaBean%E6%8A%80%E6%9C%AF/</url>
     <content><![CDATA[<h1 id="JavaBean技术"><a href="#JavaBean技术" class="headerlink" title="JavaBean技术"></a>JavaBean技术</h1><p>JavaBean技术最初是面向Swing等GUI而设计的,后来经过用于Web开发上.</p>
@@ -1850,6 +1850,64 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>javaweb_servlet - javaweb_tomcat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cookies</title>
+    <url>/2022/01/08/JavaWeb/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFcookies/</url>
+    <content><![CDATA[<h1 id="客户端会话技术——cookies"><a href="#客户端会话技术——cookies" class="headerlink" title="客户端会话技术——cookies"></a>客户端会话技术——cookies</h1><span id="more"></span>
+<h2 id="什么是Cookies"><a href="#什么是Cookies" class="headerlink" title="什么是Cookies"></a>什么是Cookies</h2><p>客户端会话技术：将数据保存在客户端</p>
+<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><ol>
+<li>创建Cookies对象，绑定数据</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookie ck = <span class="keyword">new</span> Cookie(String name, String value);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>发送Cookies对象</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.addCookies(Cookies cookie);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>获取Cookies对象</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookies[] cks = request.getCookies();</span><br></pre></td></tr></table></figure>
+<h2 id="Cookie原理"><a href="#Cookie原理" class="headerlink" title="Cookie原理"></a>Cookie原理</h2><p>Cookie是基于HTTP中的set-cookie头和cookie头的</p>
+<p><img src="/2022/01/08/JavaWeb/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFcookies/image-20220104002958718.png" alt="image-20220104002958718"></p>
+<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><h3 id="能不能一次发送多个Cookie"><a href="#能不能一次发送多个Cookie" class="headerlink" title="能不能一次发送多个Cookie"></a>能不能一次发送多个Cookie</h3><p>可以，理论上只需要在Servlet中多次调：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookie ck1 = <span class="keyword">new</span> Cookie(<span class="string">&quot;123&quot;</span>,<span class="string">&quot;456&quot;</span>);</span><br><span class="line">Cookie ck2 = <span class="keyword">new</span> Cookie(<span class="string">&quot;012&quot;</span>,<span class="string">&quot;789&quot;</span>);</span><br><span class="line">response.addCookie(ck1);</span><br><span class="line">response.addCookie(ck2);</span><br></pre></td></tr></table></figure>
+<p>在Response头中，会设置多个<code>set-cookie</code>头，request的cookie头中将会有多个键值对，用<code>;</code>分割</p>
+<h3 id="Cookie持久化问题"><a href="#Cookie持久化问题" class="headerlink" title="Cookie持久化问题"></a>Cookie持久化问题</h3><p>cookie在默认情况下，cookie存储在浏览器的内存中，当浏览器关闭后，Cookie数据被销毁。</p>
+<p>如果期望Cookie能够存储在硬盘中，可以使用<code>setMaxAge(int seconds)</code>方法、</p>
+<p>其中seconds可以取下面三种值：</p>
+<ul>
+<li>正数：将cookie数据写到硬盘的文件中，seconds代表秒数。</li>
+<li>负数：默认值，存在于当前标签页或者浏览器中</li>
+<li>0：删除该Cookie</li>
+</ul>
+<p>负数的作用范围会小于正数，设置为负数的时候，一旦浏览器标签页被关闭就要销毁，如果设置为正数，则多个标签页可以共享该cookie，只要你请求的URL是一样的就可以，因为在浏览器中，cookie的存储以网站URl为键名，这个涉及到cookie在浏览器中的存储.</p>
+<h3 id="Cookie如何存储中文"><a href="#Cookie如何存储中文" class="headerlink" title="Cookie如何存储中文"></a>Cookie如何存储中文</h3><p>tomcat 8之前不能直接存储中文，tomcat 8之后支持存储中文</p>
+<p>tomcat 8之前需要使用转码工具，转为URL，如%E3</p>
+<h3 id="Cookie共享"><a href="#Cookie共享" class="headerlink" title="Cookie共享"></a>Cookie共享</h3><p>默认情况下cookie是不共享的，cookie只能在自己的web项目中使用。</p>
+<p>如果你期望你的Cookie能够被同一个服务器下的多个web项目共享，那就需要使用<code>setPath(String path)</code></p>
+<p><strong>默认情况下如果不设置该方法，该方法会设置当前项目的虚拟路径。</strong></p>
+<h2 id="Cookie特点"><a href="#Cookie特点" class="headerlink" title="Cookie特点"></a>Cookie特点</h2><ul>
+<li>cookie存储数据在客户端浏览器</li>
+<li><p>浏览器对于单个cookie的大小有限制（4kb）以及对同一个域名下的总cookie数量也有限制（20个）</p>
+</li>
+<li><p>cookie一般用于存储少量的不太敏感的信息</p>
+</li>
+<li>cookie一般用于存储偏好设置等</li>
+</ul>
+<h2 id="Cookie在浏览器中的存储"><a href="#Cookie在浏览器中的存储" class="headerlink" title="Cookie在浏览器中的存储"></a>Cookie在浏览器中的存储</h2><h4 id="IE-浏览器"><a href="#IE-浏览器" class="headerlink" title="IE 浏览器"></a>IE 浏览器</h4><p>Windows 系统上 IE 浏览器 Cookie 数据位于 <code>%APPDATA%\Microsoft\Windows\Cookies\</code> 目录中的 <code>xxx.txt</code> 文件，里面可能有很多个. txt Cookie 文件，如 <code>C：\Users\yren9\AppData\Roaming\Microsoft\Windows\Cookies\0WQ6YROK.txt。</code></p>
+<p>在 IE 浏览器中，IE 将各个站点的 <code>Cookie</code> 分别保存为一个 <code>XXX.txt</code> 这样的纯文本文件；</p>
+<h4 id="Firefox-和-Chrome-浏览器"><a href="#Firefox-和-Chrome-浏览器" class="headerlink" title="Firefox 和 Chrome 浏览器"></a>Firefox 和 Chrome 浏览器</h4><p>Firefox 和 Chrome 是将所有的 Cookie 都保存在一个文件中，该文件的格式为 SQLite 数据库格式的文件。</p>
+<p>Firefox 的 Cookie 数据位于 <code>%APPDATA%\Mozilla\Firefox\Profiles\</code> 目录中的 <code>xxx.default</code> 目录下，名为 <code>Cookies.sqlite</code> 的文件中，如 <code>C：\Users\jay\AppData\Roaming\Mozilla\Firefox\Profiles\ji4grfex.default\cookies.sqlite</code>。</p>
+<p>在 Firefox 中查看 Cookie，可以选择“工具&gt;选项&gt;隐私&gt;显示 Cookie”。</p>
+<p>Chrome 的 Cookie 数据位于 <code>%LOCALAPPDATA%\Google\Chrome\User Data\Default\</code> 目录中名为 Cookies 的文件中，如 <code>C：\Users\jay\AppData\Local\Google\Chrome\User Data\Default\Cookies。</code></p>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_cookies</tag>
       </tags>
   </entry>
   <entry>
@@ -2076,64 +2134,6 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>javaweb_servlet</tag>
         <tag>javaweb_tomcat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>cookies</title>
-    <url>/2022/01/08/JavaWeb/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFcookies/</url>
-    <content><![CDATA[<h1 id="客户端会话技术——cookies"><a href="#客户端会话技术——cookies" class="headerlink" title="客户端会话技术——cookies"></a>客户端会话技术——cookies</h1><span id="more"></span>
-<h2 id="什么是Cookies"><a href="#什么是Cookies" class="headerlink" title="什么是Cookies"></a>什么是Cookies</h2><p>客户端会话技术：将数据保存在客户端</p>
-<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><ol>
-<li>创建Cookies对象，绑定数据</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookie ck = <span class="keyword">new</span> Cookie(String name, String value);</span><br></pre></td></tr></table></figure>
-<ol>
-<li>发送Cookies对象</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.addCookies(Cookies cookie);</span><br></pre></td></tr></table></figure>
-<ol>
-<li>获取Cookies对象</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookies[] cks = request.getCookies();</span><br></pre></td></tr></table></figure>
-<h2 id="Cookie原理"><a href="#Cookie原理" class="headerlink" title="Cookie原理"></a>Cookie原理</h2><p>Cookie是基于HTTP中的set-cookie头和cookie头的</p>
-<p><img src="/2022/01/08/JavaWeb/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFcookies/image-20220104002958718.png" alt="image-20220104002958718"></p>
-<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><h3 id="能不能一次发送多个Cookie"><a href="#能不能一次发送多个Cookie" class="headerlink" title="能不能一次发送多个Cookie"></a>能不能一次发送多个Cookie</h3><p>可以，理论上只需要在Servlet中多次调：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookie ck1 = <span class="keyword">new</span> Cookie(<span class="string">&quot;123&quot;</span>,<span class="string">&quot;456&quot;</span>);</span><br><span class="line">Cookie ck2 = <span class="keyword">new</span> Cookie(<span class="string">&quot;012&quot;</span>,<span class="string">&quot;789&quot;</span>);</span><br><span class="line">response.addCookie(ck1);</span><br><span class="line">response.addCookie(ck2);</span><br></pre></td></tr></table></figure>
-<p>在Response头中，会设置多个<code>set-cookie</code>头，request的cookie头中将会有多个键值对，用<code>;</code>分割</p>
-<h3 id="Cookie持久化问题"><a href="#Cookie持久化问题" class="headerlink" title="Cookie持久化问题"></a>Cookie持久化问题</h3><p>cookie在默认情况下，cookie存储在浏览器的内存中，当浏览器关闭后，Cookie数据被销毁。</p>
-<p>如果期望Cookie能够存储在硬盘中，可以使用<code>setMaxAge(int seconds)</code>方法、</p>
-<p>其中seconds可以取下面三种值：</p>
-<ul>
-<li>正数：将cookie数据写到硬盘的文件中，seconds代表秒数。</li>
-<li>负数：默认值，存在于当前标签页或者浏览器中</li>
-<li>0：删除该Cookie</li>
-</ul>
-<p>负数的作用范围会小于正数，设置为负数的时候，一旦浏览器标签页被关闭就要销毁，如果设置为正数，则多个标签页可以共享该cookie，只要你请求的URL是一样的就可以，因为在浏览器中，cookie的存储以网站URl为键名，这个涉及到cookie在浏览器中的存储.</p>
-<h3 id="Cookie如何存储中文"><a href="#Cookie如何存储中文" class="headerlink" title="Cookie如何存储中文"></a>Cookie如何存储中文</h3><p>tomcat 8之前不能直接存储中文，tomcat 8之后支持存储中文</p>
-<p>tomcat 8之前需要使用转码工具，转为URL，如%E3</p>
-<h3 id="Cookie共享"><a href="#Cookie共享" class="headerlink" title="Cookie共享"></a>Cookie共享</h3><p>默认情况下cookie是不共享的，cookie只能在自己的web项目中使用。</p>
-<p>如果你期望你的Cookie能够被同一个服务器下的多个web项目共享，那就需要使用<code>setPath(String path)</code></p>
-<p><strong>默认情况下如果不设置该方法，该方法会设置当前项目的虚拟路径。</strong></p>
-<h2 id="Cookie特点"><a href="#Cookie特点" class="headerlink" title="Cookie特点"></a>Cookie特点</h2><ul>
-<li>cookie存储数据在客户端浏览器</li>
-<li><p>浏览器对于单个cookie的大小有限制（4kb）以及对同一个域名下的总cookie数量也有限制（20个）</p>
-</li>
-<li><p>cookie一般用于存储少量的不太敏感的信息</p>
-</li>
-<li>cookie一般用于存储偏好设置等</li>
-</ul>
-<h2 id="Cookie在浏览器中的存储"><a href="#Cookie在浏览器中的存储" class="headerlink" title="Cookie在浏览器中的存储"></a>Cookie在浏览器中的存储</h2><h4 id="IE-浏览器"><a href="#IE-浏览器" class="headerlink" title="IE 浏览器"></a>IE 浏览器</h4><p>Windows 系统上 IE 浏览器 Cookie 数据位于 <code>%APPDATA%\Microsoft\Windows\Cookies\</code> 目录中的 <code>xxx.txt</code> 文件，里面可能有很多个. txt Cookie 文件，如 <code>C：\Users\yren9\AppData\Roaming\Microsoft\Windows\Cookies\0WQ6YROK.txt。</code></p>
-<p>在 IE 浏览器中，IE 将各个站点的 <code>Cookie</code> 分别保存为一个 <code>XXX.txt</code> 这样的纯文本文件；</p>
-<h4 id="Firefox-和-Chrome-浏览器"><a href="#Firefox-和-Chrome-浏览器" class="headerlink" title="Firefox 和 Chrome 浏览器"></a>Firefox 和 Chrome 浏览器</h4><p>Firefox 和 Chrome 是将所有的 Cookie 都保存在一个文件中，该文件的格式为 SQLite 数据库格式的文件。</p>
-<p>Firefox 的 Cookie 数据位于 <code>%APPDATA%\Mozilla\Firefox\Profiles\</code> 目录中的 <code>xxx.default</code> 目录下，名为 <code>Cookies.sqlite</code> 的文件中，如 <code>C：\Users\jay\AppData\Roaming\Mozilla\Firefox\Profiles\ji4grfex.default\cookies.sqlite</code>。</p>
-<p>在 Firefox 中查看 Cookie，可以选择“工具&gt;选项&gt;隐私&gt;显示 Cookie”。</p>
-<p>Chrome 的 Cookie 数据位于 <code>%LOCALAPPDATA%\Google\Chrome\User Data\Default\</code> 目录中名为 Cookies 的文件中，如 <code>C：\Users\jay\AppData\Local\Google\Chrome\User Data\Default\Cookies。</code></p>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_cookies</tag>
       </tags>
   </entry>
   <entry>
@@ -2445,6 +2445,35 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>解决Windows家庭版无法远程问题</title>
+    <url>/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>这破Windows 10 家庭版真的让我操碎了心！Windows坏事做尽！</p>
+<span id="more"></span>
+<h2 id="解决Windows家庭版无法远程的问题"><a href="#解决Windows家庭版无法远程的问题" class="headerlink" title="解决Windows家庭版无法远程的问题"></a>解决Windows家庭版无法远程的问题</h2><p>要解决这个问题需要一个工具rdpwrap：<a href="https://github-releases.githubusercontent.com/25609086/d473b802-eb5f-11e7-8ccc-5944bc969a40?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211017%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20211017T084058Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=c63d302fc9a6d075968448d5ee3a6eb42537d44e88fda8f58768e3d4ab7686d1&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;key_id=0&amp;repo_id=25609086&amp;response-content-disposition=attachment%3B%20filename%3DRDPWrap-v1.6.2.zip&amp;response-content-type=application%2Foctet-stream">下载地址</a> | <a href="https://github.com/stascorp/rdpwrap/releases/tag/v1.6.2">Github</a></p>
+<p>下载回来之后解压，可以看到：</p>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017171653109.png" alt="image-20211017171653109"></p>
+<p>以<strong>管理员的方式</strong>运行<strong>install.bat</strong></p>
+<p>运行里面的RDPConf.exe，<strong>看是否有红色的标志。</strong>如果有的话，就需要<strong>查看自己系统的C:\Windows\System32\termsrv.dll的版本号</strong>：</p>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017172348425.png" alt="image-20211017172348425"></p>
+<p><a href="https://github.com/stascorp/rdpwrap/issues">到这里</a>搜索该版本号的配置文件，<strong>仔细找，应该能找到像下面的提供的ini文件</strong></p>
+<blockquote>
+<p>自动更新请到这里找<a href="https://github.com/sebaxakerhtc/rdpwrap.ini/">sebaxakerhtc/rdpwrap.ini: RDPWrap.ini for RDP Wrapper Library by Stas’M (github.com)</a>，下载根目录的ini即可</p>
+</blockquote>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017173132450.png" alt="image-20211017173132450"></p>
+<p>找到后，<strong>请先win+r运行：services.msc，停止Remote Desktop Services服务，</strong></p>
+<p><strong>将下载的ini文件覆盖到C:\Program Files\RDP Wrapper里面</strong></p>
+<p><strong>重新开启Remote Desktop Services服务，</strong></p>
+<p>运行检查程序看看是不是全绿，<strong>如果是全绿色的话，就证明现在可以使用远程了，win+r运行，输入<code>mstsc</code>打开远程桌面窗口。</strong></p>
+]]></content>
+      <categories>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>mstsc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>1.MyBatis快速入门</title>
     <url>/2022/07/01/MyBatis/mybatis%E8%B5%B7%E6%AD%A5/</url>
     <content><![CDATA[<h1 id="MyBatis快速入门"><a href="#MyBatis快速入门" class="headerlink" title="MyBatis快速入门"></a>MyBatis快速入门</h1><ol>
@@ -2525,35 +2554,6 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>MyBatis-start</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决Windows家庭版无法远程问题</title>
-    <url>/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>这破Windows 10 家庭版真的让我操碎了心！Windows坏事做尽！</p>
-<span id="more"></span>
-<h2 id="解决Windows家庭版无法远程的问题"><a href="#解决Windows家庭版无法远程的问题" class="headerlink" title="解决Windows家庭版无法远程的问题"></a>解决Windows家庭版无法远程的问题</h2><p>要解决这个问题需要一个工具rdpwrap：<a href="https://github-releases.githubusercontent.com/25609086/d473b802-eb5f-11e7-8ccc-5944bc969a40?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211017%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20211017T084058Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=c63d302fc9a6d075968448d5ee3a6eb42537d44e88fda8f58768e3d4ab7686d1&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;key_id=0&amp;repo_id=25609086&amp;response-content-disposition=attachment%3B%20filename%3DRDPWrap-v1.6.2.zip&amp;response-content-type=application%2Foctet-stream">下载地址</a> | <a href="https://github.com/stascorp/rdpwrap/releases/tag/v1.6.2">Github</a></p>
-<p>下载回来之后解压，可以看到：</p>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017171653109.png" alt="image-20211017171653109"></p>
-<p>以<strong>管理员的方式</strong>运行<strong>install.bat</strong></p>
-<p>运行里面的RDPConf.exe，<strong>看是否有红色的标志。</strong>如果有的话，就需要<strong>查看自己系统的C:\Windows\System32\termsrv.dll的版本号</strong>：</p>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017172348425.png" alt="image-20211017172348425"></p>
-<p><a href="https://github.com/stascorp/rdpwrap/issues">到这里</a>搜索该版本号的配置文件，<strong>仔细找，应该能找到像下面的提供的ini文件</strong></p>
-<blockquote>
-<p>自动更新请到这里找<a href="https://github.com/sebaxakerhtc/rdpwrap.ini/">sebaxakerhtc/rdpwrap.ini: RDPWrap.ini for RDP Wrapper Library by Stas’M (github.com)</a>，下载根目录的ini即可</p>
-</blockquote>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017173132450.png" alt="image-20211017173132450"></p>
-<p>找到后，<strong>请先win+r运行：services.msc，停止Remote Desktop Services服务，</strong></p>
-<p><strong>将下载的ini文件覆盖到C:\Program Files\RDP Wrapper里面</strong></p>
-<p><strong>重新开启Remote Desktop Services服务，</strong></p>
-<p>运行检查程序看看是不是全绿，<strong>如果是全绿色的话，就证明现在可以使用远程了，win+r运行，输入<code>mstsc</code>打开远程桌面窗口。</strong></p>
-]]></content>
-      <categories>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>windows</tag>
-        <tag>mstsc</tag>
       </tags>
   </entry>
   <entry>
@@ -2722,92 +2722,6 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常用正则表达式</title>
-    <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
-<h2 id="常用表达式举例"><a href="#常用表达式举例" class="headerlink" title="常用表达式举例"></a>常用表达式举例</h2><span id="more"></span>
-<h3 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h3><h5 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
-<h5 id="n位数字（n为具体数字）"><a href="#n位数字（n为具体数字）" class="headerlink" title="n位数字（n为具体数字）"></a>n位数字（n为具体数字）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="至少n位的数字"><a href="#至少n位的数字" class="headerlink" title="至少n位的数字"></a>至少n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n,&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="m-n位的数字"><a href="#m-n位的数字" class="headerlink" title="m-n位的数字"></a>m-n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;m,n&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="零和非零开头的数字"><a href="#零和非零开头的数字" class="headerlink" title="零和非零开头的数字"></a>零和非零开头的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$</span><br></pre></td></tr></table></figure>
-<h5 id="非零开头的最多带两位小数的数字"><a href="#非零开头的最多带两位小数的数字" class="headerlink" title="非零开头的最多带两位小数的数字"></a>非零开头的最多带两位小数的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)+(\.[0-9]&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
-<h5 id="带1-2位小数的正数或负数"><a href="#带1-2位小数的正数或负数" class="headerlink" title="带1-2位小数的正数或负数"></a>带1-2位小数的正数或负数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-)?\d+(\.\d&#123;1,2&#125;)$</span><br></pre></td></tr></table></figure>
-<h5 id="正数、负数、和小数"><a href="#正数、负数、和小数" class="headerlink" title="正数、负数、和小数"></a>正数、负数、和小数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-|\+)?\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
-<h5 id="有两位小数的正实数"><a href="#有两位小数的正实数" class="headerlink" title="有两位小数的正实数"></a>有两位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;2&#125;)?$</span><br></pre></td></tr></table></figure>
-<h5 id="有1-3位小数的正实数"><a href="#有1-3位小数的正实数" class="headerlink" title="有1~3位小数的正实数"></a>有1~3位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;1,3&#125;)?$</span><br></pre></td></tr></table></figure>
-<h5 id="非零的正整数"><a href="#非零的正整数" class="headerlink" title="非零的正整数"></a>非零的正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)&#123;1,3&#125;$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\+?[1-9][0-9]*$</span><br></pre></td></tr></table></figure>
-<h5 id="非零的负整数"><a href="#非零的负整数" class="headerlink" title="非零的负整数"></a>非零的负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\-[1-9][]0-9&quot;*$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*$</span><br></pre></td></tr></table></figure>
-<h5 id="非负整数"><a href="#非负整数" class="headerlink" title="非负整数"></a>非负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
-<h5 id="非正整数"><a href="#非正整数" class="headerlink" title="非正整数"></a>非正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+)|(0+))$</span><br></pre></td></tr></table></figure>
-<h5 id="非负浮点数"><a href="#非负浮点数" class="headerlink" title="非负浮点数"></a>非负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span><br></pre></td></tr></table></figure>
-<h5 id="非正浮点数"><a href="#非正浮点数" class="headerlink" title="非正浮点数"></a>非正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+(\.\d+)?)|(0+(\.0+)?))$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span><br></pre></td></tr></table></figure>
-<h5 id="正浮点数"><a href="#正浮点数" class="headerlink" title="正浮点数"></a>正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</span><br></pre></td></tr></table></figure>
-<h5 id="负浮点数"><a href="#负浮点数" class="headerlink" title="负浮点数"></a>负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</span><br></pre></td></tr></table></figure>
-<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-?\d+)(\.\d+)?$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span><br></pre></td></tr></table></figure>
-<h3 id="校验字符的表达式"><a href="#校验字符的表达式" class="headerlink" title="校验字符的表达式"></a>校验字符的表达式</h3><h5 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;0,&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="英文和数字"><a href="#英文和数字" class="headerlink" title="英文和数字"></a>英文和数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;4,40&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="长度为3-20的所有字符"><a href="#长度为3-20的所有字符" class="headerlink" title="长度为3-20的所有字符"></a>长度为3-20的所有字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^.&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="由26个英文字母组成的字符串"><a href="#由26个英文字母组成的字符串" class="headerlink" title="由26个英文字母组成的字符串"></a>由26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由26个大写英文字母组成的字符串"><a href="#由26个大写英文字母组成的字符串" class="headerlink" title="由26个大写英文字母组成的字符串"></a>由26个大写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Z]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由26个小写英文字母组成的字符串"><a href="#由26个小写英文字母组成的字符串" class="headerlink" title="由26个小写英文字母组成的字符串"></a>由26个小写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-z]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由数字和26个英文字母组成的字符串"><a href="#由数字和26个英文字母组成的字符串" class="headerlink" title="由数字和26个英文字母组成的字符串"></a>由数字和26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-<h5 id="由数字、26个英文字母或者下划线组成的字符串"><a href="#由数字、26个英文字母或者下划线组成的字符串" class="headerlink" title="由数字、26个英文字母或者下划线组成的字符串"></a>由数字、26个英文字母或者下划线组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+$ 或 ^\w&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="中文、英文、数字包括下划线"><a href="#中文、英文、数字包括下划线" class="headerlink" title="中文、英文、数字包括下划线"></a>中文、英文、数字包括下划线</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9_]+$</span><br></pre></td></tr></table></figure>
-<h5 id="中文、英文、数字但不包括下划线等符号"><a href="#中文、英文、数字但不包括下划线等符号" class="headerlink" title="中文、英文、数字但不包括下划线等符号"></a>中文、英文、数字但不包括下划线等符号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]&#123;2,20&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="可以输入含有-amp-’-”等字符"><a href="#可以输入含有-amp-’-”等字符" class="headerlink" title="可以输入含有^%&amp;’,;=?$\”等字符"></a>可以输入含有^%&amp;’,;=?$\”等字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^%&amp;&#x27;,;=?$\x22]+</span><br></pre></td></tr></table></figure>
-<h5 id="禁止输入含有-的字符"><a href="#禁止输入含有-的字符" class="headerlink" title="禁止输入含有~的字符"></a>禁止输入含有~的字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^~\x22]+</span><br></pre></td></tr></table></figure>
-<h3 id="特殊需求表达式"><a href="#特殊需求表达式" class="headerlink" title="特殊需求表达式"></a>特殊需求表达式</h3><h5 id="Email地址"><a href="#Email地址" class="headerlink" title="Email地址"></a>Email地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br></pre></td></tr></table></figure>
-<h5 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(\.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+\.?</span><br></pre></td></tr></table></figure>
-<h5 id="InternetURL"><a href="#InternetURL" class="headerlink" title="InternetURL"></a>InternetURL</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-z]+://[^\s]*</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</span><br></pre></td></tr></table></figure>
-<h5 id="手机号码"><a href="#手机号码" class="headerlink" title="手机号码"></a>手机号码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX"><a href="#电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX" class="headerlink" title="电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)"></a>电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="国内电话号码-0511-4405222、021-87888822"><a href="#国内电话号码-0511-4405222、021-87888822" class="headerlink" title="国内电话号码(0511-4405222、021-87888822)"></a>国内电话号码(0511-4405222、021-87888822)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><a href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）" class="headerlink" title="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"></a>电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((\d&#123;11&#125;)|^((\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;)|(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;))$)</span><br></pre></td></tr></table></figure>
-<h5 id="身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X"><a href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X" class="headerlink" title="身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X"></a>身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)</span><br></pre></td></tr></table></figure>
-<h5 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线"><a href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线" class="headerlink" title="帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)"></a>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线"><a href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线" class="headerlink" title="密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)"></a>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z]\w&#123;5,17&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间"><a href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)"></a>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"><a href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)"></a>强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
-<h5 id="日期格式"><a href="#日期格式" class="headerlink" title="日期格式"></a>日期格式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="一年的12个月-01～09和1～12"><a href="#一年的12个月-01～09和1～12" class="headerlink" title="一年的12个月(01～09和1～12)"></a>一年的12个月(01～09和1～12)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0?[1-9]|1[0-2])$</span><br></pre></td></tr></table></figure>
-<h5 id="一个月的31天-01～09和1～31"><a href="#一个月的31天-01～09和1～31" class="headerlink" title="一个月的31天(01～09和1～31)"></a>一个月的31天(01～09和1～31)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((0?[1-9])|((1|2)[0-9])|30|31)$</span><br></pre></td></tr></table></figure>
-<h5 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</span><br></pre></td></tr></table></figure>
-<h5 id="中国邮政编码"><a href="#中国邮政编码" class="headerlink" title="中国邮政编码"></a>中国邮政编码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9]\d&#123;5&#125;(?!\d) </span><br></pre></td></tr></table></figure>
-<h5 id="腾讯QQ号"><a href="#腾讯QQ号" class="headerlink" title="腾讯QQ号"></a>腾讯QQ号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9][0-9]&#123;4,&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="IPv4地址"><a href="#IPv4地址" class="headerlink" title="IPv4地址"></a>IPv4地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;)(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;))&#123;3&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="字符过滤类"><a href="#字符过滤类" class="headerlink" title="字符过滤类"></a>字符过滤类</h3><h5 id="中文字符的正则表达式"><a href="#中文字符的正则表达式" class="headerlink" title="中文字符的正则表达式"></a>中文字符的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[\u4e00-\u9fa5]</span><br></pre></td></tr></table></figure>
-<h5 id="双字节字符"><a href="#双字节字符" class="headerlink" title="双字节字符"></a>双字节字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\x00-\xff] </span><br></pre></td></tr></table></figure>
-<p>(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</p>
-<h5 id="空白行的正则表达式"><a href="#空白行的正则表达式" class="headerlink" title="空白行的正则表达式"></a>空白行的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\n\s*\r</span><br></pre></td></tr></table></figure>
-<p>(可以用来删除空白行)</p>
-<h5 id="HTML标记的正则表达式"><a href="#HTML标记的正则表达式" class="headerlink" title="HTML标记的正则表达式"></a>HTML标记的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt;</span><br></pre></td></tr></table></figure>
-<p> <strong>( 首尾空白字符的正则表达式：<code>^\s\*|\s\*$</code>或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</strong></p>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>匹配字符中不出现某些特殊字符可以这样:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]		// 不匹配带有\/*:?&quot;&lt;&gt;|的字符串</span><br></pre></td></tr></table></figure>
-<p>匹配目录是否合法(windows)</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[C-Z]:\\([^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]+\\)*$</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>正则表达式</category>
-      </categories>
-      <tags>
-        <tag>常用正则表达式持续更新</tag>
       </tags>
   </entry>
   <entry>
@@ -3216,27 +3130,6 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
-    <title>解决hexo-github hexo g time out 443</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
-    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
-<span id="more"></span>
-<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
-<p>如果不需要代理了，则可以运行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>记录一次hexo上传大文件失败产生的问题</title>
     <url>/2023/05/21/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1hexo%E4%B8%8A%E4%BC%A0%E5%A4%A7%E6%96%87%E4%BB%B6%E5%A4%B1%E8%B4%A5%E4%BA%A7%E7%94%9F%E7%9A%84%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<p>最近想搞动态背景，使用了了一张比较大的gif（2K画质，60帧），大小在146MB！</p>
@@ -3269,6 +3162,226 @@ cnpm install -g hexo-cli
       </categories>
       <tags>
         <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决hexo-github hexo g time out 443</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E9%83%A8%E7%BD%B2%E5%91%BD%E4%BB%A4timeout443/</url>
+    <content><![CDATA[<p>最近<code>github</code>又双叒叕抽风了😣🙄😓😶😶😶😶😶</p>
+<span id="more"></span>
+<h2 id="观前提醒"><a href="#观前提醒" class="headerlink" title="观前提醒"></a>观前提醒</h2><p>为了解决github抽风问题，本文默认各位读者身经百战，有过多次跨栏经验。<strong>人手一个格局打开软件</strong>（￣︶￣）↗　φ(*￣0￣)</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>要解决这个问题，需要使用代理，git设置代理的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global https.proxy &#x27;socks5://127.0.0.1:10808&#x27;</span><br></pre></td></tr></table></figure>
+<p>如果不需要代理了，则可以运行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset http.proxy</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --system (或 --global 或 --local) --unset https.proxy</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常用正则表达式</title>
+    <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
+<h2 id="常用表达式举例"><a href="#常用表达式举例" class="headerlink" title="常用表达式举例"></a>常用表达式举例</h2><span id="more"></span>
+<h3 id="校验数字的表达式"><a href="#校验数字的表达式" class="headerlink" title="校验数字的表达式"></a>校验数字的表达式</h3><h5 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]*$</span><br></pre></td></tr></table></figure>
+<h5 id="n位数字（n为具体数字）"><a href="#n位数字（n为具体数字）" class="headerlink" title="n位数字（n为具体数字）"></a>n位数字（n为具体数字）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="至少n位的数字"><a href="#至少n位的数字" class="headerlink" title="至少n位的数字"></a>至少n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;n,&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="m-n位的数字"><a href="#m-n位的数字" class="headerlink" title="m-n位的数字"></a>m-n位的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;m,n&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="零和非零开头的数字"><a href="#零和非零开头的数字" class="headerlink" title="零和非零开头的数字"></a>零和非零开头的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0|[1-9][0-9]*)$</span><br></pre></td></tr></table></figure>
+<h5 id="非零开头的最多带两位小数的数字"><a href="#非零开头的最多带两位小数的数字" class="headerlink" title="非零开头的最多带两位小数的数字"></a>非零开头的最多带两位小数的数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)+(\.[0-9]&#123;1,2&#125;)?$</span><br></pre></td></tr></table></figure>
+<h5 id="带1-2位小数的正数或负数"><a href="#带1-2位小数的正数或负数" class="headerlink" title="带1-2位小数的正数或负数"></a>带1-2位小数的正数或负数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-)?\d+(\.\d&#123;1,2&#125;)$</span><br></pre></td></tr></table></figure>
+<h5 id="正数、负数、和小数"><a href="#正数、负数、和小数" class="headerlink" title="正数、负数、和小数"></a>正数、负数、和小数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\-|\+)?\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
+<h5 id="有两位小数的正实数"><a href="#有两位小数的正实数" class="headerlink" title="有两位小数的正实数"></a>有两位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;2&#125;)?$</span><br></pre></td></tr></table></figure>
+<h5 id="有1-3位小数的正实数"><a href="#有1-3位小数的正实数" class="headerlink" title="有1~3位小数的正实数"></a>有1~3位小数的正实数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[0-9]+(\.[0-9]&#123;1,3&#125;)?$</span><br></pre></td></tr></table></figure>
+<h5 id="非零的正整数"><a href="#非零的正整数" class="headerlink" title="非零的正整数"></a>非零的正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([1-9][0-9]*)&#123;1,3&#125;$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\+?[1-9][0-9]*$</span><br></pre></td></tr></table></figure>
+<h5 id="非零的负整数"><a href="#非零的负整数" class="headerlink" title="非零的负整数"></a>非零的负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\-[1-9][]0-9&quot;*$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*$</span><br></pre></td></tr></table></figure>
+<h5 id="非负整数"><a href="#非负整数" class="headerlink" title="非负整数"></a>非负整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
+<h5 id="非正整数"><a href="#非正整数" class="headerlink" title="非正整数"></a>非正整数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-[1-9]\d*|0$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+)|(0+))$</span><br></pre></td></tr></table></figure>
+<h5 id="非负浮点数"><a href="#非负浮点数" class="headerlink" title="非负浮点数"></a>非负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d+(\.\d+)?$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+<h5 id="非正浮点数"><a href="#非正浮点数" class="headerlink" title="非正浮点数"></a>非正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((-\d+(\.\d+)?)|(0+(\.0+)?))$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-([1-9]\d*\.\d*|0\.\d*[1-9]\d*))|0?\.0+|0$</span><br></pre></td></tr></table></figure>
+<h5 id="正浮点数"><a href="#正浮点数" class="headerlink" title="正浮点数"></a>正浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$</span><br></pre></td></tr></table></figure>
+<h5 id="负浮点数"><a href="#负浮点数" class="headerlink" title="负浮点数"></a>负浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$</span><br></pre></td></tr></table></figure>
+<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(-?\d+)(\.\d+)?$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^-?([1-9]\d*\.\d*|0\.\d*[1-9]\d*|0?\.0+|0)$</span><br></pre></td></tr></table></figure>
+<h3 id="校验字符的表达式"><a href="#校验字符的表达式" class="headerlink" title="校验字符的表达式"></a>校验字符的表达式</h3><h5 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;0,&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="英文和数字"><a href="#英文和数字" class="headerlink" title="英文和数字"></a>英文和数字</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]&#123;4,40&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="长度为3-20的所有字符"><a href="#长度为3-20的所有字符" class="headerlink" title="长度为3-20的所有字符"></a>长度为3-20的所有字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^.&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="由26个英文字母组成的字符串"><a href="#由26个英文字母组成的字符串" class="headerlink" title="由26个英文字母组成的字符串"></a>由26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由26个大写英文字母组成的字符串"><a href="#由26个大写英文字母组成的字符串" class="headerlink" title="由26个大写英文字母组成的字符串"></a>由26个大写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Z]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由26个小写英文字母组成的字符串"><a href="#由26个小写英文字母组成的字符串" class="headerlink" title="由26个小写英文字母组成的字符串"></a>由26个小写英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-z]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由数字和26个英文字母组成的字符串"><a href="#由数字和26个英文字母组成的字符串" class="headerlink" title="由数字和26个英文字母组成的字符串"></a>由数字和26个英文字母组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+<h5 id="由数字、26个英文字母或者下划线组成的字符串"><a href="#由数字、26个英文字母或者下划线组成的字符串" class="headerlink" title="由数字、26个英文字母或者下划线组成的字符串"></a>由数字、26个英文字母或者下划线组成的字符串</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+$ 或 ^\w&#123;3,20&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="中文、英文、数字包括下划线"><a href="#中文、英文、数字包括下划线" class="headerlink" title="中文、英文、数字包括下划线"></a>中文、英文、数字包括下划线</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9_]+$</span><br></pre></td></tr></table></figure>
+<h5 id="中文、英文、数字但不包括下划线等符号"><a href="#中文、英文、数字但不包括下划线等符号" class="headerlink" title="中文、英文、数字但不包括下划线等符号"></a>中文、英文、数字但不包括下划线等符号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]+$</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[\u4E00-\u9FA5A-Za-z0-9]&#123;2,20&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="可以输入含有-amp-’-”等字符"><a href="#可以输入含有-amp-’-”等字符" class="headerlink" title="可以输入含有^%&amp;’,;=?$\”等字符"></a>可以输入含有^%&amp;’,;=?$\”等字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^%&amp;&#x27;,;=?$\x22]+</span><br></pre></td></tr></table></figure>
+<h5 id="禁止输入含有-的字符"><a href="#禁止输入含有-的字符" class="headerlink" title="禁止输入含有~的字符"></a>禁止输入含有~的字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^~\x22]+</span><br></pre></td></tr></table></figure>
+<h3 id="特殊需求表达式"><a href="#特殊需求表达式" class="headerlink" title="特殊需求表达式"></a>特殊需求表达式</h3><h5 id="Email地址"><a href="#Email地址" class="headerlink" title="Email地址"></a>Email地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br></pre></td></tr></table></figure>
+<h5 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(\.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+\.?</span><br></pre></td></tr></table></figure>
+<h5 id="InternetURL"><a href="#InternetURL" class="headerlink" title="InternetURL"></a>InternetURL</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[a-zA-z]+://[^\s]*</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$</span><br></pre></td></tr></table></figure>
+<h5 id="手机号码"><a href="#手机号码" class="headerlink" title="手机号码"></a>手机号码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX"><a href="#电话号码-“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX" class="headerlink" title="电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)"></a>电话号码(“XXX-XXXXXXX”、”XXXX-XXXXXXXX”、”XXX-XXXXXXX”、”XXX-XXXXXXXX”、”XXXXXXX”和”XXXXXXXX)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="国内电话号码-0511-4405222、021-87888822"><a href="#国内电话号码-0511-4405222、021-87888822" class="headerlink" title="国内电话号码(0511-4405222、021-87888822)"></a>国内电话号码(0511-4405222、021-87888822)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><a href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）" class="headerlink" title="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"></a>电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((\d&#123;11&#125;)|^((\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)|(\d&#123;4&#125;|\d&#123;3&#125;)-(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;)|(\d&#123;7,8&#125;)-(\d&#123;4&#125;|\d&#123;3&#125;|\d&#123;2&#125;|\d&#123;1&#125;))$)</span><br></pre></td></tr></table></figure>
+<h5 id="身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X"><a href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X" class="headerlink" title="身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X"></a>身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)</span><br></pre></td></tr></table></figure>
+<h5 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线"><a href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线" class="headerlink" title="帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)"></a>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线"><a href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线" class="headerlink" title="密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)"></a>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[a-zA-Z]\w&#123;5,17&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间"><a href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)"></a>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"><a href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)"></a>强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).&#123;8,10&#125;$</span><br></pre></td></tr></table></figure>
+<h5 id="日期格式"><a href="#日期格式" class="headerlink" title="日期格式"></a>日期格式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="一年的12个月-01～09和1～12"><a href="#一年的12个月-01～09和1～12" class="headerlink" title="一年的12个月(01～09和1～12)"></a>一年的12个月(01～09和1～12)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^(0?[1-9]|1[0-2])$</span><br></pre></td></tr></table></figure>
+<h5 id="一个月的31天-01～09和1～31"><a href="#一个月的31天-01～09和1～31" class="headerlink" title="一个月的31天(01～09和1～31)"></a>一个月的31天(01～09和1～31)</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^((0?[1-9])|((1|2)[0-9])|30|31)$</span><br></pre></td></tr></table></figure>
+<h5 id="xml文件"><a href="#xml文件" class="headerlink" title="xml文件"></a>xml文件</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</span><br></pre></td></tr></table></figure>
+<h5 id="中国邮政编码"><a href="#中国邮政编码" class="headerlink" title="中国邮政编码"></a>中国邮政编码</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9]\d&#123;5&#125;(?!\d) </span><br></pre></td></tr></table></figure>
+<h5 id="腾讯QQ号"><a href="#腾讯QQ号" class="headerlink" title="腾讯QQ号"></a>腾讯QQ号</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1-9][0-9]&#123;4,&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="IPv4地址"><a href="#IPv4地址" class="headerlink" title="IPv4地址"></a>IPv4地址</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;)(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;))&#123;3&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="字符过滤类"><a href="#字符过滤类" class="headerlink" title="字符过滤类"></a>字符过滤类</h3><h5 id="中文字符的正则表达式"><a href="#中文字符的正则表达式" class="headerlink" title="中文字符的正则表达式"></a>中文字符的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[\u4e00-\u9fa5]</span><br></pre></td></tr></table></figure>
+<h5 id="双字节字符"><a href="#双字节字符" class="headerlink" title="双字节字符"></a>双字节字符</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\x00-\xff] </span><br></pre></td></tr></table></figure>
+<p>(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</p>
+<h5 id="空白行的正则表达式"><a href="#空白行的正则表达式" class="headerlink" title="空白行的正则表达式"></a>空白行的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">\n\s*\r</span><br></pre></td></tr></table></figure>
+<p>(可以用来删除空白行)</p>
+<h5 id="HTML标记的正则表达式"><a href="#HTML标记的正则表达式" class="headerlink" title="HTML标记的正则表达式"></a>HTML标记的正则表达式</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt;</span><br></pre></td></tr></table></figure>
+<p> <strong>( 首尾空白字符的正则表达式：<code>^\s\*|\s\*$</code>或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</strong></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>匹配字符中不出现某些特殊字符可以这样:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]		// 不匹配带有\/*:?&quot;&lt;&gt;|的字符串</span><br></pre></td></tr></table></figure>
+<p>匹配目录是否合法(windows)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">^[C-Z]:\\([^\&lt;,\&gt;,\/,\\,\|,\:,\&quot;,\*,\?]+\\)*$</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>正则表达式</category>
+      </categories>
+      <tags>
+        <tag>常用正则表达式持续更新</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>线性代数知识点总结2</title>
+    <url>/2019/12/11/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-2/</url>
+    <content><![CDATA[<h1 id="线性代数第二章知识点总结"><a href="#线性代数第二章知识点总结" class="headerlink" title="线性代数第二章知识点总结"></a>线性代数第二章知识点总结</h1><h2 id="1-增广矩阵-amp-系数矩阵"><a href="#1-增广矩阵-amp-系数矩阵" class="headerlink" title="1. 增广矩阵&amp;系数矩阵"></a>1. 增广矩阵&amp;系数矩阵</h2><ul>
+<li><p><strong>原方程</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{cases} 
+-x_1+2x_2+x_3 = 2\\ 
+3x_1+18x_2+x_3 = 12\\ 
+4x_2+12x_3=2\\ 
+\end{cases}</script></li>
+<li><p><strong>增广矩阵 $\overline{A}$</strong>：</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{lcr|r}
+  -1 & 2 & 1 & 2\\
+  3 & 18 & 1 & 12\\
+  0 & 4 & 12 & 2
+\end{array}\right]</script></li>
+<li><p><strong>系数矩阵 $A$</strong>：</p>
+<script type="math/tex; mode=display">
+\left[ 
+\begin{matrix}
+  -1 & 2 & 1 \\
+  3 & 18 & 1 \\
+  0 & 4 & 12 
+\end{matrix} 
+\right]</script></li>
+</ul>
+<h2 id="2-阶梯型矩阵"><a href="#2-阶梯型矩阵" class="headerlink" title="2. 阶梯型矩阵"></a>2. 阶梯型矩阵</h2><ul>
+<li><strong>阶梯型矩阵</strong>：<br>前r（r&lt;=n）行不全为0，其余行皆为0的矩阵，且矩阵第k行第一个非零元素$a_{kj_k}$（阶梯头）满足<script type="math/tex; mode=display">
+j_1<j_2<j_3<...<j_n</script>例如：<script type="math/tex; mode=display">
+\left[
+\begin{matrix}
+  -1 & 0 & 12 & 5 \\
+  0 & 18 & 5 & 1\\
+  0 & 0 & 12 & 1\\
+  0 & 0 & 0 & 0
+\end{matrix} 
+\right]</script></li>
+<li><strong>约化阶梯型矩阵</strong>：<br>阶梯型矩阵每行第一个非零元素为1，且阶梯头所在列的其他元素全为0。<br><br>例如：<script type="math/tex; mode=display">
+\left[
+\begin{matrix}
+  1 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0\\
+  0 & 0 & 1 & 0\\
+  0 & 0 & 0 & 0
+\end{matrix} 
+\right]</script></li>
+</ul>
+<h2 id="3-矩阵的秩：R"><a href="#3-矩阵的秩：R" class="headerlink" title="3. 矩阵的秩：R"></a>3. 矩阵的秩：R</h2><ul>
+<li><p><strong>阶梯型矩阵的秩等于其不为零的行的行数</strong></p>
+</li>
+<li><p><strong>初等行（列）变换不改变矩阵的秩</strong>，可用此性质将一般的行列式转化为阶梯型行列式来求秩！</p>
+</li>
+<li><p>设 <strong>A</strong>=[$a_{ij}$]是n*n的矩阵，则有：</p>
+<ul>
+<li>R(A)=n的充分必要条件是|$a_{ij}$|$\neq$0（满秩矩阵）</li>
+<li>R(a)$\lt$n的充分必要条件是|$a_{ij}$|=0</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-解线性方程组"><a href="#4-解线性方程组" class="headerlink" title="4. 解线性方程组"></a>4. 解线性方程组</h2><h3 id="1-一般方程组："><a href="#1-一般方程组：" class="headerlink" title="1. 一般方程组："></a>1. 一般方程组：</h3><script type="math/tex; mode=display">
+\begin{cases} 
+a_{11}x_1+a_{12}x_2+...+a_{1n}x_n = b_1\\ 
+a_{21}x_1+a_{22}x_2+...+a_{2n}x_n = b_2\\
+.........\\
+a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = b_m\\
+\end{cases}</script><script type="math/tex; mode=display">
+A = 
+\left[
+\begin{matrix}
+ a_{11}      &  a_{12}       & \cdots &  a_{1n}       \\
+ a_{21}      & a_{22}     & \cdots &  a_{2n}     \\
+ \vdots & \vdots & \ddots & \vdots \\
+  a_{n1}      &  a_{n2}     & \cdots &  a_{nn}     \\
+\end{matrix}
+\right]</script><script type="math/tex; mode=display">
+\overline{A} = 
+\left[\begin{array}{cccc|r}
+ a_{11}&  a_{12}& \cdots &a_{1n} &b_1\\
+  a_{21}      & a_{22}     & \cdots &  a_{2n}   &b_2  \\
+ \vdots & \vdots & \ddots & \vdots & \vdots\\
+  a_{n1}      &  a_{n2}     & \cdots &  a_{nn}  &b_n   \\
+\end{array}\right]</script><ul>
+<li>有解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$     <ul>
+<li>有唯一解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$ $= r = n(未知量个数)$</li>
+<li>有无穷多个解 $\Leftrightarrow R(\overline{A}) = R(A) = r &lt; n(未知量个数)$，此时有 $n-r$ 个自由未知量</li>
+<li>特别地当m=n时，矩阵(行列式)有唯一解 $\Leftrightarrow |a_{ij}|_n\not=0$(  克拉默法则？)</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-齐次方程组："><a href="#2-齐次方程组：" class="headerlink" title="2. 齐次方程组："></a>2. 齐次方程组：</h3><script type="math/tex; mode=display">
+\begin{cases} 
+a_{11}x_1+a_{12}x_2+...+a_{1n}x_n = 0\\ 
+a_{21}x_1+a_{22}x_2+...+a_{2n}x_n = 0\\
+.........\\
+a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = 0\\
+\end{cases}</script><ul>
+<li>即 $b_1=b_2=b_3=b_4=…=b_n=0$ 的特例我们称为齐次方程组，注意到其<strong>必有解，且为0解</strong>！！！</li>
+<li>只有零解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$ $= r = n(未知量个数)$</li>
+<li>有非零解 $\Leftrightarrow R(\overline{A}) = R(A) = r &lt; n(未知量个数)$，此时有 $n-r$ 个自由未知量</li>
+<li>特别地当 $m=n$ 时，矩阵(行列式)只有零解（唯一解） $\Leftrightarrow |a<em>{ij}|_n\not=0$, 有非零解 $\Leftrightarrow |a</em>{ij}|_n=0$</li>
+</ul>
+<h2 id="5-重要题型及解法："><a href="#5-重要题型及解法：" class="headerlink" title="5.重要题型及解法："></a>5.重要题型及解法：</h2><p><strong>参考来自P59页，线性代数 第二版 11.5教材</strong></p>
+<p>​<br>​    </p>
+]]></content>
+      <categories>
+        <category>线性代数复习知识点</category>
+      </categories>
+      <tags>
+        <tag>线性代数</tag>
       </tags>
   </entry>
   <entry>
@@ -3763,119 +3876,6 @@ f(x)=
       </tags>
   </entry>
   <entry>
-    <title>线性代数知识点总结2</title>
-    <url>/2019/12/11/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-2/</url>
-    <content><![CDATA[<h1 id="线性代数第二章知识点总结"><a href="#线性代数第二章知识点总结" class="headerlink" title="线性代数第二章知识点总结"></a>线性代数第二章知识点总结</h1><h2 id="1-增广矩阵-amp-系数矩阵"><a href="#1-增广矩阵-amp-系数矩阵" class="headerlink" title="1. 增广矩阵&amp;系数矩阵"></a>1. 增广矩阵&amp;系数矩阵</h2><ul>
-<li><p><strong>原方程</strong>：</p>
-<script type="math/tex; mode=display">
-\begin{cases} 
--x_1+2x_2+x_3 = 2\\ 
-3x_1+18x_2+x_3 = 12\\ 
-4x_2+12x_3=2\\ 
-\end{cases}</script></li>
-<li><p><strong>增广矩阵 $\overline{A}$</strong>：</p>
-<script type="math/tex; mode=display">
-\left[\begin{array}{lcr|r}
-  -1 & 2 & 1 & 2\\
-  3 & 18 & 1 & 12\\
-  0 & 4 & 12 & 2
-\end{array}\right]</script></li>
-<li><p><strong>系数矩阵 $A$</strong>：</p>
-<script type="math/tex; mode=display">
-\left[ 
-\begin{matrix}
-  -1 & 2 & 1 \\
-  3 & 18 & 1 \\
-  0 & 4 & 12 
-\end{matrix} 
-\right]</script></li>
-</ul>
-<h2 id="2-阶梯型矩阵"><a href="#2-阶梯型矩阵" class="headerlink" title="2. 阶梯型矩阵"></a>2. 阶梯型矩阵</h2><ul>
-<li><strong>阶梯型矩阵</strong>：<br>前r（r&lt;=n）行不全为0，其余行皆为0的矩阵，且矩阵第k行第一个非零元素$a_{kj_k}$（阶梯头）满足<script type="math/tex; mode=display">
-j_1<j_2<j_3<...<j_n</script>例如：<script type="math/tex; mode=display">
-\left[
-\begin{matrix}
-  -1 & 0 & 12 & 5 \\
-  0 & 18 & 5 & 1\\
-  0 & 0 & 12 & 1\\
-  0 & 0 & 0 & 0
-\end{matrix} 
-\right]</script></li>
-<li><strong>约化阶梯型矩阵</strong>：<br>阶梯型矩阵每行第一个非零元素为1，且阶梯头所在列的其他元素全为0。<br><br>例如：<script type="math/tex; mode=display">
-\left[
-\begin{matrix}
-  1 & 0 & 0 & 0 \\
-  0 & 1 & 0 & 0\\
-  0 & 0 & 1 & 0\\
-  0 & 0 & 0 & 0
-\end{matrix} 
-\right]</script></li>
-</ul>
-<h2 id="3-矩阵的秩：R"><a href="#3-矩阵的秩：R" class="headerlink" title="3. 矩阵的秩：R"></a>3. 矩阵的秩：R</h2><ul>
-<li><p><strong>阶梯型矩阵的秩等于其不为零的行的行数</strong></p>
-</li>
-<li><p><strong>初等行（列）变换不改变矩阵的秩</strong>，可用此性质将一般的行列式转化为阶梯型行列式来求秩！</p>
-</li>
-<li><p>设 <strong>A</strong>=[$a_{ij}$]是n*n的矩阵，则有：</p>
-<ul>
-<li>R(A)=n的充分必要条件是|$a_{ij}$|$\neq$0（满秩矩阵）</li>
-<li>R(a)$\lt$n的充分必要条件是|$a_{ij}$|=0</li>
-</ul>
-</li>
-</ul>
-<h2 id="4-解线性方程组"><a href="#4-解线性方程组" class="headerlink" title="4. 解线性方程组"></a>4. 解线性方程组</h2><h3 id="1-一般方程组："><a href="#1-一般方程组：" class="headerlink" title="1. 一般方程组："></a>1. 一般方程组：</h3><script type="math/tex; mode=display">
-\begin{cases} 
-a_{11}x_1+a_{12}x_2+...+a_{1n}x_n = b_1\\ 
-a_{21}x_1+a_{22}x_2+...+a_{2n}x_n = b_2\\
-.........\\
-a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = b_m\\
-\end{cases}</script><script type="math/tex; mode=display">
-A = 
-\left[
-\begin{matrix}
- a_{11}      &  a_{12}       & \cdots &  a_{1n}       \\
- a_{21}      & a_{22}     & \cdots &  a_{2n}     \\
- \vdots & \vdots & \ddots & \vdots \\
-  a_{n1}      &  a_{n2}     & \cdots &  a_{nn}     \\
-\end{matrix}
-\right]</script><script type="math/tex; mode=display">
-\overline{A} = 
-\left[\begin{array}{cccc|r}
- a_{11}&  a_{12}& \cdots &a_{1n} &b_1\\
-  a_{21}      & a_{22}     & \cdots &  a_{2n}   &b_2  \\
- \vdots & \vdots & \ddots & \vdots & \vdots\\
-  a_{n1}      &  a_{n2}     & \cdots &  a_{nn}  &b_n   \\
-\end{array}\right]</script><ul>
-<li>有解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$     <ul>
-<li>有唯一解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$ $= r = n(未知量个数)$</li>
-<li>有无穷多个解 $\Leftrightarrow R(\overline{A}) = R(A) = r &lt; n(未知量个数)$，此时有 $n-r$ 个自由未知量</li>
-<li>特别地当m=n时，矩阵(行列式)有唯一解 $\Leftrightarrow |a_{ij}|_n\not=0$(  克拉默法则？)</li>
-</ul>
-</li>
-</ul>
-<h3 id="2-齐次方程组："><a href="#2-齐次方程组：" class="headerlink" title="2. 齐次方程组："></a>2. 齐次方程组：</h3><script type="math/tex; mode=display">
-\begin{cases} 
-a_{11}x_1+a_{12}x_2+...+a_{1n}x_n = 0\\ 
-a_{21}x_1+a_{22}x_2+...+a_{2n}x_n = 0\\
-.........\\
-a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = 0\\
-\end{cases}</script><ul>
-<li>即 $b_1=b_2=b_3=b_4=…=b_n=0$ 的特例我们称为齐次方程组，注意到其<strong>必有解，且为0解</strong>！！！</li>
-<li>只有零解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$ $= r = n(未知量个数)$</li>
-<li>有非零解 $\Leftrightarrow R(\overline{A}) = R(A) = r &lt; n(未知量个数)$，此时有 $n-r$ 个自由未知量</li>
-<li>特别地当 $m=n$ 时，矩阵(行列式)只有零解（唯一解） $\Leftrightarrow |a<em>{ij}|_n\not=0$, 有非零解 $\Leftrightarrow |a</em>{ij}|_n=0$</li>
-</ul>
-<h2 id="5-重要题型及解法："><a href="#5-重要题型及解法：" class="headerlink" title="5.重要题型及解法："></a>5.重要题型及解法：</h2><p><strong>参考来自P59页，线性代数 第二版 11.5教材</strong></p>
-<p>​<br>​    </p>
-]]></content>
-      <categories>
-        <category>线性代数复习知识点</category>
-      </categories>
-      <tags>
-        <tag>线性代数</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>线性代数知识点总结结_3</title>
     <url>/2019/12/16/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-3/</url>
     <content><![CDATA[<h1 id="线性代数第三章知识点总结"><a href="#线性代数第三章知识点总结" class="headerlink" title="线性代数第三章知识点总结"></a>线性代数第三章知识点总结</h1>]]></content>
@@ -3933,26 +3933,14 @@ int main(int argc, char *argv[])
 ]]></content>
   </entry>
   <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>archives</title>
     <url>/archives/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>游戏</title>
-    <url>/games/index.html</url>
-    <content><![CDATA[<p>此处整理了部分游戏游玩过程时的心得和体会，包括相关资源的下载和整理，出这一个版面的原由，是因为在玩战双的时候老是会忘记角色技能怎么放？</p>
-<p><img src="/games/index/e1ccc03c269759ee6b004bdef4fb43166d22df0f.jpg" alt="e1ccc03c269759ee6b004bdef4fb43166d22df0f"></p>
-<p>因此就顺带开这一个版面来记录自己的游戏旅程吧。</p>
-<p>今年也是25岁了，渐渐开始感觉到玩不动游戏了，所有的能力也都在下滑，唉~</p>
-<ul>
-<li><a href="./PGR.html">战双</a></li>
-</ul>
-]]></content>
+    <title>categories</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>schedule</title>
@@ -4073,6 +4061,23 @@ int main(int argc, char *argv[])
 ]]></content>
   </entry>
   <entry>
+    <title>游戏</title>
+    <url>/games/index.html</url>
+    <content><![CDATA[<p>此处整理了部分游戏游玩过程时的心得和体会，包括相关资源的下载和整理，出这一个版面的原由，是因为在玩战双的时候老是会忘记角色技能怎么放？</p>
+<p><img src="/games/index/e1ccc03c269759ee6b004bdef4fb43166d22df0f.jpg" alt="e1ccc03c269759ee6b004bdef4fb43166d22df0f"></p>
+<p>因此就顺带开这一个版面来记录自己的游戏旅程吧。</p>
+<p>今年也是25岁了，渐渐开始感觉到玩不动游戏了，所有的能力也都在下滑，唉~</p>
+<ul>
+<li><a href="./PGR.html">战双</a></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>古诗鉴赏</title>
     <url>/yposts/index.html</url>
     <content><![CDATA[<p>由于个人喜好，开了本诗词鉴赏专栏，会收集一些古诗词放在此处以供参考，默认按照作者进行分类：</p>
@@ -4083,37 +4088,6 @@ int main(int argc, char *argv[])
 <ul>
 <li><a href="./己亥杂诗.html">己亥杂诗</a>：九州生气恃风雷，万马齐喑究可哀。（形容社会死气沉沉，人们不敢讲话，到处是一种令人窒息的沉闷气氛）</li>
 <li><a href="./漫感.html">漫感</a>：一箫一剑平生意，负尽狂名十五年。</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/yposts/%E6%BC%AB%E6%84%9F.html</url>
-    <content><![CDATA[<h2 id="漫感"><a href="#漫感" class="headerlink" title="漫感"></a>漫感</h2><div style="background-color: #EFEFEF;margin: 0 auto;text-align: center;font-size: 25px;line-height:40px"><b>漫感</b><br><span style="text-align:right;font-size:15px;">龚自珍</span><br>绝域从军计<ruby>惘<rp><rt>wǎng</rt></rp></ruby>然，东南幽恨满词<ruby>笺<rp><rt>jiān</rt></rp></ruby>。<br>一箫一剑平生意，负尽狂名十五年。</div>
-
-<h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><h5 id="初翻（方面记忆）"><a href="#初翻（方面记忆）" class="headerlink" title="初翻（方面记忆）"></a>初翻（方面记忆）</h5><p>在绝域中从军的思考已经很惘然，对东南的幽恨写满了词笺。一箫一剑是平生的意愿，负尽了狂士的名声十五年。</p>
-<h5 id="润色"><a href="#润色" class="headerlink" title="润色"></a>润色</h5><p>从军疆场的壮志难酬令人怅惘，只能将对东南形势的忧虑情怀注满诗行。<br>赋诗抒怀和仗剑抗敌是我平生志愿，而如今十五年过去了，却白白辜负了”狂士”的名声</p>
-<p>（最后一句的狂士应该指代著名诗人”王昙”，这里龚自珍可能想表达的意思是辜负了”<br>王昙”对自己的期望的意思？见注释”十五年”的解释）。</p>
-<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
-<li>绝域：隔绝的地域，言其远。此指我国边疆。</li>
-<li>计：思考</li>
-<li>惘（<code>wǎng</code>）然：失志的样子。指从军的愿望未能实现。</li>
-<li>东南：指我国东南沿海一带。当时英、美、葡等国已开始在东南沿海一带的广州、漳州(今属厦门)、宁波进行经济掠夺。</li>
-<li>幽恨：深沉的忧愤。</li>
-<li>词笺：书写诗词的纸，亦可作“诗词。这里指表达忧愤的诗词。笺，古代小幅而极精致的纸。</li>
-<li>一箫一剑：代指作者的诗才武略。箫，泛指音乐；剑，比喻武功。</li>
-<li>平生意：一生的志愿。</li>
-<li>负：辜负。</li>
-<li>十五年：诗人于嘉庆十四年（1809）十八岁时成人立志，在北京与被目为“狂士”的著名诗人王昙订为忘年交，当时已在社会上小有名气，从那时到此时，前后正好十五年。</li>
-</ul>
-<h4 id="鉴赏"><a href="#鉴赏" class="headerlink" title="鉴赏"></a>鉴赏</h4><p>这是一首充满强烈爱国主义激情的诗篇，抒发了忧心国事，尤其是对东南沿海地区遭遇列强侵凌的深重忧患，表达了不畏宵小之徒的嘲笑，愿以文才武略报效国家的爱国情怀。</p>
-<p>该诗前两句写诗人建议加强西北边防的计划落空，为报国志愿失落而惆怅；后二句以“箫剑”精神概括平生意志，是他的自我写照，也是其在抑郁中发出的抗议。 </p>
-<h4 id="创作背景"><a href="#创作背景" class="headerlink" title="创作背景"></a>创作背景</h4><p>该诗作于道光三年（<code>1823</code>年），作者三十二岁。当时，西北边疆分裂祖国的叛乱虽然暂时平息，但在外国侵略势力支持下，正酝酿着更大规模的叛乱。东南沿海，英国派船只向中国大量走私鸦片，进行经济侵略，清政府屡禁不绝。面对内忧外患日益严重的国势，忧心如焚。</p>
-<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><p>别想了，你没有龚自珍的成就建议不要随便套用这首诗！！</p>
-<p>前面两句的引用其实可以套用在不得志，但又不甘心的场景！后面两句算了！</p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx">https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx</a></li>
-<li><a href="https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346">https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346</a></li>
 </ul>
 ]]></content>
   </entry>
@@ -4146,8 +4120,34 @@ int main(int argc, char *argv[])
 ]]></content>
   </entry>
   <entry>
-    <title>tags</title>
-    <url>/tags/index.html</url>
-    <content><![CDATA[]]></content>
+    <title></title>
+    <url>/yposts/%E6%BC%AB%E6%84%9F.html</url>
+    <content><![CDATA[<h2 id="漫感"><a href="#漫感" class="headerlink" title="漫感"></a>漫感</h2><div style="background-color: #EFEFEF;margin: 0 auto;text-align: center;font-size: 25px;line-height:40px"><b>漫感</b><br><span style="text-align:right;font-size:15px;">龚自珍</span><br>绝域从军计<ruby>惘<rp><rt>wǎng</rt></rp></ruby>然，东南幽恨满词<ruby>笺<rp><rt>jiān</rt></rp></ruby>。<br>一箫一剑平生意，负尽狂名十五年。</div>
+
+<h4 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h4><h5 id="初翻（方面记忆）"><a href="#初翻（方面记忆）" class="headerlink" title="初翻（方面记忆）"></a>初翻（方面记忆）</h5><p>在绝域中从军的思考已经很惘然，对东南的幽恨写满了词笺。一箫一剑是平生的意愿，负尽了狂士的名声十五年。</p>
+<h5 id="润色"><a href="#润色" class="headerlink" title="润色"></a>润色</h5><p>从军疆场的壮志难酬令人怅惘，只能将对东南形势的忧虑情怀注满诗行。<br>赋诗抒怀和仗剑抗敌是我平生志愿，而如今十五年过去了，却白白辜负了”狂士”的名声</p>
+<p>（最后一句的狂士应该指代著名诗人”王昙”，这里龚自珍可能想表达的意思是辜负了”<br>王昙”对自己的期望的意思？见注释”十五年”的解释）。</p>
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
+<li>绝域：隔绝的地域，言其远。此指我国边疆。</li>
+<li>计：思考</li>
+<li>惘（<code>wǎng</code>）然：失志的样子。指从军的愿望未能实现。</li>
+<li>东南：指我国东南沿海一带。当时英、美、葡等国已开始在东南沿海一带的广州、漳州(今属厦门)、宁波进行经济掠夺。</li>
+<li>幽恨：深沉的忧愤。</li>
+<li>词笺：书写诗词的纸，亦可作“诗词。这里指表达忧愤的诗词。笺，古代小幅而极精致的纸。</li>
+<li>一箫一剑：代指作者的诗才武略。箫，泛指音乐；剑，比喻武功。</li>
+<li>平生意：一生的志愿。</li>
+<li>负：辜负。</li>
+<li>十五年：诗人于嘉庆十四年（1809）十八岁时成人立志，在北京与被目为“狂士”的著名诗人王昙订为忘年交，当时已在社会上小有名气，从那时到此时，前后正好十五年。</li>
+</ul>
+<h4 id="鉴赏"><a href="#鉴赏" class="headerlink" title="鉴赏"></a>鉴赏</h4><p>这是一首充满强烈爱国主义激情的诗篇，抒发了忧心国事，尤其是对东南沿海地区遭遇列强侵凌的深重忧患，表达了不畏宵小之徒的嘲笑，愿以文才武略报效国家的爱国情怀。</p>
+<p>该诗前两句写诗人建议加强西北边防的计划落空，为报国志愿失落而惆怅；后二句以“箫剑”精神概括平生意志，是他的自我写照，也是其在抑郁中发出的抗议。 </p>
+<h4 id="创作背景"><a href="#创作背景" class="headerlink" title="创作背景"></a>创作背景</h4><p>该诗作于道光三年（<code>1823</code>年），作者三十二岁。当时，西北边疆分裂祖国的叛乱虽然暂时平息，但在外国侵略势力支持下，正酝酿着更大规模的叛乱。东南沿海，英国派船只向中国大量走私鸦片，进行经济侵略，清政府屡禁不绝。面对内忧外患日益严重的国势，忧心如焚。</p>
+<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><p>别想了，你没有龚自珍的成就建议不要随便套用这首诗！！</p>
+<p>前面两句的引用其实可以套用在不得志，但又不甘心的场景！后面两句算了！</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx">https://www.gushiwen.cn/shiwenv_82fa006e52ad.aspx</a></li>
+<li><a href="https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346">https://www.juzikong.com/p/verse/2e5a539c-ac9c-4a4b-8231-c6a8b04df346</a></li>
+</ul>
+]]></content>
   </entry>
 </search>
