@@ -641,6 +641,37 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>Git提交时显示其他用户名和邮箱</title>
+    <url>/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/</url>
+    <content><![CDATA[<p>介绍在配置了全局user.name和<code>user.email</code>的情况下，如何使用其他的名用户名和email提交代码</p>
+<span id="more"></span>
+<p>默认情况下只要配置了全局user.name和user.email，你的所有提交都会使用这个user.name和user.email作为提交作者，可以使用下面的指令来查看：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --list</span><br><span class="line"><span class="comment">## 或者单独查看</span></span><br><span class="line">git config --global user.name</span><br><span class="line">git config --global user.email</span><br></pre></td></tr></table></figure>
+<p><img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121001373.png" alt="image-20250908121001373"></p>
+<p>这两个值一般使用下面的指令设置：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&#x27;张三&#x27;</span></span><br><span class="line">git config --global user.email <span class="string">&#x27;zs@gmail.com&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>你可以看到我当前的设置为：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">user.name</span>=<span class="string">ArgentoAskia</span></span><br><span class="line"><span class="meta">user.email</span>=<span class="string">askiaxiaoming@outlook.com</span></span><br></pre></td></tr></table></figure>
+<p>所以但我提交代码的时候，提交人信息一栏会使用这两个信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121640943.png" alt="image-20250908121640943" style="zoom:200%;"></p>
+<p>当你将内容<code>Push</code>到<code>Github</code>的时候，Github也会收到相关提交人的信息，<code>Github</code>优先会根据邮箱来判断，判断该邮箱是否注册过<code>Github</code>账号，如果注册过则会直接显示该用户的<code>Github</code>头像和相关信息，例如我的账户是Askiaxiaoming@outlook.com<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121915033.png" alt="image-20250908121915033"></p>
+<p>则此时你会看到提交信息上，就是我的相关<code>Github</code>信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122021677.png" alt="image-20250908122021677"></p>
+<p>如果发现这个邮箱没有注册过<code>Github</code>，则此时<code>Github</code>会使用您提交的用户名作为显示，头像会显示默认头像：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122218037.png" alt="image-20250908122218037"></p>
+<p>那么问题来了，这个信息是根据<code>Git</code>全局配置获取的，当我在新项目中不希望使用这个全局设置，而是使用其他的用户名和<code>Email</code>该怎么办？</p>
+<p>在每个项目的根目录下都有一个<code>.git</code>文件夹，该文件夹是隐藏状态，先将其显示，然后打开里面的<code>config</code>文件，一般位于这里：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122640512.png" alt="image-20250908122640512"></p>
+<p>在末尾添加一条配置信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">    name =  compay_yourname</span><br><span class="line">    email = youremail@compay.cn</span><br></pre></td></tr></table></figure>
+<p>这样设置后，你在该项目下提交的信息即为你设置的信息。唯一的缺点是他是只能配置该项目，如果有多个项目，需要分别配置下。但这样也有好处，就是你无需改动全局配置，当你不需要分别设置的时候你就不需要做任何其他的配置。</p>
+]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>git username</tag>
+        <tag>git email</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>开闭原则</title>
     <url>/2022/07/08/DesignPatterns/1.%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E2%80%94%E2%80%94%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</url>
     <content><![CDATA[<h4 id="软件设计模式——-gt-软件设计原则——-gt-开闭原则"><a href="#软件设计模式——-gt-软件设计原则——-gt-开闭原则" class="headerlink" title="软件设计模式——&gt;软件设计原则——&gt;开闭原则"></a>软件设计模式——&gt;软件设计原则——&gt;开闭原则</h4><span id="more"></span>
@@ -687,37 +718,6 @@ va_end(ParamList);                                                    // 释放�
         <tag>Open-Closed</tag>
         <tag>Principle</tag>
         <tag>DesignPatterns</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git提交时显示其他用户名和邮箱</title>
-    <url>/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/</url>
-    <content><![CDATA[<p>介绍在配置了全局user.name和<code>user.email</code>的情况下，如何使用其他的名用户名和email提交代码</p>
-<span id="more"></span>
-<p>默认情况下只要配置了全局user.name和user.email，你的所有提交都会使用这个user.name和user.email作为提交作者，可以使用下面的指令来查看：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --list</span><br><span class="line"><span class="comment">## 或者单独查看</span></span><br><span class="line">git config --global user.name</span><br><span class="line">git config --global user.email</span><br></pre></td></tr></table></figure>
-<p><img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121001373.png" alt="image-20250908121001373"></p>
-<p>这两个值一般使用下面的指令设置：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&#x27;张三&#x27;</span></span><br><span class="line">git config --global user.email <span class="string">&#x27;zs@gmail.com&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>你可以看到我当前的设置为：</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">user.name</span>=<span class="string">ArgentoAskia</span></span><br><span class="line"><span class="meta">user.email</span>=<span class="string">askiaxiaoming@outlook.com</span></span><br></pre></td></tr></table></figure>
-<p>所以但我提交代码的时候，提交人信息一栏会使用这两个信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121640943.png" alt="image-20250908121640943" style="zoom:200%;"></p>
-<p>当你将内容<code>Push</code>到<code>Github</code>的时候，Github也会收到相关提交人的信息，<code>Github</code>优先会根据邮箱来判断，判断该邮箱是否注册过<code>Github</code>账号，如果注册过则会直接显示该用户的<code>Github</code>头像和相关信息，例如我的账户是Askiaxiaoming@outlook.com<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908121915033.png" alt="image-20250908121915033"></p>
-<p>则此时你会看到提交信息上，就是我的相关<code>Github</code>信息：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122021677.png" alt="image-20250908122021677"></p>
-<p>如果发现这个邮箱没有注册过<code>Github</code>，则此时<code>Github</code>会使用您提交的用户名作为显示，头像会显示默认头像：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122218037.png" alt="image-20250908122218037"></p>
-<p>那么问题来了，这个信息是根据<code>Git</code>全局配置获取的，当我在新项目中不希望使用这个全局设置，而是使用其他的用户名和<code>Email</code>该怎么办？</p>
-<p>在每个项目的根目录下都有一个<code>.git</code>文件夹，该文件夹是隐藏状态，先将其显示，然后打开里面的<code>config</code>文件，一般位于这里：<img src="/2025/09/08/Git/Git%E6%8F%90%E4%BA%A4%E6%97%B6%E6%98%BE%E7%A4%BA%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1/image-20250908122640512.png" alt="image-20250908122640512"></p>
-<p>在末尾添加一条配置信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">    name =  compay_yourname</span><br><span class="line">    email = youremail@compay.cn</span><br></pre></td></tr></table></figure>
-<p>这样设置后，你在该项目下提交的信息即为你设置的信息。唯一的缺点是他是只能配置该项目，如果有多个项目，需要分别配置下。但这样也有好处，就是你无需改动全局配置，当你不需要分别设置的时候你就不需要做任何其他的配置。</p>
-]]></content>
-      <categories>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>git username</tag>
-        <tag>git email</tag>
       </tags>
   </entry>
   <entry>
@@ -777,6 +777,119 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>git</tag>
         <tag>code combine</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>22端口抽风</title>
+    <url>/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/</url>
+    <content><![CDATA[<p>前一天还能push，今天一push，就报：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="记录一次github-22端口抽风日常"><a href="#记录一次github-22端口抽风日常" class="headerlink" title="记录一次github 22端口抽风日常"></a>记录一次github 22端口抽风日常</h2><p>前一天还能push，今天一push，就报：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
+<p>出现 <code>ssh: connect to host github.com port 22: Connection timed out</code> 错误，通常是由于网络或配置问题导致无法通过默认的SSH端口22连接到GitHub。以下是解决方法：</p>
+<h3 id="临时测试连接"><a href="#临时测试连接" class="headerlink" title="临时测试连接"></a>临时测试连接</h3><p>在命令行中运行以下命令来测试连接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T -p 443 git@ssh.github.com</span><br></pre></td></tr></table></figure>
+<p>如果显示类似 <code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code> 的信息，则表明通过443端口成功进行了身份验证。</p>
+<h3 id="修改SSH配置文件"><a href="#修改SSH配置文件" class="headerlink" title="修改SSH配置文件"></a>修改SSH配置文件</h3><p>修改 <code>~/.ssh/config</code> 文件，添加以下内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 443</span><br></pre></td></tr></table></figure>
+<p>保存文件后，再次运行以下命令测试连接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>如果连接成功，显示<code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>，之后就可以正常进行git操作了。</p>
+<p>如果此时还不能正常操作，或者提示<code>permission deny</code>，则你需要去到<code>.ssh</code>文件夹下（一般位于），删除<code>known_hosts</code>让<code>git</code>重新生成指纹</p>
+<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>出现这个问题很大概率是<code>Github</code>的主域名<code>github.com</code>，被墙了或者维护了，你<code>ping</code>不上去，此时可以尝试使用<code>ssh.github.com</code>，因此上面的解决方法相当于将<code>github.com</code>的主机名映射到<code>ssh.github.com</code>去！</p>
+<p><img src="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/image-20250827125841944.png" alt="image-20250827125841944"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>El表达式</title>
+    <url>/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<span id="more"></span>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_EL_Expression</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Filter过滤器</title>
+    <url>/2022/01/01/JavaWeb/Filter/</url>
+    <content><![CDATA[<h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
+<h2 id="所谓Filter"><a href="#所谓Filter" class="headerlink" title="所谓Filter"></a>所谓Filter</h2><p>当一个请求在到达服务器软件之后，服务器软件响应请求时会找到相关的资源，如<strong>一个Html页面，一个JSP页面，一个servlet</strong>，Filter所做的事情，就是拦截这些请求，然后对它进行预处理。</p>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000319755.png" alt="image-20211230000319755" style="zoom:200%;"></p>
+<p><strong>要注意，Filter不仅仅能够截拦Servlet，对于任意的URL（这个URL可以指向一个html，也可以指向一个jsp），如：<a href="http://www.argentoaskia.tech/resource.html，也是可以拦截的。">http://www.argentoaskia.tech/resource.html，也是可以拦截的。</a></strong></p>
+<h2 id="配置编写Filter"><a href="#配置编写Filter" class="headerlink" title="配置编写Filter"></a>配置编写Filter</h2><p>编写Filter的步骤应如下：</p>
+<ol>
+<li>新建Filter的Java类</li>
+<li>让该类实现Filter接口</li>
+<li>在doFilter()方法中进行求情拦截</li>
+<li>给该类添加@WebFilter注解，并指定要拦截的URL，或者在Web.xml中添加Filter配置，如：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>FittlerDemo1.ABCFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">       &lt;servlet-name&gt;demo1&lt;/servlet-name&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">urlPattern</span>&gt;</span>/result<span class="tag">&lt;/<span class="name">urlPattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>完整的Filter可以参考：</p>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000952257.png" alt="image-20211230000952257"></p>
+<h2 id="过滤器执行流程"><a href="#过滤器执行流程" class="headerlink" title="过滤器执行流程"></a>过滤器执行流程</h2><p>对于一个过滤器他的执行流程是双向的，也就是说它实际上遵循下面的流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[客户端请求] --&gt;|被截拦| B[过滤器1]</span><br><span class="line">B[过滤器1] --&gt;|过滤器1执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器1调用filterChain.doFilter方法到| C[过滤器2]</span><br><span class="line">C[过滤器2] --&gt;|过滤器2执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器2调用filterChain.doFilter方法到| E[过滤器3]</span><br><span class="line">E[过滤器3] --&gt;|过滤器3执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器3调用filterChain.doFilter方法到| F[过滤器4]</span><br><span class="line">F[过滤器4] --&gt;|过滤器4执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|没有其他过滤器 将会调用请求资源| G[Servlet或者JSP或者HTML]</span><br><span class="line">G[Servlet或者JSP或者HTML] --&gt;|执行完成 回到过滤器4|H[过滤器4]</span><br><span class="line">H[过滤器4] --&gt;|执行filterChain.doFilter方法之后的代码| I[过滤器3]</span><br><span class="line">I[过滤器3] --&gt;|执行filterChain.doFilter方法之后的代码| J[过滤器2]</span><br><span class="line">J[过滤器2] --&gt;|执行filterChain.doFilter方法之后的代码| K[过滤器1]</span><br></pre></td></tr></table></figure>
+<h2 id="过滤器生命周期"><a href="#过滤器生命周期" class="headerlink" title="过滤器生命周期"></a>过滤器生命周期</h2><p>Filter的生命周期主要有三个：</p>
+<ul>
+<li>init()</li>
+<li>doFilter()</li>
+<li>destroy()</li>
+</ul>
+<h2 id="过滤器配置"><a href="#过滤器配置" class="headerlink" title="过滤器配置"></a>过滤器配置</h2><p>@WebFilter源代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WebFilter &#123;</span><br><span class="line">    <span class="function">String <span class="title">description</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 该filter的描述</span></span><br><span class="line">    <span class="function">String <span class="title">displayName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 过滤器的显示名称</span></span><br><span class="line">    WebInitParam[] initParams() <span class="keyword">default</span> &#123;&#125;;	<span class="comment">// 初始化参数</span></span><br><span class="line">    <span class="function">String <span class="title">filterName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// 过滤器名称</span></span><br><span class="line">    <span class="function">String <span class="title">smallIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The small-icon of the filter</span></span><br><span class="line">    <span class="function">String <span class="title">largeIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The large-icon of the filter</span></span><br><span class="line">    String[] servletNames() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The names of the servlets to which the filter applies.</span></span><br><span class="line">    String[] value() <span class="keyword">default</span> &#123;&#125;;			<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    String[] urlPatterns() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    <span class="comment">// The dispatcher types to which the filter applies</span></span><br><span class="line">    DispatcherType[] dispatcherTypes() <span class="keyword">default</span> &#123;DispatcherType.REQUEST&#125;;</span><br><span class="line">    <span class="comment">// Declares whether the filter supports asynchronous operation mode.</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">asyncSupported</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230010247571.png" alt="image-20211230010247571"></p>
+<h3 id="配置方式拦截"><a href="#配置方式拦截" class="headerlink" title="配置方式拦截"></a>配置方式拦截</h3><p>配置方式拦截主要涉及到DispatcherType的指定，有五种方式：</p>
+<ul>
+<li>FORWARD、INCLUDE用于当使用RequestDispatcher的forward()、include()时应用该Filter</li>
+<li>ERROR用于当请求的URL会404时，应用该Filter</li>
+<li>REQUEST默认选项，当发送请求的时候应用该Filter</li>
+<li>ASYNC异步拦截，用于Ajax</li>
+</ul>
+<h3 id="配置路径拦截"><a href="#配置路径拦截" class="headerlink" title="配置路径拦截"></a>配置路径拦截</h3><ol>
+<li>具体资源路径：<code>/index.jsp</code></li>
+<li>拦截目录：<code>/user/*</code>：拦截某个目录下的资源</li>
+<li>后缀名拦截：<code>*.jsp</code>：拦截所有的<code>jsp</code>文件</li>
+<li>拦截所有资源：<code>/*</code></li>
+</ol>
+<h2 id="多个Filter作用顺序-过滤器链"><a href="#多个Filter作用顺序-过滤器链" class="headerlink" title="多个Filter作用顺序(过滤器链)"></a>多个Filter作用顺序(过滤器链)</h2><p>一个Servlet中配置多个Filter的执行顺序是一件很有意思的事情，如果一个项目配置了多个Filter，这些Filter里面包括使用urlPatterns来指定拦截的，使用servletNames来指定拦截Servlet的，有在Web.xml中定义的，也有使用@WebFilter定义的。</p>
+<p>无论有多少，<strong>首先都会执行配置了urlPatterns属性的Filters</strong>，在这些配置了urlPatterns属性的Filters里面，<strong>又优先执行Web.xml中定义的Filters，根据Web.xml中的Filters的上下文排列顺序来执行</strong>，<strong>然后才执行使用@WebFilter的Filter，执行@WebFilter的Filter，根据类名来判断执行顺序，不区分大小写。</strong></p>
+<p><strong>然后才会执行配置了servlet-name属性的Filters</strong>，执行顺序同配置了urlPatterns属性的Filters一样。</p>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_filter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaBean技术</title>
+    <url>/2022/01/08/JavaWeb/JavaBean%E6%8A%80%E6%9C%AF/</url>
+    <content><![CDATA[<h1 id="JavaBean技术"><a href="#JavaBean技术" class="headerlink" title="JavaBean技术"></a>JavaBean技术</h1><p>JavaBean技术最初是面向Swing等GUI而设计的,后来经过用于Web开发上.</p>
+<span id="more"></span>
+<h2 id="使用JavaBean"><a href="#使用JavaBean" class="headerlink" title="使用JavaBean"></a>使用JavaBean</h2><p>JavaBean主要设计3个JSP动作:</p>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;对象名&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;类型&quot;</span> scope=<span class="string">&quot;范围[request | page | session | application]&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;* | 相关属性&quot;</span> value = <span class="string">&quot;&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">	*:自动匹配表单中的能匹配的属性名</span><br><span class="line">	相关属性: 请确保和bean类中的私有属性名一样</span><br><span class="line">	value:可选,如果省略,则自动匹配表单中同名的输入域(text input)</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:getProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;相关属性&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="1-编写JavaBean类"><a href="#1-编写JavaBean类" class="headerlink" title="1.编写JavaBean类"></a>1.编写JavaBean类</h3><p>编写JavaBean类需要注意:</p>
+<ul>
+<li>为每一个字段都设置为<code>private</code>,且提供<code>setter</code>和<code>getter</code></li>
+<li>创建默认构造方法</li>
+<li>请将javabean放在包里面,不要使用<code>defaultPackage</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> bean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> width;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> length;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> area;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> perimeter;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getArea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        area = width * length;</span><br><span class="line">        <span class="keyword">return</span> area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getLength</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setArea</span><span class="params">(<span class="keyword">double</span> area)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.area = area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLength</span><span class="params">(<span class="keyword">double</span> length)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.length = length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPerimeter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        perimeter = <span class="number">2</span> * (width + length);</span><br><span class="line">        <span class="keyword">return</span> perimeter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWidth</span><span class="params">(<span class="keyword">double</span> width)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.width = width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPerimeter</span><span class="params">(<span class="keyword">double</span> perimeter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.perimeter = perimeter;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Rectangle</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="2-设计JSP页面引用JavaBean"><a href="#2-设计JSP页面引用JavaBean" class="headerlink" title="2.设计JSP页面引用JavaBean"></a>2.设计JSP页面引用JavaBean</h3><h4 id="请求端页面关键代码"><a href="#请求端页面关键代码" class="headerlink" title="请求端页面关键代码:"></a>请求端页面关键代码:</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;result.jsp&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">   长:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;length&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的length字段同名--&gt;</span></span><br><span class="line">   宽:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;width&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的width字段同名--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;计算&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="响应端页面关键代码"><a href="#响应端页面关键代码" class="headerlink" title="响应端页面关键代码:"></a>响应端页面关键代码:</h4><figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;rectangle&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;bean.Rectangle&quot;</span> scope=<span class="string">&quot;request&quot;</span>/&gt;	</span><br><span class="line">	&lt;!-- 创建一个Rectangle对象,对象名为:rectangle --&gt;</span><br><span class="line">	&lt;!-- 相当于 Rectangle rectangle = <span class="keyword">new</span> Rectangle() --&gt;</span><br><span class="line"></span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;*&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 设置rectangle对象可匹配属性值,相当于下面代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 也相当于下面的代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;width&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;length&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;!-- 获取rectangle对象属性值 --&gt;</span><br><span class="line">面积:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;area&quot;</span>/&gt;&lt;br/&gt;</span><br><span class="line">周长:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;perimeter&quot;</span>/&gt;&lt;br/&gt;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_bean</tag>
+        <tag>javaweb_jsp</tag>
       </tags>
   </entry>
   <entry>
@@ -1563,119 +1676,6 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
-    <title>22端口抽风</title>
-    <url>/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/</url>
-    <content><![CDATA[<p>前一天还能push，今天一push，就报：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
-<span id="more"></span>
-<h2 id="记录一次github-22端口抽风日常"><a href="#记录一次github-22端口抽风日常" class="headerlink" title="记录一次github 22端口抽风日常"></a>记录一次github 22端口抽风日常</h2><p>前一天还能push，今天一push，就报：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Ssh: connect to host github.com port 22: Connection timed out Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.</span><br></pre></td></tr></table></figure>
-<p>出现 <code>ssh: connect to host github.com port 22: Connection timed out</code> 错误，通常是由于网络或配置问题导致无法通过默认的SSH端口22连接到GitHub。以下是解决方法：</p>
-<h3 id="临时测试连接"><a href="#临时测试连接" class="headerlink" title="临时测试连接"></a>临时测试连接</h3><p>在命令行中运行以下命令来测试连接：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T -p 443 git@ssh.github.com</span><br></pre></td></tr></table></figure>
-<p>如果显示类似 <code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code> 的信息，则表明通过443端口成功进行了身份验证。</p>
-<h3 id="修改SSH配置文件"><a href="#修改SSH配置文件" class="headerlink" title="修改SSH配置文件"></a>修改SSH配置文件</h3><p>修改 <code>~/.ssh/config</code> 文件，添加以下内容：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 443</span><br></pre></td></tr></table></figure>
-<p>保存文件后，再次运行以下命令测试连接：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-<p>如果连接成功，显示<code>Hi &lt;username&gt;! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</code>，之后就可以正常进行git操作了。</p>
-<p>如果此时还不能正常操作，或者提示<code>permission deny</code>，则你需要去到<code>.ssh</code>文件夹下（一般位于），删除<code>known_hosts</code>让<code>git</code>重新生成指纹</p>
-<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>出现这个问题很大概率是<code>Github</code>的主域名<code>github.com</code>，被墙了或者维护了，你<code>ping</code>不上去，此时可以尝试使用<code>ssh.github.com</code>，因此上面的解决方法相当于将<code>github.com</code>的主机名映射到<code>ssh.github.com</code>去！</p>
-<p><img src="/2025/08/27/Github/Github%2022%E7%AB%AF%E5%8F%A3%E6%8A%BD%E9%A3%8E/image-20250827125841944.png" alt="image-20250827125841944"></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>El表达式</title>
-    <url>/2021/08/31/JavaWeb/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<span id="more"></span>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_EL_Expression</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Filter过滤器</title>
-    <url>/2022/01/01/JavaWeb/Filter/</url>
-    <content><![CDATA[<h1 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h1><span id="more"></span>
-<h2 id="所谓Filter"><a href="#所谓Filter" class="headerlink" title="所谓Filter"></a>所谓Filter</h2><p>当一个请求在到达服务器软件之后，服务器软件响应请求时会找到相关的资源，如<strong>一个Html页面，一个JSP页面，一个servlet</strong>，Filter所做的事情，就是拦截这些请求，然后对它进行预处理。</p>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000319755.png" alt="image-20211230000319755" style="zoom:200%;"></p>
-<p><strong>要注意，Filter不仅仅能够截拦Servlet，对于任意的URL（这个URL可以指向一个html，也可以指向一个jsp），如：<a href="http://www.argentoaskia.tech/resource.html，也是可以拦截的。">http://www.argentoaskia.tech/resource.html，也是可以拦截的。</a></strong></p>
-<h2 id="配置编写Filter"><a href="#配置编写Filter" class="headerlink" title="配置编写Filter"></a>配置编写Filter</h2><p>编写Filter的步骤应如下：</p>
-<ol>
-<li>新建Filter的Java类</li>
-<li>让该类实现Filter接口</li>
-<li>在doFilter()方法中进行求情拦截</li>
-<li>给该类添加@WebFilter注解，并指定要拦截的URL，或者在Web.xml中添加Filter配置，如：</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>FittlerDemo1.ABCFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>filter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">       &lt;servlet-name&gt;demo1&lt;/servlet-name&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">urlPattern</span>&gt;</span>/result<span class="tag">&lt;/<span class="name">urlPattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>完整的Filter可以参考：</p>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230000952257.png" alt="image-20211230000952257"></p>
-<h2 id="过滤器执行流程"><a href="#过滤器执行流程" class="headerlink" title="过滤器执行流程"></a>过滤器执行流程</h2><p>对于一个过滤器他的执行流程是双向的，也就是说它实际上遵循下面的流程：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[客户端请求] --&gt;|被截拦| B[过滤器1]</span><br><span class="line">B[过滤器1] --&gt;|过滤器1执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器1调用filterChain.doFilter方法到| C[过滤器2]</span><br><span class="line">C[过滤器2] --&gt;|过滤器2执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器2调用filterChain.doFilter方法到| E[过滤器3]</span><br><span class="line">E[过滤器3] --&gt;|过滤器3执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|过滤器3调用filterChain.doFilter方法到| F[过滤器4]</span><br><span class="line">F[过滤器4] --&gt;|过滤器4执行filterChain.doFilter方法之前的代码| D(filterChain)</span><br><span class="line">D(filterChain) --&gt;|没有其他过滤器 将会调用请求资源| G[Servlet或者JSP或者HTML]</span><br><span class="line">G[Servlet或者JSP或者HTML] --&gt;|执行完成 回到过滤器4|H[过滤器4]</span><br><span class="line">H[过滤器4] --&gt;|执行filterChain.doFilter方法之后的代码| I[过滤器3]</span><br><span class="line">I[过滤器3] --&gt;|执行filterChain.doFilter方法之后的代码| J[过滤器2]</span><br><span class="line">J[过滤器2] --&gt;|执行filterChain.doFilter方法之后的代码| K[过滤器1]</span><br></pre></td></tr></table></figure>
-<h2 id="过滤器生命周期"><a href="#过滤器生命周期" class="headerlink" title="过滤器生命周期"></a>过滤器生命周期</h2><p>Filter的生命周期主要有三个：</p>
-<ul>
-<li>init()</li>
-<li>doFilter()</li>
-<li>destroy()</li>
-</ul>
-<h2 id="过滤器配置"><a href="#过滤器配置" class="headerlink" title="过滤器配置"></a>过滤器配置</h2><p>@WebFilter源代码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> WebFilter &#123;</span><br><span class="line">    <span class="function">String <span class="title">description</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 该filter的描述</span></span><br><span class="line">    <span class="function">String <span class="title">displayName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;		<span class="comment">// 过滤器的显示名称</span></span><br><span class="line">    WebInitParam[] initParams() <span class="keyword">default</span> &#123;&#125;;	<span class="comment">// 初始化参数</span></span><br><span class="line">    <span class="function">String <span class="title">filterName</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// 过滤器名称</span></span><br><span class="line">    <span class="function">String <span class="title">smallIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The small-icon of the filter</span></span><br><span class="line">    <span class="function">String <span class="title">largeIcon</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;			<span class="comment">// The large-icon of the filter</span></span><br><span class="line">    String[] servletNames() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The names of the servlets to which the filter applies.</span></span><br><span class="line">    String[] value() <span class="keyword">default</span> &#123;&#125;;			<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    String[] urlPatterns() <span class="keyword">default</span> &#123;&#125;;		<span class="comment">// The URL patterns to which the filter applies</span></span><br><span class="line">    <span class="comment">// The dispatcher types to which the filter applies</span></span><br><span class="line">    DispatcherType[] dispatcherTypes() <span class="keyword">default</span> &#123;DispatcherType.REQUEST&#125;;</span><br><span class="line">    <span class="comment">// Declares whether the filter supports asynchronous operation mode.</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">asyncSupported</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src="/2022/01/01/JavaWeb/Filter/image-20211230010247571.png" alt="image-20211230010247571"></p>
-<h3 id="配置方式拦截"><a href="#配置方式拦截" class="headerlink" title="配置方式拦截"></a>配置方式拦截</h3><p>配置方式拦截主要涉及到DispatcherType的指定，有五种方式：</p>
-<ul>
-<li>FORWARD、INCLUDE用于当使用RequestDispatcher的forward()、include()时应用该Filter</li>
-<li>ERROR用于当请求的URL会404时，应用该Filter</li>
-<li>REQUEST默认选项，当发送请求的时候应用该Filter</li>
-<li>ASYNC异步拦截，用于Ajax</li>
-</ul>
-<h3 id="配置路径拦截"><a href="#配置路径拦截" class="headerlink" title="配置路径拦截"></a>配置路径拦截</h3><ol>
-<li>具体资源路径：<code>/index.jsp</code></li>
-<li>拦截目录：<code>/user/*</code>：拦截某个目录下的资源</li>
-<li>后缀名拦截：<code>*.jsp</code>：拦截所有的<code>jsp</code>文件</li>
-<li>拦截所有资源：<code>/*</code></li>
-</ol>
-<h2 id="多个Filter作用顺序-过滤器链"><a href="#多个Filter作用顺序-过滤器链" class="headerlink" title="多个Filter作用顺序(过滤器链)"></a>多个Filter作用顺序(过滤器链)</h2><p>一个Servlet中配置多个Filter的执行顺序是一件很有意思的事情，如果一个项目配置了多个Filter，这些Filter里面包括使用urlPatterns来指定拦截的，使用servletNames来指定拦截Servlet的，有在Web.xml中定义的，也有使用@WebFilter定义的。</p>
-<p>无论有多少，<strong>首先都会执行配置了urlPatterns属性的Filters</strong>，在这些配置了urlPatterns属性的Filters里面，<strong>又优先执行Web.xml中定义的Filters，根据Web.xml中的Filters的上下文排列顺序来执行</strong>，<strong>然后才执行使用@WebFilter的Filter，执行@WebFilter的Filter，根据类名来判断执行顺序，不区分大小写。</strong></p>
-<p><strong>然后才会执行配置了servlet-name属性的Filters</strong>，执行顺序同配置了urlPatterns属性的Filters一样。</p>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_filter</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JavaBean技术</title>
-    <url>/2022/01/08/JavaWeb/JavaBean%E6%8A%80%E6%9C%AF/</url>
-    <content><![CDATA[<h1 id="JavaBean技术"><a href="#JavaBean技术" class="headerlink" title="JavaBean技术"></a>JavaBean技术</h1><p>JavaBean技术最初是面向Swing等GUI而设计的,后来经过用于Web开发上.</p>
-<span id="more"></span>
-<h2 id="使用JavaBean"><a href="#使用JavaBean" class="headerlink" title="使用JavaBean"></a>使用JavaBean</h2><p>JavaBean主要设计3个JSP动作:</p>
-<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;对象名&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;类型&quot;</span> scope=<span class="string">&quot;范围[request | page | session | application]&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;* | 相关属性&quot;</span> value = <span class="string">&quot;&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">	*:自动匹配表单中的能匹配的属性名</span><br><span class="line">	相关属性: 请确保和bean类中的私有属性名一样</span><br><span class="line">	value:可选,如果省略,则自动匹配表单中同名的输入域(text input)</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:getProperty name=<span class="string">&quot;对象名&quot;</span> property=<span class="string">&quot;相关属性&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="1-编写JavaBean类"><a href="#1-编写JavaBean类" class="headerlink" title="1.编写JavaBean类"></a>1.编写JavaBean类</h3><p>编写JavaBean类需要注意:</p>
-<ul>
-<li>为每一个字段都设置为<code>private</code>,且提供<code>setter</code>和<code>getter</code></li>
-<li>创建默认构造方法</li>
-<li>请将javabean放在包里面,不要使用<code>defaultPackage</code></li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> bean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> width;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> length;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> area;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> perimeter;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getArea</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        area = width * length;</span><br><span class="line">        <span class="keyword">return</span> area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getLength</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setArea</span><span class="params">(<span class="keyword">double</span> area)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.area = area;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLength</span><span class="params">(<span class="keyword">double</span> length)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.length = length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPerimeter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        perimeter = <span class="number">2</span> * (width + length);</span><br><span class="line">        <span class="keyword">return</span> perimeter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWidth</span><span class="params">(<span class="keyword">double</span> width)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.width = width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPerimeter</span><span class="params">(<span class="keyword">double</span> perimeter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.perimeter = perimeter;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Rectangle</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="2-设计JSP页面引用JavaBean"><a href="#2-设计JSP页面引用JavaBean" class="headerlink" title="2.设计JSP页面引用JavaBean"></a>2.设计JSP页面引用JavaBean</h3><h4 id="请求端页面关键代码"><a href="#请求端页面关键代码" class="headerlink" title="请求端页面关键代码:"></a>请求端页面关键代码:</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;result.jsp&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">   长:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;length&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的length字段同名--&gt;</span></span><br><span class="line">   宽:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span> = <span class="string">&quot;width&quot;</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>		<span class="comment">&lt;!-- 注意要和Rectangle类中的width字段同名--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;计算&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="响应端页面关键代码"><a href="#响应端页面关键代码" class="headerlink" title="响应端页面关键代码:"></a>响应端页面关键代码:</h4><figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">&quot;rectangle&quot;</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;bean.Rectangle&quot;</span> scope=<span class="string">&quot;request&quot;</span>/&gt;	</span><br><span class="line">	&lt;!-- 创建一个Rectangle对象,对象名为:rectangle --&gt;</span><br><span class="line">	&lt;!-- 相当于 Rectangle rectangle = <span class="keyword">new</span> Rectangle() --&gt;</span><br><span class="line"></span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;*&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 设置rectangle对象可匹配属性值,相当于下面代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">   &lt;!-- 也相当于下面的代码 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;width&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;width&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;length&quot;</span> value=<span class="string">&#x27;&lt;%= Double.parseDouble(request.getParameter(&quot;length&quot;))%&gt;&#x27;</span>&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;!-- 获取rectangle对象属性值 --&gt;</span><br><span class="line">面积:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;area&quot;</span>/&gt;&lt;br/&gt;</span><br><span class="line">周长:&lt;jsp:getProperty name=<span class="string">&quot;rectangle&quot;</span> property=<span class="string">&quot;perimeter&quot;</span>/&gt;&lt;br/&gt;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_bean</tag>
-        <tag>javaweb_jsp</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Response对象</title>
     <url>/2021/12/17/JavaWeb/Response/</url>
     <content><![CDATA[<p>Servlet、Tomcat基础知识点，仅供参考</p>
@@ -1850,64 +1850,6 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>javaweb_servlet - javaweb_tomcat</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>cookies</title>
-    <url>/2022/01/08/JavaWeb/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFcookies/</url>
-    <content><![CDATA[<h1 id="客户端会话技术——cookies"><a href="#客户端会话技术——cookies" class="headerlink" title="客户端会话技术——cookies"></a>客户端会话技术——cookies</h1><span id="more"></span>
-<h2 id="什么是Cookies"><a href="#什么是Cookies" class="headerlink" title="什么是Cookies"></a>什么是Cookies</h2><p>客户端会话技术：将数据保存在客户端</p>
-<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><ol>
-<li>创建Cookies对象，绑定数据</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookie ck = <span class="keyword">new</span> Cookie(String name, String value);</span><br></pre></td></tr></table></figure>
-<ol>
-<li>发送Cookies对象</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.addCookies(Cookies cookie);</span><br></pre></td></tr></table></figure>
-<ol>
-<li>获取Cookies对象</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookies[] cks = request.getCookies();</span><br></pre></td></tr></table></figure>
-<h2 id="Cookie原理"><a href="#Cookie原理" class="headerlink" title="Cookie原理"></a>Cookie原理</h2><p>Cookie是基于HTTP中的set-cookie头和cookie头的</p>
-<p><img src="/2022/01/08/JavaWeb/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFcookies/image-20220104002958718.png" alt="image-20220104002958718"></p>
-<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><h3 id="能不能一次发送多个Cookie"><a href="#能不能一次发送多个Cookie" class="headerlink" title="能不能一次发送多个Cookie"></a>能不能一次发送多个Cookie</h3><p>可以，理论上只需要在Servlet中多次调：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookie ck1 = <span class="keyword">new</span> Cookie(<span class="string">&quot;123&quot;</span>,<span class="string">&quot;456&quot;</span>);</span><br><span class="line">Cookie ck2 = <span class="keyword">new</span> Cookie(<span class="string">&quot;012&quot;</span>,<span class="string">&quot;789&quot;</span>);</span><br><span class="line">response.addCookie(ck1);</span><br><span class="line">response.addCookie(ck2);</span><br></pre></td></tr></table></figure>
-<p>在Response头中，会设置多个<code>set-cookie</code>头，request的cookie头中将会有多个键值对，用<code>;</code>分割</p>
-<h3 id="Cookie持久化问题"><a href="#Cookie持久化问题" class="headerlink" title="Cookie持久化问题"></a>Cookie持久化问题</h3><p>cookie在默认情况下，cookie存储在浏览器的内存中，当浏览器关闭后，Cookie数据被销毁。</p>
-<p>如果期望Cookie能够存储在硬盘中，可以使用<code>setMaxAge(int seconds)</code>方法、</p>
-<p>其中seconds可以取下面三种值：</p>
-<ul>
-<li>正数：将cookie数据写到硬盘的文件中，seconds代表秒数。</li>
-<li>负数：默认值，存在于当前标签页或者浏览器中</li>
-<li>0：删除该Cookie</li>
-</ul>
-<p>负数的作用范围会小于正数，设置为负数的时候，一旦浏览器标签页被关闭就要销毁，如果设置为正数，则多个标签页可以共享该cookie，只要你请求的URL是一样的就可以，因为在浏览器中，cookie的存储以网站URl为键名，这个涉及到cookie在浏览器中的存储.</p>
-<h3 id="Cookie如何存储中文"><a href="#Cookie如何存储中文" class="headerlink" title="Cookie如何存储中文"></a>Cookie如何存储中文</h3><p>tomcat 8之前不能直接存储中文，tomcat 8之后支持存储中文</p>
-<p>tomcat 8之前需要使用转码工具，转为URL，如%E3</p>
-<h3 id="Cookie共享"><a href="#Cookie共享" class="headerlink" title="Cookie共享"></a>Cookie共享</h3><p>默认情况下cookie是不共享的，cookie只能在自己的web项目中使用。</p>
-<p>如果你期望你的Cookie能够被同一个服务器下的多个web项目共享，那就需要使用<code>setPath(String path)</code></p>
-<p><strong>默认情况下如果不设置该方法，该方法会设置当前项目的虚拟路径。</strong></p>
-<h2 id="Cookie特点"><a href="#Cookie特点" class="headerlink" title="Cookie特点"></a>Cookie特点</h2><ul>
-<li>cookie存储数据在客户端浏览器</li>
-<li><p>浏览器对于单个cookie的大小有限制（4kb）以及对同一个域名下的总cookie数量也有限制（20个）</p>
-</li>
-<li><p>cookie一般用于存储少量的不太敏感的信息</p>
-</li>
-<li>cookie一般用于存储偏好设置等</li>
-</ul>
-<h2 id="Cookie在浏览器中的存储"><a href="#Cookie在浏览器中的存储" class="headerlink" title="Cookie在浏览器中的存储"></a>Cookie在浏览器中的存储</h2><h4 id="IE-浏览器"><a href="#IE-浏览器" class="headerlink" title="IE 浏览器"></a>IE 浏览器</h4><p>Windows 系统上 IE 浏览器 Cookie 数据位于 <code>%APPDATA%\Microsoft\Windows\Cookies\</code> 目录中的 <code>xxx.txt</code> 文件，里面可能有很多个. txt Cookie 文件，如 <code>C：\Users\yren9\AppData\Roaming\Microsoft\Windows\Cookies\0WQ6YROK.txt。</code></p>
-<p>在 IE 浏览器中，IE 将各个站点的 <code>Cookie</code> 分别保存为一个 <code>XXX.txt</code> 这样的纯文本文件；</p>
-<h4 id="Firefox-和-Chrome-浏览器"><a href="#Firefox-和-Chrome-浏览器" class="headerlink" title="Firefox 和 Chrome 浏览器"></a>Firefox 和 Chrome 浏览器</h4><p>Firefox 和 Chrome 是将所有的 Cookie 都保存在一个文件中，该文件的格式为 SQLite 数据库格式的文件。</p>
-<p>Firefox 的 Cookie 数据位于 <code>%APPDATA%\Mozilla\Firefox\Profiles\</code> 目录中的 <code>xxx.default</code> 目录下，名为 <code>Cookies.sqlite</code> 的文件中，如 <code>C：\Users\jay\AppData\Roaming\Mozilla\Firefox\Profiles\ji4grfex.default\cookies.sqlite</code>。</p>
-<p>在 Firefox 中查看 Cookie，可以选择“工具&gt;选项&gt;隐私&gt;显示 Cookie”。</p>
-<p>Chrome 的 Cookie 数据位于 <code>%LOCALAPPDATA%\Google\Chrome\User Data\Default\</code> 目录中名为 Cookies 的文件中，如 <code>C：\Users\jay\AppData\Local\Google\Chrome\User Data\Default\Cookies。</code></p>
-]]></content>
-      <categories>
-        <category>JavaWeb程序设计</category>
-      </categories>
-      <tags>
-        <tag>javaweb_cookies</tag>
       </tags>
   </entry>
   <entry>
@@ -2137,6 +2079,64 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>cookies</title>
+    <url>/2022/01/08/JavaWeb/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFcookies/</url>
+    <content><![CDATA[<h1 id="客户端会话技术——cookies"><a href="#客户端会话技术——cookies" class="headerlink" title="客户端会话技术——cookies"></a>客户端会话技术——cookies</h1><span id="more"></span>
+<h2 id="什么是Cookies"><a href="#什么是Cookies" class="headerlink" title="什么是Cookies"></a>什么是Cookies</h2><p>客户端会话技术：将数据保存在客户端</p>
+<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><ol>
+<li>创建Cookies对象，绑定数据</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookie ck = <span class="keyword">new</span> Cookie(String name, String value);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>发送Cookies对象</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">response.addCookies(Cookies cookie);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>获取Cookies对象</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookies[] cks = request.getCookies();</span><br></pre></td></tr></table></figure>
+<h2 id="Cookie原理"><a href="#Cookie原理" class="headerlink" title="Cookie原理"></a>Cookie原理</h2><p>Cookie是基于HTTP中的set-cookie头和cookie头的</p>
+<p><img src="/2022/01/08/JavaWeb/%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFcookies/image-20220104002958718.png" alt="image-20220104002958718"></p>
+<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><h3 id="能不能一次发送多个Cookie"><a href="#能不能一次发送多个Cookie" class="headerlink" title="能不能一次发送多个Cookie"></a>能不能一次发送多个Cookie</h3><p>可以，理论上只需要在Servlet中多次调：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cookie ck1 = <span class="keyword">new</span> Cookie(<span class="string">&quot;123&quot;</span>,<span class="string">&quot;456&quot;</span>);</span><br><span class="line">Cookie ck2 = <span class="keyword">new</span> Cookie(<span class="string">&quot;012&quot;</span>,<span class="string">&quot;789&quot;</span>);</span><br><span class="line">response.addCookie(ck1);</span><br><span class="line">response.addCookie(ck2);</span><br></pre></td></tr></table></figure>
+<p>在Response头中，会设置多个<code>set-cookie</code>头，request的cookie头中将会有多个键值对，用<code>;</code>分割</p>
+<h3 id="Cookie持久化问题"><a href="#Cookie持久化问题" class="headerlink" title="Cookie持久化问题"></a>Cookie持久化问题</h3><p>cookie在默认情况下，cookie存储在浏览器的内存中，当浏览器关闭后，Cookie数据被销毁。</p>
+<p>如果期望Cookie能够存储在硬盘中，可以使用<code>setMaxAge(int seconds)</code>方法、</p>
+<p>其中seconds可以取下面三种值：</p>
+<ul>
+<li>正数：将cookie数据写到硬盘的文件中，seconds代表秒数。</li>
+<li>负数：默认值，存在于当前标签页或者浏览器中</li>
+<li>0：删除该Cookie</li>
+</ul>
+<p>负数的作用范围会小于正数，设置为负数的时候，一旦浏览器标签页被关闭就要销毁，如果设置为正数，则多个标签页可以共享该cookie，只要你请求的URL是一样的就可以，因为在浏览器中，cookie的存储以网站URl为键名，这个涉及到cookie在浏览器中的存储.</p>
+<h3 id="Cookie如何存储中文"><a href="#Cookie如何存储中文" class="headerlink" title="Cookie如何存储中文"></a>Cookie如何存储中文</h3><p>tomcat 8之前不能直接存储中文，tomcat 8之后支持存储中文</p>
+<p>tomcat 8之前需要使用转码工具，转为URL，如%E3</p>
+<h3 id="Cookie共享"><a href="#Cookie共享" class="headerlink" title="Cookie共享"></a>Cookie共享</h3><p>默认情况下cookie是不共享的，cookie只能在自己的web项目中使用。</p>
+<p>如果你期望你的Cookie能够被同一个服务器下的多个web项目共享，那就需要使用<code>setPath(String path)</code></p>
+<p><strong>默认情况下如果不设置该方法，该方法会设置当前项目的虚拟路径。</strong></p>
+<h2 id="Cookie特点"><a href="#Cookie特点" class="headerlink" title="Cookie特点"></a>Cookie特点</h2><ul>
+<li>cookie存储数据在客户端浏览器</li>
+<li><p>浏览器对于单个cookie的大小有限制（4kb）以及对同一个域名下的总cookie数量也有限制（20个）</p>
+</li>
+<li><p>cookie一般用于存储少量的不太敏感的信息</p>
+</li>
+<li>cookie一般用于存储偏好设置等</li>
+</ul>
+<h2 id="Cookie在浏览器中的存储"><a href="#Cookie在浏览器中的存储" class="headerlink" title="Cookie在浏览器中的存储"></a>Cookie在浏览器中的存储</h2><h4 id="IE-浏览器"><a href="#IE-浏览器" class="headerlink" title="IE 浏览器"></a>IE 浏览器</h4><p>Windows 系统上 IE 浏览器 Cookie 数据位于 <code>%APPDATA%\Microsoft\Windows\Cookies\</code> 目录中的 <code>xxx.txt</code> 文件，里面可能有很多个. txt Cookie 文件，如 <code>C：\Users\yren9\AppData\Roaming\Microsoft\Windows\Cookies\0WQ6YROK.txt。</code></p>
+<p>在 IE 浏览器中，IE 将各个站点的 <code>Cookie</code> 分别保存为一个 <code>XXX.txt</code> 这样的纯文本文件；</p>
+<h4 id="Firefox-和-Chrome-浏览器"><a href="#Firefox-和-Chrome-浏览器" class="headerlink" title="Firefox 和 Chrome 浏览器"></a>Firefox 和 Chrome 浏览器</h4><p>Firefox 和 Chrome 是将所有的 Cookie 都保存在一个文件中，该文件的格式为 SQLite 数据库格式的文件。</p>
+<p>Firefox 的 Cookie 数据位于 <code>%APPDATA%\Mozilla\Firefox\Profiles\</code> 目录中的 <code>xxx.default</code> 目录下，名为 <code>Cookies.sqlite</code> 的文件中，如 <code>C：\Users\jay\AppData\Roaming\Mozilla\Firefox\Profiles\ji4grfex.default\cookies.sqlite</code>。</p>
+<p>在 Firefox 中查看 Cookie，可以选择“工具&gt;选项&gt;隐私&gt;显示 Cookie”。</p>
+<p>Chrome 的 Cookie 数据位于 <code>%LOCALAPPDATA%\Google\Chrome\User Data\Default\</code> 目录中名为 Cookies 的文件中，如 <code>C：\Users\jay\AppData\Local\Google\Chrome\User Data\Default\Cookies。</code></p>
+]]></content>
+      <categories>
+        <category>JavaWeb程序设计</category>
+      </categories>
+      <tags>
+        <tag>javaweb_cookies</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Session</title>
     <url>/2022/01/08/JavaWeb/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AFSession/</url>
     <content><![CDATA[<h1 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h1><span id="more"></span>
@@ -2167,58 +2167,6 @@ va_end(ParamList);                                                    // 释放�
       </categories>
       <tags>
         <tag>javaweb_session</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决Windows环境变量无法使用列表展开</title>
-    <url>/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/</url>
-    <content><![CDATA[<p>这里说的问题可能会对配置Windows环境变量出错的同学有一点点帮助（<del>但不多</del>）</p>
-<span id="more"></span>
-<h2 id="如何以列表的形式展开Windows环境变量"><a href="#如何以列表的形式展开Windows环境变量" class="headerlink" title="如何以列表的形式展开Windows环境变量"></a>如何以列表的形式展开Windows环境变量</h2><ol>
-<li><p>首先如何你的环境变量是以引用其他环境变量开头的话，<code>Windows</code>是不会以列表的形式来显示所有环境变量的，而是以一个文本框的形式：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003623666.png" alt="image-20241004003623666"></p>
-</li>
-<li><p>如果希望以列表的形式来打开环境变量的话，需要指定第一个变量值必须以盘符开始，比如下面的配置：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003834186.png" alt="image-20241004003834186"></p>
-</li>
-<li><p>添加上以盘符为开始的变量值之后点击多次确定让环境变量生效，然后下次打开就变成列表形式啦~在列表形式下，比较好判断自己是否写错了环境变量了<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004004001406.png" alt="image-20241004004001406"></p>
-</li>
-</ol>
-<p>参考：<a href="https://blog.csdn.net/weixin_46070150/article/details/121021035#:~:text=%E5%8F%98%E9%87%8F%E5%80%BC%E4%BB%A5%%E5%BC%80%E5%A4%B4%EF%BC%8C">Windows10系统的环境变量（path）怎么进行列表显示？_win10 环境变量 path 怎么是个字符串-CSDN博客</a></p>
-]]></content>
-      <categories>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>windows</tag>
-        <tag>variables</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决Windows家庭版无法远程问题</title>
-    <url>/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>这破Windows 10 家庭版真的让我操碎了心！Windows坏事做尽！</p>
-<span id="more"></span>
-<h2 id="解决Windows家庭版无法远程的问题"><a href="#解决Windows家庭版无法远程的问题" class="headerlink" title="解决Windows家庭版无法远程的问题"></a>解决Windows家庭版无法远程的问题</h2><p>要解决这个问题需要一个工具rdpwrap：<a href="https://github-releases.githubusercontent.com/25609086/d473b802-eb5f-11e7-8ccc-5944bc969a40?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211017%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20211017T084058Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=c63d302fc9a6d075968448d5ee3a6eb42537d44e88fda8f58768e3d4ab7686d1&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;key_id=0&amp;repo_id=25609086&amp;response-content-disposition=attachment%3B%20filename%3DRDPWrap-v1.6.2.zip&amp;response-content-type=application%2Foctet-stream">下载地址</a> | <a href="https://github.com/stascorp/rdpwrap/releases/tag/v1.6.2">Github</a></p>
-<p>下载回来之后解压，可以看到：</p>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017171653109.png" alt="image-20211017171653109"></p>
-<p>以<strong>管理员的方式</strong>运行<strong>install.bat</strong></p>
-<p>运行里面的RDPConf.exe，<strong>看是否有红色的标志。</strong>如果有的话，就需要<strong>查看自己系统的C:\Windows\System32\termsrv.dll的版本号</strong>：</p>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017172348425.png" alt="image-20211017172348425"></p>
-<p><a href="https://github.com/stascorp/rdpwrap/issues">到这里</a>搜索该版本号的配置文件，<strong>仔细找，应该能找到像下面的提供的ini文件</strong></p>
-<blockquote>
-<p>自动更新请到这里找<a href="https://github.com/sebaxakerhtc/rdpwrap.ini/">sebaxakerhtc/rdpwrap.ini: RDPWrap.ini for RDP Wrapper Library by Stas’M (github.com)</a>，下载根目录的ini即可</p>
-</blockquote>
-<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017173132450.png" alt="image-20211017173132450"></p>
-<p>找到后，<strong>请先win+r运行：services.msc，停止Remote Desktop Services服务，</strong></p>
-<p><strong>将下载的ini文件覆盖到C:\Program Files\RDP Wrapper里面</strong></p>
-<p><strong>重新开启Remote Desktop Services服务，</strong></p>
-<p>运行检查程序看看是不是全绿，<strong>如果是全绿色的话，就证明现在可以使用远程了，win+r运行，输入<code>mstsc</code>打开远程桌面窗口。</strong></p>
-]]></content>
-      <categories>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>windows</tag>
-        <tag>mstsc</tag>
       </tags>
   </entry>
   <entry>
@@ -2704,6 +2652,27 @@ va_end(ParamList);                                                    // 释放�
       </tags>
   </entry>
   <entry>
+    <title>文章常用标志</title>
+    <url>/2019/11/20/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/%E6%96%87%E7%AB%A0%E5%B8%B8%E7%94%A8%E6%A0%87%E5%BF%97/</url>
+    <content><![CDATA[<p>hexo常用标志</p>
+<span id="more"></span>
+<h1 id="常用标识："><a href="#常用标识：" class="headerlink" title="常用标识："></a>常用标识：</h1><h2 id="title"><a href="#title" class="headerlink" title="title:"></a>title:</h2><p>文章标题</p>
+<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><p>文章标签，格式可为：<code>[XXXX,XXXX,...]</code> 或者 <code>- XXXXX\n - XXXXXX\n</code></p>
+<h2 id="date"><a href="#date" class="headerlink" title="date:"></a>date:</h2><p>生成日期<br>格式自定义</p>
+<h2 id="categories"><a href="#categories" class="headerlink" title="categories:"></a>categories:</h2><p>文章分类</p>
+<h2 id="description"><a href="#description" class="headerlink" title="description:"></a>description:</h2><p>文章描述，展示在主页的描述。 </p>
+<h2 id="image"><a href="#image" class="headerlink" title="image:"></a>image:</h2><p>待写</p>
+<h2 id="password"><a href="#password" class="headerlink" title="password:"></a>password:</h2><p>如果需要给md加密码访问，可加上这个。</p>
+<h2 id="top"><a href="#top" class="headerlink" title="top:"></a>top:</h2><p>博文置顶优先级，数值越高越靠前。</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo博客支持数学公式</title>
     <url>/2022/03/15/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
     <content><![CDATA[<ol>
@@ -2736,27 +2705,6 @@ va_end(ParamList);                                                    // 释放�
       <tags>
         <tag>hexo</tag>
         <tag>features</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>文章常用标志</title>
-    <url>/2019/11/20/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/%E6%96%87%E7%AB%A0%E5%B8%B8%E7%94%A8%E6%A0%87%E5%BF%97/</url>
-    <content><![CDATA[<p>hexo常用标志</p>
-<span id="more"></span>
-<h1 id="常用标识："><a href="#常用标识：" class="headerlink" title="常用标识："></a>常用标识：</h1><h2 id="title"><a href="#title" class="headerlink" title="title:"></a>title:</h2><p>文章标题</p>
-<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><p>文章标签，格式可为：<code>[XXXX,XXXX,...]</code> 或者 <code>- XXXXX\n - XXXXXX\n</code></p>
-<h2 id="date"><a href="#date" class="headerlink" title="date:"></a>date:</h2><p>生成日期<br>格式自定义</p>
-<h2 id="categories"><a href="#categories" class="headerlink" title="categories:"></a>categories:</h2><p>文章分类</p>
-<h2 id="description"><a href="#description" class="headerlink" title="description:"></a>description:</h2><p>文章描述，展示在主页的描述。 </p>
-<h2 id="image"><a href="#image" class="headerlink" title="image:"></a>image:</h2><p>待写</p>
-<h2 id="password"><a href="#password" class="headerlink" title="password:"></a>password:</h2><p>如果需要给md加密码访问，可加上这个。</p>
-<h2 id="top"><a href="#top" class="headerlink" title="top:"></a>top:</h2><p>博文置顶优先级，数值越高越靠前。</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -2798,6 +2746,29 @@ va_end(ParamList);                                                    // 释放�
         <tag>hexo</tag>
         <tag>recovery</tag>
         <tag>domain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo模板修改和使用</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
+<span id="more"></span>
+<p><code>hexo</code>的模板一般放在：</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
+<p>有三个文件</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
+<p>对应new命令的三种创建类型！</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
+<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
+<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>features</tag>
+        <tag>reference</tag>
       </tags>
   </entry>
   <entry>
@@ -2932,29 +2903,6 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
-    <title>hexo模板修改和使用</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>一些常用的模板和草稿、<code>font-master</code>知识都会放在这里</p>
-<span id="more"></span>
-<p><code>hexo</code>的模板一般放在：</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172544700.png" alt="image-20210811172544700"></p>
-<p>有三个文件</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811173809300.png" alt="image-20210811173809300"></p>
-<p>对应new命令的三种创建类型！</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/hexo%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9%E5%92%8C%E4%BD%BF%E7%94%A8/image-20210811172759610.png" alt="image-20210811172759610"></p>
-<p>模板涉及到一些<code>Font-matter</code>还有一些简单的模板设置都会在这里一一介绍</p>
-<h2 id="Font-matter"><a href="#Font-matter" class="headerlink" title="Font-matter"></a>Font-matter</h2><h2 id="一些模板"><a href="#一些模板" class="headerlink" title="一些模板"></a>一些模板</h2><h3 id="Post模板一："><a href="#Post模板一：" class="headerlink" title="Post模板一："></a>Post模板一：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:</span><br><span class="line">categories:</span><br><span class="line">layout: true</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>features</tag>
-        <tag>reference</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>关于hexoGenerate</title>
     <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E5%85%B3%E4%BA%8EhexoGenerate/</url>
     <content><![CDATA[<p>本次讲解<code>hexo</code>博客常用的命令：<code>hexo g</code></p>
@@ -3025,6 +2973,23 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
+    <title>解决hexo中文乱码</title>
+    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
+<p>出现中文乱码可能是因为配置文件中不是使用<code>utf-8</code>进行保存，因此</p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
+<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
+]]></content>
+      <categories>
+        <category>博客运维</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>fix</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>添加评论功能</title>
     <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<p>这篇文章会介绍<code>hexo</code>如何添加文章评论功能，会介绍<code>hexo</code>中几乎所有可接入的评论系统，希望能帮到您！</p>
@@ -3056,23 +3021,6 @@ cnpm install -g hexo-cli
       <tags>
         <tag>hexo_优化</tag>
         <tag>hexo_添加</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决hexo中文乱码</title>
-    <url>/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
-    <content><![CDATA[<h2 id="解决hexo中文乱码"><a href="#解决hexo中文乱码" class="headerlink" title="解决hexo中文乱码"></a>解决hexo中文乱码</h2><span id="more"></span>
-<p>出现中文乱码可能是因为配置文件中不是使用<code>utf-8</code>进行保存，因此</p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160509073.png" alt="image-20210811160509073"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160532496.png" alt="image-20210811160532496"></p>
-<p><img src="/2021/08/12/%E5%8D%9A%E5%AE%A2%E8%BF%90%E7%BB%B4/%E8%A7%A3%E5%86%B3hexo%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/image-20210811160608358.png" alt="image-20210811160608358"></p>
-]]></content>
-      <categories>
-        <category>博客运维</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>fix</tag>
       </tags>
   </entry>
   <entry>
@@ -3186,6 +3134,58 @@ cnpm install -g hexo-cli
       </tags>
   </entry>
   <entry>
+    <title>解决Windows家庭版无法远程问题</title>
+    <url>/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>这破Windows 10 家庭版真的让我操碎了心！Windows坏事做尽！</p>
+<span id="more"></span>
+<h2 id="解决Windows家庭版无法远程的问题"><a href="#解决Windows家庭版无法远程的问题" class="headerlink" title="解决Windows家庭版无法远程的问题"></a>解决Windows家庭版无法远程的问题</h2><p>要解决这个问题需要一个工具rdpwrap：<a href="https://github-releases.githubusercontent.com/25609086/d473b802-eb5f-11e7-8ccc-5944bc969a40?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20211017%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20211017T084058Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=c63d302fc9a6d075968448d5ee3a6eb42537d44e88fda8f58768e3d4ab7686d1&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;key_id=0&amp;repo_id=25609086&amp;response-content-disposition=attachment%3B%20filename%3DRDPWrap-v1.6.2.zip&amp;response-content-type=application%2Foctet-stream">下载地址</a> | <a href="https://github.com/stascorp/rdpwrap/releases/tag/v1.6.2">Github</a></p>
+<p>下载回来之后解压，可以看到：</p>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017171653109.png" alt="image-20211017171653109"></p>
+<p>以<strong>管理员的方式</strong>运行<strong>install.bat</strong></p>
+<p>运行里面的RDPConf.exe，<strong>看是否有红色的标志。</strong>如果有的话，就需要<strong>查看自己系统的C:\Windows\System32\termsrv.dll的版本号</strong>：</p>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017172348425.png" alt="image-20211017172348425"></p>
+<p><a href="https://github.com/stascorp/rdpwrap/issues">到这里</a>搜索该版本号的配置文件，<strong>仔细找，应该能找到像下面的提供的ini文件</strong></p>
+<blockquote>
+<p>自动更新请到这里找<a href="https://github.com/sebaxakerhtc/rdpwrap.ini/">sebaxakerhtc/rdpwrap.ini: RDPWrap.ini for RDP Wrapper Library by Stas’M (github.com)</a>，下载根目录的ini即可</p>
+</blockquote>
+<p><img src="/2023/05/21/Windows/%7F%E8%A7%A3%E5%86%B3windows%E5%AE%B6%E5%BA%AD%E7%89%88%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98/image-20211017173132450.png" alt="image-20211017173132450"></p>
+<p>找到后，<strong>请先win+r运行：services.msc，停止Remote Desktop Services服务，</strong></p>
+<p><strong>将下载的ini文件覆盖到C:\Program Files\RDP Wrapper里面</strong></p>
+<p><strong>重新开启Remote Desktop Services服务，</strong></p>
+<p>运行检查程序看看是不是全绿，<strong>如果是全绿色的话，就证明现在可以使用远程了，win+r运行，输入<code>mstsc</code>打开远程桌面窗口。</strong></p>
+]]></content>
+      <categories>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>mstsc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决Windows环境变量无法使用列表展开</title>
+    <url>/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/</url>
+    <content><![CDATA[<p>这里说的问题可能会对配置Windows环境变量出错的同学有一点点帮助（<del>但不多</del>）</p>
+<span id="more"></span>
+<h2 id="如何以列表的形式展开Windows环境变量"><a href="#如何以列表的形式展开Windows环境变量" class="headerlink" title="如何以列表的形式展开Windows环境变量"></a>如何以列表的形式展开Windows环境变量</h2><ol>
+<li><p>首先如何你的环境变量是以引用其他环境变量开头的话，<code>Windows</code>是不会以列表的形式来显示所有环境变量的，而是以一个文本框的形式：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003623666.png" alt="image-20241004003623666"></p>
+</li>
+<li><p>如果希望以列表的形式来打开环境变量的话，需要指定第一个变量值必须以盘符开始，比如下面的配置：<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004003834186.png" alt="image-20241004003834186"></p>
+</li>
+<li><p>添加上以盘符为开始的变量值之后点击多次确定让环境变量生效，然后下次打开就变成列表形式啦~在列表形式下，比较好判断自己是否写错了环境变量了<img src="/2024/10/04/Windows/%E8%A7%A3%E5%86%B3Windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%88%97%E8%A1%A8%E5%B1%95%E5%BC%80/image-20241004004001406.png" alt="image-20241004004001406"></p>
+</li>
+</ol>
+<p>参考：<a href="https://blog.csdn.net/weixin_46070150/article/details/121021035#:~:text=%E5%8F%98%E9%87%8F%E5%80%BC%E4%BB%A5%%E5%BC%80%E5%A4%B4%EF%BC%8C">Windows10系统的环境变量（path）怎么进行列表显示？_win10 环境变量 path 怎么是个字符串-CSDN博客</a></p>
+]]></content>
+      <categories>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>variables</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>常用正则表达式</title>
     <url>/2021/08/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<p>学习正则表达式：<a href="https://www.argentoaskia.tech/2021/08/13/Java/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">java正则表达式</a></p>
@@ -3269,119 +3269,6 @@ cnpm install -g hexo-cli
       </categories>
       <tags>
         <tag>常用正则表达式持续更新</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>线性代数知识点总结2</title>
-    <url>/2019/12/11/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-2/</url>
-    <content><![CDATA[<h1 id="线性代数第二章知识点总结"><a href="#线性代数第二章知识点总结" class="headerlink" title="线性代数第二章知识点总结"></a>线性代数第二章知识点总结</h1><h2 id="1-增广矩阵-amp-系数矩阵"><a href="#1-增广矩阵-amp-系数矩阵" class="headerlink" title="1. 增广矩阵&amp;系数矩阵"></a>1. 增广矩阵&amp;系数矩阵</h2><ul>
-<li><p><strong>原方程</strong>：</p>
-<script type="math/tex; mode=display">
-\begin{cases} 
--x_1+2x_2+x_3 = 2\\ 
-3x_1+18x_2+x_3 = 12\\ 
-4x_2+12x_3=2\\ 
-\end{cases}</script></li>
-<li><p><strong>增广矩阵 $\overline{A}$</strong>：</p>
-<script type="math/tex; mode=display">
-\left[\begin{array}{lcr|r}
-  -1 & 2 & 1 & 2\\
-  3 & 18 & 1 & 12\\
-  0 & 4 & 12 & 2
-\end{array}\right]</script></li>
-<li><p><strong>系数矩阵 $A$</strong>：</p>
-<script type="math/tex; mode=display">
-\left[ 
-\begin{matrix}
-  -1 & 2 & 1 \\
-  3 & 18 & 1 \\
-  0 & 4 & 12 
-\end{matrix} 
-\right]</script></li>
-</ul>
-<h2 id="2-阶梯型矩阵"><a href="#2-阶梯型矩阵" class="headerlink" title="2. 阶梯型矩阵"></a>2. 阶梯型矩阵</h2><ul>
-<li><strong>阶梯型矩阵</strong>：<br>前r（r&lt;=n）行不全为0，其余行皆为0的矩阵，且矩阵第k行第一个非零元素$a_{kj_k}$（阶梯头）满足<script type="math/tex; mode=display">
-j_1<j_2<j_3<...<j_n</script>例如：<script type="math/tex; mode=display">
-\left[
-\begin{matrix}
-  -1 & 0 & 12 & 5 \\
-  0 & 18 & 5 & 1\\
-  0 & 0 & 12 & 1\\
-  0 & 0 & 0 & 0
-\end{matrix} 
-\right]</script></li>
-<li><strong>约化阶梯型矩阵</strong>：<br>阶梯型矩阵每行第一个非零元素为1，且阶梯头所在列的其他元素全为0。<br><br>例如：<script type="math/tex; mode=display">
-\left[
-\begin{matrix}
-  1 & 0 & 0 & 0 \\
-  0 & 1 & 0 & 0\\
-  0 & 0 & 1 & 0\\
-  0 & 0 & 0 & 0
-\end{matrix} 
-\right]</script></li>
-</ul>
-<h2 id="3-矩阵的秩：R"><a href="#3-矩阵的秩：R" class="headerlink" title="3. 矩阵的秩：R"></a>3. 矩阵的秩：R</h2><ul>
-<li><p><strong>阶梯型矩阵的秩等于其不为零的行的行数</strong></p>
-</li>
-<li><p><strong>初等行（列）变换不改变矩阵的秩</strong>，可用此性质将一般的行列式转化为阶梯型行列式来求秩！</p>
-</li>
-<li><p>设 <strong>A</strong>=[$a_{ij}$]是n*n的矩阵，则有：</p>
-<ul>
-<li>R(A)=n的充分必要条件是|$a_{ij}$|$\neq$0（满秩矩阵）</li>
-<li>R(a)$\lt$n的充分必要条件是|$a_{ij}$|=0</li>
-</ul>
-</li>
-</ul>
-<h2 id="4-解线性方程组"><a href="#4-解线性方程组" class="headerlink" title="4. 解线性方程组"></a>4. 解线性方程组</h2><h3 id="1-一般方程组："><a href="#1-一般方程组：" class="headerlink" title="1. 一般方程组："></a>1. 一般方程组：</h3><script type="math/tex; mode=display">
-\begin{cases} 
-a_{11}x_1+a_{12}x_2+...+a_{1n}x_n = b_1\\ 
-a_{21}x_1+a_{22}x_2+...+a_{2n}x_n = b_2\\
-.........\\
-a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = b_m\\
-\end{cases}</script><script type="math/tex; mode=display">
-A = 
-\left[
-\begin{matrix}
- a_{11}      &  a_{12}       & \cdots &  a_{1n}       \\
- a_{21}      & a_{22}     & \cdots &  a_{2n}     \\
- \vdots & \vdots & \ddots & \vdots \\
-  a_{n1}      &  a_{n2}     & \cdots &  a_{nn}     \\
-\end{matrix}
-\right]</script><script type="math/tex; mode=display">
-\overline{A} = 
-\left[\begin{array}{cccc|r}
- a_{11}&  a_{12}& \cdots &a_{1n} &b_1\\
-  a_{21}      & a_{22}     & \cdots &  a_{2n}   &b_2  \\
- \vdots & \vdots & \ddots & \vdots & \vdots\\
-  a_{n1}      &  a_{n2}     & \cdots &  a_{nn}  &b_n   \\
-\end{array}\right]</script><ul>
-<li>有解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$     <ul>
-<li>有唯一解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$ $= r = n(未知量个数)$</li>
-<li>有无穷多个解 $\Leftrightarrow R(\overline{A}) = R(A) = r &lt; n(未知量个数)$，此时有 $n-r$ 个自由未知量</li>
-<li>特别地当m=n时，矩阵(行列式)有唯一解 $\Leftrightarrow |a_{ij}|_n\not=0$(  克拉默法则？)</li>
-</ul>
-</li>
-</ul>
-<h3 id="2-齐次方程组："><a href="#2-齐次方程组：" class="headerlink" title="2. 齐次方程组："></a>2. 齐次方程组：</h3><script type="math/tex; mode=display">
-\begin{cases} 
-a_{11}x_1+a_{12}x_2+...+a_{1n}x_n = 0\\ 
-a_{21}x_1+a_{22}x_2+...+a_{2n}x_n = 0\\
-.........\\
-a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = 0\\
-\end{cases}</script><ul>
-<li>即 $b_1=b_2=b_3=b_4=…=b_n=0$ 的特例我们称为齐次方程组，注意到其<strong>必有解，且为0解</strong>！！！</li>
-<li>只有零解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$ $= r = n(未知量个数)$</li>
-<li>有非零解 $\Leftrightarrow R(\overline{A}) = R(A) = r &lt; n(未知量个数)$，此时有 $n-r$ 个自由未知量</li>
-<li>特别地当 $m=n$ 时，矩阵(行列式)只有零解（唯一解） $\Leftrightarrow |a<em>{ij}|_n\not=0$, 有非零解 $\Leftrightarrow |a</em>{ij}|_n=0$</li>
-</ul>
-<h2 id="5-重要题型及解法："><a href="#5-重要题型及解法：" class="headerlink" title="5.重要题型及解法："></a>5.重要题型及解法：</h2><p><strong>参考来自P59页，线性代数 第二版 11.5教材</strong></p>
-<p>​<br>​    </p>
-]]></content>
-      <categories>
-        <category>线性代数复习知识点</category>
-      </categories>
-      <tags>
-        <tag>线性代数</tag>
       </tags>
   </entry>
   <entry>
@@ -3876,6 +3763,119 @@ f(x)=
       </tags>
   </entry>
   <entry>
+    <title>线性代数知识点总结2</title>
+    <url>/2019/12/11/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-2/</url>
+    <content><![CDATA[<h1 id="线性代数第二章知识点总结"><a href="#线性代数第二章知识点总结" class="headerlink" title="线性代数第二章知识点总结"></a>线性代数第二章知识点总结</h1><h2 id="1-增广矩阵-amp-系数矩阵"><a href="#1-增广矩阵-amp-系数矩阵" class="headerlink" title="1. 增广矩阵&amp;系数矩阵"></a>1. 增广矩阵&amp;系数矩阵</h2><ul>
+<li><p><strong>原方程</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{cases} 
+-x_1+2x_2+x_3 = 2\\ 
+3x_1+18x_2+x_3 = 12\\ 
+4x_2+12x_3=2\\ 
+\end{cases}</script></li>
+<li><p><strong>增广矩阵 $\overline{A}$</strong>：</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{lcr|r}
+  -1 & 2 & 1 & 2\\
+  3 & 18 & 1 & 12\\
+  0 & 4 & 12 & 2
+\end{array}\right]</script></li>
+<li><p><strong>系数矩阵 $A$</strong>：</p>
+<script type="math/tex; mode=display">
+\left[ 
+\begin{matrix}
+  -1 & 2 & 1 \\
+  3 & 18 & 1 \\
+  0 & 4 & 12 
+\end{matrix} 
+\right]</script></li>
+</ul>
+<h2 id="2-阶梯型矩阵"><a href="#2-阶梯型矩阵" class="headerlink" title="2. 阶梯型矩阵"></a>2. 阶梯型矩阵</h2><ul>
+<li><strong>阶梯型矩阵</strong>：<br>前r（r&lt;=n）行不全为0，其余行皆为0的矩阵，且矩阵第k行第一个非零元素$a_{kj_k}$（阶梯头）满足<script type="math/tex; mode=display">
+j_1<j_2<j_3<...<j_n</script>例如：<script type="math/tex; mode=display">
+\left[
+\begin{matrix}
+  -1 & 0 & 12 & 5 \\
+  0 & 18 & 5 & 1\\
+  0 & 0 & 12 & 1\\
+  0 & 0 & 0 & 0
+\end{matrix} 
+\right]</script></li>
+<li><strong>约化阶梯型矩阵</strong>：<br>阶梯型矩阵每行第一个非零元素为1，且阶梯头所在列的其他元素全为0。<br><br>例如：<script type="math/tex; mode=display">
+\left[
+\begin{matrix}
+  1 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0\\
+  0 & 0 & 1 & 0\\
+  0 & 0 & 0 & 0
+\end{matrix} 
+\right]</script></li>
+</ul>
+<h2 id="3-矩阵的秩：R"><a href="#3-矩阵的秩：R" class="headerlink" title="3. 矩阵的秩：R"></a>3. 矩阵的秩：R</h2><ul>
+<li><p><strong>阶梯型矩阵的秩等于其不为零的行的行数</strong></p>
+</li>
+<li><p><strong>初等行（列）变换不改变矩阵的秩</strong>，可用此性质将一般的行列式转化为阶梯型行列式来求秩！</p>
+</li>
+<li><p>设 <strong>A</strong>=[$a_{ij}$]是n*n的矩阵，则有：</p>
+<ul>
+<li>R(A)=n的充分必要条件是|$a_{ij}$|$\neq$0（满秩矩阵）</li>
+<li>R(a)$\lt$n的充分必要条件是|$a_{ij}$|=0</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-解线性方程组"><a href="#4-解线性方程组" class="headerlink" title="4. 解线性方程组"></a>4. 解线性方程组</h2><h3 id="1-一般方程组："><a href="#1-一般方程组：" class="headerlink" title="1. 一般方程组："></a>1. 一般方程组：</h3><script type="math/tex; mode=display">
+\begin{cases} 
+a_{11}x_1+a_{12}x_2+...+a_{1n}x_n = b_1\\ 
+a_{21}x_1+a_{22}x_2+...+a_{2n}x_n = b_2\\
+.........\\
+a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = b_m\\
+\end{cases}</script><script type="math/tex; mode=display">
+A = 
+\left[
+\begin{matrix}
+ a_{11}      &  a_{12}       & \cdots &  a_{1n}       \\
+ a_{21}      & a_{22}     & \cdots &  a_{2n}     \\
+ \vdots & \vdots & \ddots & \vdots \\
+  a_{n1}      &  a_{n2}     & \cdots &  a_{nn}     \\
+\end{matrix}
+\right]</script><script type="math/tex; mode=display">
+\overline{A} = 
+\left[\begin{array}{cccc|r}
+ a_{11}&  a_{12}& \cdots &a_{1n} &b_1\\
+  a_{21}      & a_{22}     & \cdots &  a_{2n}   &b_2  \\
+ \vdots & \vdots & \ddots & \vdots & \vdots\\
+  a_{n1}      &  a_{n2}     & \cdots &  a_{nn}  &b_n   \\
+\end{array}\right]</script><ul>
+<li>有解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$     <ul>
+<li>有唯一解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$ $= r = n(未知量个数)$</li>
+<li>有无穷多个解 $\Leftrightarrow R(\overline{A}) = R(A) = r &lt; n(未知量个数)$，此时有 $n-r$ 个自由未知量</li>
+<li>特别地当m=n时，矩阵(行列式)有唯一解 $\Leftrightarrow |a_{ij}|_n\not=0$(  克拉默法则？)</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-齐次方程组："><a href="#2-齐次方程组：" class="headerlink" title="2. 齐次方程组："></a>2. 齐次方程组：</h3><script type="math/tex; mode=display">
+\begin{cases} 
+a_{11}x_1+a_{12}x_2+...+a_{1n}x_n = 0\\ 
+a_{21}x_1+a_{22}x_2+...+a_{2n}x_n = 0\\
+.........\\
+a_{m1}x_1+a_{m2}x_2+...+a_{mn}x_n = 0\\
+\end{cases}</script><ul>
+<li>即 $b_1=b_2=b_3=b_4=…=b_n=0$ 的特例我们称为齐次方程组，注意到其<strong>必有解，且为0解</strong>！！！</li>
+<li>只有零解 $\Leftrightarrow$ $R$($\overline{A}$) = $R(A)$ $= r = n(未知量个数)$</li>
+<li>有非零解 $\Leftrightarrow R(\overline{A}) = R(A) = r &lt; n(未知量个数)$，此时有 $n-r$ 个自由未知量</li>
+<li>特别地当 $m=n$ 时，矩阵(行列式)只有零解（唯一解） $\Leftrightarrow |a<em>{ij}|_n\not=0$, 有非零解 $\Leftrightarrow |a</em>{ij}|_n=0$</li>
+</ul>
+<h2 id="5-重要题型及解法："><a href="#5-重要题型及解法：" class="headerlink" title="5.重要题型及解法："></a>5.重要题型及解法：</h2><p><strong>参考来自P59页，线性代数 第二版 11.5教材</strong></p>
+<p>​<br>​    </p>
+]]></content>
+      <categories>
+        <category>线性代数复习知识点</category>
+      </categories>
+      <tags>
+        <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>线性代数知识点总结结_3</title>
     <url>/2019/12/16/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E7%BB%93-3/</url>
     <content><![CDATA[<h1 id="线性代数第三章知识点总结"><a href="#线性代数第三章知识点总结" class="headerlink" title="线性代数第三章知识点总结"></a>线性代数第三章知识点总结</h1>]]></content>
@@ -3923,16 +3923,6 @@ int main(int argc, char *argv[])
       </tags>
   </entry>
   <entry>
-    <title>about</title>
-    <url>/about/index.html</url>
-    <content><![CDATA[<ul>
-<li>前信息技术老师</li>
-<li>前实训老师</li>
-<li><code>Java</code>开发者</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
     <title>archives</title>
     <url>/archives/index.html</url>
     <content><![CDATA[]]></content>
@@ -3941,6 +3931,16 @@ int main(int argc, char *argv[])
     <title>categories</title>
     <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>about</title>
+    <url>/about/index.html</url>
+    <content><![CDATA[<ul>
+<li>前信息技术老师</li>
+<li>前实训老师</li>
+<li><code>Java</code>开发者</li>
+</ul>
+]]></content>
   </entry>
   <entry>
     <title>游戏</title>
